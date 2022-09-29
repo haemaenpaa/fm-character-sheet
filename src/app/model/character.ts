@@ -90,6 +90,50 @@ export class CharacterBuilder {
   man: number = 10;
   com: number = 10;
 
+  setBrawn(score: number): CharacterBuilder {
+    this.br = Math.round(score);
+    return this;
+  }
+
+  setDexterity(score: number): CharacterBuilder {
+    this.dex = Math.round(score);
+    return this;
+  }
+
+  setVitality(score: number): CharacterBuilder {
+    this.vit = Math.round(score);
+    return this;
+  }
+
+  setIntelligence(score: number): CharacterBuilder {
+    this.int = Math.round(score);
+    return this;
+  }
+
+  setCunning(score: number): CharacterBuilder {
+    this.cun = Math.round(score);
+    return this;
+  }
+
+  setResolve(score: number): CharacterBuilder {
+    this.res = Math.round(score);
+    return this;
+  }
+
+  setPresence(score: number): CharacterBuilder {
+    this.pre = Math.round(score);
+    return this;
+  }
+
+  setManipulation(score: number): CharacterBuilder {
+    this.man = Math.round(score);
+    return this;
+  }
+
+  setComposure(score: number): CharacterBuilder {
+    this.com = Math.round(score);
+    return this;
+  }
   build(): Character {
     return new Character(
       this.br,
