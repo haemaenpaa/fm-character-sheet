@@ -82,17 +82,18 @@ export class Character {
     return new AbilityImpl(name, this.abilities[name]);
   }
 
-  get characterLevel(): number {
-    return this.selections.length;
+  get totalLevel(): number {
+    return this.selections.filter((s) => s.isPrimary).length;
   }
 
   get aoLevels(): { [key: string]: number } {
     var ret: { [key: string]: number } = {};
-    for (let selection of this.selections) {
-      if (!(selection.name in ret)) {
-        ret[selection.name] = 1;
+    for (let selection of this.selections.filter((s) => s.isPrimary)) {
+      const abilityOrigin = selection.abilityOrigin;
+      if (!(abilityOrigin in ret)) {
+        ret[abilityOrigin] = 1;
       } else {
-        ret[selection.name] += 1;
+        ret[abilityOrigin] += 1;
       }
     }
     return ret;
@@ -164,6 +165,30 @@ export class CharacterBuilder {
     description: string,
     color?: string
   ) {
+    const sel = this.buildSelection(ao, name, description, level, color);
+    this.selections.push(sel);
+    return this;
+  }
+  addSecondarySelection(
+    ao: string,
+    level: number,
+    name: string,
+    description: string,
+    color?: string
+  ) {
+    const sel = this.buildSelection(ao, name, description, level, color);
+    sel.isPrimary = false;
+    this.selections.push(sel);
+    return this;
+  }
+
+  private buildSelection(
+    ao: string,
+    name: string,
+    description: string,
+    level: number,
+    color: string | undefined
+  ) {
     const sel = new AoSelection();
     sel.abilityOrigin = ao;
     sel.name = name;
@@ -172,8 +197,7 @@ export class CharacterBuilder {
     if (color) {
       sel.hilightColor = color;
     }
-    this.selections.push(sel);
-    return this;
+    return sel;
   }
 
   build(): Character {

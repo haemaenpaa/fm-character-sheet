@@ -21,6 +21,24 @@ export class AppComponent {
       .setPresence(13)
       .setManipulation(14)
       .setComposure(15)
+      .addSelection(
+        'Predator',
+        1,
+        'Favored Enemy',
+        'Choose one creature type etc...'
+      )
+      .addSecondarySelection(
+        'Discipline',
+        1,
+        'Unarmored defence',
+        'Add com mod to av when not wearing armor.'
+      )
+      .addSelection(
+        'Discipline',
+        2,
+        'Mastery',
+        'You basically get Kung Fu points.'
+      )
       .build();
   }
 }
