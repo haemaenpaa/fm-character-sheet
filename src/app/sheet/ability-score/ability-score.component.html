@@ -1,19 +1,11 @@
-<div class="container score-box align-items-center">
-  <div class="row align-items-center">
-    <div class="col-sm">
-      {{ ability.name }}
-    </div>
+<div class="container score-box">
+  <div class="row justify-content-center">
+    {{ ability.name }}
   </div>
-  <div class="row align-items-center">
-    <div class="col-lg">
-      {{ ability.score }}
-    </div>
+  <div class="row justify-content-center ability-score">
+    {{ ability.score }}
   </div>
-
-  <div class="row">
-    <div class="col-sm align-items-center">
-      {{ ability.modifier }}
-    </div>
-    <div class="row"></div>
+  <div class="row justify-content-center ability-modifier">
+    {{ (ability.modifier >= 0 ? "+" : "") + ability.modifier }}
   </div>
 </div>

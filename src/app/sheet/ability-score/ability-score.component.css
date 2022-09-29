@@ -1,4 +1,17 @@
 .score-box {
   border-style: solid;
   border-radius: 5%;
+  min-height: 60px;
+}
+
+.ability-name {
+  font-variant: small-caps;
+}
+
+.ability-score {
+  font-weight: bold;
+}
+
+.ability-modifier {
+  font-size: smaller;
 }
