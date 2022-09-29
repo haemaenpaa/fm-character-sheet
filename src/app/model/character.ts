@@ -1,6 +1,21 @@
 import { Ability } from './ability';
 import { ABILITY_ABBREVIATIONS } from './constants';
 
+class AbilityImpl implements Ability {
+  name: string;
+  shortName: string;
+  score: number;
+
+  constructor(name: string, score: number) {
+    this.name = name;
+    this.shortName = ABILITY_ABBREVIATIONS[name];
+    this.score = score;
+  }
+  get modifier(): number {
+    return Math.floor((this.score - 10) / 2);
+  }
+}
+
 export class Character {
   private abilities: { [key: string]: number } = {};
   constructor(
@@ -28,75 +43,39 @@ export class Character {
   }
   get brawn(): Ability {
     const name = 'Brawn';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
   get dexterity(): Ability {
     const name = 'Dexterity';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
   get vitality(): Ability {
     const name = 'Vitality';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
   get intelligence(): Ability {
     const name = 'Intelligence';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
   get cunning(): Ability {
     const name = 'Cunning';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
   get resolve(): Ability {
     const name = 'Resolve';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
   get presence(): Ability {
     const name = 'Presence';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
   get manipulation(): Ability {
     const name = 'Manipulation';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
   get composure(): Ability {
     const name = 'Composure';
-    return {
-      name: name,
-      shortName: ABILITY_ABBREVIATIONS[name],
-      score: this.abilities[name],
-    };
+    return new AbilityImpl(name, this.abilities[name]);
   }
 }
 
