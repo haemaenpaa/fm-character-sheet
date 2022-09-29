@@ -1,4 +1,5 @@
 import { Ability } from './ability';
+import { AoSelection } from './ao-selection';
 import { ABILITY_ABBREVIATIONS } from './constants';
 
 class AbilityImpl implements Ability {
@@ -18,6 +19,7 @@ class AbilityImpl implements Ability {
 
 export class Character {
   private abilities: { [key: string]: number } = {};
+  selections: AoSelection[];
   constructor(
     br: number,
     dex: number,
@@ -27,7 +29,8 @@ export class Character {
     res: number,
     pre: number,
     man: number,
-    com: number
+    com: number,
+    selections: AoSelection[]
   ) {
     this.abilities = {
       Brawn: br,
@@ -40,6 +43,7 @@ export class Character {
       Manipulation: man,
       Composure: com,
     };
+    this.selections = selections;
   }
   get brawn(): Ability {
     const name = 'Brawn';
@@ -77,6 +81,22 @@ export class Character {
     const name = 'Composure';
     return new AbilityImpl(name, this.abilities[name]);
   }
+
+  get characterLevel(): number {
+    return this.selections.length;
+  }
+
+  get aoLevels(): { [key: string]: number } {
+    var ret: { [key: string]: number } = {};
+    for (let selection of this.selections) {
+      if (!(selection.name in ret)) {
+        ret[selection.name] = 1;
+      } else {
+        ret[selection.name] += 1;
+      }
+    }
+    return ret;
+  }
 }
 
 export class CharacterBuilder {
@@ -89,6 +109,8 @@ export class CharacterBuilder {
   pre: number = 10;
   man: number = 10;
   com: number = 10;
+
+  selections: AoSelection[] = [];
 
   setBrawn(score: number): CharacterBuilder {
     this.br = Math.round(score);
@@ -134,6 +156,26 @@ export class CharacterBuilder {
     this.com = Math.round(score);
     return this;
   }
+
+  addSelection(
+    ao: string,
+    level: number,
+    name: string,
+    description: string,
+    color?: string
+  ) {
+    const sel = new AoSelection();
+    sel.abilityOrigin = ao;
+    sel.name = name;
+    sel.description = description;
+    sel.level = level;
+    if (color) {
+      sel.hilightColor = color;
+    }
+    this.selections.push(sel);
+    return this;
+  }
+
   build(): Character {
     return new Character(
       this.br,
@@ -144,7 +186,8 @@ export class CharacterBuilder {
       this.res,
       this.pre,
       this.man,
-      this.com
+      this.com,
+      this.selections
     );
   }
 }
