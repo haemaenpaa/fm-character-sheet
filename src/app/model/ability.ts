@@ -1,6 +1,5 @@
 export interface Ability {
-  name: string;
-  shortName: string;
+  identifier: string;
   score: number;
   get modifier(): number;
 }

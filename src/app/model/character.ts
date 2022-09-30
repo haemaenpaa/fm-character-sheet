@@ -1,15 +1,14 @@
 import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
 import { ABILITY_ABBREVIATIONS } from './constants';
+import { Race } from './race';
 
 class AbilityImpl implements Ability {
-  name: string;
-  shortName: string;
+  identifier: string;
   score: number;
 
   constructor(name: string, score: number) {
-    this.name = name;
-    this.shortName = ABILITY_ABBREVIATIONS[name];
+    this.identifier = name;
     this.score = score;
   }
   get modifier(): number {
@@ -18,9 +17,23 @@ class AbilityImpl implements Ability {
 }
 
 export class Character {
-  private abilities: { [key: string]: number } = {};
+  name: string;
+  race: Race;
+  abilities: {
+    br: number;
+    dex: number;
+    vit: number;
+    int: number;
+    cun: number;
+    res: number;
+    pre: number;
+    man: number;
+    com: number;
+  };
   selections: AoSelection[];
   constructor(
+    name: string,
+    race: Race,
     br: number,
     dex: number,
     vit: number,
@@ -32,53 +45,51 @@ export class Character {
     com: number,
     selections: AoSelection[]
   ) {
+    this.name = name;
+    this.race = race;
     this.abilities = {
-      Brawn: br,
-      Dexterity: dex,
-      Vitality: vit,
-      Intelligence: int,
-      Cunning: cun,
-      Resolve: res,
-      Presence: pre,
-      Manipulation: man,
-      Composure: com,
+      br: br,
+      dex: dex,
+      vit: vit,
+      int: int,
+      cun: cun,
+      res: res,
+      pre: pre,
+      man: man,
+      com: com,
     };
     this.selections = selections;
   }
   get brawn(): Ability {
-    const name = 'Brawn';
-    return new AbilityImpl(name, this.abilities[name]);
+    return new AbilityImpl('br', this.abilities.br);
   }
   get dexterity(): Ability {
-    const name = 'Dexterity';
-    return new AbilityImpl(name, this.abilities[name]);
+    return new AbilityImpl('dex', this.abilities.dex);
   }
   get vitality(): Ability {
-    const name = 'Vitality';
-    return new AbilityImpl(name, this.abilities[name]);
+    return new AbilityImpl('vit', this.abilities.vit);
   }
   get intelligence(): Ability {
-    const name = 'Intelligence';
-    return new AbilityImpl(name, this.abilities[name]);
+    return new AbilityImpl('int', this.abilities.int);
   }
   get cunning(): Ability {
-    const name = 'Cunning';
+    const name = 'cun';
     return new AbilityImpl(name, this.abilities[name]);
   }
   get resolve(): Ability {
-    const name = 'Resolve';
+    const name = 'res';
     return new AbilityImpl(name, this.abilities[name]);
   }
   get presence(): Ability {
-    const name = 'Presence';
+    const name = 'pre';
     return new AbilityImpl(name, this.abilities[name]);
   }
   get manipulation(): Ability {
-    const name = 'Manipulation';
+    const name = 'man';
     return new AbilityImpl(name, this.abilities[name]);
   }
   get composure(): Ability {
-    const name = 'Composure';
+    const name = 'com';
     return new AbilityImpl(name, this.abilities[name]);
   }
 
@@ -101,6 +112,12 @@ export class Character {
 }
 
 export class CharacterBuilder {
+  name: string = '';
+  race: Race = {
+    name: '',
+    subrace: null,
+    abilities: {},
+  };
   br: number = 10;
   dex: number = 10;
   vit: number = 10;
@@ -112,6 +129,21 @@ export class CharacterBuilder {
   com: number = 10;
 
   selections: AoSelection[] = [];
+
+  setName(name: string): CharacterBuilder {
+    this.name = name;
+    return this;
+  }
+
+  setRace(name: string, subrace?: string): CharacterBuilder {
+    this.race.name = name;
+    if (subrace) {
+      this.race.subrace = subrace;
+    } else {
+      this.race.subrace = null;
+    }
+    return this;
+  }
 
   setBrawn(score: number): CharacterBuilder {
     this.br = Math.round(score);
@@ -202,6 +234,8 @@ export class CharacterBuilder {
 
   build(): Character {
     return new Character(
+      this.name,
+      this.race,
       this.br,
       this.dex,
       this.vit,

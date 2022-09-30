@@ -1,14 +1,3 @@
-export type abilityName =
-  | 'Brawn'
-  | 'Dexterity'
-  | 'Vitality'
-  | 'Intelligence'
-  | 'Cunning'
-  | 'Resolve'
-  | 'Presence'
-  | 'Manipulation'
-  | 'Composure';
-
 export const ABILITY_ABBREVIATIONS: { [key: string]: string } = {
   Brawn: 'Br',
   Dexterity: 'Dex',
