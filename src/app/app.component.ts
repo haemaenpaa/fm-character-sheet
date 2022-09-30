@@ -39,6 +39,8 @@ export class AppComponent {
         'Mastery',
         'You basically get Kung Fu points.'
       )
+      .setRace('Tiefling', 'Amakhnupis')
+      .setName('Giordi')
       .build();
   }
 }
