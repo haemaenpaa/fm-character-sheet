@@ -2,8 +2,17 @@
   <div class="ability-name">
     {{ ability.identifier | abilityName: "long" }}
   </div>
-  <div class="ability-score">
+  <div class="ability-score" *ngIf="!editing" (click)="startEditing()">
     {{ ability.score }}
+  </div>
+  <div class="ability-score" *ngIf="editing">
+    <input
+      class="ability-score-edit"
+      type="text"
+      [value]="ability.score"
+      (change)="valueChanged($event)"
+      (blur)="endEditing()"
+    />
   </div>
   <div class="ability-modifier">
     {{ (ability.modifier >= 0 ? "+" : "") + ability.modifier }}

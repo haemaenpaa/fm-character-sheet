@@ -21,6 +21,11 @@
   align-content: center;
 }
 
+.ability-score-edit {
+  width: 3em;
+  text-align: center;
+}
+
 .ability-modifier {
   font-size: smaller;
   flex-grow: 1;
