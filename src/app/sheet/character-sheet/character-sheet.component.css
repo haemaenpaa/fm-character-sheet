@@ -1,0 +1,52 @@
+.sheet-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 6em 1fr;
+  grid-template-areas:
+    "header header"
+    "left right";
+}
+
+.character-particulars {
+  grid-area: header;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.character-name {
+  grid-area: 1/1;
+}
+
+.character-race {
+  grid-area: 1/2;
+  display: flex;
+  justify-items: left;
+}
+.character-race-label {
+  font-weight: bold;
+  padding-right: 1em;
+}
+.character-main-race {
+  font-style: normal;
+}
+.character-subrace {
+  font-style: italic;
+  padding-left: 1em;
+}
+
+.character-level {
+  grid-area: 2/1/2/2;
+  display: flex;
+}
+
+.character-level-label {
+  font-weight: bold;
+}
+
+.character-ao {
+  padding-left: 1em;
+}
+
+.character-abilities {
+  grid-column: left;
+}

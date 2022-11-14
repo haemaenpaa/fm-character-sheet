@@ -1,35 +1,26 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="row character-name">
-      <div class="col">{{ character?.name }}</div>
+<div class="sheet-container">
+  <div class="character-particulars">
+    <div class="character-name">
+      <div>{{ character.name }}</div>
     </div>
-    <div class="row dflex justify-content-left character-race">
-      <div class="col pr-0 mr-0">
-        Race: {{ character?.race?.name }}
-        <div
-          class="d-inline-flex character-subrace pl-0 mr-0"
-          *ngIf="character?.race?.subrace"
-        >
-          ({{ character.race.subrace }})
-        </div>
+    <div class="character-race">
+      <div class="character-race-label">Race:</div>
+      <div class="character-main-race">{{ character.race.name }}</div>
+      <div class="character-subrace" *ngIf="character?.race?.subrace">
+        ({{ character.race.subrace }})
       </div>
     </div>
-    <div class="row character-level">
-      <div class="col">
-        Level {{ character.totalLevel }}:
-        <div
-          class="d-inline-flex"
-          *ngFor="let level of levelList; let last = last"
-        >
-          {{ level.abilityOrigin }} {{ level.level }}{{ last ? "" : ", " }}
-        </div>
+    <div class="character-level">
+      <div class="character-level-label">Level {{ character.totalLevel }}:</div>
+      <div
+        class="character-ao"
+        *ngFor="let level of levelList; let last = last"
+      >
+        {{ level.abilityOrigin }} {{ level.level }}
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-5">
-      <ability-grid [character]="character"></ability-grid>
-    </div>
-    <div class="col-md-7"></div>
+  <div class="character-abilities">
+    <ability-grid [character]="character"></ability-grid>
   </div>
 </div>

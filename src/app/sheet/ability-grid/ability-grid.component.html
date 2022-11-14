@@ -1,35 +1,29 @@
-<div class="container grid-border d-flex">
-  <div class="col">
-    <div class="row-lg">
-      <ability-score [ability]="character.brawn"></ability-score>
-    </div>
-    <div class="row-lg">
-      <ability-score [ability]="character.intelligence"></ability-score>
-    </div>
-    <div class="row-lg">
-      <ability-score [ability]="character.presence"></ability-score>
-    </div>
+<div class="ability-grid-container grid-border">
+  <div class="br-cell">
+    <ability-score [ability]="character.brawn"></ability-score>
   </div>
-  <div class="col">
-    <div class="row-lg">
-      <ability-score [ability]="character.dexterity"></ability-score>
-    </div>
-    <div class="row-lg">
-      <ability-score [ability]="character.cunning"></ability-score>
-    </div>
-    <div class="row-lg">
-      <ability-score [ability]="character.manipulation"></ability-score>
-    </div>
+  <div class="int-cell">
+    <ability-score [ability]="character.intelligence"></ability-score>
   </div>
-  <div class="col">
-    <div class="row-lg">
-      <ability-score [ability]="character.vitality"></ability-score>
-    </div>
-    <div class="row-lg">
-      <ability-score [ability]="character.resolve"></ability-score>
-    </div>
-    <div class="row-lg">
-      <ability-score [ability]="character.composure"></ability-score>
-    </div>
+  <div class="pre-cell">
+    <ability-score [ability]="character.presence"></ability-score>
+  </div>
+  <div class="dex-cell">
+    <ability-score [ability]="character.dexterity"></ability-score>
+  </div>
+  <div class="cun-cell">
+    <ability-score [ability]="character.cunning"></ability-score>
+  </div>
+  <div class="man-cell">
+    <ability-score [ability]="character.manipulation"></ability-score>
+  </div>
+  <div class="vit-cell">
+    <ability-score [ability]="character.vitality"></ability-score>
+  </div>
+  <div class="res-cell">
+    <ability-score [ability]="character.resolve"></ability-score>
+  </div>
+  <div class="com-cell">
+    <ability-score [ability]="character.composure"></ability-score>
   </div>
 </div>

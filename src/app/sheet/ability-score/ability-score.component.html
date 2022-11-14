@@ -1,11 +1,11 @@
-<div class="container score-box">
-  <div class="row justify-content-center ability-name">
+<div class="score-box">
+  <div class="ability-name">
     {{ ability.identifier | abilityName: "long" }}
   </div>
-  <div class="row justify-content-center ability-score">
+  <div class="ability-score">
     {{ ability.score }}
   </div>
-  <div class="row justify-content-center ability-modifier">
+  <div class="ability-modifier">
     {{ (ability.modifier >= 0 ? "+" : "") + ability.modifier }}
   </div>
 </div>

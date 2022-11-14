@@ -2,3 +2,53 @@
   border-style: double;
   border-radius: 10px;
 }
+
+.ability-grid-container {
+  display: grid;
+  aspect-ratio: 1 / 1;
+  width: fit-content;
+  grid-template-rows: [physical] 12em [mental] 12em [social] 12em;
+  grid-template-columns: [offense] 12em [speed] 12em [defense] 12em;
+  row-gap: 1em;
+  column-gap: 1em;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.br-cell {
+  grid-area: physical / offense;
+}
+
+.dex-cell {
+  grid-area: physical / speed;
+}
+
+.vit-cell {
+  grid-area: physical / defense;
+}
+
+.int-cell {
+  grid-area: mental / offense;
+}
+
+.cun-cell {
+  grid-area: mental / speed;
+}
+
+.res-cell {
+  grid-area: mental / defense;
+}
+
+.man-cell {
+  grid-area: social / offense;
+}
+
+.com-cell {
+  grid-area: social / speed;
+}
+
+.pre-cell {
+  grid-area: social / defense;
+}

@@ -1,17 +1,29 @@
 .score-box {
   border-style: solid;
   border-radius: 5%;
-  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  width: 10em;
+  aspect-ratio: 1 / 1;
 }
 
 .ability-name {
   font-variant: small-caps;
+  flex-grow: 1;
+  align-self: center;
+  align-content: flex-start;
 }
 
 .ability-score {
   font-weight: bold;
+  flex-grow: 2;
+  align-self: center;
+  align-content: center;
 }
 
 .ability-modifier {
   font-size: smaller;
+  flex-grow: 1;
+  align-self: center;
+  align-content: flex-end;
 }
