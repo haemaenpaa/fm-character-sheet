@@ -42,13 +42,13 @@
 }
 
 .man-cell {
-  grid-area: social / offense;
-}
-
-.com-cell {
   grid-area: social / speed;
 }
 
-.pre-cell {
+.com-cell {
   grid-area: social / defense;
+}
+
+.pre-cell {
+  grid-area: social / offense;
 }
