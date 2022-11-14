@@ -1,29 +1,56 @@
 <div class="ability-grid-container grid-border">
   <div class="br-cell">
-    <ability-score [ability]="character.brawn"></ability-score>
+    <ability-score
+      [ability]="character.brawn"
+      (modified)="character.setBrawn($event)"
+    ></ability-score>
   </div>
   <div class="int-cell">
-    <ability-score [ability]="character.intelligence"></ability-score>
+    <ability-score
+      [ability]="character.intelligence"
+      (modified)="character.setIntelligence($event)"
+    ></ability-score>
   </div>
   <div class="pre-cell">
-    <ability-score [ability]="character.presence"></ability-score>
+    <ability-score
+      [ability]="character.presence"
+      (modified)="character.setPresence($event)"
+    ></ability-score>
   </div>
   <div class="dex-cell">
-    <ability-score [ability]="character.dexterity"></ability-score>
+    <ability-score
+      [ability]="character.dexterity"
+      (modified)="character.setDexterity($event)"
+    ></ability-score>
   </div>
   <div class="cun-cell">
-    <ability-score [ability]="character.cunning"></ability-score>
+    <ability-score
+      [ability]="character.cunning"
+      (modified)="character.setCunning($event)"
+    ></ability-score>
   </div>
   <div class="man-cell">
-    <ability-score [ability]="character.manipulation"></ability-score>
+    <ability-score
+      [ability]="character.manipulation"
+      (modified)="character.setManipulation($event)"
+    ></ability-score>
   </div>
   <div class="vit-cell">
-    <ability-score [ability]="character.vitality"></ability-score>
+    <ability-score
+      [ability]="character.vitality"
+      (modified)="character.setVitality($event)"
+    ></ability-score>
   </div>
   <div class="res-cell">
-    <ability-score [ability]="character.resolve"></ability-score>
+    <ability-score
+      [ability]="character.resolve"
+      (modified)="character.setResolve($event)"
+    ></ability-score>
   </div>
   <div class="com-cell">
-    <ability-score [ability]="character.composure"></ability-score>
+    <ability-score
+      [ability]="character.composure"
+      (modified)="character.setComposure($event)"
+    ></ability-score>
   </div>
 </div>

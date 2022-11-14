@@ -63,34 +63,68 @@ export class Character {
   get brawn(): Ability {
     return new AbilityImpl('br', this.abilities.br);
   }
+  setBrawn(value: number) {
+    this.abilities.br = value;
+  }
   get dexterity(): Ability {
     return new AbilityImpl('dex', this.abilities.dex);
   }
+  setDexterity(value: number) {
+    this.abilities.dex = value;
+  }
+
   get vitality(): Ability {
     return new AbilityImpl('vit', this.abilities.vit);
   }
+  setVitality(value: number) {
+    this.abilities.vit = value;
+  }
+
   get intelligence(): Ability {
     return new AbilityImpl('int', this.abilities.int);
   }
+  setIntelligence(value: number) {
+    this.abilities.int = value;
+  }
+
   get cunning(): Ability {
     const name = 'cun';
     return new AbilityImpl(name, this.abilities[name]);
   }
+  setCunning(value: number) {
+    this.abilities.cun = value;
+  }
+
   get resolve(): Ability {
     const name = 'res';
     return new AbilityImpl(name, this.abilities[name]);
   }
+  setResolve(value: number) {
+    this.abilities.res = value;
+  }
+
   get presence(): Ability {
     const name = 'pre';
     return new AbilityImpl(name, this.abilities[name]);
   }
+  setPresence(value: number) {
+    this.abilities.pre = value;
+  }
+
   get manipulation(): Ability {
     const name = 'man';
     return new AbilityImpl(name, this.abilities[name]);
   }
+  setManipulation(value: number) {
+    this.abilities.man = value;
+  }
+
   get composure(): Ability {
     const name = 'com';
     return new AbilityImpl(name, this.abilities[name]);
+  }
+  setComposure(value: number) {
+    this.abilities.com = value;
   }
 
   get totalLevel(): number {
