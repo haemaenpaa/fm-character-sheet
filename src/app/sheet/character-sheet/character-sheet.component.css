@@ -50,3 +50,20 @@
 .character-abilities {
   grid-column: left;
 }
+
+.rolls-display {
+  display: flex;
+  flex-direction: column;
+}
+
+.single-roll {
+  display: flex;
+  flex-direction: row;
+}
+
+.die-roll {
+  font-weight: bold;
+}
+.die-modifier {
+  font-weight: lighter;
+}

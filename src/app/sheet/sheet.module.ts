@@ -4,6 +4,8 @@ import { AbilityScoreComponent } from './ability-score/ability-score.component';
 import { AbilityGridComponent } from './ability-grid/ability-grid.component';
 import { CharacterSheetComponent } from './character-sheet/character-sheet.component';
 import { AbilityNamePipe } from './pipe/ability-name.pipe';
+import { ModifierPipe } from './pipe/modifier.pipe';
+import { RollPipe } from './pipe/roll.pipe';
 
 @NgModule({
   declarations: [
@@ -11,6 +13,8 @@ import { AbilityNamePipe } from './pipe/ability-name.pipe';
     AbilityScoreComponent,
     CharacterSheetComponent,
     AbilityNamePipe,
+    ModifierPipe,
+    RollPipe,
   ],
   imports: [CommonModule],
   exports: [CharacterSheetComponent, AbilityGridComponent],
