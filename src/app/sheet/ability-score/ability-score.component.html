@@ -14,7 +14,7 @@
       (blur)="endEditing()"
     />
   </div>
-  <div class="ability-modifier">
+  <div class="ability-modifier" (click)="emitRoll()">
     {{ (ability.modifier >= 0 ? "+" : "") + ability.modifier }}
   </div>
 </div>

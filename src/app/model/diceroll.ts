@@ -12,8 +12,8 @@ export class RollComponent {
   keep: number;
   constructor(
     sides: number,
-    dice: number = 0,
-    keepMode: KeepMode,
+    dice: number = 1,
+    keepMode: KeepMode = 'HIGHEST',
     keep: number = dice
   ) {
     this.sides = sides;
@@ -52,6 +52,18 @@ export class Roll {
   }
   set target(value: number | null) {
     this._target = value;
+  }
+
+  get totalModifier() {
+    var ret = 0;
+    for (let m of this._modifiers) {
+      ret += m.value;
+    }
+    return ret;
+  }
+
+  get filteredModifiers(): RollModifier[] {
+    return this._modifiers.filter((m) => m.value != 0);
   }
 
   addModifier(value: RollModifier) {
