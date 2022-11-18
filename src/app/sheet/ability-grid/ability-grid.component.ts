@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import { Character } from 'src/app/model/character';
 import { Roll, RollComponent } from 'src/app/model/diceroll';
-import { DiceRollService } from 'src/app/services/dice-roll.service';
+import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 
 @Component({
   selector: 'ability-grid',
@@ -11,16 +11,19 @@ import { DiceRollService } from 'src/app/services/dice-roll.service';
 })
 export class AbilityGridComponent implements OnInit {
   @Input() character!: Character;
-  constructor(private rollService: DiceRollService) {}
+  constructor(private rollService: ActionDispatchService) {}
 
   ngOnInit(): void {}
 
   performRoll(ability: Ability) {
-    const roll: Roll = new Roll();
-    roll.title = ability.identifier;
-    roll.character = this.character.name;
-    roll.addDie(new RollComponent(20));
-    roll.addModifier({ name: ability.identifier, value: ability.modifier });
-    this.rollService.sendRoll(roll);
+    this.rollService.dispatch({
+      type: 'ability-check',
+      params: {
+        characterName: this.character.name,
+        advantage: 'none',
+        ability,
+        proficiency: 0,
+      },
+    });
   }
 }

@@ -25,6 +25,9 @@
   </div>
   <div class="rolls-display">
     <div *ngFor="let r of rolls" class="single-roll">
+      <div *ngIf="r.character && r.character.length > 0" class="roll-character">
+        {{ r.character }} :
+      </div>
       <div *ngIf="r.title" class="roll-title">
         {{ r.title | abilityName: "short" }} Check:
       </div>

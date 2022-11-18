@@ -32,6 +32,7 @@ export class Roll {
   private _dice: RollComponent[] = []; //The dice being rolled
   private _modifiers: RollModifier[] = []; //The modifiers applied
   private _target: number | null = null; //Target to beat, if any.
+  private _id: string | null = null;
 
   get character(): string | null {
     return this._character;
@@ -60,6 +61,12 @@ export class Roll {
       ret += m.value;
     }
     return ret;
+  }
+  get id(): string | null {
+    return this._id;
+  }
+  set id(value: string | null) {
+    this._id = value;
   }
 
   get filteredModifiers(): RollModifier[] {

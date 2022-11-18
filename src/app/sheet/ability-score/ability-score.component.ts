@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
-import { DiceRollService } from 'src/app/services/dice-roll.service';
 
 export interface AbilityScoreEditedEvent {
   abilityIdentifier: string;

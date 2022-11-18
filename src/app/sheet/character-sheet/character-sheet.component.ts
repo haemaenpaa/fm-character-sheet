@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Character } from 'src/app/model/character';
 import { Roll } from 'src/app/model/diceroll';
-import { DiceRollService } from 'src/app/services/dice-roll.service';
+import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 
 interface LevelStruct {
   abilityOrigin: string;
@@ -16,7 +16,7 @@ interface LevelStruct {
 export class CharacterSheetComponent implements OnInit {
   @Input() character!: Character;
   rolls: Roll[] = [];
-  constructor(private rollService: DiceRollService) {
+  constructor(private rollService: ActionDispatchService) {
     rollService.rolls().subscribe({
       next: (r) => {
         console.log(JSON.stringify(r));
