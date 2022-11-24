@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { Character, CharacterBuilder } from './model/character';
 
+/**
+ * The main application component.
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

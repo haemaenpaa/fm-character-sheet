@@ -4,6 +4,9 @@ import { Roll } from 'src/app/model/diceroll';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { CharacterService } from 'src/app/services/character.service';
 
+/**
+ * Structure for AO level display.
+ */
 interface LevelStruct {
   abilityOrigin: string;
   level: number;
@@ -22,6 +25,9 @@ export class CharacterSheetComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Parses the character's AO levels into an easier to display format.
+   */
   get levelList(): LevelStruct[] {
     var ret: LevelStruct[] = [];
     const aoLevels = this.character.aoLevels;

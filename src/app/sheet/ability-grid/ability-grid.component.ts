@@ -4,6 +4,9 @@ import { Character } from 'src/app/model/character';
 import { Roll, RollComponent } from 'src/app/model/diceroll';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 
+/**
+ * Component to display an ability grid.
+ */
 @Component({
   selector: 'ability-grid',
   templateUrl: './ability-grid.component.html',
@@ -15,6 +18,10 @@ export class AbilityGridComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Dispatches an ability check action according to the ability.
+   * @param ability Ability the check will use.
+   */
   performRoll(ability: Ability) {
     this.rollService.dispatch({
       type: 'ability-check',

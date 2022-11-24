@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { RollComponent } from 'src/app/model/diceroll';
 
+/**
+ * A pipe that converts from a RollComponent into a textual representation of the roll.
+ */
 @Pipe({
   name: 'roll',
 })

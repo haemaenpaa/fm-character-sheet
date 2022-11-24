@@ -12,6 +12,9 @@ function rollId() {
   }
   return rootStr;
 }
+/**
+ * A service to dispatch game actions that call for a roll.
+ */
 @Injectable({
   providedIn: 'root',
 })
