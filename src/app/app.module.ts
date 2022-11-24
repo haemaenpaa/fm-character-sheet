@@ -6,6 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SheetModule } from './sheet/sheet.module';
 
+/**
+ * The main application module.
+ */
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, SheetModule],

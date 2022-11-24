@@ -8,6 +8,7 @@ import { Character, CharacterBuilder } from '../model/character';
   providedIn: 'root',
 })
 export class CharacterService {
+  //Placeholder character for now.
   private placeholder: Character;
   constructor() {
     this.placeholder = new CharacterBuilder()
@@ -42,6 +43,11 @@ export class CharacterService {
       .setName('Giordi')
       .build();
   }
+
+  /**
+   * Gets the "current" character.
+   * @returns the current character
+   */
   currentCharacter(): Character {
     return this.placeholder;
   }

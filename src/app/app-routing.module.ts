@@ -15,7 +15,9 @@ const routes: Routes = [
     children: upperOutletRoutes,
   },
 ];
-
+/**
+ * Routing module for the application.
+ */
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

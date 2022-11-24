@@ -1,3 +1,6 @@
+/**
+ * Abbreviations of ability names, for display purposes.
+ */
 export const ABILITY_ABBREVIATIONS: { [key: string]: string } = {
   Brawn: 'Br',
   Dexterity: 'Dex',

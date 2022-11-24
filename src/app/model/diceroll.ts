@@ -1,10 +1,23 @@
+/**
+ * A constant modifier to a dice roll.
+ */
 export interface RollModifier {
   name: string;
   value: number;
 }
 
+/**
+ * The keep mode for a dice roll.
+ *
+ * When a roll calls to discard one or more dice rolled, such as with advantage, this determines which dice are kept.
+ */
 export type KeepMode = 'HIGHEST' | 'LOWEST';
 
+/**
+ * A dice roll component.
+ *
+ * This model contains the size of the dice and the amount of dice rolled, as well as the amount of dice kept.
+ */
 export class RollComponent {
   sides: number;
   dice: number = 1;

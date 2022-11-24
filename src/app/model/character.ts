@@ -16,9 +16,15 @@ class AbilityImpl implements Ability {
   }
 }
 
+/**
+ * A single character model, that encapsulates everything contained in a character sheet.
+ */
 export class Character {
   name: string;
   race: Race;
+  /**
+   * Abilities; brawn, dexterity etc.
+   */
   abilities: {
     br: number;
     dex: number;
@@ -30,7 +36,11 @@ export class Character {
     man: number;
     com: number;
   };
+  /**
+   * The Ability Origin selections. A list of class abilities gained with levels.
+   */
   selections: AoSelection[];
+
   constructor(
     name: string,
     race: Race,
@@ -131,6 +141,9 @@ export class Character {
     return this.selections.filter((s) => s.isPrimary).length;
   }
 
+  /**
+   * Counts the total amount of primary selections from each AO, to deduce the total level.
+   */
   get aoLevels(): { [key: string]: number } {
     var ret: { [key: string]: number } = {};
     for (let selection of this.selections.filter((s) => s.isPrimary)) {
@@ -145,6 +158,9 @@ export class Character {
   }
 }
 
+/**
+ * Builder for ease of constructing a character.
+ */
 export class CharacterBuilder {
   name: string = '';
   race: Race = {

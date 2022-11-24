@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Pipe that takes a modifier value and appends + if needed.
+ */
 @Pipe({
   name: 'modifier',
 })

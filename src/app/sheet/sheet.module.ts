@@ -11,6 +11,9 @@ import { SimpleCheckComponent } from './roll-log/simple-check/simple-check.compo
 import { UnknownRollComponent } from './roll-log/unknown-roll/unknown-roll.component';
 import { RouterModule } from '@angular/router';
 
+/**
+ * The character sheet module. Provides the character sheet component.
+ */
 @NgModule({
   declarations: [
     AbilityGridComponent,
@@ -24,6 +27,6 @@ import { RouterModule } from '@angular/router';
     UnknownRollComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([])],
-  exports: [CharacterSheetComponent, AbilityGridComponent],
+  exports: [CharacterSheetComponent],
 })
 export class SheetModule {}
