@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Character } from 'src/app/model/character';
+import { Roll } from 'src/app/model/diceroll';
+import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { CharacterService } from 'src/app/services/character.service';
 
 interface LevelStruct {
   abilityOrigin: string;
@@ -12,8 +15,10 @@ interface LevelStruct {
   styleUrls: ['./character-sheet.component.css'],
 })
 export class CharacterSheetComponent implements OnInit {
-  @Input() character!: Character;
-  constructor() {}
+  get character(): Character {
+    return this.characterService.currentCharacter();
+  }
+  constructor(private characterService: CharacterService) {}
 
   ngOnInit(): void {}
 

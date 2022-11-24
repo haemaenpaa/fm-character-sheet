@@ -14,6 +14,7 @@ export interface AbilityScoreEditedEvent {
 export class AbilityScoreComponent implements OnInit {
   @Input() ability!: Ability;
   @Output() modified = new EventEmitter();
+  @Output() roll = new EventEmitter();
   editing: boolean = false;
   constructor() {}
 
@@ -33,5 +34,10 @@ export class AbilityScoreComponent implements OnInit {
   }
   endEditing() {
     this.editing = false;
+  }
+
+  emitRoll() {
+    console.log('roll ' + this.ability.identifier);
+    this.roll.emit(this.ability);
   }
 }

@@ -1,0 +1,8 @@
+<div class="rolls-display">
+  <div *ngFor="let r of rolls" class="single-roll">
+    <div [ngSwitch]="rollToType(r)">
+      <simple-check [roll]="r" *ngSwitchCase="'simple-check'"></simple-check>
+      <unknown-roll *ngSwitchCase="'unknown'" [roll]="r"></unknown-roll>
+    </div>
+  </div>
+</div>
