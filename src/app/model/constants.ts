@@ -12,3 +12,19 @@ export const ABILITY_ABBREVIATIONS: { [key: string]: string } = {
   Manipulation: 'Man',
   Composure: 'Com',
 };
+
+export const SKILL_DEFAULT_ABILITIES: { [key: string]: string[] } = {
+  anh: ['cun', 'pre'],
+  ath: ['br', 'dex'],
+  dec: ['pre', 'man'],
+  emp: ['man', 'com'],
+  inv: ['cun'],
+  lea: ['pre', 'man'],
+  med: ['int', 'cun'],
+  occ: ['int', 'cun'],
+  perc: ['int', 'com'],
+  pers: ['pre', 'man'],
+  sub: ['dex', 'cun'],
+  ste: ['dex', 'cun'],
+  sur: ['int', 'cun'],
+};

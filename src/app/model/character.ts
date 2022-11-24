@@ -1,7 +1,8 @@
 import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
-import { ABILITY_ABBREVIATIONS } from './constants';
+import { ABILITY_ABBREVIATIONS, SKILL_DEFAULT_ABILITIES } from './constants';
 import { Race } from './race';
+import { Skill } from './skill';
 
 class AbilityImpl implements Ability {
   identifier: string;
@@ -18,6 +19,8 @@ class AbilityImpl implements Ability {
 
 /**
  * A single character model, that encapsulates everything contained in a character sheet.
+ *
+ * The getters defined in this class will return a snapshot.
  */
 export class Character {
   name: string;
@@ -40,6 +43,22 @@ export class Character {
    * The Ability Origin selections. A list of class abilities gained with levels.
    */
   selections: AoSelection[];
+  defaultSkills: {
+    anh: number;
+    ath: number;
+    dec: number;
+    emp: number;
+    inv: number;
+    lea: number;
+    med: number;
+    occ: number;
+    perc: number;
+    pers: number;
+    sub: number;
+    ste: number;
+    sur: number;
+  };
+  customSkills: Skill[];
 
   constructor(
     name: string,
@@ -53,7 +72,21 @@ export class Character {
     pre: number,
     man: number,
     com: number,
-    selections: AoSelection[]
+    anh: number,
+    ath: number,
+    dec: number,
+    emp: number,
+    inv: number,
+    lea: number,
+    med: number,
+    occ: number,
+    perc: number,
+    pers: number,
+    sub: number,
+    ste: number,
+    sur: number,
+    selections: AoSelection[],
+    customSkills: Skill[]
   ) {
     this.name = name;
     this.race = race;
@@ -68,7 +101,23 @@ export class Character {
       man: man,
       com: com,
     };
+    this.defaultSkills = {
+      anh: anh,
+      ath: ath,
+      dec: dec,
+      emp: emp,
+      inv: inv,
+      lea: lea,
+      med: med,
+      occ: occ,
+      perc: perc,
+      pers: pers,
+      sub: sub,
+      ste: ste,
+      sur: sur,
+    };
     this.selections = selections;
+    this.customSkills = customSkills;
   }
   get brawn(): Ability {
     return new AbilityImpl('br', this.abilities.br);
@@ -137,6 +186,21 @@ export class Character {
     this.abilities.com = value;
   }
 
+  getSkills(): Skill[] {
+    const ret: Skill[] = [];
+    for (const key in this.defaultSkills) {
+      const current: Skill = {
+        identifier: key,
+        name: null,
+        rank: (this.defaultSkills as any)[key],
+        defaultAbilities: [...SKILL_DEFAULT_ABILITIES[key]],
+      };
+      ret.push(current);
+    }
+    this.customSkills.forEach((s) => ret.push({ ...s }));
+    return ret;
+  }
+
   get totalLevel(): number {
     return this.selections.filter((s) => s.isPrimary).length;
   }
@@ -178,7 +242,24 @@ export class CharacterBuilder {
   man: number = 10;
   com: number = 10;
 
+  defaultSkills = {
+    anh: 0,
+    ath: 0,
+    dec: 0,
+    emp: 0,
+    inv: 0,
+    lea: 0,
+    med: 0,
+    occ: 0,
+    perc: 0,
+    pers: 0,
+    sub: 0,
+    ste: 0,
+    sur: 0,
+  };
+
   selections: AoSelection[] = [];
+  skills: Skill[] = [];
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -240,6 +321,62 @@ export class CharacterBuilder {
     return this;
   }
 
+  setAnimalHandling(rank: number): CharacterBuilder {
+    this.defaultSkills.anh = rank;
+    return this;
+  }
+
+  setAthletics(rank: number): CharacterBuilder {
+    this.defaultSkills.ath = rank;
+    return this;
+  }
+  setDeception(rank: number): CharacterBuilder {
+    this.defaultSkills.dec = rank;
+    return this;
+  }
+  setEmpathy(rank: number): CharacterBuilder {
+    this.defaultSkills.emp = rank;
+    return this;
+  }
+  setInvestigation(rank: number): CharacterBuilder {
+    this.defaultSkills.inv = rank;
+    return this;
+  }
+  setLeadership(rank: number): CharacterBuilder {
+    this.defaultSkills.lea = rank;
+    return this;
+  }
+  setMedicine(rank: number): CharacterBuilder {
+    this.defaultSkills.med = rank;
+    return this;
+  }
+
+  setOccult(rank: number): CharacterBuilder {
+    this.defaultSkills.occ = rank;
+    return this;
+  }
+
+  setPerception(rank: number): CharacterBuilder {
+    this.defaultSkills.perc = rank;
+    return this;
+  }
+  setPersuasion(rank: number): CharacterBuilder {
+    this.defaultSkills.pers = rank;
+    return this;
+  }
+  setSubterfuge(rank: number): CharacterBuilder {
+    this.defaultSkills.sub = rank;
+    return this;
+  }
+  setStealth(rank: number): CharacterBuilder {
+    this.defaultSkills.ste = rank;
+    return this;
+  }
+  setSurvival(rank: number): CharacterBuilder {
+    this.defaultSkills.sur = rank;
+    return this;
+  }
+
   addSelection(
     ao: string,
     level: number,
@@ -261,6 +398,29 @@ export class CharacterBuilder {
     const sel = this.buildSelection(ao, name, description, level, color);
     sel.isPrimary = false;
     this.selections.push(sel);
+    return this;
+  }
+
+  addCustomSkill(
+    name: string,
+    rank: number,
+    defaultAbilities: string[] = []
+  ): CharacterBuilder {
+    const idx = this.skills.findIndex((s) => s.identifier == name);
+    if (idx < 0) {
+      const skill: Skill = {
+        identifier: name,
+        name: name,
+        rank: rank,
+        defaultAbilities: defaultAbilities,
+      };
+      this.skills.push(skill);
+      return this;
+    }
+    this.skills[idx].name = name;
+    this.skills[idx].rank = rank;
+    this.skills[idx].name = name;
+    this.skills[idx].defaultAbilities = defaultAbilities;
     return this;
   }
 
@@ -295,7 +455,22 @@ export class CharacterBuilder {
       this.pre,
       this.man,
       this.com,
-      this.selections
+
+      this.defaultSkills.anh,
+      this.defaultSkills.ath,
+      this.defaultSkills.dec,
+      this.defaultSkills.emp,
+      this.defaultSkills.inv,
+      this.defaultSkills.lea,
+      this.defaultSkills.med,
+      this.defaultSkills.occ,
+      this.defaultSkills.perc,
+      this.defaultSkills.pers,
+      this.defaultSkills.sub,
+      this.defaultSkills.ste,
+      this.defaultSkills.sur,
+      this.selections,
+      this.skills
     );
   }
 }
