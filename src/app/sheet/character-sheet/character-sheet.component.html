@@ -23,20 +23,7 @@
   <div class="character-abilities">
     <ability-grid [character]="character"></ability-grid>
   </div>
-  <div class="rolls-display">
-    <div *ngFor="let r of rolls" class="single-roll">
-      <div *ngIf="r.character && r.character.length > 0" class="roll-character">
-        {{ r.character }} :
-      </div>
-      <div *ngIf="r.title" class="roll-title">
-        {{ r.title | abilityName: "short" }} Check:
-      </div>
-      <div *ngFor="let d of r.dice" class="die-roll">
-        {{ d | roll }}
-      </div>
-      <div *ngFor="let m of r.filteredModifiers" class="die-modifier">
-        {{ m.value | modifier }}
-      </div>
-    </div>
+  <div>
+    <router-outlet name="upper-outlet"></router-outlet>
   </div>
 </div>
