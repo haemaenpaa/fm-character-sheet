@@ -1,0 +1,28 @@
+<div class="skill-box">
+  <div class="skill-title">{{ skill | skillName }}</div>
+  <div class="skill-ranks">
+    <div
+      *ngFor="let item of [].constructor(skill.rank); let i = index"
+      (click)="setRank(i)"
+    >
+      ◈
+    </div>
+    <div
+      *ngFor="let item of [].constructor(5 - skill.rank); let i = index"
+      (click)="setRank(i + skill.rank + 1)"
+    >
+      ◇
+    </div>
+  </div>
+  <div class="first-ability">
+    <div *ngIf="skill.defaultAbilities.length > 0">
+      {{ skill.defaultAbilities[0] | abilityName: "short" }}
+    </div>
+  </div>
+  <div class="second-ability">
+    <div *ngIf="skill.defaultAbilities.length > 1">
+      {{ skill.defaultAbilities[1] | abilityName: "short" }}
+    </div>
+  </div>
+  <div class="ability-button">{{ skillModifier | modifier }}</div>
+</div>
