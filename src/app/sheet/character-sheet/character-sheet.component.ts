@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Character } from 'src/app/model/character';
 import { Roll } from 'src/app/model/diceroll';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { CharacterService } from 'src/app/services/character.service';
 
 interface LevelStruct {
   abilityOrigin: string;
@@ -14,16 +15,10 @@ interface LevelStruct {
   styleUrls: ['./character-sheet.component.css'],
 })
 export class CharacterSheetComponent implements OnInit {
-  @Input() character!: Character;
-  rolls: Roll[] = [];
-  constructor(private rollService: ActionDispatchService) {
-    rollService.rolls().subscribe({
-      next: (r) => {
-        console.log(JSON.stringify(r));
-        this.rolls.push(r);
-      },
-    });
+  get character(): Character {
+    return this.characterService.currentCharacter();
   }
+  constructor(private characterService: CharacterService) {}
 
   ngOnInit(): void {}
 
