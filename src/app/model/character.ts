@@ -17,6 +17,18 @@ class AbilityImpl implements Ability {
   }
 }
 
+export interface AbilityNumberStruct {
+  br: number;
+  dex: number;
+  vit: number;
+  int: number;
+  cun: number;
+  res: number;
+  pre: number;
+  man: number;
+  com: number;
+}
+
 /**
  * A single character model, that encapsulates everything contained in a character sheet.
  *
@@ -28,17 +40,7 @@ export class Character {
   /**
    * Abilities; brawn, dexterity etc.
    */
-  abilities: {
-    br: number;
-    dex: number;
-    vit: number;
-    int: number;
-    cun: number;
-    res: number;
-    pre: number;
-    man: number;
-    com: number;
-  };
+  abilities: AbilityNumberStruct;
   /**
    * The Ability Origin selections. A list of class abilities gained with levels.
    */
@@ -119,6 +121,21 @@ export class Character {
     this.selections = selections;
     this.customSkills = customSkills;
   }
+  get abilityModifiers(): AbilityNumberStruct {
+    const ret: AbilityNumberStruct = {
+      br: this.brawn.modifier,
+      dex: this.dexterity.modifier,
+      vit: this.vitality.modifier,
+      int: this.intelligence.modifier,
+      cun: this.cunning.modifier,
+      res: this.resolve.modifier,
+      pre: this.presence.modifier,
+      man: this.manipulation.modifier,
+      com: this.composure.modifier,
+    };
+    return ret;
+  }
+
   get brawn(): Ability {
     return new AbilityImpl('br', this.abilities.br);
   }
@@ -186,6 +203,15 @@ export class Character {
     this.abilities.com = value;
   }
 
+  get proficiency(): number {
+    const level = this.totalLevel;
+    if (level > 16) return 6;
+    if (level > 12) return 5;
+    if (level > 8) return 4;
+    if (level > 4) return 3;
+    return 2;
+  }
+
   getSkills(): Skill[] {
     const ret: Skill[] = [];
     for (const key in this.defaultSkills) {
@@ -198,6 +224,7 @@ export class Character {
       ret.push(current);
     }
     this.customSkills.forEach((s) => ret.push({ ...s }));
+    console.log(JSON.stringify(ret));
     return ret;
   }
 

@@ -1,0 +1,27 @@
+.skill-grid {
+  display: grid;
+  grid-template-rows: 3em repeat(8);
+  grid-auto-columns: 50% 50%;
+  grid-auto-flow: column;
+  width: 24em;
+  height: max-content;
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+.title-row {
+  font-variant: small-caps;
+  font-weight: bolder;
+  font-size: 150%;
+  text-align: center;
+  grid-row: 1;
+  grid-column: 1 / span 2;
+}
+
+.left-column {
+  grid-column: left;
+}
+
+.right-column {
+  grid-column: right;
+}

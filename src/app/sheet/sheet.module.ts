@@ -12,6 +12,7 @@ import { UnknownRollComponent } from './roll-log/unknown-roll/unknown-roll.compo
 import { RouterModule } from '@angular/router';
 import { SkillComponent } from './skill/skill.component';
 import { SkillNamePipe } from './skill/skill-name.pipe';
+import { SkillGridComponent } from './skill-grid/skill-grid.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -29,6 +30,7 @@ import { SkillNamePipe } from './skill/skill-name.pipe';
     UnknownRollComponent,
     SkillComponent,
     SkillNamePipe,
+    SkillGridComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([])],
   exports: [CharacterSheetComponent],

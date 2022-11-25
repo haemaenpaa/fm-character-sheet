@@ -1,0 +1,10 @@
+<div class="skill-grid">
+  <div class="title-row">Skills</div>
+  <div *ngFor="let skill of character.getSkills(); let i = index">
+    <skill
+      [skill]="skill"
+      [abilityModifiers]="abilityModifiers"
+      [proficiency]="character.proficiency"
+    ></skill>
+  </div>
+</div>
