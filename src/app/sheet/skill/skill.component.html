@@ -14,8 +14,8 @@
       ◇
     </div>
   </div>
-  <div class="first-ability">
-    <div *ngIf="skill.defaultAbilities.length > 0">
+  <div class="first-ability" *ngIf="skill.defaultAbilities.length > 0">
+    <div>
       {{ skill.defaultAbilities[0] | abilityName: "short" }}
       <span class="ability-modifier">
         {{
@@ -24,8 +24,8 @@
       </span>
     </div>
   </div>
-  <div class="second-ability">
-    <div *ngIf="skill.defaultAbilities.length > 1">
+  <div class="second-ability" *ngIf="skill.defaultAbilities.length > 1">
+    <div>
       <span class="ability-modifier">
         {{
           abilityModifiers[skill.defaultAbilities[1]] + skillModifier | modifier

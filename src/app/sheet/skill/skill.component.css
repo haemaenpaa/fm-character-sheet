@@ -1,8 +1,9 @@
 .skill-box {
   display: grid;
   grid-template-columns: [start_side] 45% [middle_column] 10% [end_side] 45%;
-  grid-template-rows: [title] 2em [rank] 2em [ability] 3em;
+  grid-template-rows: [title] 40% [rank] 40% [ability] 50%;
   width: 100%;
+  aspect-ratio: 4;
   border: solid;
   border-radius: 0.5em;
 }
@@ -41,9 +42,8 @@
   text-align: start;
   border-style: none solid none solid;
   border-radius: 1em;
-  justify-self: flex-end;
-  padding-inline-start: 1em;
-  width: 50%;
+  justify-self: flex-start;
+  width: 100%;
 }
 .second-ability {
   grid-column: end_side/end_side;
@@ -55,14 +55,14 @@
   justify-items: end;
   border-style: none solid none solid;
   border-radius: 1em;
-  justify-self: flex-start;
-  padding-inline-end: 1em;
-  width: 50%;
+  justify-self: flex-end;
+  width: 100%;
 }
 
 .ability-modifier {
-  padding-left: 0.5em;
-  padding-right: 0.5em;
+  font-style: italic;
+  padding-left: 0.1em;
+  padding-right: 0.1em;
 }
 
 .ability-button {
