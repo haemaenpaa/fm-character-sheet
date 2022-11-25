@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Character, CharacterBuilder } from '../model/character';
+import { Character } from '../model/character';
+import { CharacterBuilder } from '../model/character-builder';
 
 /**
  * An injectable service that manages the character information.
