@@ -224,7 +224,6 @@ export class Character {
       ret.push(current);
     }
     this.customSkills.forEach((s) => ret.push({ ...s }));
-    console.log(JSON.stringify(ret));
     return ret;
   }
 
@@ -246,5 +245,15 @@ export class Character {
       }
     }
     return ret;
+  }
+
+  setSkillByIdentifier(identifier: string, rank: number) {
+    if (identifier in this.defaultSkills) {
+      (this.defaultSkills as any)[identifier] = rank;
+      return;
+    }
+    this.customSkills
+      .filter((s) => s.identifier == identifier)
+      .forEach((s) => (s.rank = rank));
   }
 }

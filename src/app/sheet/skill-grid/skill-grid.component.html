@@ -4,6 +4,8 @@
       [skill]="skill"
       [abilityModifiers]="abilityModifiers"
       [proficiency]="character.proficiency"
+      (rankModified)="onModifyRank($event)"
+      (roll)="onSkillRoll($event)"
     ></skill>
   </div>
 </div>

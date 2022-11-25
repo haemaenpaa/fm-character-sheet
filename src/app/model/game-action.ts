@@ -12,8 +12,16 @@ export interface CheckParams {
   proficiency: number | null;
   advantage: Advantage;
 }
+export interface SkillParams {
+  characterName: string;
+  abilityIdentifier: string;
+  abilityModifier: number;
+  skillIdentifier: string;
+  skillModifier: number;
+  advantage: Advantage;
+}
 
 export interface GameAction {
   type: ActionType;
-  params: CheckParams;
+  params: CheckParams | SkillParams;
 }

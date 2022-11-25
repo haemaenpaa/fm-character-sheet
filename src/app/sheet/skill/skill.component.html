@@ -14,7 +14,11 @@
       ◇
     </div>
   </div>
-  <div class="first-ability" *ngIf="skill.defaultAbilities.length > 0">
+  <div
+    class="first-ability"
+    *ngIf="skill.defaultAbilities.length > 0"
+    (click)="callRoll(skill.defaultAbilities[0])"
+  >
     <div>
       {{ skill.defaultAbilities[0] | abilityName: "short" }}
       <span class="ability-modifier">
@@ -24,7 +28,11 @@
       </span>
     </div>
   </div>
-  <div class="second-ability" *ngIf="skill.defaultAbilities.length > 1">
+  <div
+    class="second-ability"
+    *ngIf="skill.defaultAbilities.length > 1"
+    (click)="callRoll(skill.defaultAbilities[1])"
+  >
     <div>
       <span class="ability-modifier">
         {{
