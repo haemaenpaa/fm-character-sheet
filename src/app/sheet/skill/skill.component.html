@@ -17,11 +17,21 @@
   <div class="first-ability">
     <div *ngIf="skill.defaultAbilities.length > 0">
       {{ skill.defaultAbilities[0] | abilityName: "short" }}
+      <span class="ability-modifier">
+        {{
+          abilityModifiers[skill.defaultAbilities[0]] + skillModifier | modifier
+        }}
+      </span>
     </div>
   </div>
   <div class="second-ability">
     <div *ngIf="skill.defaultAbilities.length > 1">
-      {{ skill.defaultAbilities[1] | abilityName: "short" }}
+      <span class="ability-modifier">
+        {{
+          abilityModifiers[skill.defaultAbilities[1]] + skillModifier | modifier
+        }}
+      </span>
+      <span>{{ skill.defaultAbilities[1] | abilityName: "short" }}</span>
     </div>
   </div>
   <div class="ability-button">{{ skillModifier | modifier }}</div>

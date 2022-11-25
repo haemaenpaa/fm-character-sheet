@@ -16,13 +16,9 @@ export interface SkillSetEvent {
   styleUrls: ['./skill.component.css'],
 })
 export class SkillComponent implements OnInit {
-  @Input() skill: Skill = {
-    identifier: '',
-    name: 'placeholder',
-    rank: 3,
-    defaultAbilities: ['dex', 'man'],
-  };
-  @Input() proficiency: number = 3;
+  @Input() skill!: Skill;
+  @Input() proficiency!: number;
+  @Input() abilityModifiers!: { [key: string]: number };
 
   @Output() rankModified = new EventEmitter<SkillSetEvent>();
   @Output() roll = new EventEmitter<SkillSetEvent>();

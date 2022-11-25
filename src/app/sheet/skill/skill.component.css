@@ -39,9 +39,11 @@
   align-items: center;
   justify-items: start;
   text-align: start;
-  border-style: none dotted none none;
-  justify-self: stretch;
-  width: 100%;
+  border-style: none solid none solid;
+  border-radius: 1em;
+  justify-self: flex-end;
+  padding-inline-start: 1em;
+  width: 50%;
 }
 .second-ability {
   grid-column: end_side/end_side;
@@ -51,9 +53,16 @@
   flex-direction: row-reverse;
   align-items: center;
   justify-items: end;
-  border-style: none none none dotted;
-  justify-self: stretch;
-  width: 100%;
+  border-style: none solid none solid;
+  border-radius: 1em;
+  justify-self: flex-start;
+  padding-inline-end: 1em;
+  width: 50%;
+}
+
+.ability-modifier {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
 .ability-button {
@@ -64,5 +73,7 @@
   align-items: center;
   justify-content: center;
   justify-self: stretch;
+  border-style: solid none solid none;
+  border-radius: 1em;
   width: 100%;
 }
