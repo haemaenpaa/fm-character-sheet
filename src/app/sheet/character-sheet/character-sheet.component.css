@@ -50,3 +50,6 @@
 .character-abilities {
   grid-column: left;
 }
+.character-skills {
+  grid-column: left;
+}
