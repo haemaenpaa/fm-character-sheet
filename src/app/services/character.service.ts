@@ -40,6 +40,7 @@ export class CharacterService {
         'Mastery',
         'You basically get Kung Fu points.'
       )
+      .addCustomSkill('Academics (herpetology)', 3, ['int'])
       .setRace('Tiefling', 'Amakhnupis')
       .setName('Giordi')
       .build();
