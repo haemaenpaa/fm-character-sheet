@@ -26,7 +26,7 @@ export class SkillComponent implements OnInit {
   constructor() {}
 
   get skillModifier(): number {
-    return Math.ceil(this.skill.rank / 2) * this.proficiency;
+    return Math.ceil((this.skill.rank * this.proficiency) / 2);
   }
 
   ngOnInit(): void {}

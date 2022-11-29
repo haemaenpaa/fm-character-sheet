@@ -32,8 +32,9 @@ export class SkillGridComponent implements OnInit {
       abilityIdentifier: event.abilityIdentifier,
       abilityModifier: this.abilityModifiers[event.abilityIdentifier],
       skillIdentifier: event.skillIdentifier,
-      skillModifier:
-        this.character.proficiency * Math.ceil(event.skillRank / 2),
+      skillModifier: Math.ceil(
+        (this.character.proficiency * event.skillRank) / 2
+      ),
       advantage: 'none',
     };
     this.actionService.dispatch({
