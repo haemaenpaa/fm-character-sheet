@@ -1,20 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { SKILL_DEFAULT_NAME } from 'src/app/model/constants';
 import { Skill } from 'src/app/model/skill';
-const SKILL_DEFAULT_NAME: { [key: string]: string } = {
-  anh: 'Animal handling',
-  ath: 'Athletics',
-  dec: 'Deception',
-  emp: 'Empathy',
-  inv: 'Investigation',
-  lea: 'Leadership',
-  med: 'Medicine',
-  occ: 'Occult',
-  perc: 'Perception',
-  pers: 'Persuasion',
-  sub: 'Subterfuge',
-  ste: 'Stealth',
-  sur: 'Survival',
-};
+
 @Pipe({
   name: 'skillName',
 })

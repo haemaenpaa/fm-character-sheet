@@ -28,3 +28,18 @@ export const SKILL_DEFAULT_ABILITIES: { [key: string]: string[] } = {
   ste: ['dex', 'cun'],
   sur: ['int', 'cun'],
 };
+export const SKILL_DEFAULT_NAME: { [key: string]: string } = {
+  anh: 'Animal handling',
+  ath: 'Athletics',
+  dec: 'Deception',
+  emp: 'Empathy',
+  inv: 'Investigation',
+  lea: 'Leadership',
+  med: 'Medicine',
+  occ: 'Occult',
+  perc: 'Perception',
+  pers: 'Persuasion',
+  sub: 'Subterfuge',
+  ste: 'Stealth',
+  sur: 'Survival',
+};

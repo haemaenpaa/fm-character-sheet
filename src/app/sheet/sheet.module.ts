@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { SkillComponent } from './skill/skill.component';
 import { SkillNamePipe } from './skill/skill-name.pipe';
 import { SkillGridComponent } from './skill-grid/skill-grid.component';
+import { SkillCheckComponent } from './roll-log/skill-check/skill-check.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -31,6 +32,7 @@ import { SkillGridComponent } from './skill-grid/skill-grid.component';
     SkillComponent,
     SkillNamePipe,
     SkillGridComponent,
+    SkillCheckComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([])],
   exports: [CharacterSheetComponent],
