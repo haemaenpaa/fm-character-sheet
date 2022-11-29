@@ -20,13 +20,15 @@
       </div>
     </div>
   </div>
-  <div class="character-abilities">
+  <div class="character-abilities section-container">
+    <span class="section-header">Abilities</span>
     <ability-grid [character]="character"></ability-grid>
   </div>
   <div>
     <router-outlet name="upper-outlet"></router-outlet>
   </div>
-  <div class="character-skills">
+  <div class="character-skills section-container">
+    <span class="section-header">Skills</span>
     <skill-grid [character]="character"></skill-grid>
   </div>
 </div>

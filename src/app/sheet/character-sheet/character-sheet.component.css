@@ -47,9 +47,25 @@
   padding-left: 1em;
 }
 
+.section-header {
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+}
+
+.section-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
 .character-abilities {
   grid-column: left;
+  margin-bottom: 2em;
 }
+
 .character-skills {
   grid-column: left;
+  width: 100%;
 }
