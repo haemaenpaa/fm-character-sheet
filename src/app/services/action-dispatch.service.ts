@@ -1,7 +1,12 @@
 import { Injectable, ɵAPP_ID_RANDOM_PROVIDER } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { KeepMode, Roll, RollComponent } from '../model/diceroll';
-import { Advantage, GameAction } from '../model/game-action';
+import {
+  Advantage,
+  CheckParams,
+  GameAction,
+  SkillParams,
+} from '../model/game-action';
 import { Ability } from '../model/ability';
 
 function rollId() {
@@ -32,10 +37,20 @@ export class ActionDispatchService {
       case 'ability-check':
         this.dispatchAbilityCheck(
           params.characterName,
-          params.ability,
+          (params as CheckParams).ability,
           params.advantage
         );
         break;
+      case 'skill-check':
+        const skillParams = params as SkillParams;
+        this.dispatchSkillCheck(
+          params.characterName,
+          skillParams.abilityIdentifier,
+          skillParams.skillIdentifier,
+          skillParams.abilityModifier,
+          skillParams.skillModifier,
+          skillParams.advantage
+        );
     }
   }
 
@@ -48,12 +63,37 @@ export class ActionDispatchService {
     roll.title = ability.identifier;
     roll.character = name;
 
+    const dieCheckRoll = this.getD20Check(advantage);
+    roll.addDie(dieCheckRoll);
+    roll.addModifier({ name: ability.identifier, value: ability.modifier });
+
+    this.sendRoll(roll);
+  }
+
+  private getD20Check(advantage: string) {
     const diceCount = advantage === 'none' ? 1 : 2;
     const keep = 1;
     const keepMode: KeepMode = advantage === 'advantage' ? 'HIGHEST' : 'LOWEST';
-    roll.addDie(new RollComponent(20, diceCount, keepMode, keep));
-    roll.addModifier({ name: ability.identifier, value: ability.modifier });
+    const newLocal = new RollComponent(20, diceCount, keepMode, keep);
+    return newLocal;
+  }
 
+  private dispatchSkillCheck(
+    name: string,
+    ability: string,
+    skill: string,
+    abilityModifier: number,
+    skillModifier: number,
+    advantage: Advantage
+  ) {
+    const roll: Roll = new Roll();
+    roll.title = `skill_${skill}_${ability}`;
+    roll.character = name;
+    const dieCheckRoll = this.getD20Check(advantage);
+
+    roll.addDie(dieCheckRoll);
+    roll.addModifier({ name: ability, value: abilityModifier });
+    roll.addModifier({ name: skill, value: skillModifier });
     this.sendRoll(roll);
   }
 

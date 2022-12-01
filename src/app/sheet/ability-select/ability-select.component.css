@@ -1,0 +1,16 @@
+.ability-select-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
+.ability-grid-container {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.ability-button {
+  border-style: solid;
+  border-radius: 10%;
+}

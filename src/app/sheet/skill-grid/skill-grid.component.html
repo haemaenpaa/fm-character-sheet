@@ -1,0 +1,11 @@
+<div class="skill-grid">
+  <div *ngFor="let skill of character.skills; let i = index">
+    <skill
+      [skill]="skill"
+      [abilityModifiers]="abilityModifiers"
+      [proficiency]="character.proficiency"
+      (rankModified)="onModifyRank($event)"
+      (roll)="onSkillRoll($event)"
+    ></skill>
+  </div>
+</div>

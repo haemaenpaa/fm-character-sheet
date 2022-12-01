@@ -1,7 +1,9 @@
+import { Memoize } from 'typescript-memoize';
 import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
-import { ABILITY_ABBREVIATIONS } from './constants';
+import { SKILL_DEFAULT_ABILITIES } from './constants';
 import { Race } from './race';
+import { Skill } from './skill';
 
 class AbilityImpl implements Ability {
   identifier: string;
@@ -16,8 +18,22 @@ class AbilityImpl implements Ability {
   }
 }
 
+export interface AbilityNumberStruct {
+  br: number;
+  dex: number;
+  vit: number;
+  int: number;
+  cun: number;
+  res: number;
+  pre: number;
+  man: number;
+  com: number;
+}
+
 /**
  * A single character model, that encapsulates everything contained in a character sheet.
+ *
+ * The getters defined in this class will return a snapshot.
  */
 export class Character {
   name: string;
@@ -25,21 +41,27 @@ export class Character {
   /**
    * Abilities; brawn, dexterity etc.
    */
-  abilities: {
-    br: number;
-    dex: number;
-    vit: number;
-    int: number;
-    cun: number;
-    res: number;
-    pre: number;
-    man: number;
-    com: number;
-  };
+  abilities: AbilityNumberStruct;
   /**
    * The Ability Origin selections. A list of class abilities gained with levels.
    */
   selections: AoSelection[];
+  defaultSkills: {
+    anh: number;
+    ath: number;
+    dec: number;
+    emp: number;
+    inv: number;
+    lea: number;
+    med: number;
+    occ: number;
+    perc: number;
+    pers: number;
+    sub: number;
+    ste: number;
+    sur: number;
+  };
+  customSkills: Skill[];
 
   constructor(
     name: string,
@@ -53,7 +75,21 @@ export class Character {
     pre: number,
     man: number,
     com: number,
-    selections: AoSelection[]
+    anh: number,
+    ath: number,
+    dec: number,
+    emp: number,
+    inv: number,
+    lea: number,
+    med: number,
+    occ: number,
+    perc: number,
+    pers: number,
+    sub: number,
+    ste: number,
+    sur: number,
+    selections: AoSelection[],
+    customSkills: Skill[]
   ) {
     this.name = name;
     this.race = race;
@@ -68,8 +104,39 @@ export class Character {
       man: man,
       com: com,
     };
+    this.defaultSkills = {
+      anh: anh,
+      ath: ath,
+      dec: dec,
+      emp: emp,
+      inv: inv,
+      lea: lea,
+      med: med,
+      occ: occ,
+      perc: perc,
+      pers: pers,
+      sub: sub,
+      ste: ste,
+      sur: sur,
+    };
     this.selections = selections;
+    this.customSkills = customSkills;
   }
+  get abilityModifiers(): AbilityNumberStruct {
+    const ret: AbilityNumberStruct = {
+      br: this.brawn.modifier,
+      dex: this.dexterity.modifier,
+      vit: this.vitality.modifier,
+      int: this.intelligence.modifier,
+      cun: this.cunning.modifier,
+      res: this.resolve.modifier,
+      pre: this.presence.modifier,
+      man: this.manipulation.modifier,
+      com: this.composure.modifier,
+    };
+    return ret;
+  }
+
   get brawn(): Ability {
     return new AbilityImpl('br', this.abilities.br);
   }
@@ -137,6 +204,31 @@ export class Character {
     this.abilities.com = value;
   }
 
+  get proficiency(): number {
+    const level = this.totalLevel;
+    if (level > 16) return 6;
+    if (level > 12) return 5;
+    if (level > 8) return 4;
+    if (level > 4) return 3;
+    return 2;
+  }
+
+  @Memoize()
+  get skills(): Skill[] {
+    const ret: Skill[] = [];
+    for (const key in this.defaultSkills) {
+      const current: Skill = {
+        identifier: key,
+        name: null,
+        rank: (this.defaultSkills as any)[key],
+        defaultAbilities: [...SKILL_DEFAULT_ABILITIES[key]],
+      };
+      ret.push(current);
+    }
+    this.customSkills.forEach((s) => ret.push({ ...s }));
+    return ret;
+  }
+
   get totalLevel(): number {
     return this.selections.filter((s) => s.isPrimary).length;
   }
@@ -156,146 +248,14 @@ export class Character {
     }
     return ret;
   }
-}
 
-/**
- * Builder for ease of constructing a character.
- */
-export class CharacterBuilder {
-  name: string = '';
-  race: Race = {
-    name: '',
-    subrace: null,
-    abilities: {},
-  };
-  br: number = 10;
-  dex: number = 10;
-  vit: number = 10;
-  int: number = 10;
-  cun: number = 10;
-  res: number = 10;
-  pre: number = 10;
-  man: number = 10;
-  com: number = 10;
-
-  selections: AoSelection[] = [];
-
-  setName(name: string): CharacterBuilder {
-    this.name = name;
-    return this;
-  }
-
-  setRace(name: string, subrace?: string): CharacterBuilder {
-    this.race.name = name;
-    if (subrace) {
-      this.race.subrace = subrace;
-    } else {
-      this.race.subrace = null;
+  setSkillByIdentifier(identifier: string, rank: number) {
+    if (identifier in this.defaultSkills) {
+      (this.defaultSkills as any)[identifier] = rank;
+      return;
     }
-    return this;
-  }
-
-  setBrawn(score: number): CharacterBuilder {
-    this.br = Math.round(score);
-    return this;
-  }
-
-  setDexterity(score: number): CharacterBuilder {
-    this.dex = Math.round(score);
-    return this;
-  }
-
-  setVitality(score: number): CharacterBuilder {
-    this.vit = Math.round(score);
-    return this;
-  }
-
-  setIntelligence(score: number): CharacterBuilder {
-    this.int = Math.round(score);
-    return this;
-  }
-
-  setCunning(score: number): CharacterBuilder {
-    this.cun = Math.round(score);
-    return this;
-  }
-
-  setResolve(score: number): CharacterBuilder {
-    this.res = Math.round(score);
-    return this;
-  }
-
-  setPresence(score: number): CharacterBuilder {
-    this.pre = Math.round(score);
-    return this;
-  }
-
-  setManipulation(score: number): CharacterBuilder {
-    this.man = Math.round(score);
-    return this;
-  }
-
-  setComposure(score: number): CharacterBuilder {
-    this.com = Math.round(score);
-    return this;
-  }
-
-  addSelection(
-    ao: string,
-    level: number,
-    name: string,
-    description: string,
-    color?: string
-  ) {
-    const sel = this.buildSelection(ao, name, description, level, color);
-    this.selections.push(sel);
-    return this;
-  }
-  addSecondarySelection(
-    ao: string,
-    level: number,
-    name: string,
-    description: string,
-    color?: string
-  ) {
-    const sel = this.buildSelection(ao, name, description, level, color);
-    sel.isPrimary = false;
-    this.selections.push(sel);
-    return this;
-  }
-
-  private buildSelection(
-    ao: string,
-    name: string,
-    description: string,
-    level: number,
-    color: string | undefined
-  ) {
-    const sel = new AoSelection();
-    sel.abilityOrigin = ao;
-    sel.name = name;
-    sel.description = description;
-    sel.level = level;
-    if (color) {
-      sel.hilightColor = color;
-    }
-    return sel;
-  }
-
-  build(): Character {
-    return new Character(
-      this.name,
-      this.race,
-      this.br,
-      this.dex,
-      this.vit,
-      this.int,
-      this.cun,
-      this.res,
-      this.pre,
-      this.man,
-      this.com,
-      this.selections
-    );
+    this.customSkills
+      .filter((s) => s.identifier == identifier)
+      .forEach((s) => (s.rank = rank));
   }
 }

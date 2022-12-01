@@ -7,7 +7,7 @@ import { Roll } from 'src/app/model/diceroll';
 @Component({
   selector: 'simple-check',
   templateUrl: './simple-check.component.html',
-  styleUrls: ['./simple-check.component.css'],
+  styleUrls: ['./simple-check.component.css', '../log-row-shared.css'],
 })
 export class SimpleCheckComponent implements OnInit {
   @Input('roll') roll!: Roll;

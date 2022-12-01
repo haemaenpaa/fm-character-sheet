@@ -1,0 +1,80 @@
+.skill-box {
+  display: grid;
+  grid-template-columns: [start_side] 45% [middle_column] 10% [end_side] 45%;
+  grid-template-rows: [title] 3fr [rank] 1fr [ability] 3fr;
+  width: 100%;
+  aspect-ratio: 4;
+  border: solid;
+  border-radius: 0.5em;
+}
+
+.skill-title {
+  grid-column: start_side / span 4;
+  grid-row: title;
+  display: flex;
+  font-variant: small-caps;
+  font-weight: bold;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+}
+
+.skill-ranks {
+  grid-column: start_side/last_col;
+  grid-row: rank;
+  display: flex;
+  flex-direction: row;
+  justify-self: center;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  border-style: double none double none;
+  width: 100%;
+  padding: 0.25em;
+}
+
+.first-ability {
+  grid-column: start_side / start_side;
+  grid-row: ability;
+  display: flex;
+  align-items: center;
+  justify-items: start;
+  text-align: start;
+  border-style: none solid none solid;
+  border-radius: 1em;
+  justify-self: flex-start;
+  width: 100%;
+}
+.second-ability {
+  grid-column: end_side/end_side;
+  grid-row: ability;
+  text-align: end;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-items: end;
+  border-style: none solid none solid;
+  border-radius: 1em;
+  justify-self: flex-end;
+  width: 100%;
+}
+
+.ability-modifier {
+  font-style: italic;
+  padding-left: 0.1em;
+  padding-right: 0.1em;
+}
+
+.ability-button {
+  grid-column: middle_column / middle_column;
+  grid-row: ability;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: stretch;
+  border-style: solid none solid none;
+  border-radius: 1em;
+  width: 100%;
+}

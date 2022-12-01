@@ -2,6 +2,7 @@
   <div *ngFor="let r of rolls" class="single-roll">
     <div [ngSwitch]="rollToType(r)">
       <simple-check [roll]="r" *ngSwitchCase="'simple-check'"></simple-check>
+      <skill-check [roll]="r" *ngSwitchCase="'skill-check'"></skill-check>
       <unknown-roll *ngSwitchCase="'unknown'" [roll]="r"></unknown-roll>
     </div>
   </div>
