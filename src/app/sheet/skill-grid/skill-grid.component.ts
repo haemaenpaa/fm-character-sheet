@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Character } from 'src/app/model/character';
 import { SkillParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { Memoize } from 'typescript-memoize';
 import { SkillCheckEvent, SkillSetEvent } from '../skill/skill.component';
 
 @Component({
@@ -15,6 +16,7 @@ export class SkillGridComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  @Memoize()
   get abilityModifiers(): { [key: string]: number } {
     console.log('AbilityModifiers get');
     return this.character.abilityModifiers as unknown as {

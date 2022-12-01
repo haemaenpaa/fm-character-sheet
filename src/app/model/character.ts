@@ -1,3 +1,4 @@
+import { Memoize } from 'typescript-memoize';
 import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
 import { SKILL_DEFAULT_ABILITIES } from './constants';
@@ -212,6 +213,7 @@ export class Character {
     return 2;
   }
 
+  @Memoize()
   get skills(): Skill[] {
     const ret: Skill[] = [];
     for (const key in this.defaultSkills) {
