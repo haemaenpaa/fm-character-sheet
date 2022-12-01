@@ -16,6 +16,7 @@ export class SkillGridComponent implements OnInit {
   ngOnInit(): void {}
 
   get abilityModifiers(): { [key: string]: number } {
+    console.log('AbilityModifiers get');
     return this.character.abilityModifiers as unknown as {
       [key: string]: number;
     };

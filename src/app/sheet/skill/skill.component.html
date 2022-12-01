@@ -20,7 +20,7 @@
     (click)="callRoll(skill.defaultAbilities[0])"
   >
     <div>
-      {{ skill.defaultAbilities[0] | abilityName: "short" }}
+      {{ skill.defaultAbilities[0] | abilityName : "short" }}
       <span class="ability-modifier">
         {{
           abilityModifiers[skill.defaultAbilities[0]] + skillModifier | modifier
@@ -39,8 +39,10 @@
           abilityModifiers[skill.defaultAbilities[1]] + skillModifier | modifier
         }}
       </span>
-      <span>{{ skill.defaultAbilities[1] | abilityName: "short" }}</span>
+      <span>{{ skill.defaultAbilities[1] | abilityName : "short" }}</span>
     </div>
   </div>
-  <div class="ability-button">{{ skillModifier | modifier }}</div>
+  <div class="ability-button" (click)="callCustomRoll()">
+    {{ skillModifier | modifier }}
+  </div>
 </div>

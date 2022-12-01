@@ -212,7 +212,7 @@ export class Character {
     return 2;
   }
 
-  getSkills(): Skill[] {
+  get skills(): Skill[] {
     const ret: Skill[] = [];
     for (const key in this.defaultSkills) {
       const current: Skill = {
