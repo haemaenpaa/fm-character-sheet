@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Character } from '../model/character';
+import Character from '../model/character';
 import { CharacterBuilder } from '../model/character-builder';
 
 /**

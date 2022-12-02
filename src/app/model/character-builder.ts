@@ -1,7 +1,7 @@
 import { AoSelection } from './ao-selection';
 import { Race } from './race';
 import { Skill } from './skill';
-import { Character } from './character';
+import Character from './character';
 
 /**
  * Builder for ease of constructing a character.

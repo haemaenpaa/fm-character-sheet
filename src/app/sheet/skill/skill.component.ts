@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AbilityNumberStruct } from 'src/app/model/character';
 import { Skill } from 'src/app/model/skill';
 import { AbilitySelectComponent } from '../ability-select/ability-select.component';
 
@@ -27,7 +28,7 @@ export interface SkillSetEvent {
 export class SkillComponent {
   @Input() skill!: Skill;
   @Input() proficiency!: number;
-  @Input() abilityModifiers!: { [key: string]: number };
+  @Input() abilityModifiers!: AbilityNumberStruct;
 
   @Output() rankModified: EventEmitter<SkillSetEvent> = new EventEmitter();
   @Output() roll: EventEmitter<SkillCheckEvent> = new EventEmitter(true);
@@ -38,6 +39,9 @@ export class SkillComponent {
 
   get skillModifier(): number {
     return Math.ceil((this.skill.rank * this.proficiency) / 2);
+  }
+  abilityModifier(id: string): number {
+    return (this.abilityModifiers as unknown as { [key: string]: number })[id];
   }
 
   setRank(rank: number) {
