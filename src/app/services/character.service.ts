@@ -40,7 +40,13 @@ export class CharacterService {
         'Mastery',
         'You basically get Kung Fu points.'
       )
+      .setSubterfuge(2)
+      .setDeception(3)
+      .setMedicine(1)
       .addCustomSkill('Academics (herpetology)', 3, ['int'])
+      .addCustomSkill('Craft (basket weaving)', 2, ['dex', 'cun'])
+      .addCustomSkill('Game (poker)', 1, ['com', 'cun'])
+      .addCustomSkill('Instrument (violoncello)', 4, ['com', 'cun'])
       .setRace('Tiefling', 'Amakhnupis')
       .setName('Giordi')
       .build();
