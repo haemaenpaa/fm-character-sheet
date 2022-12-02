@@ -23,7 +23,7 @@
       {{ skill.defaultAbilities[0] | abilityName : "short" }}
       <span class="ability-modifier">
         {{
-          abilityModifiers[skill.defaultAbilities[0]] + skillModifier | modifier
+          abilityModifier(skill.defaultAbilities[0]) + skillModifier | modifier
         }}
       </span>
     </div>
@@ -36,7 +36,7 @@
     <div>
       <span class="ability-modifier">
         {{
-          abilityModifiers[skill.defaultAbilities[1]] + skillModifier | modifier
+          abilityModifier(skill.defaultAbilities[1]) + skillModifier | modifier
         }}
       </span>
       <span>{{ skill.defaultAbilities[1] | abilityName : "short" }}</span>

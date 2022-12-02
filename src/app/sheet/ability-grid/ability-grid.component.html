@@ -1,64 +1,56 @@
 <div class="ability-grid-container grid-border">
   <div class="br-cell">
     <ability-score
-      [ability]="character.brawn"
-      (modified)="character.setBrawn($event)"
+      [ability]="character.abilities.br"
+      (modified)="character.abilities.setBr($event)"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="int-cell">
     <ability-score
-      [ability]="character.intelligence"
-      (modified)="character.setIntelligence($event)"
+      [ability]="character.abilities.int"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="pre-cell">
     <ability-score
-      [ability]="character.presence"
-      (modified)="character.setPresence($event)"
+      [ability]="character.abilities.pre"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="dex-cell">
     <ability-score
-      [ability]="character.dexterity"
-      (modified)="character.setDexterity($event)"
+      [ability]="character.abilities.dex"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="cun-cell">
     <ability-score
-      [ability]="character.cunning"
-      (modified)="character.setCunning($event)"
+      [ability]="character.abilities.cun"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="man-cell">
     <ability-score
-      [ability]="character.manipulation"
-      (modified)="character.setManipulation($event)"
+      [ability]="character.abilities.man"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="vit-cell">
     <ability-score
-      [ability]="character.vitality"
-      (modified)="character.setVitality($event)"
+      [ability]="character.abilities.vit"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="res-cell">
     <ability-score
-      [ability]="character.resolve"
-      (modified)="character.setResolve($event)"
+      [ability]="character.abilities.res"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="com-cell">
     <ability-score
-      [ability]="character.composure"
-      (modified)="character.setComposure($event)"
+      [ability]="character.abilities.com"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>

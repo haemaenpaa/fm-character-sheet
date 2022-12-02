@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
-import { Character } from 'src/app/model/character';
-import { Roll, RollComponent } from 'src/app/model/diceroll';
+import Character from 'src/app/model/character';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 
 /**

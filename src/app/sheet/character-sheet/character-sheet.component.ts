@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Character } from 'src/app/model/character';
+import Character from 'src/app/model/character';
 import { CharacterService } from 'src/app/services/character.service';
 
 /**
@@ -28,7 +28,7 @@ export class CharacterSheetComponent implements OnInit {
    */
   get levelList(): LevelStruct[] {
     var ret: LevelStruct[] = [];
-    const aoLevels = this.character.aoLevels;
+    const aoLevels = this.character.getAoLevels();
     for (let ao in aoLevels) {
       ret.push({ abilityOrigin: ao, level: aoLevels[ao] });
     }

@@ -1,22 +1,10 @@
 import { Memoize } from 'typescript-memoize';
 import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
+import CharacterAbilities from './character-abilities';
 import { SKILL_DEFAULT_ABILITIES } from './constants';
 import { Race } from './race';
 import { Skill } from './skill';
-
-class AbilityImpl implements Ability {
-  identifier: string;
-  score: number;
-
-  constructor(name: string, score: number) {
-    this.identifier = name;
-    this.score = score;
-  }
-  get modifier(): number {
-    return Math.floor((this.score - 10) / 2);
-  }
-}
 
 export interface AbilityNumberStruct {
   br: number;
@@ -33,15 +21,14 @@ export interface AbilityNumberStruct {
 /**
  * A single character model, that encapsulates everything contained in a character sheet.
  *
- * The getters defined in this class will return a snapshot.
  */
-export class Character {
+export default class Character {
   name: string;
   race: Race;
   /**
    * Abilities; brawn, dexterity etc.
    */
-  abilities: AbilityNumberStruct;
+  abilities: CharacterAbilities;
   /**
    * The Ability Origin selections. A list of class abilities gained with levels.
    */
@@ -93,17 +80,17 @@ export class Character {
   ) {
     this.name = name;
     this.race = race;
-    this.abilities = {
-      br: br,
-      dex: dex,
-      vit: vit,
-      int: int,
-      cun: cun,
-      res: res,
-      pre: pre,
-      man: man,
-      com: com,
-    };
+    this.abilities = new CharacterAbilities();
+
+    this.abilities.br.score = br;
+    this.abilities.dex.score = dex;
+    this.abilities.vit.score = vit;
+    this.abilities.int.score = int;
+    this.abilities.cun.score = cun;
+    this.abilities.res.score = res;
+    this.abilities.pre.score = pre;
+    this.abilities.man.score = man;
+    this.abilities.com.score = com;
     this.defaultSkills = {
       anh: anh,
       ath: ath,
@@ -122,86 +109,23 @@ export class Character {
     this.selections = selections;
     this.customSkills = customSkills;
   }
-  get abilityModifiers(): AbilityNumberStruct {
+  /**
+   * Gets a struct of ability modifiers.
+   * @returns Snapshot of current ability modifiers.
+   */
+  getAbilityModifiers(): AbilityNumberStruct {
     const ret: AbilityNumberStruct = {
-      br: this.brawn.modifier,
-      dex: this.dexterity.modifier,
-      vit: this.vitality.modifier,
-      int: this.intelligence.modifier,
-      cun: this.cunning.modifier,
-      res: this.resolve.modifier,
-      pre: this.presence.modifier,
-      man: this.manipulation.modifier,
-      com: this.composure.modifier,
+      br: this.abilities.br.modifier,
+      dex: this.abilities.dex.modifier,
+      vit: this.abilities.vit.modifier,
+      int: this.abilities.int.modifier,
+      cun: this.abilities.cun.modifier,
+      res: this.abilities.res.modifier,
+      pre: this.abilities.pre.modifier,
+      man: this.abilities.man.modifier,
+      com: this.abilities.com.modifier,
     };
     return ret;
-  }
-
-  get brawn(): Ability {
-    return new AbilityImpl('br', this.abilities.br);
-  }
-  setBrawn(value: number) {
-    this.abilities.br = value;
-  }
-  get dexterity(): Ability {
-    return new AbilityImpl('dex', this.abilities.dex);
-  }
-  setDexterity(value: number) {
-    this.abilities.dex = value;
-  }
-
-  get vitality(): Ability {
-    return new AbilityImpl('vit', this.abilities.vit);
-  }
-  setVitality(value: number) {
-    this.abilities.vit = value;
-  }
-
-  get intelligence(): Ability {
-    return new AbilityImpl('int', this.abilities.int);
-  }
-  setIntelligence(value: number) {
-    this.abilities.int = value;
-  }
-
-  get cunning(): Ability {
-    const name = 'cun';
-    return new AbilityImpl(name, this.abilities[name]);
-  }
-  setCunning(value: number) {
-    this.abilities.cun = value;
-  }
-
-  get resolve(): Ability {
-    const name = 'res';
-    return new AbilityImpl(name, this.abilities[name]);
-  }
-  setResolve(value: number) {
-    this.abilities.res = value;
-  }
-
-  get presence(): Ability {
-    const name = 'pre';
-    return new AbilityImpl(name, this.abilities[name]);
-  }
-  setPresence(value: number) {
-    this.abilities.pre = value;
-  }
-
-  get manipulation(): Ability {
-    const name = 'man';
-    return new AbilityImpl(name, this.abilities[name]);
-  }
-  setManipulation(value: number) {
-    this.abilities.man = value;
-  }
-
-  get composure(): Ability {
-    const name = 'com';
-    return new AbilityImpl(name, this.abilities[name]);
-  }
-  setComposure(value: number) {
-    this.abilities.com = value;
   }
 
   get proficiency(): number {
@@ -213,8 +137,12 @@ export class Character {
     return 2;
   }
 
+  /**
+   * Getter for the character's skills.
+   * @returns Snapshot of the character's skills
+   */
   @Memoize()
-  get skills(): Skill[] {
+  getAllSkills(): Skill[] {
     const ret: Skill[] = [];
     for (const key in this.defaultSkills) {
       const current: Skill = {
@@ -235,8 +163,11 @@ export class Character {
 
   /**
    * Counts the total amount of primary selections from each AO, to deduce the total level.
+   *
+   * @returns Snapshot of the character's current AO levels.
    */
-  get aoLevels(): { [key: string]: number } {
+  @Memoize()
+  getAoLevels(): { [key: string]: number } {
     var ret: { [key: string]: number } = {};
     for (let selection of this.selections.filter((s) => s.isPrimary)) {
       const abilityOrigin = selection.abilityOrigin;
