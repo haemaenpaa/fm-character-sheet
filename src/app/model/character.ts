@@ -196,4 +196,20 @@ export default class Character {
       .filter((s) => s.identifier == identifier)
       .forEach((s) => (s.rank = rank));
   }
+
+  addSavingThrow(save: string) {
+    const present = this.savingThrows.find((s) => s === save);
+    if (present != null) {
+      return;
+    }
+    this.savingThrows = [...this.savingThrows, save];
+  }
+
+  removeSavingThrow(save: string) {
+    const present = this.savingThrows.find((s) => s === save);
+    if (present === null) {
+      return;
+    }
+    this.savingThrows = this.savingThrows.filter((s) => s !== save);
+  }
 }

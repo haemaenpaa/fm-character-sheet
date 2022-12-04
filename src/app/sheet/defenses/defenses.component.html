@@ -1,1 +1,16 @@
-<p>defenses works!</p>
+<div class="defenses-container">
+  <div class="av-container">
+    <div class="av-label">AV</div>
+    <span class="av-value">{{ character?.armorValue }}</span>
+  </div>
+  <div class="saves-container">
+    <div class="saves-label">Saving throws</div>
+    <saving-throw
+      *ngFor="let save of savingThrows"
+      [hasSave]="hasSave(save)"
+      [ability]="save.split('/')"
+      (toggle)="toggleAbility(save, $event)"
+      (roll)="callRoll(save)"
+    ></saving-throw>
+  </div>
+</div>

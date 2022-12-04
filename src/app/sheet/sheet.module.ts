@@ -16,6 +16,8 @@ import { SkillGridComponent } from './skill-grid/skill-grid.component';
 import { SkillCheckComponent } from './roll-log/skill-check/skill-check.component';
 import { AbilitySelectComponent } from './ability-select/ability-select.component';
 import { DefensesComponent } from './defenses/defenses.component';
+import { SavingThrowComponent } from './saving-throw/saving-throw.component';
+import { SavingThrowLogComponent } from './roll-log/saving-throw-log/saving-throw-log.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -37,6 +39,8 @@ import { DefensesComponent } from './defenses/defenses.component';
     SkillCheckComponent,
     AbilitySelectComponent,
     DefensesComponent,
+    SavingThrowComponent,
+    SavingThrowLogComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([])],
   exports: [CharacterSheetComponent],

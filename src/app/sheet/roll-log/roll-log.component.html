@@ -3,6 +3,10 @@
     <div [ngSwitch]="rollToType(r)">
       <simple-check [roll]="r" *ngSwitchCase="'simple-check'"></simple-check>
       <skill-check [roll]="r" *ngSwitchCase="'skill-check'"></skill-check>
+      <saving-throw-log
+        [roll]="r"
+        *ngSwitchCase="'saving-throw'"
+      ></saving-throw-log>
       <unknown-roll *ngSwitchCase="'unknown'" [roll]="r"></unknown-roll>
     </div>
   </div>

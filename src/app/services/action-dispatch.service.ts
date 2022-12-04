@@ -5,6 +5,7 @@ import {
   Advantage,
   CheckParams,
   GameAction,
+  SaveParams,
   SkillParams,
 } from '../model/game-action';
 import { Ability } from '../model/ability';
@@ -41,6 +42,15 @@ export class ActionDispatchService {
           params.advantage
         );
         break;
+      case 'ability-save':
+        this.dispatchSavingThrow(
+          params.characterName,
+          (params as CheckParams).ability,
+          (params as SaveParams).abilities,
+          (params as SaveParams).proficiency,
+          params.advantage
+        );
+        break;
       case 'skill-check':
         const skillParams = params as SkillParams;
         this.dispatchSkillCheck(
@@ -66,6 +76,32 @@ export class ActionDispatchService {
     const dieCheckRoll = this.getD20Check(advantage);
     roll.addDie(dieCheckRoll);
     roll.addModifier({ name: ability.identifier, value: ability.modifier });
+
+    this.sendRoll(roll);
+  }
+  private dispatchSavingThrow(
+    name: string,
+    ability: Ability,
+    abilities: string[],
+    proficiency: number | null,
+    advantage: Advantage
+  ) {
+    const roll: Roll = new Roll();
+    roll.title = abilities.join('/') + '_save';
+    roll.character = name;
+
+    const dieCheckRoll = this.getD20Check(advantage);
+    roll.addDie(dieCheckRoll);
+    roll.addModifier({
+      name: ability.identifier,
+      value: ability.modifier,
+    });
+    if (proficiency) {
+      roll.addModifier({
+        name: 'proficiency',
+        value: proficiency,
+      });
+    }
 
     this.sendRoll(roll);
   }
