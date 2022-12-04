@@ -43,6 +43,7 @@ export class CharacterBuilder {
   selections: AoSelection[] = [];
   skills: Skill[] = [];
   savingThrows: string[] = [];
+  armorValueOverride: number | null = null;
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -237,6 +238,10 @@ export class CharacterBuilder {
   }
 
   build(): Character {
+    var armorValue = 10 + Math.floor((this.dex - 10) / 2);
+    if (this.armorValueOverride) {
+      armorValue = this.armorValueOverride;
+    }
     return new Character(
       this.name,
       this.race,
@@ -265,7 +270,8 @@ export class CharacterBuilder {
       this.defaultSkills.sur,
       this.selections,
       this.skills,
-      this.savingThrows
+      this.savingThrows,
+      armorValue
     );
   }
 }
