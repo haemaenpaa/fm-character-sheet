@@ -50,6 +50,8 @@ export default class Character {
   };
   customSkills: Skill[];
 
+  savingThrows: string[];
+
   constructor(
     name: string,
     race: Race,
@@ -76,7 +78,8 @@ export default class Character {
     ste: number,
     sur: number,
     selections: AoSelection[],
-    customSkills: Skill[]
+    customSkills: Skill[],
+    savingThrows: string[]
   ) {
     this.name = name;
     this.race = race;
@@ -108,6 +111,7 @@ export default class Character {
     };
     this.selections = selections;
     this.customSkills = customSkills;
+    this.savingThrows = savingThrows;
   }
   /**
    * Gets a struct of ability modifiers.

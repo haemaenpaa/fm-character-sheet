@@ -42,6 +42,7 @@ export class CharacterBuilder {
 
   selections: AoSelection[] = [];
   skills: Skill[] = [];
+  savingThrows: string[] = [];
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -206,6 +207,17 @@ export class CharacterBuilder {
     return this;
   }
 
+  addSavingThrow(save: string): CharacterBuilder {
+    if (!(save in this.savingThrows)) {
+      this.savingThrows.push(save);
+    }
+    return this;
+  }
+  removeSavingThrow(save: string): CharacterBuilder {
+    this.savingThrows = this.savingThrows.filter((s) => s !== save);
+    return this;
+  }
+
   private buildSelection(
     ao: string,
     name: string,
@@ -252,7 +264,8 @@ export class CharacterBuilder {
       this.defaultSkills.ste,
       this.defaultSkills.sur,
       this.selections,
-      this.skills
+      this.skills,
+      this.savingThrows
     );
   }
 }
