@@ -15,7 +15,7 @@ import { SkillNamePipe } from './skill/skill-name.pipe';
 import { SkillGridComponent } from './skill-grid/skill-grid.component';
 import { SkillCheckComponent } from './roll-log/skill-check/skill-check.component';
 import { AbilitySelectComponent } from './ability-select/ability-select.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { DefensesComponent } from './defenses/defenses.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -36,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SkillGridComponent,
     SkillCheckComponent,
     AbilitySelectComponent,
+    DefensesComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([])],
   exports: [CharacterSheetComponent],

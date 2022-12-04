@@ -1,4 +1,4 @@
-<div class="rolls-display">
+<div #logScroll class="rolls-display">
   <div *ngFor="let r of rolls" class="single-roll">
     <div [ngSwitch]="rollToType(r)">
       <simple-check [roll]="r" *ngSwitchCase="'simple-check'"></simple-check>

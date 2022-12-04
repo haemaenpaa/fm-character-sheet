@@ -25,7 +25,25 @@
     <ability-grid [character]="character"></ability-grid>
   </div>
   <div>
-    <router-outlet name="upper-outlet"></router-outlet>
+    <div class="nav-tab-container">
+      <div
+        class="nav-tab"
+        [routerLink]="[{ outlets: { 'upper-outlet': ['defenses'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Defenses
+      </div>
+      <div
+        class="nav-tab-last"
+        [routerLink]="[{ outlets: { 'upper-outlet': ['rolls'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Rolls
+      </div>
+    </div>
+    <div class="tab-router-container">
+      <router-outlet name="upper-outlet"></router-outlet>
+    </div>
   </div>
   <div class="character-skills section-container">
     <span class="section-header">Skills</span>
