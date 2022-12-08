@@ -17,6 +17,6 @@
     />
   </div>
   <div class="ability-modifier" (click)="emitRoll()">
-    {{ (ability.modifier >= 0 ? "+" : "") + ability.modifier }}
+    {{ ability.modifier | modifier }}
   </div>
 </div>
