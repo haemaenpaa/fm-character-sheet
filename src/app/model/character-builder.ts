@@ -44,6 +44,7 @@ export class CharacterBuilder {
   skills: Skill[] = [];
   savingThrows: string[] = [];
   armorValueOverride: number | null = null;
+  hitPointMaximum: number = 0;
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -219,6 +220,11 @@ export class CharacterBuilder {
     return this;
   }
 
+  setMaxHP(hp: number): CharacterBuilder {
+    this.hitPointMaximum = hp;
+    return this;
+  }
+
   private buildSelection(
     ao: string,
     name: string,
@@ -271,7 +277,8 @@ export class CharacterBuilder {
       this.selections,
       this.skills,
       this.savingThrows,
-      armorValue
+      armorValue,
+      this.hitPointMaximum
     );
   }
 }

@@ -1,5 +1,4 @@
 import { Memoize } from 'typescript-memoize';
-import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
 import CharacterAbilities from './character-abilities';
 import { SKILL_DEFAULT_ABILITIES } from './constants';
@@ -52,6 +51,9 @@ export default class Character {
 
   savingThrows: string[];
   armorValue: number;
+  hitPointTotal: number;
+  hitPointMaximum: number;
+  tempHitPoints: number;
 
   constructor(
     name: string,
@@ -81,7 +83,8 @@ export default class Character {
     selections: AoSelection[],
     customSkills: Skill[],
     savingThrows: string[],
-    armorValue: number
+    armorValue: number,
+    hitPointMax: number
   ) {
     this.name = name;
     this.race = race;
@@ -115,6 +118,9 @@ export default class Character {
     this.customSkills = customSkills;
     this.savingThrows = savingThrows;
     this.armorValue = armorValue;
+    this.hitPointMaximum = hitPointMax;
+    this.hitPointTotal = this.hitPointMaximum;
+    this.tempHitPoints = 0;
   }
   /**
    * Gets a struct of ability modifiers.

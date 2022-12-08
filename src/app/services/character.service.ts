@@ -49,6 +49,7 @@ export class CharacterService {
       .addCustomSkill('Instrument (violoncello)', 4, ['com', 'cun'])
       .addSavingThrow('br')
       .addSavingThrow('pre/man')
+      .setMaxHP(30)
       .setRace('Tiefling', 'Amakhnupis')
       .setName('Giordi')
       .build();
