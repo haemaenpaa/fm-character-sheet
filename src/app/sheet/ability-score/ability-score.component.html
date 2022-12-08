@@ -1,12 +1,14 @@
 <div class="score-box">
   <div class="ability-name">
-    {{ ability.identifier | abilityName: "long" }}
+    {{ ability.identifier | abilityName : "long" }}
   </div>
   <div class="ability-score" *ngIf="!editing" (click)="startEditing()">
     {{ ability.score }}
   </div>
   <div class="ability-score" *ngIf="editing">
     <input
+      [cdkTrapFocus]="editing"
+      [cdkTrapFocusAutoCapture]="editing"
       class="ability-score-edit"
       type="text"
       [value]="ability.score"
