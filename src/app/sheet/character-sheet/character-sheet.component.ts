@@ -45,7 +45,6 @@ export class CharacterSheetComponent implements OnInit {
   }
 
   onOutletLoaded(component: any) {
-    console.log('Outlet loaded', component);
     if ('character' in component) {
       component.character = this.character;
     }

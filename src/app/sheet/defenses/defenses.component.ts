@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import Character from 'src/app/model/character';
 import { SaveParams } from 'src/app/model/game-action';
@@ -26,10 +26,7 @@ export class DefensesComponent {
     'com',
   ];
 
-  constructor(
-    private actionService: ActionDispatchService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+  constructor(private actionService: ActionDispatchService) {}
 
   hasSave(save: string): boolean {
     if (!this.character) {
@@ -72,7 +69,6 @@ export class DefensesComponent {
   toggleAbility(save: string, newValue: boolean) {
     if (newValue) {
       this.character?.addSavingThrow(save);
-      console.log(this.character?.savingThrows);
     } else {
       this.character?.removeSavingThrow(save);
     }
@@ -85,7 +81,6 @@ export class DefensesComponent {
         0,
         this.character.hitPointMaximum
       );
-      console.log('HP total changed', $event, this.character.hitPointTotal);
     }
   }
   onTempHpChanged($event: number) {
