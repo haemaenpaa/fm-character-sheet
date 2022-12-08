@@ -18,6 +18,8 @@ import { AbilitySelectComponent } from './ability-select/ability-select.componen
 import { DefensesComponent } from './defenses/defenses.component';
 import { SavingThrowComponent } from './saving-throw/saving-throw.component';
 import { SavingThrowLogComponent } from './roll-log/saving-throw-log/saving-throw-log.component';
+import { HitPointsComponent } from './hit-points/hit-points.component';
+import { A11yModule } from '@angular/cdk/a11y';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -41,8 +43,9 @@ import { SavingThrowLogComponent } from './roll-log/saving-throw-log/saving-thro
     DefensesComponent,
     SavingThrowComponent,
     SavingThrowLogComponent,
+    HitPointsComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild([])],
+  imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],
 })
 export class SheetModule {}

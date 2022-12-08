@@ -4,6 +4,13 @@
   grid-template-columns: max-content max-content;
   padding: 0.5em;
 }
+.hp-and-av {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: space-around;
+  height: fit-content;
+}
 
 .av-container {
   grid-row: 1;
@@ -13,7 +20,6 @@
   border-radius: 1em;
   border-style: double;
   width: max-content;
-  aspect-ratio: 1;
   padding: 0.5em;
   justify-self: center;
   align-self: center;

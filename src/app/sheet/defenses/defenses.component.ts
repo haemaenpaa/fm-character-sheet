@@ -1,8 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import Character from 'src/app/model/character';
 import { SaveParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+
+function clamp(num: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, num));
+}
 
 @Component({
   selector: 'defenses',
@@ -22,7 +26,10 @@ export class DefensesComponent {
     'com',
   ];
 
-  constructor(private actionService: ActionDispatchService) {}
+  constructor(
+    private actionService: ActionDispatchService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   hasSave(save: string): boolean {
     if (!this.character) {
@@ -68,6 +75,22 @@ export class DefensesComponent {
       console.log(this.character?.savingThrows);
     } else {
       this.character?.removeSavingThrow(save);
+    }
+  }
+
+  onHpTotalChanged($event: number) {
+    if (this.character) {
+      this.character.hitPointTotal = clamp(
+        $event,
+        0,
+        this.character.hitPointMaximum
+      );
+      console.log('HP total changed', $event, this.character.hitPointTotal);
+    }
+  }
+  onTempHpChanged($event: number) {
+    if (this.character) {
+      this.character.tempHitPoints = Math.max($event, 0);
     }
   }
 }
