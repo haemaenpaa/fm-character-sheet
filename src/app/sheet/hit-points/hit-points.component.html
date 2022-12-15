@@ -7,6 +7,7 @@
     >{{ current }}</span
   >
   <input
+    id="current-edit"
     [cdkTrapFocusAutoCapture]="editingCurrent"
     [cdkTrapFocus]="editingCurrent"
     class="hp-edit"
@@ -22,6 +23,7 @@
     {{ temporary }}
   </span>
   <input
+    id="temp-edit"
     [cdkTrapFocusAutoCapture]="editingTemp"
     [cdkTrapFocus]="editingTemp"
     class="hp-edit"

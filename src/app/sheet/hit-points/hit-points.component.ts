@@ -5,7 +5,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { throwIfEmpty } from 'rxjs';
 
 @Component({
   selector: 'hit-points',
@@ -16,8 +15,6 @@ export class HitPointsComponent {
   @Input() current!: number;
   @Input() max!: number;
   @Input() temporary!: number;
-
-  @ViewChild('currentEdit') currentEdit: HTMLInputElement | null = null;
 
   editingCurrent: boolean = false;
   editingTemp: boolean = false;
@@ -41,6 +38,7 @@ export class HitPointsComponent {
   }
 
   onInputValueChanged(event: Event) {
+    console.log('onInputValueChanged', event.target);
     const element = event.target as HTMLInputElement;
     const value = element.value.trim();
     const newValue = this.applyChange(this.current, value);
