@@ -225,6 +225,11 @@ export class CharacterBuilder {
     return this;
   }
 
+  setArmorValue(av: number | null): CharacterBuilder {
+    this.armorValueOverride = av;
+    return this;
+  }
+
   private buildSelection(
     ao: string,
     name: string,
