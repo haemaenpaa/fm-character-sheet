@@ -2,7 +2,7 @@
   <div class="hp-and-av">
     <div class="av-container">
       <div class="av-label">AV</div>
-      <span class="av-value">{{ character?.armorValue }}</span>
+      <span id="av-display" class="av-value">{{ character?.armorValue }}</span>
     </div>
     <hit-points
       [current]="character?.hitPointTotal || 0"

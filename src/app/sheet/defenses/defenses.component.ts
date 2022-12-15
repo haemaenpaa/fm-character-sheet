@@ -51,7 +51,6 @@ export class DefensesComponent {
         maxAbility = current;
       }
     }
-
     const parameters: SaveParams = {
       abilities: abilities,
       characterName: this.character.name,
