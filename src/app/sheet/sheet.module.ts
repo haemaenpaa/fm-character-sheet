@@ -20,6 +20,8 @@ import { SavingThrowComponent } from './saving-throw/saving-throw.component';
 import { SavingThrowLogComponent } from './roll-log/saving-throw-log/saving-throw-log.component';
 import { HitPointsComponent } from './hit-points/hit-points.component';
 import { A11yModule } from '@angular/cdk/a11y';
+import { ResistancesComponent } from './resistances/resistances.component';
+import { ResistanceItemComponent } from './resistances/resistance-item/resistance-item.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -44,6 +46,8 @@ import { A11yModule } from '@angular/cdk/a11y';
     SavingThrowComponent,
     SavingThrowLogComponent,
     HitPointsComponent,
+    ResistancesComponent,
+    ResistanceItemComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

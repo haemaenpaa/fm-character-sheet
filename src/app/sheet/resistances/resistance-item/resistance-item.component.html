@@ -1,0 +1,15 @@
+<div class="resistance-item-container">
+  <span id="resistance-value" class="resistance-name">
+    {{ resistance.value }}
+  </span>
+  <span
+    id="resistance-immunity"
+    class="resistance-modifier"
+    *ngIf="resistance.type === 'immunity'"
+  >
+    I
+  </span>
+  <span id="resistance-racial" class="resistance-modifier" *ngIf="racial">
+    R
+  </span>
+</div>

@@ -52,7 +52,7 @@ export class CharacterService {
       .setMaxHP(30)
       .setRace('Tiefling', 'Amakhnupis')
       .addRaceDmgResistance('Necrotic')
-      .addRaceStatusResistance('Fear')
+      .addRaceStatusResistance('Fear', 'immunity')
       .addDmgResistance('Thunder', 'immunity')
       .addStatusResistance('Deafened', 'immunity')
       .setName('Giordi')

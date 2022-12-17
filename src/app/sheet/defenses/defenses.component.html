@@ -1,10 +1,11 @@
 <div class="defenses-container">
   <div class="hp-and-av">
-    <div class="av-container">
+    <div class="av-container container-border">
       <div class="av-label">AV</div>
       <span id="av-display" class="av-value">{{ character?.armorValue }}</span>
     </div>
     <hit-points
+      class="container-border"
       [current]="character?.hitPointTotal || 0"
       [max]="character?.hitPointMaximum || 0"
       [temporary]="character?.tempHitPoints || 0"
@@ -12,8 +13,8 @@
       (tempChanged)="onTempHpChanged($event)"
     ></hit-points>
   </div>
-  <div class="saves-container">
-    <div class="saves-label">Saving throws</div>
+  <div class="saves-container container-border">
+    <div class="label">Saving throws</div>
     <saving-throw
       *ngFor="let save of savingThrows"
       [hasSave]="hasSave(save)"
@@ -21,5 +22,21 @@
       (toggle)="toggleAbility(save, $event)"
       (roll)="callRoll(save)"
     ></saving-throw>
+  </div>
+  <div class="resistance-container container-border">
+    <div class="status-resistance-container">
+      <div class="label">Status resistances</div>
+      <resistances
+        [racialResistances]="character?.race?.statusResistances || []"
+        [resistances]="character?.statusResistances || []"
+      ></resistances>
+    </div>
+    <div class="damage-resistance-container">
+      <div class="label">Damage resistances</div>
+      <resistances
+        [racialResistances]="character?.race?.damageResistances || []"
+        [resistances]="character?.damageResistances || []"
+      ></resistances>
+    </div>
   </div>
 </div>

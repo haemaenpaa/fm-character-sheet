@@ -1,8 +1,9 @@
 .defenses-container {
   display: grid;
-  grid-template-rows: 1fr 3fr;
+  grid-template-rows: 1fr 3fr [end];
   grid-template-columns: max-content max-content;
   padding: 0.5em;
+  height: 100%;
 }
 .hp-and-av {
   display: flex;
@@ -12,13 +13,20 @@
   height: fit-content;
 }
 
+.container-border {
+  border-radius: 1em;
+  border-style: double;
+  border-radius: 1em;
+  border-width: 5px;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+
 .av-container {
   grid-row: 1;
   grid-column: 1;
   display: flex;
   flex-direction: column;
-  border-radius: 1em;
-  border-style: double;
   width: max-content;
   padding: 0.5em;
   justify-self: center;
@@ -41,15 +49,27 @@
   display: grid;
   grid-template-columns: max-content max-content;
   grid-auto-flow: row;
-  border-style: solid;
   width: fit-content;
-  margin: 0.5em;
   padding: 0.5em;
-  border-width: 2px;
-  border-radius: 1em;
 }
 
-.saves-label {
+.resistance-container {
+  grid-column: 2;
+  grid-row: 1 / end;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+.status-resistance-container {
+  margin-block-end: 1em;
+}
+
+.damage-resistance-container {
+  padding-top: 1em;
+}
+
+.label {
   font-variant: small-caps;
   grid-row: 1/1;
   grid-column: 1 / 3;

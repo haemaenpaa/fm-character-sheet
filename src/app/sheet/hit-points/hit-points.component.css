@@ -1,8 +1,6 @@
 .hp-box {
   display: grid;
   grid-template-columns: [label] max-content [value] 3fr [slash]1fr [max] 3fr;
-  border-style: double;
-  border-radius: 1em;
   align-items: center;
   justify-items: center;
   height: 100%;
