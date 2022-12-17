@@ -2,6 +2,7 @@ import { AoSelection } from './ao-selection';
 import { Race } from './race';
 import { Skill } from './skill';
 import Character from './character';
+import Resistance, { ResistanceType } from './resistance';
 
 /**
  * Builder for ease of constructing a character.
@@ -13,6 +14,8 @@ export class CharacterBuilder {
     name: '',
     subrace: null,
     abilities: {},
+    damageResistances: [],
+    statusResistances: [],
   };
   br: number = 10;
   dex: number = 10;
@@ -45,6 +48,8 @@ export class CharacterBuilder {
   savingThrows: string[] = [];
   armorValueOverride: number | null = null;
   hitPointMaximum: number = 0;
+  damageResistances: Resistance[] = [];
+  statusResistances: Resistance[] = [];
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -58,6 +63,55 @@ export class CharacterBuilder {
     } else {
       this.race.subrace = null;
     }
+    return this;
+  }
+
+  addRaceDmgResistance(
+    dmgType: string,
+    type: ResistanceType = 'resistance'
+  ): CharacterBuilder {
+    this.race.damageResistances.push({
+      type,
+      value: dmgType,
+    });
+    return this;
+  }
+
+  addDmgResistance(
+    dmgType: string,
+    type: ResistanceType = 'resistance'
+  ): CharacterBuilder {
+    this.damageResistances.push({
+      type,
+      value: dmgType,
+    });
+    return this;
+  }
+
+  addRaceStatusResistance(
+    status: string,
+    type: ResistanceType = 'resistance'
+  ): CharacterBuilder {
+    this.race.statusResistances.push({
+      type: type,
+      value: status,
+    });
+    return this;
+  }
+
+  addStatusResistance(
+    status: string,
+    type: ResistanceType = 'resistance'
+  ): CharacterBuilder {
+    this.statusResistances.push({
+      type: type,
+      value: status,
+    });
+    return this;
+  }
+
+  addRacialAbility(name: string, description: string): CharacterBuilder {
+    this.race.abilities[name] = description;
     return this;
   }
 
@@ -283,7 +337,9 @@ export class CharacterBuilder {
       this.skills,
       this.savingThrows,
       armorValue,
-      this.hitPointMaximum
+      this.hitPointMaximum,
+      this.damageResistances,
+      this.statusResistances
     );
   }
 }

@@ -51,6 +51,10 @@ export class CharacterService {
       .addSavingThrow('pre/man')
       .setMaxHP(30)
       .setRace('Tiefling', 'Amakhnupis')
+      .addRaceDmgResistance('Necrotic')
+      .addRaceStatusResistance('Fear')
+      .addDmgResistance('Thunder', 'immunity')
+      .addStatusResistance('Deafened', 'immunity')
       .setName('Giordi')
       .build();
   }
