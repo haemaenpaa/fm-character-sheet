@@ -1,12 +1,13 @@
 .sheet-container {
   display: grid;
   grid-template-columns: [left] 1fr [right] 3fr;
-  grid-template-rows: 6em min-content 1fr;
+  grid-template-rows: 6em 24em 4fr;
   grid-auto-rows: 1fr;
   grid-template-areas:
     "header header"
     "abilities details"
     "skills info";
+  margin: 1em;
 }
 
 .character-particulars {
@@ -73,4 +74,30 @@
 .character-skills {
   grid-area: skills;
   width: 100%;
+}
+
+.nav-tab-container {
+  display: flex;
+  flex-direction: row;
+  padding-inline-start: 1em;
+}
+
+.nav-tab {
+  border-style: double none none double;
+  border-radius: 0.6em 0.6em 0 0;
+}
+.nav-tab-last {
+  border-style: double double none double;
+  border-radius: 0.5em 0.5em 0 0;
+}
+
+.nav-tab-active {
+  border-style: solid solid none solid;
+}
+
+.tab-router-container {
+  border-style: solid;
+  border-radius: 0.5em;
+  height: 100%;
+  margin-inline-end: 2em;
 }

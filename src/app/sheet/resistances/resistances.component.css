@@ -1,0 +1,9 @@
+.resistance-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.resistance-edit {
+  width: 6em;
+}

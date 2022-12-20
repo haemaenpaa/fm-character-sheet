@@ -1,0 +1,12 @@
+.resistance-item-container {
+  display: flex;
+}
+.resistance-name {
+  margin-inline-end: 0.5em;
+}
+.resistance-modifier {
+  font-weight: bold;
+  font-variant: small-caps;
+  padding-inline-start: 0.2em;
+  padding-inline-end: 0.2em;
+}

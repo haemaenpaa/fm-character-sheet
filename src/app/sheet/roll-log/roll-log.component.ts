@@ -1,15 +1,20 @@
-import { Component, OnInit, SimpleChange } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  SimpleChange,
+  ViewChild,
+} from '@angular/core';
 import { Roll } from 'src/app/model/diceroll';
-import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
-import { SimpleCheckComponent } from './simple-check/simple-check.component';
-import { UnknownRollComponent } from './unknown-roll/unknown-roll.component';
+import { RollLogService } from 'src/app/services/roll-log-service.service';
 
 const ABILITY_CHECK_PATTERN = /^(br|dex|vit|int|cun|res|pre|man|com)$/;
 const SKILL_CHECK_PATTERN = /^skill_(.+)_(\w{2,3})$/;
-const ABILITY_SAVE_PATTERN = /_save$/;
+const ABILITY_SAVE_PATTERN = /^([\w/]+)_save$/;
 
 // Row type, to be used in an ngSwitch to select the component to display.
-type RowType = 'simple-check' | 'skill-check' | 'unknown';
+type RowType = 'simple-check' | 'skill-check' | 'saving-throw' | 'unknown';
 
 /**
  * Component to display a log of rolls made.
@@ -19,19 +24,18 @@ type RowType = 'simple-check' | 'skill-check' | 'unknown';
   templateUrl: './roll-log.component.html',
   styleUrls: ['./roll-log.component.css'],
 })
-export class RollLogComponent implements OnInit {
-  rolls: Roll[] = [];
+export class RollLogComponent implements AfterViewChecked {
+  @ViewChild('logScroll') private logScrollContainer!: ElementRef;
+  constructor(private rollService: RollLogService) {}
 
-  constructor(private rollService: ActionDispatchService) {
-    rollService.rolls().subscribe({
-      next: (r) => {
-        console.log(JSON.stringify(r));
-        this.rolls.push(r);
-      },
-    });
+  get rolls(): Roll[] {
+    return this.rollService.rolls;
   }
 
-  ngOnInit(): void {}
+  ngAfterViewChecked(): void {
+    this.logScrollContainer.nativeElement.scrollTop =
+      this.logScrollContainer.nativeElement.scrollHeight;
+  }
 
   /**
    * Deduces the type of the roll from the title.
@@ -43,7 +47,7 @@ export class RollLogComponent implements OnInit {
       return 'simple-check';
     }
     if (roll.title?.match(ABILITY_SAVE_PATTERN)?.length) {
-      return 'simple-check';
+      return 'saving-throw';
     }
     if (roll.title?.match(SKILL_CHECK_PATTERN)) {
       return 'skill-check';

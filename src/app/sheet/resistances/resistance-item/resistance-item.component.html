@@ -1,0 +1,37 @@
+<div
+  class="resistance-item-container"
+  (mouseenter)="onHover()"
+  (mouseleave)="onHoverEnd()"
+>
+  <span id="resistance-value" class="resistance-name">
+    {{ resistance.value }}
+  </span>
+  <span
+    id="resistance-immunity"
+    class="resistance-modifier clickable"
+    *ngIf="resistance.type === 'immunity'"
+    (click)="toggleImmunity()"
+  >
+    I
+  </span>
+  <span
+    id="resistance-immunity"
+    class="resistance-modifier clickable grayed-out"
+    *ngIf="resistance.type !== 'immunity' && !racial"
+    (mouseenter)="onImmunityHover()"
+    (mouseleave)="onImmunityHoverEnd()"
+    (click)="toggleImmunity()"
+  >
+    {{ immunityHovered ? "I" : "&nbsp;" }}
+  </span>
+  <span id="resistance-racial" class="resistance-modifier" *ngIf="racial">
+    R
+  </span>
+  <span
+    id="resistance-delete"
+    class="resistance-modifier add-button"
+    *ngIf="!racial && hovered"
+    (click)="emitDelete()"
+    >-</span
+  >
+</div>

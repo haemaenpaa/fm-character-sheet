@@ -1,6 +1,9 @@
 .rolls-display {
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  scrollbar-width: auto;
+  height: 100%;
 }
 .single-roll {
   display: flex;

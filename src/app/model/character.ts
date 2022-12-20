@@ -1,9 +1,9 @@
 import { Memoize } from 'typescript-memoize';
-import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
 import CharacterAbilities from './character-abilities';
 import { SKILL_DEFAULT_ABILITIES } from './constants';
 import { Race } from './race';
+import Resistance from './resistance';
 import { Skill } from './skill';
 
 export interface AbilityNumberStruct {
@@ -33,6 +33,9 @@ export default class Character {
    * The Ability Origin selections. A list of class abilities gained with levels.
    */
   selections: AoSelection[];
+  /**
+   * The default skills, always displayed on the character sheet.
+   */
   defaultSkills: {
     anh: number;
     ath: number;
@@ -48,7 +51,39 @@ export default class Character {
     ste: number;
     sur: number;
   };
+  /**
+   * Any number of non-default skills.
+   */
   customSkills: Skill[];
+
+  /**
+   * Saving throws the character is proficient in.
+   */
+  savingThrows: string[];
+  /**
+   * Armor value. The target an attacker must meet or beat for an attack to hit.
+   */
+  armorValue: number;
+  /**
+   * Current hit point total.
+   */
+  hitPointTotal: number;
+  /**
+   * Hit point maximum
+   */
+  hitPointMaximum: number;
+  /**
+   * Temporary hit points.
+   */
+  tempHitPoints: number;
+  /**
+   * Damage resistances.
+   */
+  damageResistances: Resistance[];
+  /**
+   * Damage immunities.
+   */
+  statusResistances: Resistance[];
 
   constructor(
     name: string,
@@ -76,7 +111,12 @@ export default class Character {
     ste: number,
     sur: number,
     selections: AoSelection[],
-    customSkills: Skill[]
+    customSkills: Skill[],
+    savingThrows: string[],
+    armorValue: number,
+    hitPointMax: number,
+    damageResistances: Resistance[],
+    statusResistances: Resistance[]
   ) {
     this.name = name;
     this.race = race;
@@ -108,6 +148,13 @@ export default class Character {
     };
     this.selections = selections;
     this.customSkills = customSkills;
+    this.savingThrows = savingThrows;
+    this.armorValue = armorValue;
+    this.hitPointMaximum = hitPointMax;
+    this.hitPointTotal = this.hitPointMaximum;
+    this.tempHitPoints = 0;
+    this.damageResistances = damageResistances;
+    this.statusResistances = statusResistances;
   }
   /**
    * Gets a struct of ability modifiers.
@@ -188,5 +235,21 @@ export default class Character {
     this.customSkills
       .filter((s) => s.identifier == identifier)
       .forEach((s) => (s.rank = rank));
+  }
+
+  addSavingThrow(save: string) {
+    const present = this.savingThrows.find((s) => s === save);
+    if (present != null) {
+      return;
+    }
+    this.savingThrows = [...this.savingThrows, save];
+  }
+
+  removeSavingThrow(save: string) {
+    const present = this.savingThrows.find((s) => s === save);
+    if (present === null) {
+      return;
+    }
+    this.savingThrows = this.savingThrows.filter((s) => s !== save);
   }
 }

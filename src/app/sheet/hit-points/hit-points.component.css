@@ -1,0 +1,36 @@
+.hp-box {
+  display: grid;
+  grid-template-columns: [label] max-content [value] 3fr [slash]1fr [max] 3fr;
+  align-items: center;
+  justify-items: center;
+  height: 100%;
+  width: max-content;
+}
+.hp-total {
+  font-weight: large;
+}
+.hp-max {
+  font-weight: normal;
+  font-size: larger;
+}
+.hp-edit {
+  grid-column: value;
+  width: 2em;
+}
+
+.temp-hp {
+  margin: 1em;
+  font-size: normal;
+}
+
+.slash {
+  margin-inline-end: 0.5em;
+  margin-inline-start: 0.5em;
+}
+
+.hp-label {
+  grid-column: label;
+  font-weight: bold;
+  margin-inline-end: 0.5em;
+  margin-inline-start: 0.5em;
+}

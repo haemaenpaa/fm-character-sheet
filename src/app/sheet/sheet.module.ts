@@ -15,7 +15,13 @@ import { SkillNamePipe } from './skill/skill-name.pipe';
 import { SkillGridComponent } from './skill-grid/skill-grid.component';
 import { SkillCheckComponent } from './roll-log/skill-check/skill-check.component';
 import { AbilitySelectComponent } from './ability-select/ability-select.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { DefensesComponent } from './defenses/defenses.component';
+import { SavingThrowComponent } from './saving-throw/saving-throw.component';
+import { SavingThrowLogComponent } from './roll-log/saving-throw-log/saving-throw-log.component';
+import { HitPointsComponent } from './hit-points/hit-points.component';
+import { A11yModule } from '@angular/cdk/a11y';
+import { ResistancesComponent } from './resistances/resistances.component';
+import { ResistanceItemComponent } from './resistances/resistance-item/resistance-item.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -36,8 +42,14 @@ import { MatDialogModule } from '@angular/material/dialog';
     SkillGridComponent,
     SkillCheckComponent,
     AbilitySelectComponent,
+    DefensesComponent,
+    SavingThrowComponent,
+    SavingThrowLogComponent,
+    HitPointsComponent,
+    ResistancesComponent,
+    ResistanceItemComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild([])],
+  imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],
 })
 export class SheetModule {}

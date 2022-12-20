@@ -47,7 +47,14 @@ export class CharacterService {
       .addCustomSkill('Craft (basket weaving)', 2, ['dex', 'cun'])
       .addCustomSkill('Game (poker)', 1, ['com', 'cun'])
       .addCustomSkill('Instrument (violoncello)', 4, ['com', 'cun'])
+      .addSavingThrow('br')
+      .addSavingThrow('pre/man')
+      .setMaxHP(30)
       .setRace('Tiefling', 'Amakhnupis')
+      .addRaceDmgResistance('Necrotic')
+      .addRaceStatusResistance('Fear', 'immunity')
+      .addDmgResistance('Thunder', 'immunity')
+      .addStatusResistance('Deafened', 'immunity')
       .setName('Giordi')
       .build();
   }

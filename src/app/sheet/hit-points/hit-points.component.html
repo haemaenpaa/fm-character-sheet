@@ -1,0 +1,36 @@
+<div class="hp-box">
+  <span class="hp-label">Hit Points: </span>
+  <span
+    class="hp-total"
+    *ngIf="!editingCurrent"
+    (click)="setEditingCurrent()"
+    >{{ current }}</span
+  >
+  <input
+    id="current-edit"
+    [cdkTrapFocusAutoCapture]="editingCurrent"
+    [cdkTrapFocus]="editingCurrent"
+    class="hp-edit"
+    *ngIf="editingCurrent"
+    type="text"
+    (change)="onInputValueChanged($event)"
+    (blur)="endEditing()"
+    [value]="current"
+  />
+  <span class="slash">/</span><span class="hp-max">{{ max }}</span>
+  <span class="hp-label">Temp hp: </span>
+  <span class="temp-hp" *ngIf="!editingTemp" (click)="setEditingTemp()">
+    {{ temporary }}
+  </span>
+  <input
+    id="temp-edit"
+    [cdkTrapFocusAutoCapture]="editingTemp"
+    [cdkTrapFocus]="editingTemp"
+    class="hp-edit"
+    *ngIf="editingTemp"
+    type="text"
+    (change)="onInputValueChanged($event)"
+    (blur)="endEditing()"
+    [value]="temporary"
+  />
+</div>
