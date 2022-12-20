@@ -2,7 +2,9 @@ import { Component, Input } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import Character from 'src/app/model/character';
 import { SaveParams } from 'src/app/model/game-action';
+import Resistance from 'src/app/model/resistance';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { ResistanceModifyEvent } from '../resistances/resistances.component';
 
 function clamp(num: number, min: number, max: number) {
   return Math.min(max, Math.max(min, num));
@@ -86,5 +88,75 @@ export class DefensesComponent {
     if (this.character) {
       this.character.tempHitPoints = Math.max($event, 0);
     }
+  }
+
+  addStatusResistance(resistance: string) {
+    const indexPresent = this.character?.statusResistances.findIndex(
+      (r) => r.value === resistance
+    );
+    if (indexPresent && indexPresent > 0) {
+      return;
+    }
+    this.character?.statusResistances.push({
+      type: 'resistance',
+      value: resistance,
+    });
+  }
+  removeStatusResistance(deletedResistance: Resistance) {
+    if (!this.character) {
+      return;
+    }
+    this.character!.statusResistances =
+      this.character!.statusResistances.filter(
+        (res) => res.value != deletedResistance.value
+      );
+  }
+  modifyStatusResistance($event: ResistanceModifyEvent) {
+    if (!this.character) {
+      return;
+    }
+    this.character.statusResistances = this.applyModifyEvent(
+      this.character.statusResistances,
+      $event
+    );
+  }
+  addDamageResistance(resistance: string) {
+    const indexPresent = this.character?.damageResistances.findIndex(
+      (r) => r.value === resistance
+    );
+    if (indexPresent && indexPresent > 0) {
+      return;
+    }
+    this.character?.damageResistances.push({
+      type: 'resistance',
+      value: resistance,
+    });
+  }
+  removeDamageResistance(deletedResistance: Resistance) {
+    if (!this.character) {
+      return;
+    }
+    this.character!.damageResistances =
+      this.character!.damageResistances.filter(
+        (res) => res.value != deletedResistance.value
+      );
+  }
+  modifyDamageResistance($event: ResistanceModifyEvent) {
+    if (!this.character) {
+      return;
+    }
+    this.character.damageResistances = this.applyModifyEvent(
+      this.character.damageResistances,
+      $event
+    );
+  }
+
+  private applyModifyEvent(
+    resistances: Resistance[],
+    event: ResistanceModifyEvent
+  ): Resistance[] {
+    return resistances.map((r) =>
+      r.value === event.old.value ? event.new : r
+    );
   }
 }

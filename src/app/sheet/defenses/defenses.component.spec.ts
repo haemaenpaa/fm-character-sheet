@@ -5,6 +5,7 @@ import { GameAction, SaveParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { HitPointsComponent } from '../hit-points/hit-points.component';
 import { AbilityNamePipe } from '../pipe/ability-name.pipe';
+import { ResistancesComponent } from '../resistances/resistances.component';
 import { SavingThrowComponent } from '../saving-throw/saving-throw.component';
 
 import { DefensesComponent } from './defenses.component';
@@ -27,6 +28,7 @@ describe('DefensesComponent', () => {
         DefensesComponent,
         HitPointsComponent,
         SavingThrowComponent,
+        ResistancesComponent,
         AbilityNamePipe,
       ],
       providers: [
@@ -228,5 +230,109 @@ describe('DefensesComponent', () => {
     expect(character.tempHitPoints)
       .withContext('Component should alter temporary hit points')
       .toBe(0);
+  });
+
+  it('should delete damage resistance', () => {
+    const deleted = 'Fire';
+    const nonDeleted = 'Ice';
+    const character = new CharacterBuilder()
+      .addDmgResistance(deleted, 'immunity')
+      .addDmgResistance(nonDeleted)
+      .build();
+    component.character = character;
+    component.removeDamageResistance({ type: 'immunity', value: deleted });
+    expect(character.damageResistances.length)
+      .withContext('One damage resistance should have been deleted.')
+      .toBe(1);
+    expect(character.damageResistances[0].value)
+      .withContext('The nondeleted damage resistance should remain.')
+      .toBe(nonDeleted);
+  });
+
+  it('should delete status resistance', () => {
+    const deleted = 'Fear';
+    const nonDeleted = 'Sleep';
+    const character = new CharacterBuilder()
+      .addStatusResistance(deleted, 'immunity')
+      .addStatusResistance(nonDeleted)
+      .build();
+    component.character = character;
+    component.removeStatusResistance({ type: 'immunity', value: deleted });
+    expect(character.statusResistances.length)
+      .withContext('One status resistance should have been deleted.')
+      .toBe(1);
+    expect(character.statusResistances[0].value)
+      .withContext('The nondeleted status resistance should remain.')
+      .toBe(nonDeleted);
+  });
+
+  it('should insert damage resistance', () => {
+    const expected = 'test-damage';
+    const character = new CharacterBuilder().build();
+    component.character = character;
+
+    component.addDamageResistance(expected);
+    expect(character.damageResistances.length).toBe(1);
+    expect(character.damageResistances[0].value).toBe(expected);
+  });
+
+  it('should insert status resistance', () => {
+    const expected = 'test-status';
+    const character = new CharacterBuilder().build();
+    component.character = character;
+
+    component.addStatusResistance(expected);
+    expect(character.statusResistances.length).toBe(1);
+    expect(character.statusResistances[0].value).toBe(expected);
+  });
+
+  it('should modify status resistance', () => {
+    const modified = 'Fear';
+    const unModified = 'Sleep';
+    const expected = 'Stun';
+    const character = new CharacterBuilder()
+      .addStatusResistance(modified, 'immunity')
+      .addStatusResistance(unModified)
+      .build();
+    component.character = character;
+    component.modifyStatusResistance({
+      old: { type: 'immunity', value: modified },
+      new: { type: 'resistance', value: expected },
+    });
+    const found = character.statusResistances.find((r) => r.value == expected);
+    const oldValueFound = character.statusResistances.find(
+      (r) => r.value == modified
+    );
+    expect(found)
+      .withContext('The modified value should have been in the resistances.')
+      .toBeTruthy();
+    expect(oldValueFound)
+      .withContext('The old value should not have been in the resistances.')
+      .toBeFalsy();
+  });
+
+  it('should modify damage resistance', () => {
+    const modified = 'Fire';
+    const unModified = 'Ice';
+    const expected = 'Bludgeoning';
+    const character = new CharacterBuilder()
+      .addStatusResistance(unModified)
+      .addStatusResistance(modified, 'immunity')
+      .build();
+    component.character = character;
+    component.modifyStatusResistance({
+      old: { type: 'immunity', value: modified },
+      new: { type: 'resistance', value: expected },
+    });
+    const found = character.statusResistances.find((r) => r.value == expected);
+    const oldValueFound = character.statusResistances.find(
+      (r) => r.value == modified
+    );
+    expect(found)
+      .withContext('The modified value should have been in the resistances.')
+      .toBeTruthy();
+    expect(oldValueFound)
+      .withContext('The old value should not have been in the resistances.')
+      .toBeFalsy();
   });
 });

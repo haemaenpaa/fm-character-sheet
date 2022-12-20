@@ -43,4 +43,25 @@ describe('ResistancesComponent', () => {
       .withContext('Regular resistance components should be shown.')
       .toBeTruthy();
   });
+
+  it('should emit on inserting a new resistance', () => {
+    const value = 'new-resistance';
+    const event = { target: { value } } as any as Event;
+    spyOn(component.resistanceInserted, 'emit');
+    component.endInserting(event);
+
+    expect(component.resistanceInserted.emit)
+      .withContext('Resistance should have been inserted.')
+      .toHaveBeenCalledWith(value);
+  });
+  it('should not emit inserting an empty resistance', () => {
+    const value = 'new-resistance';
+    const event = { target: { value } } as any as Event;
+    spyOn(component.resistanceInserted, 'emit');
+    component.endInserting(event);
+
+    expect(component.resistanceInserted.emit)
+      .withContext('Resistance should have been inserted.')
+      .toHaveBeenCalledWith(value);
+  });
 });

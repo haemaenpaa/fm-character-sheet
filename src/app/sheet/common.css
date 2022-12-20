@@ -1,0 +1,16 @@
+.add-button {
+  font-size: large;
+  font-weight: bold;
+  justify-content: center;
+  justify-self: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.grayed-out {
+  color: lightgray;
+}

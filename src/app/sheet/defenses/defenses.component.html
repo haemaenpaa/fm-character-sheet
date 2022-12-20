@@ -29,6 +29,9 @@
       <resistances
         [racialResistances]="character?.race?.statusResistances || []"
         [resistances]="character?.statusResistances || []"
+        (resistanceInserted)="addStatusResistance($event)"
+        (resistanceDeleted)="removeStatusResistance($event)"
+        (resistanceModified)="modifyStatusResistance($event)"
       ></resistances>
     </div>
     <div class="damage-resistance-container">

@@ -10,5 +10,24 @@
     [id]="'resistance-' + i"
     [racial]="false"
     [resistance]="r"
+    (delete)="onDelete(r)"
+    (typeChange)="onModifyType($event, r)"
   ></resistance-item>
+  <span
+    id="add-resistance-btn"
+    *ngIf="!inserting"
+    class="add-button"
+    (click)="startInserting()"
+    >+</span
+  >
+  <input
+    id="new-resistance"
+    class="resistance-edit"
+    *ngIf="inserting"
+    [cdkTrapFocus]="inserting"
+    [cdkTrapFocusAutoCapture]="inserting"
+    (blur)="endInserting($event)"
+    placeholder="resistance"
+    type="text"
+  />
 </div>
