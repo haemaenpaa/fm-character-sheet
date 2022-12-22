@@ -1,0 +1,6 @@
+<li [routerLink]="['sheet', character?.id]">
+  {{ character?.name }}
+  <span *ngFor="let level of levels">
+    {{ level.abilityOrigin }} {{ level.level }}
+  </span>
+</li>
