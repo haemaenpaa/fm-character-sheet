@@ -2,55 +2,63 @@
   <div class="br-cell">
     <ability-score
       [ability]="character.abilities.br"
-      (modified)="character.abilities.setBr($event)"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="int-cell">
     <ability-score
       [ability]="character.abilities.int"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="pre-cell">
     <ability-score
       [ability]="character.abilities.pre"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="dex-cell">
     <ability-score
       [ability]="character.abilities.dex"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="cun-cell">
     <ability-score
       [ability]="character.abilities.cun"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="man-cell">
     <ability-score
       [ability]="character.abilities.man"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="vit-cell">
     <ability-score
       [ability]="character.abilities.vit"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="res-cell">
     <ability-score
       [ability]="character.abilities.res"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
   <div class="com-cell">
     <ability-score
       [ability]="character.abilities.com"
+      (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>

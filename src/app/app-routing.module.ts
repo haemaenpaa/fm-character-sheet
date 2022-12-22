@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CharacterListComponent } from './character-list/character-list.component';
 import { CharacterSheetComponent } from './sheet/character-sheet/character-sheet.component';
 import { upperOutletRoutes } from './sheet/sheet.routing';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/sheet',
+    component: CharacterListComponent,
     pathMatch: 'full',
   },
   {
-    path: 'sheet',
+    path: 'sheet/:id',
     component: CharacterSheetComponent,
     children: upperOutletRoutes,
   },

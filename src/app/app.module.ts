@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { SheetModule } from './sheet/sheet.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CharacterListComponent } from './character-list/character-list.component';
+import { CharacterLiComponent } from './character-list/character-li/character-li.component';
 
 /**
  * The main application module.
  */
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CharacterListComponent, CharacterLiComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

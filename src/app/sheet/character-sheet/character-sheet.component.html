@@ -1,7 +1,10 @@
-<div class="sheet-container">
+<div class="sheet-container" *ngIf="character">
   <div class="character-particulars">
     <div class="character-name">
-      <div>{{ character.name }}</div>
+      <editable-text
+        [value]="character.name"
+        (valueChanged)="character.name = $event; onCharacterChanged()"
+      ></editable-text>
     </div>
     <div class="character-race">
       <div class="character-race-label">Race:</div>
@@ -22,7 +25,10 @@
   </div>
   <div class="character-abilities section-container">
     <span class="section-header">Abilities</span>
-    <ability-grid [character]="character"></ability-grid>
+    <ability-grid
+      [character]="character!"
+      (characterChanged)="onCharacterChanged()"
+    ></ability-grid>
   </div>
   <div>
     <div class="nav-tab-container">
@@ -50,6 +56,9 @@
   </div>
   <div class="character-skills section-container">
     <span class="section-header">Skills</span>
-    <skill-grid [character]="character"></skill-grid>
+    <skill-grid
+      [character]="character"
+      (characterChanged)="onCharacterChanged()"
+    ></skill-grid>
   </div>
 </div>

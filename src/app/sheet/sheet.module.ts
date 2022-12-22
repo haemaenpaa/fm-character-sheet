@@ -22,6 +22,7 @@ import { HitPointsComponent } from './hit-points/hit-points.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ResistancesComponent } from './resistances/resistances.component';
 import { ResistanceItemComponent } from './resistances/resistance-item/resistance-item.component';
+import { EditableTextComponent } from './editable-text/editable-text.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -48,6 +49,7 @@ import { ResistanceItemComponent } from './resistances/resistance-item/resistanc
     HitPointsComponent,
     ResistancesComponent,
     ResistanceItemComponent,
+    EditableTextComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

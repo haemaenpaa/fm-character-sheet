@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Character from 'src/app/model/character';
 import { SkillParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
@@ -12,6 +12,7 @@ import { SkillCheckEvent, SkillSetEvent } from '../skill/skill.component';
 })
 export class SkillGridComponent implements OnInit {
   @Input() character!: Character;
+  @Output() characterChanged: EventEmitter<void> = new EventEmitter();
   constructor(private actionService: ActionDispatchService) {}
 
   ngOnInit(): void {}
@@ -25,6 +26,7 @@ export class SkillGridComponent implements OnInit {
 
   onModifyRank(event: SkillSetEvent) {
     this.character.setSkillByIdentifier(event.skillIdentifier, event.skillRank);
+    this.characterChanged.emit();
   }
   onSkillRoll(event: SkillCheckEvent) {
     console.log('Skill check', JSON.stringify(event));
