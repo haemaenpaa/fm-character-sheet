@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import Character from '../model/character';
 import { CharacterBuilder } from '../model/character-builder';
 
+const MAX_ID = 2147483647; //Max value of a 32 bit signed integer
+const LS_CHAR_EXPRESSION = /^fm-char-\d+$/;
+const LS_CHAR_PREFIX = 'fm-char-';
 /**
  * An injectable service that manages the character information.
  */
@@ -9,61 +12,68 @@ import { CharacterBuilder } from '../model/character-builder';
   providedIn: 'root',
 })
 export class CharacterService {
-  //Placeholder character for now.
-  private placeholder: Character;
+  private characters: Character[];
   constructor() {
-    this.placeholder = new CharacterBuilder()
-      .setBrawn(7)
-      .setDexterity(8)
-      .setVitality(9)
-      .setIntelligence(10)
-      .setCunning(11)
-      .setResolve(12)
-      .setPresence(13)
-      .setManipulation(14)
-      .setComposure(15)
-      .addSelection(
-        'Predator',
-        1,
-        'Favored Enemy',
-        'Choose one creature type etc...'
-      )
-      .addSecondarySelection(
-        'Discipline',
-        1,
-        'Unarmored defence',
-        'Add com mod to av when not wearing armor.'
-      )
-      .addSelection(
-        'Discipline',
-        2,
-        'Mastery',
-        'You basically get Kung Fu points.'
-      )
-      .setSubterfuge(2)
-      .setDeception(3)
-      .setMedicine(1)
-      .addCustomSkill('Academics (herpetology)', 3, ['int'])
-      .addCustomSkill('Craft (basket weaving)', 2, ['dex', 'cun'])
-      .addCustomSkill('Game (poker)', 1, ['com', 'cun'])
-      .addCustomSkill('Instrument (violoncello)', 4, ['com', 'cun'])
-      .addSavingThrow('br')
-      .addSavingThrow('pre/man')
-      .setMaxHP(30)
-      .setRace('Tiefling', 'Amakhnupis')
-      .addRaceDmgResistance('Necrotic')
-      .addRaceStatusResistance('Fear', 'immunity')
-      .addDmgResistance('Thunder', 'immunity')
-      .addStatusResistance('Deafened', 'immunity')
-      .setName('Giordi')
-      .build();
+    this.characters = [];
+    for (var i = 0; i < localStorage.length; i++) {
+      const key: string = localStorage.key(i)!;
+      const item = localStorage.getItem(key);
+      if (key?.match(LS_CHAR_EXPRESSION)) {
+        this.characters.push(this.loadCharacterFromLocalStorage(key));
+      }
+    }
+  }
+
+  private loadCharacterFromLocalStorage(key: string): Character {
+    const item = localStorage.getItem(key);
+    const template = new CharacterBuilder().build();
+    const parsed = JSON.parse(item!);
+    for (const abl in parsed.abilities) {
+      (template.abilities as any)[abl].score = (parsed.abilities as any)[
+        abl
+      ].score;
+    }
+    parsed.abilities = template.abilities;
+
+    return Object.assign(template, parsed);
+  }
+
+  get allCharacters(): Character[] {
+    return this.characters;
   }
 
   /**
-   * Gets the "current" character.
-   * @returns the current character
+   * Gets a character by the given identifier
+   * @param id Character ID
+   * @returns A character by the given ID.
    */
-  currentCharacter(): Character {
-    return this.placeholder;
+  getCharacterById(id: number): Promise<Character> {
+    return new Promise((resolve, reject) => {
+      const character = this.characters.find((c) => c.id === id);
+      if (character) {
+        resolve(character);
+      } else {
+        reject(`No character by id ${id}`);
+      }
+    });
+  }
+
+  persistCharacter(character: Character): Promise<Character> {
+    if (!character.id) {
+      character.id = Math.floor(Math.random() * MAX_ID);
+    }
+    return new Promise((resolve) => {
+      localStorage.setItem(
+        LS_CHAR_PREFIX + character.id,
+        JSON.stringify(character)
+      );
+      const index = this.characters.findIndex((c) => c.id === character.id);
+      if (index < 0) {
+        this.characters.push(character);
+      } else {
+        this.characters[index] = character;
+      }
+      resolve(character);
+    });
   }
 }
