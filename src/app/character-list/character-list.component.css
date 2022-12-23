@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.character-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-columns: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+}
+
+.add-character-button {
+  border-radius: 1em;
+  border-style: solid;
+  justify-self: center;
+}

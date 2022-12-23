@@ -23,6 +23,7 @@ export interface AbilityNumberStruct {
  *
  */
 export default class Character {
+  id: number | null = null;
   name: string;
   race: Race;
   /**

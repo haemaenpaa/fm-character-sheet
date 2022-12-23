@@ -1,7 +1,8 @@
 .sheet-container {
   display: grid;
-  grid-template-columns: [left] 1fr [right] 3fr;
+  grid-template-columns: [left] max-content [right] 3fr;
   grid-template-rows: 6em 24em 4fr;
+  column-gap: 1em;
   grid-auto-rows: 1fr;
   grid-template-areas:
     "header header"
@@ -61,6 +62,7 @@
   flex-direction: column;
   align-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .character-abilities {

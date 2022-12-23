@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import Character from 'src/app/model/character';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
@@ -13,6 +13,7 @@ import { ActionDispatchService } from 'src/app/services/action-dispatch.service'
 })
 export class AbilityGridComponent implements OnInit {
   @Input() character!: Character;
+  @Output() characterChanged: EventEmitter<void> = new EventEmitter();
   constructor(private rollService: ActionDispatchService) {}
 
   ngOnInit(): void {}

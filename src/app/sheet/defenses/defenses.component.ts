@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import Character from 'src/app/model/character';
 import { SaveParams } from 'src/app/model/game-action';
@@ -17,6 +17,7 @@ function clamp(num: number, min: number, max: number) {
 })
 export class DefensesComponent {
   @Input() character: Character | null = null;
+  @Output() characterChanged: EventEmitter<void> = new EventEmitter();
 
   savingThrows: string[] = [
     'br',
@@ -73,6 +74,7 @@ export class DefensesComponent {
     } else {
       this.character?.removeSavingThrow(save);
     }
+    this.characterChanged.emit();
   }
 
   onHpTotalChanged($event: number) {
@@ -83,11 +85,13 @@ export class DefensesComponent {
         this.character.hitPointMaximum
       );
     }
+    this.characterChanged.emit();
   }
   onTempHpChanged($event: number) {
     if (this.character) {
       this.character.tempHitPoints = Math.max($event, 0);
     }
+    this.characterChanged.emit();
   }
 
   addStatusResistance(resistance: string) {
@@ -101,6 +105,7 @@ export class DefensesComponent {
       type: 'resistance',
       value: resistance,
     });
+    this.characterChanged.emit();
   }
   removeStatusResistance(deletedResistance: Resistance) {
     if (!this.character) {
@@ -110,6 +115,7 @@ export class DefensesComponent {
       this.character!.statusResistances.filter(
         (res) => res.value != deletedResistance.value
       );
+    this.characterChanged.emit();
   }
   modifyStatusResistance($event: ResistanceModifyEvent) {
     if (!this.character) {
@@ -119,6 +125,7 @@ export class DefensesComponent {
       this.character.statusResistances,
       $event
     );
+    this.characterChanged.emit();
   }
   addDamageResistance(resistance: string) {
     const indexPresent = this.character?.damageResistances.findIndex(
@@ -131,6 +138,7 @@ export class DefensesComponent {
       type: 'resistance',
       value: resistance,
     });
+    this.characterChanged.emit();
   }
   removeDamageResistance(deletedResistance: Resistance) {
     if (!this.character) {
@@ -140,6 +148,7 @@ export class DefensesComponent {
       this.character!.damageResistances.filter(
         (res) => res.value != deletedResistance.value
       );
+    this.characterChanged.emit();
   }
   modifyDamageResistance($event: ResistanceModifyEvent) {
     if (!this.character) {
@@ -149,6 +158,16 @@ export class DefensesComponent {
       this.character.damageResistances,
       $event
     );
+    this.characterChanged.emit();
+  }
+
+  setArmorValue(newValue: string) {
+    if (!this.character) {
+      return;
+    }
+    const newAv = Number.parseInt(newValue);
+    this.character!.armorValue = newAv;
+    this.characterChanged.emit();
   }
 
   private applyModifyEvent(
