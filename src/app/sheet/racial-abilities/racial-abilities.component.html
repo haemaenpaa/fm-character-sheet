@@ -1,0 +1,13 @@
+<div>
+  <div *ngFor="let ab of abilitiesList" class="ability-card">
+    <div class="ability-name">
+      <editable-text
+        [value]="ab.name"
+        (valueChanged)="onNameChanged(ab.name, $event)"
+      ></editable-text>
+    </div>
+    <div class="ability-description">
+      <editable-text [value]="ab.description"></editable-text>
+    </div>
+  </div>
+</div>

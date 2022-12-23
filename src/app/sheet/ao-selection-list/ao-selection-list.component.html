@@ -1,0 +1,12 @@
+<div
+  *ngFor="let selection of selections | sortSelections; let index = index"
+  class="selection-item"
+  [ngStyle]="{ 'border-color': selection.hilightColor || 'inherit' }"
+>
+  <ao-selection-item
+    [selection]="selection"
+    (selectionChanged)="onSelectionAltered($event, selection)"
+    (selectionDeleted)="onSelectionDeleted(selection)"
+  ></ao-selection-item>
+</div>
+<div class="add-button" (click)="onSelectionAdd()">+</div>

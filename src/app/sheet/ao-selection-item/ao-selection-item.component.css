@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.selection-name {
+  font-weight: bold;
+  font-size: larger;
+}
+
+.ao-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.ao-name {
+  font-style: italic;
+  margin-inline-end: 1em;
+}
+.ao-level {
+  width: 3em;
+}
+
+.selection-description {
+  width: 100%;
+  white-space: pre-line;
+  border-style: double;
+}
