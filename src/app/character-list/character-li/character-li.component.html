@@ -6,7 +6,9 @@
   (mouseleave)="onMouseExit()"
 >
   {{ character?.name }}
-  <span *ngFor="let level of levels">
-    {{ level.abilityOrigin }} {{ level.level }}
-  </span>
+  <div>
+    <span *ngFor="let level of levels" class="ao-level">
+      {{ level.abilityOrigin }}{{ level.level }}
+    </span>
+  </div>
 </div>
