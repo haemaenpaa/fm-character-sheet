@@ -8,7 +8,6 @@ import Resistance, { ResistanceType } from 'src/app/model/resistance';
 })
 export class ResistanceItemComponent {
   hovered: boolean = false;
-  immunityHovered: boolean = false;
   @Input() resistance!: Resistance;
   @Input() racial: boolean = false;
   @Output() typeChange: EventEmitter<ResistanceType> = new EventEmitter();
@@ -28,12 +27,5 @@ export class ResistanceItemComponent {
   }
   onHoverEnd() {
     this.hovered = false;
-  }
-
-  onImmunityHover() {
-    this.immunityHovered = true;
-  }
-  onImmunityHoverEnd() {
-    this.immunityHovered = false;
   }
 }

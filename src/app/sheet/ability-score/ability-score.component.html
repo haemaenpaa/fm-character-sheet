@@ -2,20 +2,11 @@
   <div class="ability-name">
     {{ ability.identifier | abilityName : "long" }}
   </div>
-  <div class="ability-score" *ngIf="!editing" (click)="startEditing()">
-    {{ ability.score }}
-  </div>
-  <div class="ability-score" *ngIf="editing">
-    <input
-      [cdkTrapFocus]="editing"
-      [cdkTrapFocusAutoCapture]="editing"
-      class="ability-score-edit"
-      type="text"
-      [value]="ability.score"
-      (change)="valueChanged($event)"
-      (blur)="endEditing()"
-    />
-  </div>
+  <editable-text
+    class="ability-score ability-score-edit"
+    (valueChanged)="valueChanged($event)"
+    [value]="ability.score"
+  ></editable-text>
   <div class="ability-modifier" (click)="emitRoll()">
     {{ ability.modifier | modifier }}
   </div>

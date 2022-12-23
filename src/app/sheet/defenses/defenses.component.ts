@@ -161,6 +161,15 @@ export class DefensesComponent {
     this.characterChanged.emit();
   }
 
+  setArmorValue(newValue: string) {
+    if (!this.character) {
+      return;
+    }
+    const newAv = Number.parseInt(newValue);
+    this.character!.armorValue = newAv;
+    this.characterChanged.emit();
+  }
+
   private applyModifyEvent(
     resistances: Resistance[],
     event: ResistanceModifyEvent

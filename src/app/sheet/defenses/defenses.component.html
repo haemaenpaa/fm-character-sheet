@@ -2,7 +2,13 @@
   <div class="hp-and-av">
     <div class="av-container container-border">
       <div class="av-label">AV</div>
-      <span id="av-display" class="av-value">{{ character?.armorValue }}</span>
+      <div class="av-value">
+        <editable-text
+          id="av-display"
+          [value]="character?.armorValue"
+          (valueChanged)="setArmorValue($event)"
+        ></editable-text>
+      </div>
     </div>
     <hit-points
       class="container-border"
@@ -39,6 +45,9 @@
       <resistances
         [racialResistances]="character?.race?.damageResistances || []"
         [resistances]="character?.damageResistances || []"
+        (resistanceInserted)="addDamageResistance($event)"
+        (resistanceDeleted)="removeDamageResistance($event)"
+        (resistanceModified)="modifyStatusResistance($event)"
       ></resistances>
     </div>
   </div>

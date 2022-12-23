@@ -1,13 +1,12 @@
-<div>
-  <p *ngIf="!editing" class="clickable" (click)="editing = true">
-    {{ value }}
-  </p>
-  <input
-    *ngIf="editing"
-    [value]="value"
-    [cdkTrapFocus]="editing"
-    [cdkTrapFocusAutoCapture]="editing"
-    (change)="onValueChanged($event)"
-    (blur)="editing = false"
-  />
-</div>
+<span *ngIf="!editing" class="clickable" (click)="editing = true">
+  {{ value }}
+</span>
+<input
+  *ngIf="editing"
+  class="editable-view"
+  [value]="value"
+  [cdkTrapFocus]="editing"
+  [cdkTrapFocusAutoCapture]="editing"
+  (change)="onValueChanged($event)"
+  (blur)="editing = false"
+/>
