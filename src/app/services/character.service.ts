@@ -5,6 +5,19 @@ import { CharacterBuilder } from '../model/character-builder';
 const MAX_ID = 2147483647; //Max value of a 32 bit signed integer
 const LS_CHAR_EXPRESSION = /^fm-char-\d+$/;
 const LS_CHAR_PREFIX = 'fm-char-';
+
+function characterCompare(a: Character, b: Character): number {
+  if (a.name !== b.name) {
+    return a.name < b.name ? -1 : 1;
+  }
+  if (a.id === b.id) {
+    return 0;
+  }
+  if (a.id === null || b.id === null) {
+    return a.id === null ? -1 : 1;
+  }
+  return a.id < b.id ? -1 : 1;
+}
 /**
  * An injectable service that manages the character information.
  */
@@ -22,6 +35,11 @@ export class CharacterService {
         this.characters.push(this.loadCharacterFromLocalStorage(key));
       }
     }
+    this.sortCharacters;
+  }
+
+  private sortCharacters() {
+    this.characters = this.characters.sort(characterCompare);
   }
 
   private loadCharacterFromLocalStorage(key: string): Character {
@@ -59,7 +77,8 @@ export class CharacterService {
   }
 
   persistCharacter(character: Character): Promise<Character> {
-    if (!character.id) {
+    const nullId = !character.id;
+    if (nullId) {
       character.id = Math.floor(Math.random() * MAX_ID);
     }
     return new Promise((resolve) => {
@@ -70,8 +89,10 @@ export class CharacterService {
       const index = this.characters.findIndex((c) => c.id === character.id);
       if (index < 0) {
         this.characters.push(character);
+        this.sortCharacters();
       } else {
         this.characters[index] = character;
+        this.sortCharacters();
       }
       resolve(character);
     });

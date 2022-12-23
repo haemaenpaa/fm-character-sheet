@@ -8,5 +8,6 @@
   [cdkTrapFocus]="editing"
   [cdkTrapFocusAutoCapture]="editing"
   (change)="onValueChanged($event)"
+  (keyup.enter)="editing = false"
   (blur)="editing = false"
 />

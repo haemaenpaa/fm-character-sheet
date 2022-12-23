@@ -9,6 +9,7 @@ import Character from 'src/app/model/character';
 })
 export class CharacterLiComponent {
   @Input() character: Character | null = null;
+  hovered: boolean = false;
   get levelList() {
     return this.character?.getAoLevels();
   }
@@ -17,5 +18,11 @@ export class CharacterLiComponent {
       return [];
     }
     return levelStructs(this.character);
+  }
+  onMouseEnter() {
+    this.hovered = true;
+  }
+  onMouseExit() {
+    this.hovered = false;
   }
 }

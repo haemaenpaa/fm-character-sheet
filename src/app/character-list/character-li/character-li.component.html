@@ -1,6 +1,12 @@
-<li [routerLink]="['sheet', character?.id]">
+<div
+  class="container"
+  [routerLink]="['sheet', character?.id]"
+  [ngClass]="{ hovered: hovered }"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseExit()"
+>
   {{ character?.name }}
   <span *ngFor="let level of levels">
     {{ level.abilityOrigin }} {{ level.level }}
   </span>
-</li>
+</div>
