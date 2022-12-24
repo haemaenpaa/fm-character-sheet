@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import Character from 'src/app/model/character';
+import { Race } from 'src/app/model/race';
 import { CharacterService } from 'src/app/services/character.service';
 import { RollLogService } from 'src/app/services/roll-log-service.service';
 import { LevelStruct, levelStructs } from '../../common/LevelStruct';
+import { RaceEditComponent } from '../race-edit/race-edit.component';
 
 @Component({
   selector: 'character-sheet',
   templateUrl: './character-sheet.component.html',
-  styleUrls: ['./character-sheet.component.css'],
+  styleUrls: ['./character-sheet.component.css', '../common.css'],
 })
 export class CharacterSheetComponent implements OnInit {
   character: Character | null = null;
@@ -21,6 +24,7 @@ export class CharacterSheetComponent implements OnInit {
   constructor(
     private characterService: CharacterService,
     private route: ActivatedRoute,
+    private dialog: MatDialog,
     private _: RollLogService
   ) {
     this.route.paramMap.subscribe((params) => {
@@ -60,5 +64,25 @@ export class CharacterSheetComponent implements OnInit {
       const onCharacterChanged = this.onCharacterChanged.bind(this);
       component.characterChanged.subscribe(onCharacterChanged);
     }
+  }
+
+  editRace() {
+    if (!this.character) {
+      return;
+    }
+    console.log(this.character.race);
+    const editDialog = this.dialog.open(RaceEditComponent, {
+      data: { ...this.character?.race },
+    });
+
+    editDialog.afterClosed().subscribe(this.setCharacterRace.bind(this));
+  }
+
+  private setCharacterRace(race: Race) {
+    if (!this.character || !race) {
+      return;
+    }
+    this.character.race = race;
+    this.onCharacterChanged();
   }
 }

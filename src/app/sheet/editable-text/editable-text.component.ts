@@ -20,6 +20,9 @@ export class EditableTextComponent {
     this.valueChanged.emit(this.value);
   }
   get isEmpty(): boolean {
+    if (this.value == null) {
+      return true;
+    }
     return `${this.value}`.length == 0;
   }
 }

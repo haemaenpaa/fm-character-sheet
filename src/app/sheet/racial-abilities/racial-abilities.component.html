@@ -1,13 +1,42 @@
 <div>
-  <div *ngFor="let ab of abilitiesList" class="ability-card">
+  <div *ngFor="let ab of racialAbilities | keyvalue" class="ability-card">
     <div class="ability-name">
       <editable-text
-        [value]="ab.name"
-        (valueChanged)="onNameChanged(ab.name, $event)"
+        [value]="ab.key"
+        (valueChanged)="onNameChanged(ab.key, $event)"
+        [enabled]="editable"
       ></editable-text>
     </div>
     <div class="ability-description">
-      <editable-text [value]="ab.description"></editable-text>
+      <editable-text
+        [value]="ab.value"
+        [enabled]="editable"
+        [placeholder]="'No description'"
+        (valueChanged)="onDescriptionChanged(ab.key, $event)"
+      ></editable-text>
+    </div>
+    <div
+      class="delete-button"
+      *ngIf="editable"
+      (click)="onAbilityDeleted(ab.key)"
+    >
+      -
     </div>
   </div>
+  <div
+    class="add-button"
+    *ngIf="!inserting && editable"
+    (click)="inserting = true"
+  >
+    +
+  </div>
+  <input
+    class="ability-name"
+    *ngIf="inserting"
+    [cdkTrapFocus]="inserting"
+    [cdkTrapFocusAutoCapture]="inserting"
+    placeholder="new ability"
+    (blur)="onAbilityNameEdited($event)"
+    (keyup.enter)="onAbilityNameEdited($event)"
+  />
 </div>

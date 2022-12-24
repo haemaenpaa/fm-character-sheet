@@ -27,6 +27,7 @@
     [cdkTrapFocus]="inserting"
     [cdkTrapFocusAutoCapture]="inserting"
     (blur)="endInserting($event)"
+    (keyup.enter)="endInserting($event)"
     placeholder="resistance"
     type="text"
   />

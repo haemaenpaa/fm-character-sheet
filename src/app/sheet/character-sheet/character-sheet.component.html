@@ -6,7 +6,7 @@
         (valueChanged)="character.name = $event; onCharacterChanged()"
       ></editable-text>
     </div>
-    <div class="character-race">
+    <div class="character-race clickable" (click)="editRace()">
       <div class="character-race-label">Race:</div>
       <div class="character-main-race">{{ character.race.name }}</div>
       <div class="character-subrace" *ngIf="character?.race?.subrace">
