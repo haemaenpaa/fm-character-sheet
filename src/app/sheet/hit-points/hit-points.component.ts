@@ -16,39 +16,30 @@ export class HitPointsComponent {
   @Input() max!: number;
   @Input() temporary!: number;
 
-  editingCurrent: boolean = false;
-  editingTemp: boolean = false;
-
   @Output() currentChanged: EventEmitter<number> = new EventEmitter();
+  @Output() maxChanged: EventEmitter<number> = new EventEmitter();
   @Output() tempChanged: EventEmitter<number> = new EventEmitter();
 
-  setEditingCurrent() {
-    this.editingCurrent = true;
-    this.editingTemp = false;
-  }
-
-  setEditingTemp() {
-    this.editingTemp = true;
-    this.editingCurrent = false;
-  }
-
-  endEditing() {
-    this.editingTemp = false;
-    this.editingCurrent = false;
-  }
-
-  onInputValueChanged(event: Event) {
-    console.log('onInputValueChanged', event.target);
-    const element = event.target as HTMLInputElement;
-    const value = element.value.trim();
-    const newValue = this.applyChange(this.current, value);
-    if (this.editingCurrent) {
-      this.currentChanged.emit(newValue);
+  onTempChanged(value: string) {
+    const newTemp = Number.parseInt(value);
+    if (isNaN(newTemp)) {
+      return;
     }
-    if (this.editingTemp) {
-      this.tempChanged.emit(newValue);
+    this.tempChanged.emit(newTemp);
+  }
+
+  onMaxChanged(value: string) {
+    const newMax = Number.parseInt(value);
+    if (!isNaN(newMax)) {
+      this.maxChanged.emit(newMax);
     }
-    this.endEditing();
+  }
+
+  onTotalChanged(value: string) {
+    const newTotal = Number.parseInt(value);
+    if (!isNaN(newTotal)) {
+      this.currentChanged.emit(newTotal);
+    }
   }
 
   applyChange(initial: number, modifier: string): number {

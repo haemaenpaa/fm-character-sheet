@@ -12,10 +12,11 @@
     </div>
     <hit-points
       class="container-border"
-      [current]="character?.hitPointTotal || 0"
-      [max]="character?.hitPointMaximum || 0"
-      [temporary]="character?.tempHitPoints || 0"
+      [current]="character!.hitPointTotal"
+      [max]="character!.hitPointMaximum"
+      [temporary]="character!.tempHitPoints"
       (currentChanged)="onHpTotalChanged($event)"
+      (maxChanged)="onHpMaxChanged($event)"
       (tempChanged)="onTempHpChanged($event)"
     ></hit-points>
   </div>

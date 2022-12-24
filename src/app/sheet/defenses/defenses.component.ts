@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import Character from 'src/app/model/character';
 import { SaveParams } from 'src/app/model/game-action';
@@ -29,7 +35,10 @@ export class DefensesComponent {
     'com',
   ];
 
-  constructor(private actionService: ActionDispatchService) {}
+  constructor(
+    private actionService: ActionDispatchService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   hasSave(save: string): boolean {
     if (!this.character) {
@@ -78,18 +87,33 @@ export class DefensesComponent {
   }
 
   onHpTotalChanged($event: number) {
+    debugger;
     if (this.character) {
       this.character.hitPointTotal = clamp(
         $event,
         0,
         this.character.hitPointMaximum
       );
+      this.changeDetector.detectChanges();
     }
     this.characterChanged.emit();
+  }
+  onHpMaxChanged($event: number) {
+    if (this.character) {
+      this.character.hitPointMaximum = $event;
+      this.character.hitPointTotal = clamp(
+        this.character.hitPointTotal,
+        0,
+        $event
+      );
+      this.changeDetector.detectChanges();
+      this.characterChanged.emit();
+    }
   }
   onTempHpChanged($event: number) {
     if (this.character) {
       this.character.tempHitPoints = Math.max($event, 0);
+      this.changeDetector.detectChanges();
     }
     this.characterChanged.emit();
   }

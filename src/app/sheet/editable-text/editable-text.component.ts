@@ -16,8 +16,7 @@ export class EditableTextComponent {
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
 
   onValueChanged(event: Event) {
-    this.value = (event.target as HTMLInputElement).value;
-    this.valueChanged.emit(this.value);
+    this.valueChanged.emit((event.target as HTMLInputElement).value);
   }
   get isEmpty(): boolean {
     if (this.value == null) {
