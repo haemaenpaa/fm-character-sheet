@@ -19,6 +19,7 @@ function abbreviate(value: string): string {
 })
 export class CharacterLiComponent {
   @Input() character: Character | null = null;
+  @Input() hilight: boolean = false;
   hovered: boolean = false;
   get levelList() {
     return this.character?.getAoLevels();

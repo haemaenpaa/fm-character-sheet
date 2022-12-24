@@ -1,7 +1,7 @@
 <div
   class="container"
   [routerLink]="['sheet', character?.id]"
-  [ngClass]="{ hovered: hovered }"
+  [ngClass]="{ hovered: hovered, hilight: hilight }"
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseExit()"
 >

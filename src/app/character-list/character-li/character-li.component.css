@@ -8,6 +8,10 @@
   margin: 0.5em;
   width: fit-content;
 }
+.hilight {
+  border-color: green;
+  border-style: solid;
+}
 .hovered {
   color: darkblue;
   border-style: solid;

@@ -67,6 +67,7 @@ const LAST_NAMES = [
   styleUrls: ['./character-list.component.css'],
 })
 export class CharacterListComponent {
+  hilightId: number | null = null;
   constructor(private characterService: CharacterService) {}
   get characters(): Character[] {
     return this.characterService.allCharacters;
@@ -78,6 +79,8 @@ export class CharacterListComponent {
     const character = new CharacterBuilder()
       .setName(`${firstname} ${lastname}`)
       .build();
-    this.characterService.persistCharacter(character);
+    this.characterService
+      .persistCharacter(character)
+      .then((c) => (this.hilightId = c.id));
   }
 }
