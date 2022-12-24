@@ -82,6 +82,7 @@
   display: flex;
   flex-direction: row;
   padding-inline-start: 1em;
+  height: 2em;
 }
 
 .nav-tab {
@@ -100,6 +101,19 @@
 .tab-router-container {
   border-style: solid;
   border-radius: 0.5em;
-  height: 100%;
   margin-inline-end: 2em;
+}
+
+.details-outlet {
+  height: 21em;
+}
+
+.info-section {
+  grid-area: info;
+}
+.details-section {
+  grid-area: details;
+}
+.info-outlet {
+  height: 100%;
 }

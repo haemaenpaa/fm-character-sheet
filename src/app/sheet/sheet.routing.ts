@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { AbilitiesListComponent } from './abilities-list/abilities-list.component';
 import { DefensesComponent } from './defenses/defenses.component';
 import { RollLogComponent } from './roll-log/roll-log.component';
 
@@ -10,8 +11,15 @@ export const upperOutletRoutes: Route[] = [
     path: '',
     pathMatch: 'full',
     component: DefensesComponent,
-    outlet: 'upper-outlet',
+    outlet: 'details-outlet',
   },
-  { path: 'rolls', component: RollLogComponent, outlet: 'upper-outlet' },
-  { path: 'defenses', component: DefensesComponent, outlet: 'upper-outlet' },
+  { path: 'rolls', component: RollLogComponent, outlet: 'details-outlet' },
+  { path: 'defenses', component: DefensesComponent, outlet: 'details-outlet' },
+
+  {
+    path: '',
+    pathMatch: 'full',
+    component: AbilitiesListComponent,
+    outlet: 'info-outlet',
+  },
 ];

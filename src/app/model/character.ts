@@ -214,7 +214,6 @@ export default class Character {
    *
    * @returns Snapshot of the character's current AO levels.
    */
-  @Memoize()
   getAoLevels(): { [key: string]: number } {
     var ret: { [key: string]: number } = {};
     for (let selection of this.selections.filter((s) => s.isPrimary)) {

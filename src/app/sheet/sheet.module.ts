@@ -23,6 +23,11 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ResistancesComponent } from './resistances/resistances.component';
 import { ResistanceItemComponent } from './resistances/resistance-item/resistance-item.component';
 import { EditableTextComponent } from './editable-text/editable-text.component';
+import { AbilitiesListComponent } from './abilities-list/abilities-list.component';
+import { RacialAbilitiesComponent } from './racial-abilities/racial-abilities.component';
+import { AoSelectionListComponent } from './ao-selection-list/ao-selection-list.component';
+import { AoSelectionItemComponent } from './ao-selection-item/ao-selection-item.component';
+import { SortSelectionsPipe } from './ao-selection-list/sort-selections.pipe';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -50,6 +55,11 @@ import { EditableTextComponent } from './editable-text/editable-text.component';
     ResistancesComponent,
     ResistanceItemComponent,
     EditableTextComponent,
+    AbilitiesListComponent,
+    RacialAbilitiesComponent,
+    AoSelectionListComponent,
+    AoSelectionItemComponent,
+    SortSelectionsPipe,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

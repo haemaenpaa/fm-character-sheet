@@ -7,6 +7,13 @@
   cursor: pointer;
 }
 
+.delete-button {
+  color: darkred;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bold;
+}
+
 .clickable {
   cursor: pointer;
 }

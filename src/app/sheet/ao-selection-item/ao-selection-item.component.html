@@ -1,0 +1,39 @@
+<div class="container" (mouseenter)="onHover()" (mouseleave)="onHoverEnd()">
+  <div class="selection-name">
+    <editable-text
+      [ngStyle]="{ color: selection.hilightColor || 'inherit' }"
+      [value]="selection?.name"
+      (valueChanged)="onFieldChanged('name', $event)"
+    ></editable-text>
+    <span *ngIf="hovered" (click)="onDelete()" class="delete-button">-</span>
+  </div>
+  <div class="ao-container">
+    <div class="ao-name">
+      <editable-text
+        [value]="selection?.abilityOrigin"
+        (valueChanged)="onFieldChanged('abilityOrigin', $event)"
+      ></editable-text>
+    </div>
+    <div class="ao-level">
+      <editable-text
+        [value]="selection?.level"
+        (valueChanged)="onLevelChanged($event)"
+      ></editable-text>
+    </div>
+  </div>
+  <div class="selection-description">
+    <editable-text
+      [value]="selection?.description"
+      [placeholder]="'No description'"
+      (valueChanged)="onFieldChanged('description', $event)"
+      [rows]="12"
+    ></editable-text>
+  </div>
+  <div class="primary-select" *ngIf="selection!.level <= 3">
+    <input
+      type="checkbox"
+      [checked]="selection.isPrimary"
+      (change)="onPrimaryToggle($event)"
+    />Primary selection
+  </div>
+</div>

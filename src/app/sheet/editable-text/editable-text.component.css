@@ -1,3 +1,9 @@
 .editable-view {
   width: 100%;
 }
+
+.empty-placeholder {
+  border-width: 1pt;
+  width: 100%;
+  color: gray;
+}

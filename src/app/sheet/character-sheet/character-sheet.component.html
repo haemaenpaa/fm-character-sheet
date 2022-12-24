@@ -30,26 +30,43 @@
       (characterChanged)="onCharacterChanged()"
     ></ability-grid>
   </div>
-  <div>
+  <div class="details-section">
     <div class="nav-tab-container">
       <div
         class="nav-tab"
-        [routerLink]="[{ outlets: { 'upper-outlet': ['defenses'] } }]"
+        [routerLink]="[{ outlets: { 'details-outlet': ['defenses'] } }]"
         [routerLinkActive]="'nav-tab-active'"
       >
         Defenses
       </div>
       <div
         class="nav-tab-last"
-        [routerLink]="[{ outlets: { 'upper-outlet': ['rolls'] } }]"
+        [routerLink]="[{ outlets: { 'details-outlet': ['rolls'] } }]"
         [routerLinkActive]="'nav-tab-active'"
       >
         Rolls
       </div>
     </div>
-    <div class="tab-router-container">
+    <div class="tab-router-container details-outlet">
       <router-outlet
-        name="upper-outlet"
+        name="details-outlet"
+        (activate)="onOutletLoaded($event)"
+      ></router-outlet>
+    </div>
+  </div>
+  <div class="info-section">
+    <div class="nav-tab-container">
+      <div
+        class="nav-tab-last"
+        [routerLink]="[{ outlets: { 'info-outlet': ['rolls'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Abilities and selections
+      </div>
+    </div>
+    <div class="tab-router-container info-outlet">
+      <router-outlet
+        name="info-outlet"
         (activate)="onOutletLoaded($event)"
       ></router-outlet>
     </div>

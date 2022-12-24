@@ -1,0 +1,17 @@
+.ability-card {
+  display: flex;
+  flex-direction: column;
+  border-style: none none none dotted;
+}
+
+.ability-name {
+  font-weight: bold;
+  font-size: large;
+  margin-inline-start: 0.5em;
+  margin-block-start: 0.25em;
+  margin-block-end: 0.25em;
+}
+
+.ability-description {
+  margin-inline-start: 0.5em;
+}

@@ -1,0 +1,14 @@
+<div class="racial-abilities" *ngIf="hasRacialAbilities">
+  <h3>Racial Abilities</h3>
+  <racial-abilities [racialAbilities]="character!.race.abilities">
+  </racial-abilities>
+</div>
+<h3>Ability Origin selections</h3>
+<div class="ao-selections">
+  <ao-selection-list
+    [selections]="character!.selections"
+    (selectionAdded)="onSelectionAdd($event)"
+    (selectionDeleted)="onSelectionRemove($event)"
+    (selectionChanged)="onSelectionEdit($event)"
+  ></ao-selection-list>
+</div>
