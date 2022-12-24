@@ -28,6 +28,7 @@ import { RacialAbilitiesComponent } from './racial-abilities/racial-abilities.co
 import { AoSelectionListComponent } from './ao-selection-list/ao-selection-list.component';
 import { AoSelectionItemComponent } from './ao-selection-item/ao-selection-item.component';
 import { SortSelectionsPipe } from './ao-selection-list/sort-selections.pipe';
+import { RaceEditComponent } from './race-edit/race-edit.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -60,6 +61,7 @@ import { SortSelectionsPipe } from './ao-selection-list/sort-selections.pipe';
     AoSelectionListComponent,
     AoSelectionItemComponent,
     SortSelectionsPipe,
+    RaceEditComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

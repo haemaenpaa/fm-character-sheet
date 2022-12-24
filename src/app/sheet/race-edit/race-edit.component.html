@@ -1,0 +1,41 @@
+<div class="race-edit-container">
+  <div>
+    <editable-text
+      [value]="race.name"
+      (valueChanged)="race.name = $event"
+    ></editable-text>
+  </div>
+  <div>
+    <editable-text
+      [value]="race.subrace"
+      (valueChanged)="setSubrace($event)"
+    ></editable-text>
+  </div>
+  <div>
+    Damage resistances:
+    <resistances
+      [resistances]="race.damageResistances"
+      (resistanceInserted)="onResistanceInserted('damage', $event)"
+      (resistanceDeleted)="onResistanceDeleted('damage', $event)"
+      (resistanceModified)="onResistanceModified('damage', $event)"
+    ></resistances>
+  </div>
+  <div>
+    Status resistances:
+    <resistances
+      [resistances]="race.statusResistances"
+      (resistanceInserted)="onResistanceInserted('status', $event)"
+      (resistanceDeleted)="onResistanceDeleted('status', $event)"
+      (resistanceModified)="onResistanceModified('status', $event)"
+    ></resistances>
+  </div>
+  <div>
+    Abilities:
+    <racial-abilities
+      [racialAbilities]="race.abilities"
+      [editable]="true"
+      (abilityChanged)="onAbilityChanged($event)"
+    ></racial-abilities>
+  </div>
+  <button (click)="onSubmit()">Submit</button>
+</div>
