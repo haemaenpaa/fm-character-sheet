@@ -32,6 +32,8 @@ export class RacialAbilitiesComponent {
     this.abilityChanged.emit({ oldName: name, newName: name, description });
   }
   onAbilityInserted(name: string) {
+    debugger;
+    console.log(`Ability inserted: ${name}`);
     this.abilityChanged.emit({
       oldName: null,
       newName: name,
@@ -48,6 +50,7 @@ export class RacialAbilitiesComponent {
   }
   onAbilityNameEdited($event: Event) {
     const element = $event.target as HTMLInputElement;
+    console.log('Ability name inserted', element.value);
     this.onAbilityInserted(element.value);
     this.inserting = false;
   }

@@ -37,6 +37,6 @@
     [cdkTrapFocusAutoCapture]="inserting"
     placeholder="new ability"
     (blur)="onAbilityNameEdited($event)"
-    (keyup.enter)="onAbilityNameEdited($event)"
+    (keyup.enter)="inserting = false"
   />
 </div>
