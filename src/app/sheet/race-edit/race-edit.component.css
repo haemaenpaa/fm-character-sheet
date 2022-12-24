@@ -1,3 +1,33 @@
 .race-edit-container {
   width: 15em;
+  display: grid;
+  grid-template-rows: 1em 1em max-content max-content max-content;
+  margin: 0.5em;
+  overflow: scroll;
+  aspect-ratio: 0.5;
+  height: 50%;
+  row-gap: 0.5em;
+}
+.abilities-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.name-edit {
+  font-size: large;
+  font-weight: bold;
+}
+.subrace-edit {
+  margin-block-end: 1em;
+  font-style: italic;
+}
+.label {
+  font-variant: small-caps;
+  font-size: large;
+}
+
+.submit-button {
+  border-radius: 1em;
+  border-style: double;
+  text-align: center;
 }
