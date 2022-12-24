@@ -28,6 +28,7 @@
 
 .submit-button {
   border-radius: 1em;
+  height: max-content;
   border-style: double;
   text-align: center;
 }

@@ -1,5 +1,16 @@
-<div class="skill-box">
-  <div class="skill-title">{{ skill | skillName }}</div>
+<div class="skill-box" (mouseenter)="onHover()" (mouseleave)="onHoverEnd()">
+  <div class="skill-title">
+    <editable-text
+      [value]="skill.name"
+      *ngIf="custom"
+      (valueChanged)="onNameChanged($event)"
+    ></editable-text>
+    <span *ngIf="!custom"> {{ skill | skillName }}</span>
+    <div class="delete-button" *ngIf="custom && hovered" (click)="emitDelete()">
+      -
+    </div>
+  </div>
+
   <div class="skill-ranks">
     <div
       *ngFor="let item of [].constructor(skill.rank); let i = index"
@@ -16,12 +27,22 @@
   </div>
   <div
     class="first-ability"
-    *ngIf="skill.defaultAbilities.length > 0"
-    (click)="callRoll(skill.defaultAbilities[0])"
-  >
+    *ngIf="skill.defaultAbilities.length == 0 && custom"
+    (click)="changeDefaultAbility(0)"
+  ></div>
+  <div class="first-ability" *ngIf="skill.defaultAbilities.length > 0">
     <div>
-      {{ skill.defaultAbilities[0] | abilityName : "short" }}
-      <span class="ability-modifier">
+      <span
+        (click)="
+          custom ? changeDefaultAbility(0) : callRoll(skill.defaultAbilities[0])
+        "
+        class="clickable"
+        >{{ skill.defaultAbilities[0] | abilityName : "short" }}</span
+      >
+      <span
+        class="ability-modifier clickable"
+        (click)="callRoll(skill.defaultAbilities[0])"
+      >
         {{
           abilityModifier(skill.defaultAbilities[0]) + skillModifier | modifier
         }}
@@ -29,20 +50,30 @@
     </div>
   </div>
   <div
-    class="second-ability"
-    *ngIf="skill.defaultAbilities.length > 1"
-    (click)="callRoll(skill.defaultAbilities[1])"
-  >
+    class="second-ability clickable"
+    *ngIf="skill.defaultAbilities.length === 1"
+    (click)="changeDefaultAbility(1)"
+  ></div>
+  <div class="second-ability" *ngIf="skill.defaultAbilities.length > 1">
     <div>
-      <span class="ability-modifier">
+      <span
+        class="ability-modifier"
+        (click)="callRoll(skill.defaultAbilities[1])"
+      >
         {{
           abilityModifier(skill.defaultAbilities[1]) + skillModifier | modifier
         }}
       </span>
-      <span>{{ skill.defaultAbilities[1] | abilityName : "short" }}</span>
+      <span
+        (click)="
+          custom ? changeDefaultAbility(1) : callRoll(skill.defaultAbilities[1])
+        "
+        class="clickable"
+        >{{ skill.defaultAbilities[1] | abilityName : "short" }}</span
+      >
     </div>
   </div>
-  <div class="ability-button" (click)="callCustomRoll()">
+  <div class="ability-button clickable" (click)="callCustomRoll()">
     {{ skillModifier | modifier }}
   </div>
 </div>

@@ -1,11 +1,23 @@
 <div class="skill-grid">
-  <div *ngFor="let skill of character.getAllSkills(); let i = index">
+  <div *ngFor="let skill of character.getDefaultSkills(); let i = index">
     <skill
       [skill]="skill"
       [abilityModifiers]="character.getAbilityModifiers()"
       [proficiency]="character.proficiency"
-      (rankModified)="onModifyRank($event)"
+      (skillModified)="onModifySkill($event)"
       (roll)="onSkillRoll($event)"
     ></skill>
   </div>
+  <div *ngFor="let skill of character.customSkills; let i = index">
+    <skill
+      [skill]="skill"
+      [custom]="true"
+      [abilityModifiers]="character.getAbilityModifiers()"
+      [proficiency]="character.proficiency"
+      (skillModified)="onModifySkill($event)"
+      (skillDeleted)="onDeleteSkill($event)"
+      (roll)="onSkillRoll($event)"
+    ></skill>
+  </div>
+  <div class="add-button empty-card clickable" (click)="addSkill()">+</div>
 </div>

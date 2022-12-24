@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { race } from 'rxjs';
 import Character from 'src/app/model/character';
 import { Race } from 'src/app/model/race';
 import { CharacterService } from 'src/app/services/character.service';
@@ -25,6 +26,7 @@ export class CharacterSheetComponent implements OnInit {
     private characterService: CharacterService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
+    private changeDetector: ChangeDetectorRef,
     private _: RollLogService
   ) {
     this.route.paramMap.subscribe((params) => {
@@ -51,9 +53,10 @@ export class CharacterSheetComponent implements OnInit {
 
   onCharacterChanged() {
     console.log('Character changed. Persisting character.');
-    this.characterService
-      .persistCharacter(this.character!)
-      .then((c) => (this.character = c));
+    this.characterService.persistCharacter(this.character!).then((c) => {
+      this.character = c;
+      this.changeDetector.detectChanges();
+    });
   }
 
   onOutletLoaded(component: any) {
@@ -71,8 +74,15 @@ export class CharacterSheetComponent implements OnInit {
       return;
     }
     console.log(this.character.race);
+    const race: Race = {
+      name: this.character.race.name,
+      subrace: this.character.race.subrace,
+      abilities: { ...this.character.race.abilities },
+      damageResistances: [...this.character.race.damageResistances],
+      statusResistances: [...this.character.race.statusResistances],
+    };
     const editDialog = this.dialog.open(RaceEditComponent, {
-      data: { ...this.character?.race },
+      data: race,
     });
 
     editDialog.afterClosed().subscribe(this.setCharacterRace.bind(this));

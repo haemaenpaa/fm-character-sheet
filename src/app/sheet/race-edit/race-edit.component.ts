@@ -37,11 +37,19 @@ export class RaceEditComponent {
       value,
     };
     if (variety === 'damage') {
-      this.race.damageResistances.push(resistance);
+      console.log('Inserting', value, this.race.damageResistances);
+      this.race.damageResistances = [
+        ...this.race.damageResistances,
+        resistance,
+      ];
     }
     if (variety === 'status') {
-      this.race.statusResistances.push(resistance);
+      this.race.statusResistances = [
+        ...this.race.statusResistances,
+        resistance,
+      ];
     }
+    this.changeDetector.detectChanges();
   }
   onResistanceDeleted(variety: resistanceVariety, deleted: Resistance) {
     const deletionFilter = (r: Resistance) => r.value !== deleted.value;
@@ -67,6 +75,7 @@ export class RaceEditComponent {
         break;
       case 'status':
         this.race.statusResistances = this.race.statusResistances.map(mapper);
+        break;
     }
   }
   onAbilityChanged(event: AbilityModifiedEvent) {
@@ -81,7 +90,6 @@ export class RaceEditComponent {
       delete newAbilities[event.oldName!];
       this.race.abilities = newAbilities;
     }
-    console.log(this.race.abilities);
     this.changeDetector.detectChanges();
   }
 }
