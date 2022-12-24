@@ -22,4 +22,10 @@ export const upperOutletRoutes: Route[] = [
     component: AbilitiesListComponent,
     outlet: 'info-outlet',
   },
+  {
+    path: 'selections',
+    pathMatch: 'full',
+    component: AbilitiesListComponent,
+    outlet: 'info-outlet',
+  },
 ];
