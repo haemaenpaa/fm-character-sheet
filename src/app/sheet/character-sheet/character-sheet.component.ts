@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import Character from 'src/app/model/character';
@@ -25,6 +25,7 @@ export class CharacterSheetComponent implements OnInit {
     private characterService: CharacterService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
+    private changeDetector: ChangeDetectorRef,
     private _: RollLogService
   ) {
     this.route.paramMap.subscribe((params) => {
@@ -51,9 +52,10 @@ export class CharacterSheetComponent implements OnInit {
 
   onCharacterChanged() {
     console.log('Character changed. Persisting character.');
-    this.characterService
-      .persistCharacter(this.character!)
-      .then((c) => (this.character = c));
+    this.characterService.persistCharacter(this.character!).then((c) => {
+      this.character = c;
+      this.changeDetector.detectChanges();
+    });
   }
 
   onOutletLoaded(component: any) {

@@ -18,3 +18,8 @@
 .right-column {
   grid-column: right;
 }
+
+.empty-card {
+  width: 100%;
+  text-align: center;
+}

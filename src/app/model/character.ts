@@ -186,11 +186,11 @@ export default class Character {
   }
 
   /**
-   * Getter for the character's skills.
-   * @returns Snapshot of the character's skills
+   *
+   * @returns The character's "Default" skills
    */
   @Memoize()
-  getAllSkills(): Skill[] {
+  getDefaultSkills(): Skill[] {
     const ret: Skill[] = [];
     for (const key in this.defaultSkills) {
       const current: Skill = {
@@ -201,7 +201,6 @@ export default class Character {
       };
       ret.push(current);
     }
-    this.customSkills.forEach((s) => ret.push({ ...s }));
     return ret;
   }
 
