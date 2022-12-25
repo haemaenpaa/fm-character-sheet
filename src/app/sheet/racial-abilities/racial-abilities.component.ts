@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Memoize } from 'typescript-memoize';
 
 export interface AbilityModifiedEvent {
   oldName: string | null;
