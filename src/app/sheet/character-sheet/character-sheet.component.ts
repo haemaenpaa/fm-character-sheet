@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { race } from 'rxjs';
 import Character from 'src/app/model/character';
 import { Race } from 'src/app/model/race';
 import { CharacterService } from 'src/app/services/character.service';
@@ -14,7 +13,7 @@ import { RaceEditComponent } from '../race-edit/race-edit.component';
   templateUrl: './character-sheet.component.html',
   styleUrls: ['./character-sheet.component.css', '../common.css'],
 })
-export class CharacterSheetComponent implements OnInit {
+export class CharacterSheetComponent {
   character: Character | null = null;
   /**
    * Constructor.
@@ -41,8 +40,6 @@ export class CharacterSheetComponent implements OnInit {
       });
     });
   }
-
-  ngOnInit(): void {}
 
   /**
    * Parses the character's AO levels into an easier to display format.
