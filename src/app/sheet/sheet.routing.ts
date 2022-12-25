@@ -10,7 +10,7 @@ export const upperOutletRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    component: DefensesComponent,
+    redirectTo: 'defenses',
     outlet: 'details-outlet',
   },
   { path: 'rolls', component: RollLogComponent, outlet: 'details-outlet' },
@@ -19,7 +19,7 @@ export const upperOutletRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    component: AbilitiesListComponent,
+    redirectTo: 'selections',
     outlet: 'info-outlet',
   },
   {
