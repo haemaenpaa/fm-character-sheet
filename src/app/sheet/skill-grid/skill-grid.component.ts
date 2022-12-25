@@ -1,12 +1,17 @@
-import { identifierName } from '@angular/compiler';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Character from 'src/app/model/character';
 import { SkillParams } from 'src/app/model/game-action';
+import { Skill } from 'src/app/model/skill';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
-import { Memoize } from 'typescript-memoize';
 import { SkillCheckEvent, SkillSetEvent } from '../skill/skill.component';
+import { skillHash, skillsArrayEqual } from './skillMemoUtils';
 
 const IDENT_MAX = Number.MAX_SAFE_INTEGER;
+
+interface SkillsMemo {
+  memo: Skill[];
+  hash: number;
+}
 
 @Component({
   selector: 'skill-grid',
@@ -16,15 +21,29 @@ const IDENT_MAX = Number.MAX_SAFE_INTEGER;
 export class SkillGridComponent implements OnInit {
   @Input() character!: Character;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
+  private defaultSkillsMemo: SkillsMemo = { memo: [], hash: 0 };
   constructor(private actionService: ActionDispatchService) {}
 
   ngOnInit(): void {}
 
-  @Memoize()
   get abilityModifiers(): { [key: string]: number } {
     return this.character.getAbilityModifiers() as unknown as {
       [key: string]: number;
     };
+  }
+  get defaultSkills(): Skill[] {
+    const hash = skillHash(this.character);
+    if (
+      hash != this.defaultSkillsMemo.hash &&
+      !skillsArrayEqual(
+        this.character.getDefaultSkills(),
+        this.defaultSkillsMemo.memo
+      )
+    ) {
+      this.defaultSkillsMemo.memo = this.character.getDefaultSkills();
+      this.defaultSkillsMemo.hash = hash;
+    }
+    return this.defaultSkillsMemo.memo;
   }
 
   onModifySkill(event: SkillSetEvent) {
