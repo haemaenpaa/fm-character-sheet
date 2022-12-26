@@ -1,0 +1,11 @@
+{
+  "name": "fm-character-sheet-main",
+  "version": "0.0.1",
+  "description": "Server for fm-character-sheet",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "rm -r dist;mkdir -p dist;cd server;npm run build;cp -R dist ../dist;cd ../client;npm run build;cp -R dist/fm-character-sheet ../dist/fm-character-sheet"
+  },
+  "author": "",
+  "license": "CC-BY-SA-4.0"
+}

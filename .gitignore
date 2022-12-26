@@ -2,6 +2,8 @@
 
 # Compiled output
 /dist
+/client/dist
+/server/dist
 /tmp
 /out-tsc
 /bazel-out
