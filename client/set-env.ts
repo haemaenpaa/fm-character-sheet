@@ -2,8 +2,6 @@ const { writeFile } = require('fs');
 const { promisify } = require('util');
 const dotenv = require('dotenv');
 
-console.log(process.argv);
-
 const scriptArgs = process.argv.slice(2);
 
 var pathToEnv: string | null = null;
