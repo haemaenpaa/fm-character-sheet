@@ -13,6 +13,7 @@ import { ActionDispatchService } from 'src/app/services/action-dispatch.service'
 })
 export class AbilityGridComponent implements OnInit {
   @Input() character!: Character;
+  @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
   constructor(private rollService: ActionDispatchService) {}
 
