@@ -1,42 +1,13 @@
 {
-  "name": "fm-character-sheet",
-  "version": "0.0.0",
+  "name": "fm-character-sheet-main",
+  "version": "0.0.1",
+  "description": "Server for fm-character-sheet",
+  "main": "src/index.ts",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "build-server": "cd server;npm run build; cp -r ./dist/ ../dist/fm-character-sheet-main/",
+    "build-client": "cd client;npm run build;cp -r dist/fm-character-sheet/ ../dist/fm-character-sheet-main/fm-character-sheet/",
+    "build": "rm -r dist;mkdir -p dist;npm run build-server;npm run build-client"
   },
-  "private": true,
-  "dependencies": {
-    "@angular/animations": "15.0.3",
-    "@angular/cdk": "~15.0.2",
-    "@angular/common": "15.0.3",
-    "@angular/compiler": "15.0.3",
-    "@angular/core": "15.0.3",
-    "@angular/forms": "15.0.3",
-    "@angular/material": "~15.0.2",
-    "@angular/platform-browser": "15.0.3",
-    "@angular/platform-browser-dynamic": "15.0.3",
-    "@angular/router": "15.0.3",
-    "bootstrap": "5.2.1",
-    "jquery": "3.6.1",
-    "rxjs": "~7.5.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "^15.0.3",
-    "@angular/cli": "~15.0.3",
-    "@angular/compiler-cli": "15.0.3",
-    "@types/jasmine": "~4.0.0",
-    "jasmine-core": "~4.3.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "^4.8.2"
-  }
+  "author": "Heikki Mäenpää",
+  "license": "CC-BY-SA-4.0"
 }

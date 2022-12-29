@@ -2,11 +2,15 @@
 
 # Compiled output
 /dist
+/client/dist
+/server/dist
 /tmp
 /out-tsc
 /bazel-out
 
 # Node
+/server/node_modules
+/client/node_modules
 /node_modules
 npm-debug.log
 yarn-error.log
@@ -29,6 +33,7 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
+/client/.angular/cache
 /.angular/cache
 .sass-cache/
 /connect.lock

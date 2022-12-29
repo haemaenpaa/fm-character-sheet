@@ -15,6 +15,13 @@ const routes: Routes = [
     component: CharacterSheetComponent,
     children: upperOutletRoutes,
   },
+  {
+    path: 'callback',
+    loadChildren: () =>
+      import('./features/callback/callback.module').then(
+        (m) => m.CallbackModule
+      ),
+  },
 ];
 /**
  * Routing module for the application.
