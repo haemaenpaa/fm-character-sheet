@@ -11,6 +11,19 @@
   width: 100%;
 }
 
+.accessibility-colorized > .skill-card {
+  color: purple;
+}
+.accessibility-colorized > .default {
+  color: darkblue;
+}
+.accessibility-colorized > .custom {
+  color: rgb(0, 105, 105);
+}
+.accessibility-colorized > .empty-card {
+  color: navy;
+}
+
 .left-column {
   grid-column: left;
 }

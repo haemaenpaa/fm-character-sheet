@@ -1,5 +1,8 @@
-<div class="skill-grid">
-  <div *ngFor="let skill of defaultSkills; let i = index">
+<div class="skill-grid" [ngClass]="{ 'accessibility-colorized': colorized }">
+  <div
+    *ngFor="let skill of defaultSkills; let i = index"
+    class="skill-card default"
+  >
     <skill
       [skill]="skill"
       [abilityModifiers]="character.getAbilityModifiers()"
@@ -8,7 +11,15 @@
       (roll)="onSkillRoll($event)"
     ></skill>
   </div>
-  <div *ngFor="let skill of character.customSkills; let i = index">
+  <div
+    *ngFor="let skill of character.customSkills; let i = index"
+    class="skill-card custom"
+    [ngClass]="{
+      'first-color': i % 3 == 0,
+      'second-color': i % 3 == 1,
+      'third-color': i % 3 == 2
+    }"
+  >
     <skill
       [skill]="skill"
       [custom]="true"
