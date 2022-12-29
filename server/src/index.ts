@@ -1,12 +1,13 @@
 import express from "express";
 import * as path from "path";
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-const frontendPath = process.env.FRONTEND_PATH || "fm-character-sheet";
+const frontendPath =
+  process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");
 
 //Serve the frontend content as static.
-app.use(express.static(path.join(__dirname, frontendPath)));
+app.use(express.static(frontendPath));
 
 /**
  * Route that redirects everything not otherwise routed to the SPA frontend.
