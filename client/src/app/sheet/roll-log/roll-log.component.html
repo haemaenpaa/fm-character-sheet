@@ -1,6 +1,10 @@
 <div #logScroll class="rolls-display">
-  <div *ngFor="let r of rolls" class="single-roll">
-    <div [ngSwitch]="rollToType(r)">
+  <div
+    *ngFor="let r of rolls"
+    class="single-roll"
+    [ngClass]="{ 'accessibility-colorized': colorized }"
+  >
+    <div [ngSwitch]="rollToType(r)" [ngClass]="rollToType(r)">
       <simple-check [roll]="r" *ngSwitchCase="'simple-check'"></simple-check>
       <skill-check [roll]="r" *ngSwitchCase="'skill-check'"></skill-check>
       <saving-throw-log

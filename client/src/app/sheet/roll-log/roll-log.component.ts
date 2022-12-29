@@ -2,6 +2,7 @@ import {
   AfterViewChecked,
   Component,
   ElementRef,
+  Input,
   OnInit,
   SimpleChange,
   ViewChild,
@@ -26,6 +27,7 @@ type RowType = 'simple-check' | 'skill-check' | 'saving-throw' | 'unknown';
 })
 export class RollLogComponent implements AfterViewChecked {
   @ViewChild('logScroll') private logScrollContainer!: ElementRef;
+  @Input() colorized: boolean = false;
   constructor(private rollService: RollLogService) {}
 
   get rolls(): Roll[] {
