@@ -4,8 +4,10 @@
   "description": "Server for fm-character-sheet",
   "main": "src/index.ts",
   "scripts": {
-    "build": "rm -r dist;mkdir -p dist;cd server;npm run build;cp -R dist ../dist;cd ../client;npm run build;cp -R dist/fm-character-sheet ../dist/fm-character-sheet"
+    "build-server": "cd server;npm run build; cp -r ./dist/ ../dist/fm-character-sheet-main/",
+    "build-client": "cd client;npm run build;cp -r dist/fm-character-sheet/ ../dist/fm-character-sheet-main/fm-character-sheet/",
+    "build": "rm -r dist;mkdir -p dist;npm run build-server;npm run build-client"
   },
-  "author": "",
+  "author": "Heikki Mäenpää",
   "license": "CC-BY-SA-4.0"
 }
