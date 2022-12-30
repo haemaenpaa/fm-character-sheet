@@ -14,7 +14,11 @@ const LS_COLORIZED_KEY = 'character-sheet-colorized';
 @Component({
   selector: 'character-sheet',
   templateUrl: './character-sheet.component.html',
-  styleUrls: ['./character-sheet.component.css', '../common.css'],
+  styleUrls: [
+    './character-sheet.component.css',
+    'character-sheet.accessibility.css',
+    '../common.css',
+  ],
 })
 export class CharacterSheetComponent {
   character: Character | null = null;
