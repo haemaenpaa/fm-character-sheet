@@ -1,7 +1,8 @@
 .ability-card {
   display: flex;
   flex-direction: column;
-  border-style: none none none dotted;
+  border-style: none none dotted dotted;
+  margin-bottom: 1em;
 }
 
 .ability-name {
