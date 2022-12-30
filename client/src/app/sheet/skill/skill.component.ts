@@ -32,6 +32,7 @@ export class SkillComponent {
   @Input() proficiency!: number;
   @Input() abilityModifiers!: AbilityNumberStruct;
   @Input() custom: boolean = false;
+  @Input() colorized: boolean = false;
 
   hovered: boolean = false;
 
@@ -78,6 +79,7 @@ export class SkillComponent {
       data: {
         abilities: this.abilityModifiers,
         baseModifier: this.skillModifier,
+        colorized: this.colorized,
       },
     });
     dialogRef.afterClosed().subscribe((a) => {
@@ -115,6 +117,7 @@ export class SkillComponent {
       data: {
         abilities: this.abilityModifiers,
         baseModifier: this.skillModifier,
+        colorized: this.colorized,
       },
     });
     dialogRef.afterClosed().subscribe((a) => {
