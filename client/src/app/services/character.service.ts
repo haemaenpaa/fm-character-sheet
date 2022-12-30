@@ -52,6 +52,9 @@ export class CharacterService {
       ].score;
     }
     parsed.abilities = template.abilities;
+    parsed.selections = parsed.selections.map((s: any) =>
+      'id' in s ? s : { ...s, id: randomId() }
+    );
 
     return Object.assign(template, parsed);
   }
