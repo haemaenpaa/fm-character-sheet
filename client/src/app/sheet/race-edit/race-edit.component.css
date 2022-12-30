@@ -8,9 +8,23 @@
   height: 50%;
   row-gap: 0.5em;
 }
+.accessibility-colorized {
+  border: 1em;
+}
 .abilities-list {
   display: flex;
   flex-direction: column;
+}
+
+.accessibility-colorized > .abilities-list {
+  color: crimson;
+}
+
+.accessibility-colorized > .damage {
+  color: orchid;
+}
+.accessibility-colorized > .status {
+  color: blue;
 }
 
 .name-edit {

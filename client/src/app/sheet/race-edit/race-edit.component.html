@@ -1,4 +1,7 @@
-<div class="race-edit-container">
+<div
+  class="race-edit-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="name-edit">
     <editable-text
       [value]="race.name"
@@ -12,7 +15,7 @@
       (valueChanged)="setSubrace($event)"
     ></editable-text>
   </div>
-  <div class="resistance-list">
+  <div class="resistance-list damage">
     <span class="label"> Damage resistances: </span>
     <resistances
       [resistances]="race.damageResistances"
@@ -21,7 +24,7 @@
       (resistanceModified)="onResistanceModified('damage', $event)"
     ></resistances>
   </div>
-  <div class="resistance-list">
+  <div class="resistance-list status">
     <span class="label">Status resistances:</span>
     <resistances
       [resistances]="race.statusResistances"

@@ -91,7 +91,7 @@ export class CharacterSheetComponent {
       statusResistances: [...this.character.race.statusResistances],
     };
     const editDialog = this.dialog.open(RaceEditComponent, {
-      data: race,
+      data: { race, colorized: this.colorized },
     });
 
     editDialog.afterClosed().subscribe(this.setCharacterRace.bind(this));

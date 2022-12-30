@@ -13,11 +13,17 @@ type resistanceVariety = 'damage' | 'status';
   styleUrls: ['./race-edit.component.css'],
 })
 export class RaceEditComponent {
+  race: Race;
+  colorized: boolean;
   constructor(
     private dialogRef: MatDialogRef<RaceEditComponent>,
     private changeDetector: ChangeDetectorRef,
-    @Inject(MAT_DIALOG_DATA) public race: Race
-  ) {}
+    @Inject(MAT_DIALOG_DATA)
+    { race, colorized }: { race: Race; colorized: boolean }
+  ) {
+    this.race = race;
+    this.colorized = colorized;
+  }
 
   setSubrace(subrace: string) {
     const trimmed = subrace.trim();
