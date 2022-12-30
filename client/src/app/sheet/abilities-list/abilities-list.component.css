@@ -6,7 +6,9 @@
   overflow-y: scroll;
 }
 .racial-abilities {
-  border-style: none none dotted none;
+  display: flex;
+  flex-direction: column;
+  border-style: none;
 }
 .accessibility-colorized > .racial-abilities {
   color: crimson;
