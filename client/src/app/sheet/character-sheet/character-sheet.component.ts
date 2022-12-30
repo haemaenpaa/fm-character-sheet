@@ -43,7 +43,8 @@ export class CharacterSheetComponent {
         this.character = c;
       });
     });
-    this.colorized = !!localStorage.getItem(LS_COLORIZED_KEY);
+    const savedColorized = localStorage.getItem(LS_COLORIZED_KEY);
+    this.colorized = savedColorized === 'true';
   }
 
   /**
