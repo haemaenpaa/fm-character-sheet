@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AoSelection } from 'src/app/model/ao-selection';
+import { randomId } from 'src/app/model/id-generator';
 
 export interface SelectionChangeEvent {
   newSelection: AoSelection;
@@ -20,7 +21,8 @@ export class AoSelectionListComponent {
 
   onSelectionAdd() {
     const selection: AoSelection = {
-      abilityOrigin: '-',
+      id: randomId(),
+      abilityOrigin: 'Unknown AO',
       level: 0,
       name: 'New Ability',
       description: '',
