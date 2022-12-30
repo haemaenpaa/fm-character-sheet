@@ -9,6 +9,8 @@ import { RollLogService } from 'src/app/services/roll-log-service.service';
 import { LevelStruct, levelStructs } from '../../common/LevelStruct';
 import { RaceEditComponent } from '../race-edit/race-edit.component';
 
+const LS_COLORIZED_KEY = 'character-sheet-colorized';
+
 @Component({
   selector: 'character-sheet',
   templateUrl: './character-sheet.component.html',
@@ -41,6 +43,7 @@ export class CharacterSheetComponent {
         this.character = c;
       });
     });
+    this.colorized = !!localStorage.getItem(LS_COLORIZED_KEY);
   }
 
   /**
@@ -105,5 +108,6 @@ export class CharacterSheetComponent {
     const element = event.target as HTMLInputElement;
     this._colorizedSubject.next(element.checked);
     this.colorized = element.checked;
+    localStorage.setItem(LS_COLORIZED_KEY, `${this.colorized}`);
   }
 }
