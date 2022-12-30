@@ -7,6 +7,7 @@
       [skill]="skill"
       [abilityModifiers]="character.getAbilityModifiers()"
       [proficiency]="character.proficiency"
+      [colorized]="colorized"
       (skillModified)="onModifySkill($event)"
       (roll)="onSkillRoll($event)"
     ></skill>
@@ -25,6 +26,7 @@
       [custom]="true"
       [abilityModifiers]="character.getAbilityModifiers()"
       [proficiency]="character.proficiency"
+      [colorized]="colorized"
       (skillModified)="onModifySkill($event)"
       (skillDeleted)="onDeleteSkill($event)"
       (roll)="onSkillRoll($event)"

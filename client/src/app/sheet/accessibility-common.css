@@ -1,0 +1,14 @@
+.accessibility-colorized > .physical {
+  color: red;
+  border-color: red;
+}
+
+.accessibility-colorized > .mental {
+  color: orange;
+  border-color: orange;
+}
+
+.accessibility-colorized > .social {
+  color: green;
+  border-color: green;
+}

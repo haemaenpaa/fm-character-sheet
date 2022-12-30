@@ -1,0 +1,49 @@
+.accessibility-colorized > .character-particulars {
+  color: black;
+}
+
+.accessibility-colorized > .character-particulars > .character-level {
+  color: orange;
+}
+
+.accessibility-colorized > .character-particulars > .character-race {
+  color: crimson;
+}
+
+.accessibility-colorized > .character-abilities {
+  color: unset;
+}
+
+.accessibility-colorized > .character-abilities > .section-header {
+  color: brown;
+}
+
+.accessibility-colorized > .details-section {
+  color: black;
+}
+
+.accessibility-colorized > .details-section > .nav-tab-container > .defenses {
+  border-color: black;
+  color: blueviolet;
+}
+
+.accessibility-colorized > .details-section > .nav-tab-container > .rolls {
+  border-color: black;
+  color: green;
+}
+.accessibility-colorized > .info-section {
+  color: black;
+}
+
+.accessibility-colorized > .info-section > .nav-tab-container > .selections {
+  border-color: black;
+  color: orange;
+}
+
+.accessibility-colorized > .character-skills > .section-header {
+  color: blue;
+}
+
+.accessibility-colorized > .footer > .colorized-control {
+  color: black;
+}

@@ -1,10 +1,14 @@
 <div class="ability-select-container">
   <h1>Select ability:</h1>
-  <div class="ability-grid-container">
+  <div
+    class="ability-grid-container"
+    [ngClass]="{ 'accessibility-colorized': colorized }"
+  >
     <div
       class="ability-button"
       *ngFor="let ability of orderedAbilities"
       (click)="dispatchClose(ability.id)"
+      [ngClass]="ability.category"
     >
       {{ ability.id | abilityName : "short"
       }}{{ ability.value + baseModifier | modifier }}

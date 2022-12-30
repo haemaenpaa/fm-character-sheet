@@ -14,7 +14,11 @@ const LS_COLORIZED_KEY = 'character-sheet-colorized';
 @Component({
   selector: 'character-sheet',
   templateUrl: './character-sheet.component.html',
-  styleUrls: ['./character-sheet.component.css', '../common.css'],
+  styleUrls: [
+    './character-sheet.component.css',
+    'character-sheet.accessibility.css',
+    '../common.css',
+  ],
 })
 export class CharacterSheetComponent {
   character: Character | null = null;
@@ -91,7 +95,7 @@ export class CharacterSheetComponent {
       statusResistances: [...this.character.race.statusResistances],
     };
     const editDialog = this.dialog.open(RaceEditComponent, {
-      data: race,
+      data: { race, colorized: this.colorized },
     });
 
     editDialog.afterClosed().subscribe(this.setCharacterRace.bind(this));

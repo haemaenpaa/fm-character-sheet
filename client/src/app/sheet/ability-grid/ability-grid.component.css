@@ -3,6 +3,10 @@
   border-radius: 10px;
 }
 
+.grid-border.accessibility-colorized {
+  border-color: brown;
+}
+
 .ability-grid-container {
   display: grid;
   aspect-ratio: 1 / 1;
@@ -12,6 +16,7 @@
   row-gap: 1em;
   column-gap: 1em;
   padding: 0.5em;
+  background-color: gainsboro;
 }
 .ability-cell {
   margin: 5%;
@@ -51,19 +56,4 @@
 
 .pre-cell {
   grid-area: social / offense;
-}
-
-.accessibility-colorized > .physical {
-  color: red;
-  border-color: red;
-}
-
-.accessibility-colorized > .mental {
-  color: orange;
-  border-color: orange;
-}
-
-.accessibility-colorized > .social {
-  color: green;
-  border-color: green;
 }

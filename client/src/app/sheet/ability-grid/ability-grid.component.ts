@@ -9,7 +9,11 @@ import { ActionDispatchService } from 'src/app/services/action-dispatch.service'
 @Component({
   selector: 'ability-grid',
   templateUrl: './ability-grid.component.html',
-  styleUrls: ['./ability-grid.component.css'],
+  styleUrls: [
+    './ability-grid.component.css',
+    '../common.css',
+    '../accessibility-common.css',
+  ],
 })
 export class AbilityGridComponent implements OnInit {
   @Input() character!: Character;

@@ -1,4 +1,8 @@
-<div class="sheet-container" *ngIf="character">
+<div
+  class="sheet-container"
+  *ngIf="character"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="character-particulars">
     <div class="character-name">
       <editable-text
@@ -34,14 +38,14 @@
   <div class="details-section">
     <div class="nav-tab-container">
       <div
-        class="nav-tab"
+        class="nav-tab defenses"
         [routerLink]="[{ outlets: { 'details-outlet': ['defenses'] } }]"
         [routerLinkActive]="'nav-tab-active'"
       >
         Defenses
       </div>
       <div
-        class="nav-tab-last"
+        class="nav-tab-last rolls"
         [routerLink]="[{ outlets: { 'details-outlet': ['rolls'] } }]"
         [routerLinkActive]="'nav-tab-active'"
       >
@@ -58,7 +62,7 @@
   <div class="info-section">
     <div class="nav-tab-container">
       <div
-        class="nav-tab-last"
+        class="nav-tab-last selections"
         [routerLink]="[{ outlets: { 'info-outlet': ['selections'] } }]"
         [routerLinkActive]="'nav-tab-active'"
       >
@@ -83,7 +87,7 @@
   </div>
 
   <div class="footer">
-    <div class="footer-item">
+    <div class="footer-item colorized-control">
       <input
         style="height: 100%; background-color: red"
         type="checkbox"

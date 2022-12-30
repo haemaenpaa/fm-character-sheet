@@ -3,6 +3,7 @@
   flex-direction: column;
   border-style: none none dotted dotted;
   margin-bottom: 1em;
+  margin-inline-start: 0.5em;
 }
 
 .ability-name {
