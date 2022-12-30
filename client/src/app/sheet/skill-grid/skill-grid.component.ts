@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Character from 'src/app/model/character';
 import { SkillParams } from 'src/app/model/game-action';
+import { randomIdString } from 'src/app/model/id-generator';
 import { Skill } from 'src/app/model/skill';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { SkillCheckEvent, SkillSetEvent } from '../skill/skill.component';
 import { skillHash, skillsArrayEqual } from './skillMemoUtils';
-
-const IDENT_MAX = Number.MAX_SAFE_INTEGER;
 
 interface SkillsMemo {
   memo: Skill[];
@@ -65,11 +64,11 @@ export class SkillGridComponent implements OnInit {
   }
 
   addSkill() {
-    const idNumber = Math.floor(Math.random() * IDENT_MAX);
+    const id = randomIdString();
     this.character.customSkills = [
       ...this.character.customSkills,
       {
-        identifier: `${idNumber}`,
+        identifier: id,
         name: 'New skill',
         rank: 0,
         defaultAbilities: [],

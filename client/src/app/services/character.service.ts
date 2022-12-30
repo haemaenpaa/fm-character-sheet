@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import Character from '../model/character';
 import { CharacterBuilder } from '../model/character-builder';
+import { randomId } from '../model/id-generator';
 
-const MAX_ID = 2147483647; //Max value of a 32 bit signed integer
 const LS_CHAR_EXPRESSION = /^fm-char-\d+$/;
 const LS_CHAR_PREFIX = 'fm-char-';
 
@@ -52,6 +52,9 @@ export class CharacterService {
       ].score;
     }
     parsed.abilities = template.abilities;
+    parsed.selections = parsed.selections.map((s: any) =>
+      'id' in s ? s : { ...s, id: randomId() }
+    );
 
     return Object.assign(template, parsed);
   }
@@ -79,7 +82,7 @@ export class CharacterService {
   persistCharacter(character: Character): Promise<Character> {
     const nullId = !character.id;
     if (nullId) {
-      character.id = Math.floor(Math.random() * MAX_ID);
+      character.id = randomId();
     }
     return new Promise((resolve) => {
       localStorage.setItem(

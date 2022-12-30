@@ -16,6 +16,9 @@ export class SortSelectionsPipe implements PipeTransform {
       if (a.abilityOrigin !== b.abilityOrigin) {
         return a.abilityOrigin < b.abilityOrigin ? -1 : 1;
       }
+      if (a.id !== b.id) {
+        return a.id < b.id ? -1 : 1;
+      }
 
       return 0;
     });

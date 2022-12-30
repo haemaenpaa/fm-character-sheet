@@ -2,6 +2,7 @@
  * A single Ability Origin selection. This indicates a level gained, and the ability gained from the level.
  */
 export class AoSelection {
+  id: number = 0;
   /**
    * Name of the ability origin.
    */
