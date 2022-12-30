@@ -15,6 +15,13 @@
   height: 100%;
 }
 
+.accessibility-colorized > .hp-and-av > .av-container {
+  color: yellowgreen;
+}
+.accessibility-colorized > .hp-and-av > .hp-container {
+  color: orangered;
+}
+
 .container-border {
   border-radius: 1em;
   border-style: double;
@@ -56,6 +63,10 @@
   padding: 0.5em;
 }
 
+.accessibility-colorized > .saves-container {
+  color: purple;
+}
+
 .resistance-container {
   grid-column: 2;
   grid-row: 1 / end;
@@ -64,7 +75,17 @@
   overflow-y: scroll;
   height: 100%;
 }
+.accessibility-colorized
+  > .resistance-container
+  > .status-resistance-container {
+  color: blue;
+}
 
+.accessibility-colorized
+  > .resistance-container
+  > .damage-resistance-container {
+  color: orchid;
+}
 .status-resistance-container {
   margin-block-end: 1em;
 }

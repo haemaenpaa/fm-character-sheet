@@ -1,4 +1,7 @@
-<div class="defenses-container">
+<div
+  class="defenses-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="hp-and-av">
     <div class="av-container container-border">
       <div class="av-label">AV</div>
@@ -11,7 +14,7 @@
       </div>
     </div>
     <hit-points
-      class="container-border"
+      class="container-border hp-container"
       [current]="character!.hitPointTotal"
       [max]="character!.hitPointMaximum"
       [temporary]="character!.tempHitPoints"

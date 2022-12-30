@@ -108,6 +108,7 @@ export class CharacterSheetComponent {
     const element = event.target as HTMLInputElement;
     this._colorizedSubject.next(element.checked);
     this.colorized = element.checked;
+
     localStorage.setItem(LS_COLORIZED_KEY, `${this.colorized}`);
   }
 }
