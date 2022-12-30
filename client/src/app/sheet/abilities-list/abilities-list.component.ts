@@ -26,6 +26,7 @@ function aoSelectionEquals(a: AoSelection, b: AoSelection): boolean {
 })
 export class AbilitiesListComponent {
   @Input() character: Character | null = null;
+  @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
 
   get hasRacialAbilities(): boolean {
