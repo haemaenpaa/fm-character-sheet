@@ -31,7 +31,9 @@ export class RacialAbilitiesComponent {
     this.abilityChanged.emit({ oldName: name, newName: name, description });
   }
   onAbilityInserted(name: string) {
-    debugger;
+    if (name.length === 0) {
+      return;
+    }
     console.log(`Ability inserted: ${name}`);
     this.abilityChanged.emit({
       oldName: null,
