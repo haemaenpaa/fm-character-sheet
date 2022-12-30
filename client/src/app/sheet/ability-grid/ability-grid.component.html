@@ -1,61 +1,64 @@
-<div class="ability-grid-container grid-border">
-  <div class="br-cell">
+<div
+  class="ability-grid-container grid-border"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
+  <div class="br-cell physical">
     <ability-score
       [ability]="character.abilities.br"
       (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
-  <div class="int-cell">
+  <div class="int-cell mental">
     <ability-score
       [ability]="character.abilities.int"
       (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
-  <div class="pre-cell">
+  <div class="pre-cell social">
     <ability-score
       [ability]="character.abilities.pre"
       (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
-  <div class="dex-cell">
+  <div class="dex-cell physical">
     <ability-score
       [ability]="character.abilities.dex"
       (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
-  <div class="cun-cell">
+  <div class="cun-cell mental">
     <ability-score
       [ability]="character.abilities.cun"
       (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
-  <div class="man-cell">
+  <div class="man-cell social">
     <ability-score
       [ability]="character.abilities.man"
       (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
-  <div class="vit-cell">
+  <div class="vit-cell physical">
     <ability-score
       [ability]="character.abilities.vit"
       (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
-  <div class="res-cell">
+  <div class="res-cell mental">
     <ability-score
       [ability]="character.abilities.res"
       (modified)="characterChanged.emit()"
       (roll)="performRoll($event)"
     ></ability-score>
   </div>
-  <div class="com-cell">
+  <div class="com-cell social">
     <ability-score
       [ability]="character.abilities.com"
       (modified)="characterChanged.emit()"

@@ -27,6 +27,7 @@
     <span class="section-header">Abilities</span>
     <ability-grid
       [character]="character!"
+      [colorized]="colorized"
       (characterChanged)="onCharacterChanged()"
     ></ability-grid>
   </div>
@@ -71,11 +72,25 @@
       ></router-outlet>
     </div>
   </div>
+
   <div class="character-skills section-container">
     <span class="section-header">Skills</span>
     <skill-grid
       [character]="character"
+      [colorized]="colorized"
       (characterChanged)="onCharacterChanged()"
     ></skill-grid>
+  </div>
+
+  <div class="footer">
+    <div class="footer-item">
+      <input
+        style="height: 100%; background-color: red"
+        type="checkbox"
+        (change)="setColorized($event)"
+        [checked]="colorized"
+      />
+      <span>Colorized</span>
+    </div>
   </div>
 </div>

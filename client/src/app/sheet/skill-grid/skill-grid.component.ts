@@ -20,6 +20,7 @@ interface SkillsMemo {
 })
 export class SkillGridComponent implements OnInit {
   @Input() character!: Character;
+  @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
   private defaultSkillsMemo: SkillsMemo = { memo: [], hash: 0 };
   constructor(private actionService: ActionDispatchService) {}

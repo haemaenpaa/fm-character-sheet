@@ -1,12 +1,15 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 import Character from 'src/app/model/character';
 import { Race } from 'src/app/model/race';
 import { CharacterService } from 'src/app/services/character.service';
 import { RollLogService } from 'src/app/services/roll-log-service.service';
 import { LevelStruct, levelStructs } from '../../common/LevelStruct';
 import { RaceEditComponent } from '../race-edit/race-edit.component';
+
+const LS_COLORIZED_KEY = 'character-sheet-colorized';
 
 @Component({
   selector: 'character-sheet',
@@ -15,6 +18,8 @@ import { RaceEditComponent } from '../race-edit/race-edit.component';
 })
 export class CharacterSheetComponent {
   character: Character | null = null;
+  colorized: boolean = false;
+  private _colorizedSubject: Subject<boolean> = new Subject();
   /**
    * Constructor.
    * @param characterService Service to retrieve the character from.
@@ -36,9 +41,9 @@ export class CharacterSheetComponent {
       const id = Number.parseInt(idString);
       this.characterService.getCharacterById(id).then((c) => {
         this.character = c;
-        console.log(c);
       });
     });
+    this.colorized = !!localStorage.getItem(LS_COLORIZED_KEY);
   }
 
   /**
@@ -63,6 +68,12 @@ export class CharacterSheetComponent {
     if ('characterChanged' in component) {
       const onCharacterChanged = this.onCharacterChanged.bind(this);
       component.characterChanged.subscribe(onCharacterChanged);
+    }
+    if ('colorized' in component) {
+      component.colorized = this.colorized;
+      this._colorizedSubject
+        .asObservable()
+        .subscribe((c) => (component.colorized = c));
     }
   }
 
@@ -91,5 +102,13 @@ export class CharacterSheetComponent {
     }
     this.character.race = race;
     this.onCharacterChanged();
+  }
+
+  setColorized(event: Event) {
+    const element = event.target as HTMLInputElement;
+    this._colorizedSubject.next(element.checked);
+    this.colorized = element.checked;
+
+    localStorage.setItem(LS_COLORIZED_KEY, `${this.colorized}`);
   }
 }

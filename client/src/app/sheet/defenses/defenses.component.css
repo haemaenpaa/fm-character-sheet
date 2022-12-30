@@ -1,7 +1,9 @@
 .defenses-container {
   display: grid;
-  grid-template-rows: 1fr 3fr [end];
+  grid-template-rows: 1fr 1fr [end];
   grid-template-columns: max-content max-content;
+  row-gap: 0.5em;
+  column-gap: 0.5em;
   padding: 0.5em;
   height: 100%;
 }
@@ -10,7 +12,14 @@
   align-items: center;
   justify-items: center;
   justify-content: space-around;
-  height: fit-content;
+  height: 100%;
+}
+
+.accessibility-colorized > .hp-and-av > .av-container {
+  color: yellowgreen;
+}
+.accessibility-colorized > .hp-and-av > .hp-container {
+  color: orangered;
 }
 
 .container-border {
@@ -18,7 +27,6 @@
   border-style: double;
   border-radius: 1em;
   border-width: 5px;
-  margin: 0.5em;
   padding: 0.5em;
 }
 
@@ -27,7 +35,7 @@
   grid-column: 1;
   display: flex;
   flex-direction: column;
-  width: max-content;
+  width: min-content;
   padding: 0.5em;
   justify-self: center;
   align-self: center;
@@ -41,17 +49,22 @@
   font-variant: small-caps;
   text-align: center;
   font-weight: bold;
-  width: 1.5em;
+  width: 2em;
 }
 
 .saves-container {
   grid-row: 2;
   grid-column: 1;
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: max-content;
   grid-auto-flow: row;
-  width: fit-content;
+  height: 100%;
   padding: 0.5em;
+}
+
+.accessibility-colorized > .saves-container {
+  color: purple;
 }
 
 .resistance-container {
@@ -60,9 +73,19 @@
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  width: max-content;
+  height: 100%;
+}
+.accessibility-colorized
+  > .resistance-container
+  > .status-resistance-container {
+  color: blue;
 }
 
+.accessibility-colorized
+  > .resistance-container
+  > .damage-resistance-container {
+  color: orchid;
+}
 .status-resistance-container {
   margin-block-end: 1em;
 }

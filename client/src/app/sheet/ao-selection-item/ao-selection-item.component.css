@@ -27,3 +27,19 @@
   white-space: pre-line;
   border-style: double;
 }
+
+.extra-selections {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.hilight-color-select {
+  height: 100%;
+  display: flex;
+}
+
+.label {
+  margin-inline-start: 0.5em;
+  margin-inline-end: 0.5em;
+}

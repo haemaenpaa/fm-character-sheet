@@ -25,12 +25,15 @@ export class ResistancesComponent {
   }
 
   endInserting(event: Event) {
+    if (!this.inserting) {
+      return;
+    }
+    this.inserting = false;
     const element = event.target as HTMLInputElement;
     const insertedResistance = element.value.trim();
     if (insertedResistance.length > 0) {
       this.resistanceInserted.emit(element.value);
     }
-    this.inserting = false;
   }
   onDelete(resistance: Resistance) {
     console.log('Delete', resistance);

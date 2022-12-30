@@ -1,3 +1,30 @@
+.abilities-list-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: max-content 1fr;
+  height: 100%;
+  overflow-y: scroll;
+}
 .racial-abilities {
   border-style: none none dotted none;
+}
+.accessibility-colorized > .racial-abilities {
+  color: crimson;
+}
+.selections-container {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+  grid-auto-flow: row;
+}
+.ao-selections {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  align-self: flex-start;
+}
+
+.accessibility-colorized > .selections-container > h3 {
+  color: orange;
 }

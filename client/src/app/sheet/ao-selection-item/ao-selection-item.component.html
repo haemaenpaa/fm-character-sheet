@@ -2,7 +2,7 @@
   <div class="selection-name">
     <editable-text
       [ngStyle]="{ color: selection.hilightColor || 'inherit' }"
-      [value]="selection?.name"
+      [value]="selection.name"
       (valueChanged)="onFieldChanged('name', $event)"
     ></editable-text>
     <span *ngIf="hovered" (click)="onDelete()" class="delete-button">-</span>
@@ -10,30 +10,40 @@
   <div class="ao-container">
     <div class="ao-name">
       <editable-text
-        [value]="selection?.abilityOrigin"
+        [value]="selection.abilityOrigin"
         (valueChanged)="onFieldChanged('abilityOrigin', $event)"
       ></editable-text>
     </div>
     <div class="ao-level">
       <editable-text
-        [value]="selection?.level"
+        [value]="selection.level"
         (valueChanged)="onLevelChanged($event)"
       ></editable-text>
     </div>
   </div>
   <div class="selection-description">
     <editable-text
-      [value]="selection?.description"
+      [value]="selection.description"
       [placeholder]="'No description'"
       (valueChanged)="onFieldChanged('description', $event)"
       [rows]="12"
     ></editable-text>
   </div>
-  <div class="primary-select" *ngIf="selection!.level <= 3">
-    <input
-      type="checkbox"
-      [checked]="selection.isPrimary"
-      (change)="onPrimaryToggle($event)"
-    />Primary selection
+  <div class="extra-selections" *ngIf="hovered">
+    <div class="primary-select" *ngIf="selection!.level <= 3">
+      <input
+        type="checkbox"
+        [checked]="selection.isPrimary"
+        (change)="onPrimaryToggle($event)"
+      />Primary selection
+    </div>
+    <div class="hilight-color-select">
+      <span class="label">Hilight color:</span>
+      <editable-text
+        [value]="selection.hilightColor"
+        [placeholder]="'default'"
+        (valueChanged)="onFieldChanged('hilightColor', $event)"
+      ></editable-text>
+    </div>
   </div>
 </div>

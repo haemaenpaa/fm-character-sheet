@@ -23,6 +23,7 @@ function clamp(num: number, min: number, max: number) {
 })
 export class DefensesComponent {
   @Input() character: Character | null = null;
+  @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
 
   savingThrows: string[] = [

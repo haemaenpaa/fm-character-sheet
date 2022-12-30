@@ -9,3 +9,15 @@
   display: flex;
   flex-direction: row;
 }
+
+.accessibility-colorized > .skill-check {
+  color: blue;
+}
+
+.accessibility-colorized > .simple-check {
+  color: olive;
+}
+
+.accessibility-colorized > .saving-throw {
+  color: purple;
+}
