@@ -62,11 +62,18 @@
   <div class="info-section">
     <div class="nav-tab-container">
       <div
-        class="nav-tab-last selections"
+        class="nav-tab selections"
         [routerLink]="[{ outlets: { 'info-outlet': ['selections'] } }]"
         [routerLinkActive]="'nav-tab-active'"
       >
         Abilities and selections
+      </div>
+      <div
+        class="nav-tab-last spellbook"
+        [routerLink]="[{ outlets: { 'info-outlet': ['spellbook'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Spells
       </div>
     </div>
     <div class="tab-router-container info-outlet">
