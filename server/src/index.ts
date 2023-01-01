@@ -13,7 +13,7 @@ app.use(express.static(frontendPath));
  * Route that redirects everything not otherwise routed to the SPA frontend.
  */
 app.get("*", async (req, res) => {
-  res.sendFile(path.join(__dirname, frontendPath, "index.html"));
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 app.listen(port, () => {
