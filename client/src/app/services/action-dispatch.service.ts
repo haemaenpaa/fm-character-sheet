@@ -7,6 +7,7 @@ import {
   GameAction,
   SaveParams,
   SkillParams,
+  SpellAttackParams,
 } from '../model/game-action';
 import { Ability } from '../model/ability';
 
@@ -61,6 +62,16 @@ export class ActionDispatchService {
           skillParams.skillModifier,
           skillParams.advantage
         );
+        break;
+      case 'spell-attack':
+        const spellParams = params as SpellAttackParams;
+        this.dispatchSpellAttack(
+          spellParams.characterName,
+          spellParams.abilityIdentifier,
+          spellParams.spellAttackBonus,
+          spellParams.advantage
+        );
+        break;
     }
   }
 
@@ -130,6 +141,23 @@ export class ActionDispatchService {
     roll.addDie(dieCheckRoll);
     roll.addModifier({ name: ability, value: abilityModifier });
     roll.addModifier({ name: skill, value: skillModifier });
+    this.sendRoll(roll);
+  }
+
+  private dispatchSpellAttack(
+    name: string,
+    ability: string,
+    modifier: number,
+    advantage: Advantage
+  ) {
+    const roll: Roll = new Roll();
+    roll.title = 'spell_' + ability;
+    roll.character = name;
+
+    const dieCheckRoll = this.getD20Check(advantage);
+    roll.addDie(dieCheckRoll);
+    roll.addModifier({ name: 'Spell attack', value: modifier });
+
     this.sendRoll(roll);
   }
 

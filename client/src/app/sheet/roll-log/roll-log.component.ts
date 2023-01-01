@@ -13,9 +13,15 @@ import { RollLogService } from 'src/app/services/roll-log-service.service';
 const ABILITY_CHECK_PATTERN = /^(br|dex|vit|int|cun|res|pre|man|com)$/;
 const SKILL_CHECK_PATTERN = /^skill_(.+)_(\w{2,3})$/;
 const ABILITY_SAVE_PATTERN = /^([\w/]+)_save$/;
+const SPELL_ATTACK_PATTERN = /^spell_(\w{2,3})$/;
 
 // Row type, to be used in an ngSwitch to select the component to display.
-type RowType = 'simple-check' | 'skill-check' | 'saving-throw' | 'unknown';
+type RowType =
+  | 'simple-check'
+  | 'skill-check'
+  | 'saving-throw'
+  | 'spell-attack'
+  | 'unknown';
 
 /**
  * Component to display a log of rolls made.
@@ -53,6 +59,9 @@ export class RollLogComponent implements AfterViewChecked {
     }
     if (roll.title?.match(SKILL_CHECK_PATTERN)) {
       return 'skill-check';
+    }
+    if (roll.title?.match(SPELL_ATTACK_PATTERN)) {
+      return 'spell-attack';
     }
     return 'unknown';
   }

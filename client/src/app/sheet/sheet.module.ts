@@ -30,6 +30,7 @@ import { AoSelectionItemComponent } from './ao-selection-item/ao-selection-item.
 import { SortSelectionsPipe } from './ao-selection-list/sort-selections.pipe';
 import { RaceEditComponent } from './race-edit/race-edit.component';
 import { SpellbookComponent } from './spellbook/spellbook.component';
+import { SpellAttackRollComponent } from './roll-log/spell-attack-roll/spell-attack-roll.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -64,6 +65,7 @@ import { SpellbookComponent } from './spellbook/spellbook.component';
     SortSelectionsPipe,
     RaceEditComponent,
     SpellbookComponent,
+    SpellAttackRollComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

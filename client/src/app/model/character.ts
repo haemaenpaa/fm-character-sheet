@@ -1,3 +1,4 @@
+import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
 import CharacterAbilities from './character-abilities';
 import { CharacterSpells } from './character-spells';
@@ -212,6 +213,36 @@ export default class Character {
 
   get totalLevel(): number {
     return this.selections.filter((s) => s.isPrimary).length;
+  }
+
+  /**
+   * Spell saving throw, determined by spellcasting ability and proficiency.
+   */
+  get spellSave(): number {
+    if (!this.spells.spellcastingAbility) {
+      return 0;
+    }
+    const ability: Ability = (this.abilities as any)[
+      this.spells.spellcastingAbility
+    ];
+    return 8 + this.proficiency + ability.modifier;
+  }
+
+  get spellAttack(): number {
+    if (!this.spells.spellcastingAbility) {
+      return 0;
+    }
+    const ability: Ability = (this.abilities as any)[
+      this.spells.spellcastingAbility
+    ];
+    return this.proficiency + ability.modifier;
+  }
+
+  get castingAbility(): Ability | null {
+    if (!this.spells.spellcastingAbility) {
+      return null;
+    }
+    return (this.abilities as any)[this.spells.spellcastingAbility];
   }
 
   /**

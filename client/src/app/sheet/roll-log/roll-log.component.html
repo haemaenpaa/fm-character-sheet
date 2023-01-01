@@ -11,6 +11,11 @@
         [roll]="r"
         *ngSwitchCase="'saving-throw'"
       ></saving-throw-log>
+      <spell-attack-roll
+        [roll]="r"
+        *ngSwitchCase="'spell-attack'"
+      ></spell-attack-roll>
+
       <unknown-roll *ngSwitchCase="'unknown'" [roll]="r"></unknown-roll>
     </div>
   </div>

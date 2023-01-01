@@ -1,0 +1,15 @@
+<div class="single-roll">
+  <div
+    *ngIf="roll.character && roll.character.length > 0"
+    class="roll-character"
+  >
+    {{ roll.character }} :
+  </div>
+  <div class="roll-title">Spell attack:</div>
+  <div *ngFor="let d of roll.dice" class="die-roll">
+    {{ d | roll }}
+  </div>
+  <div *ngFor="let m of roll.filteredModifiers" class="die-modifier">
+    {{ m.value | modifier }}
+  </div>
+</div>

@@ -1,0 +1,41 @@
+.spellbook-container {
+  display: grid;
+  grid-template-rows: [header]max-content [spells] 1fr [end];
+  grid-template-columns: [start] 1fr [attack] 1fr [save] 1fr [end];
+}
+.casting-ability-display {
+  grid-row: header;
+  grid-column: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+.spell-save-display {
+  grid-row: header;
+  grid-column: save;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.spell-attack-display {
+  grid-row: header;
+  grid-column: attack;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.value-box {
+  border-style: solid;
+  border-radius: 0.5em;
+  padding: 1em;
+}
+
+.spells-container {
+  grid-row: spells/end;
+  grid-column: start/end;
+}

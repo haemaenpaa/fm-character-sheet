@@ -16,6 +16,9 @@ export class AbilitySelectComponent {
   baseModifier: number;
   colorized: boolean;
   onSelection: EventEmitter<string> = new EventEmitter();
+  physical: boolean = true;
+  mental: boolean = true;
+  social: boolean = true;
 
   constructor(
     private dialogRef: MatDialogRef<AbilitySelectComponent>,
@@ -35,17 +38,24 @@ export class AbilitySelectComponent {
     this.onSelection.emit(ability);
     this.dialogRef.close(ability);
   }
+
   get orderedAbilities(): { id: string; value: number; category: string }[] {
-    return [
-      { id: 'br', value: this.abilities.br, category: 'physical' },
-      { id: 'dex', value: this.abilities.dex, category: 'physical' },
-      { id: 'vit', value: this.abilities.vit, category: 'physical' },
-      { id: 'int', value: this.abilities.int, category: 'mental' },
-      { id: 'cun', value: this.abilities.cun, category: 'mental' },
-      { id: 'res', value: this.abilities.res, category: 'mental' },
-      { id: 'pre', value: this.abilities.pre, category: 'social' },
-      { id: 'man', value: this.abilities.man, category: 'social' },
-      { id: 'com', value: this.abilities.com, category: 'social' },
-    ];
+    const ret: { id: string; value: number; category: string }[] = [];
+    if (this.physical) {
+      ret.push({ id: 'br', value: this.abilities.br, category: 'physical' });
+      ret.push({ id: 'dex', value: this.abilities.dex, category: 'physical' });
+      ret.push({ id: 'vit', value: this.abilities.vit, category: 'physical' });
+    }
+    if (this.mental) {
+      ret.push({ id: 'int', value: this.abilities.int, category: 'mental' });
+      ret.push({ id: 'cun', value: this.abilities.cun, category: 'mental' });
+      ret.push({ id: 'res', value: this.abilities.res, category: 'mental' });
+    }
+    if (this.social) {
+      ret.push({ id: 'pre', value: this.abilities.pre, category: 'social' });
+      ret.push({ id: 'man', value: this.abilities.man, category: 'social' });
+      ret.push({ id: 'com', value: this.abilities.com, category: 'social' });
+    }
+    return ret;
   }
 }

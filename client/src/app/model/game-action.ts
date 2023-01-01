@@ -1,7 +1,11 @@
 import { Ability } from './ability';
 
 export type Advantage = 'none' | 'disadvantage' | 'advantage';
-export type ActionType = 'ability-check' | 'ability-save' | 'skill-check';
+export type ActionType =
+  | 'ability-check'
+  | 'ability-save'
+  | 'skill-check'
+  | 'spell-attack';
 
 /**
  * Parameters for an ability check.
@@ -29,8 +33,14 @@ export interface SkillParams {
   skillModifier: number;
   advantage: Advantage;
 }
+export interface SpellAttackParams {
+  characterName: string;
+  abilityIdentifier: string;
+  spellAttackBonus: number;
+  advantage: Advantage;
+}
 
 export interface GameAction {
   type: ActionType;
-  params: CheckParams | SaveParams | SkillParams;
+  params: CheckParams | SaveParams | SkillParams | SpellAttackParams;
 }

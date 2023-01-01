@@ -1,1 +1,34 @@
-<p>spellbook works!</p>
+<div
+  class="spellbook-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
+  <div class="casting-ability-display">
+    Spellcasting ability
+    <div
+      class="casting-ability value-box clickable"
+      *ngIf="character!.spells.spellcastingAbility"
+      (click)="selectCastingAbility()"
+    >
+      {{ character!.spells.spellcastingAbility! | abilityName : "long" }}
+    </div>
+    <div
+      class="casting-ability value-box clickable"
+      *ngIf="!character!.spells.spellcastingAbility"
+      (click)="selectCastingAbility()"
+    >
+      N/A
+    </div>
+  </div>
+
+  <div class="spell-save-display">
+    Spell DV
+    <div class="spell-save value-box">{{ character.spellSave }}</div>
+  </div>
+
+  <div class="spell-attack-display">
+    Spell Attack
+    <div class="spell-attack value-box clickable" (click)="callSpellAttack()">
+      {{ character.spellAttack | modifier }}
+    </div>
+  </div>
+</div>
