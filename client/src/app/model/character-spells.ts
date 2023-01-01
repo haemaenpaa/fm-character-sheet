@@ -27,6 +27,12 @@ export class CharacterSpells {
    * Spell slots.
    */
   spellSlots: { [key: number]: number } = {};
+  /**
+   * Available spell slots
+   */
   spellSlotsAvailable: { [key: number]: number } = {};
-  spells: { [key: number]: Spell[] } = [];
+  /**
+   * Spells
+   */
+  spells: { [key: number]: Spell[] } = {};
 }
