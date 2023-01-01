@@ -3,6 +3,9 @@ import { Race } from './race';
 import { Skill } from './skill';
 import Character from './character';
 import Resistance, { ResistanceType } from './resistance';
+import { CharacterSpells, Spell } from './character-spells';
+import { randomId } from './id-generator';
+import { DamageRoll } from './damage-roll';
 
 /**
  * Builder for ease of constructing a character.
@@ -50,6 +53,9 @@ export class CharacterBuilder {
   hitPointMaximum: number = 0;
   damageResistances: Resistance[] = [];
   statusResistances: Resistance[] = [];
+
+  spellcastingAbility: string | null = null;
+  spells: CharacterSpells = new CharacterSpells();
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -296,10 +302,112 @@ export class CharacterBuilder {
     sel.name = name;
     sel.description = description;
     sel.level = level;
+    sel.id = randomId();
     if (color) {
       sel.hilightColor = color;
     }
     return sel;
+  }
+
+  setSpellcastingAbility(ability: string): CharacterBuilder {
+    this.spells.spellcastingAbility = ability;
+    return this;
+  }
+  /**
+   * Sets the soul fragments of a given potency.
+   * @param inversePotency Inverse of the potency, e.g. 4 for 1/4
+   * @param count amount of fragments.
+   * @returns
+   */
+  setSoulFragments(inversePotency: number, count: number): CharacterBuilder {
+    this.spells.soulFragments[inversePotency] = count;
+    return this;
+  }
+  /**
+   * Sets the souls of the given potency.
+   *
+   * @param potency Potency of the soul.
+   * @param count Amount of souls.
+   * @returns
+   */
+  setSouls(potency: number, count: number): CharacterBuilder {
+    this.spells.souls[potency] = count;
+    return this;
+  }
+
+  /**
+   * Sets the spell slots, both total and available, of the tier.
+   * @param tier Tier of spell slots.
+   * @param count amount of spell slots to add.
+   * @returns
+   */
+  setSpellSlots(tier: number, count: number): CharacterBuilder {
+    this.spells.spellSlots[tier] = count;
+    this.spells.spellSlotsAvailable[tier] = count;
+    return this;
+  }
+
+  addSpell(spell: Spell): CharacterBuilder {
+    if (!(spell.tier in this.spells.spells)) {
+      this.spells.spells[spell.tier] = [];
+    }
+    this.spells.spells[spell.tier].push(spell);
+    return this;
+  }
+
+  addUtilitySpell(
+    tier: number,
+    name: string,
+    school: string,
+    description: string
+  ): CharacterBuilder {
+    const spell: Spell = {
+      id: randomId(),
+      tier: tier,
+      school: school,
+      name: name,
+      hasSave: false,
+      description: description,
+      damage: [],
+    };
+    return this.addSpell(spell);
+  }
+  addSaveSpell(
+    tier: number,
+    name: string,
+    school: string,
+    description: string,
+    damage: DamageRoll[]
+  ): CharacterBuilder {
+    const spell: Spell = {
+      id: randomId(),
+      tier: tier,
+      school: school,
+      name: name,
+      hasSave: true,
+      description: description,
+      damage: [],
+    };
+    return this.addSpell(spell);
+  }
+
+  addAttackSpell(
+    tier: number,
+    name: string,
+    school: string,
+    description: string,
+    damage: DamageRoll[]
+  ): CharacterBuilder {
+    const spell: Spell = {
+      id: randomId(),
+      tier: tier,
+      school: school,
+      name: name,
+      hasSave: false,
+      description: description,
+      damage: damage,
+    };
+    return this.addSpell(spell);
   }
 
   build(): Character {
@@ -339,7 +447,8 @@ export class CharacterBuilder {
       armorValue,
       this.hitPointMaximum,
       this.damageResistances,
-      this.statusResistances
+      this.statusResistances,
+      this.spells
     );
   }
 }
