@@ -1,0 +1,38 @@
+.resource-list {
+  display: grid;
+  width: 100%;
+  grid-template-columns: [left] max-content [spacer] 1fr [right] max-content[end];
+}
+
+.slots {
+  border-style: double;
+  border-radius: 0.5em;
+  grid-column: left/spacer;
+}
+.res-spacer {
+  grid-column: spacer/right;
+}
+
+.souls {
+  border-style: double;
+  border-radius: 0.5em;
+  grid-column: [right]/end;
+}
+
+.spell {
+  border-style: none none solid none;
+  border-width: 2px;
+}
+
+.spell-name {
+  font-style: italic;
+}
+
+.ritual {
+  font-variant: small-caps;
+  margin-inline-start: 1em;
+}
+.soul-mastery {
+  font-variant: small-caps;
+  margin-inline-start: 1em;
+}

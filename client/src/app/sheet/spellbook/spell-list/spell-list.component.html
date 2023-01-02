@@ -1,0 +1,26 @@
+<div class="list-container">
+  <div class="tier-label">{{ tier == 0 ? "Cantrips" : "Tier " + tier }}</div>
+  <div class="resource-list" *ngIf="tier > 0">
+    <div class="slots">
+      <span *ngIf="slots > 0">
+        <editable-text [value]="slotsAvailable"></editable-text>
+        /
+      </span>
+      <editable-text [value]="slots"></editable-text>
+      Slots
+    </div>
+    <div class="res-spacer"></div>
+    <div class="souls">
+      <editable-text [value]="souls"></editable-text>
+      Souls
+    </div>
+  </div>
+  <div class="list-container">
+    <div *ngFor="let spell of spells" class="spell">
+      <span class="spell-name">{{ spell.name }}</span>
+      <span class="ritual" *ngIf="spell.ritual">r</span
+      ><span class="soul-mastery" *ngIf="spell.soulMastery">m</span>
+    </div>
+    <div class="add-button" (click)="addSpell()">+</div>
+  </div>
+</div>
