@@ -1,13 +1,38 @@
 import { DamageRoll } from './damage-roll';
 
 export interface Spell {
+  /**
+   * Identifier.
+   */
   id: number;
+  /**
+   * Spell tier; the minimum tier of spell slot needed to cast.
+   */
   tier: number;
+  /**
+   * Spell school, e.g. transmutation
+   */
   school: string;
+  /**
+   * Name of the spell
+   */
   name: string;
-  hasSave: boolean;
+  /**
+   * Ability used for the saving throw.
+   */
+  saveAbility: string | null;
+  /**
+   * Description of the spell.
+   */
   description: string;
+  /**
+   * Damage rolls, if applicable.
+   */
   damage: DamageRoll[];
+  /**
+   * Increase in damage on upcast.
+   */
+  upcastDamage: DamageRoll[];
 }
 
 export class CharacterSpells {

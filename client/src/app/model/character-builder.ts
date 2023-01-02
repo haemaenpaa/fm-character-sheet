@@ -347,6 +347,11 @@ export class CharacterBuilder {
     return this;
   }
 
+  /**
+   * Adds a spell to the character's spells.
+   * @param spell Spell to add
+   * @returns
+   */
   addSpell(spell: Spell): CharacterBuilder {
     if (!(spell.tier in this.spells.spells)) {
       this.spells.spells[spell.tier] = [];
@@ -355,6 +360,14 @@ export class CharacterBuilder {
     return this;
   }
 
+  /**
+   * Adds an utility spell, i.e. one without a save or spell attack.
+   * @param tier Spell tier
+   * @param name spell name
+   * @param school spell school
+   * @param description spell description
+   * @returns
+   */
   addUtilitySpell(
     tier: number,
     name: string,
@@ -363,49 +376,76 @@ export class CharacterBuilder {
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
-      tier: tier,
-      school: school,
-      name: name,
-      hasSave: false,
-      description: description,
+      saveAbility: null,
+      tier,
+      school,
+      name,
+      description,
       damage: [],
+      upcastDamage: [],
     };
     return this.addSpell(spell);
   }
+  /**
+   * Adds an offensive spell with a saving throw.
+   * @param tier spell tier
+   * @param name spell name
+   * @param school spell school
+   * @param description spell description
+   * @param saveAbility ability used for saving throw.
+   * @param damage Base damage of the spell.
+   * @param upcastDamage additional damage per level of upcast.
+   * @returns
+   */
   addSaveSpell(
     tier: number,
     name: string,
     school: string,
     description: string,
-    damage: DamageRoll[]
+    saveAbility: string,
+    damage: DamageRoll[],
+    upcastDamage: DamageRoll[] = []
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
-      tier: tier,
-      school: school,
-      name: name,
-      hasSave: true,
-      description: description,
-      damage: [],
+      tier,
+      school,
+      name,
+      saveAbility,
+      description,
+      damage,
+      upcastDamage,
     };
     return this.addSpell(spell);
   }
 
+  /**
+   * Adds an offensive spell with a spell attack roll.
+   * @param tier spell tier
+   * @param name spell name
+   * @param school spell school
+   * @param description spell description
+   * @param damage base damage
+   * @param upcastDamage additional damage per level of upcast.
+   * @returns
+   */
   addAttackSpell(
     tier: number,
     name: string,
     school: string,
     description: string,
-    damage: DamageRoll[]
+    damage: DamageRoll[],
+    upcastDamage: DamageRoll[] = []
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
-      tier: tier,
-      school: school,
-      name: name,
-      hasSave: false,
-      description: description,
-      damage: damage,
+      tier,
+      school,
+      name,
+      saveAbility: null,
+      description,
+      damage,
+      upcastDamage,
     };
     return this.addSpell(spell);
   }
