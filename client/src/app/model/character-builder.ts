@@ -372,7 +372,10 @@ export class CharacterBuilder {
     tier: number,
     name: string,
     school: string,
-    description: string
+    description: string,
+    ritual: boolean = false,
+    soulMastery: boolean = false,
+    castingTime: string = 'Action'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
@@ -383,6 +386,9 @@ export class CharacterBuilder {
       description,
       damage: [],
       upcastDamage: [],
+      ritual,
+      soulMastery,
+      castingTime,
     };
     return this.addSpell(spell);
   }
@@ -404,7 +410,10 @@ export class CharacterBuilder {
     description: string,
     saveAbility: string,
     damage: DamageRoll[],
-    upcastDamage: DamageRoll[] = []
+    upcastDamage: DamageRoll[] = [],
+    ritual: boolean = false,
+    soulMastery: boolean = false,
+    castingTime: string = 'Action'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
@@ -415,6 +424,9 @@ export class CharacterBuilder {
       description,
       damage,
       upcastDamage,
+      ritual,
+      soulMastery,
+      castingTime,
     };
     return this.addSpell(spell);
   }
@@ -435,7 +447,10 @@ export class CharacterBuilder {
     school: string,
     description: string,
     damage: DamageRoll[],
-    upcastDamage: DamageRoll[] = []
+    upcastDamage: DamageRoll[] = [],
+    ritual: boolean = false,
+    soulMastery: boolean = false,
+    castingTime: string = 'Action'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
@@ -446,6 +461,9 @@ export class CharacterBuilder {
       description,
       damage,
       upcastDamage,
+      ritual,
+      castingTime,
+      soulMastery,
     };
     return this.addSpell(spell);
   }

@@ -33,6 +33,18 @@ export interface Spell {
    * Increase in damage on upcast.
    */
   upcastDamage: DamageRoll[];
+  /**
+   * Is this spell a ritual
+   */
+  ritual: boolean;
+  /**
+   * Is this spell a soul mastery spell
+   */
+  soulMastery: boolean;
+  /**
+   * Casting time of this spell
+   */
+  castingTime: string;
 }
 
 export class CharacterSpells {
