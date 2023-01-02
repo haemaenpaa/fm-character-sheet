@@ -69,6 +69,14 @@ export class CharacterSpells {
    */
   spellSlotsAvailable: { [key: number]: number } = {};
   /**
+   * Special slots, e.g. for Smite
+   */
+  specialSlots: { [key: number]: number } = {};
+  /**
+   * Available speecial slots, e.g. for Smite
+   */
+  specialSlotsAvailable: { [key: number]: number } = {};
+  /**
    * Spells
    */
   spells: { [key: number]: Spell[] } = {};

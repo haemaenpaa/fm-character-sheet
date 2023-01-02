@@ -37,10 +37,17 @@
       <spell-list
         [tier]="tier"
         [slots]="character!.spells.spellSlots[tier] || 0"
+        [specialSlots]="character!.spells.specialSlots[tier] || 0"
         [slotsAvailable]="character!.spells.spellSlotsAvailable[tier] || 0"
+        [specialSlotsAvailable]="
+          character!.spells.specialSlotsAvailable[tier] || 0
+        "
         [souls]="character!.spells.souls[tier] || 0"
         [spells]="character!.spells.spells[tier] || []"
+        (resourcesChanged)="modifyResources(tier, $event)"
+        (spellAdded)="addSpell($event)"
       ></spell-list>
     </div>
   </div>
+  <div class="edit-slots-button" (click)="editSlots()">Edit spell slots</div>
 </div>

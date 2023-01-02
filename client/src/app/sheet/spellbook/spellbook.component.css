@@ -1,7 +1,8 @@
 .spellbook-container {
   display: grid;
-  grid-template-rows: [header]max-content [spells] 1fr [end];
+  grid-template-rows: [header]max-content [spells] 1fr [buttons] 3em [end];
   grid-template-columns: [start] 1fr [attack] 1fr [save] 1fr [end];
+  align-content: center;
 }
 .casting-ability-display {
   grid-row: header;
@@ -44,4 +45,15 @@
   grid-template-rows: max-content max-content max-content max-content;
   column-gap: 1em;
   row-gap: 1em;
+}
+
+.edit-slots-button {
+  height: 100%;
+  padding: 0.5em;
+  margin-inline-start: 1em;
+  width: fit-content;
+  border-style: solid;
+  border-radius: 1.5em;
+  text-align: center;
+  align-self: center;
 }

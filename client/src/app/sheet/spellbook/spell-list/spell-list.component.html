@@ -1,17 +1,54 @@
 <div class="list-container">
   <div class="tier-label">{{ tier == 0 ? "Cantrips" : "Tier " + tier }}</div>
   <div class="resource-list" *ngIf="tier > 0">
-    <div class="slots">
-      <span *ngIf="slots > 0">
-        <editable-text [value]="slotsAvailable"></editable-text>
-        /
+    <div
+      class="slots"
+      [ngClass]="{ 'zero-slots': slots == 0 }"
+      *ngIf="slots + specialSlots > 0"
+    >
+      <span
+        *ngFor="
+          let item of [].constructor(slots - slotsAvailable);
+          let i = index
+        "
+        (click)="adjustAvailable(slots - slotsAvailable - i)"
+        class="clickable"
+        >◈</span
+      >
+      <span
+        *ngFor="let item of [].constructor(slotsAvailable); let i = index"
+        (click)="adjustAvailable(-i - 1)"
+        class="clickable"
+        >◇</span
+      >
+      <span
+        *ngFor="
+          let item of [].constructor(specialSlots - specialSlotsAvailable);
+          let i = index
+        "
+        (click)="
+          adjustSpecialAvailable(specialSlots - specialSlotsAvailable - i)
+        "
+        class="clickable"
+      >
+        ✭
       </span>
-      <editable-text [value]="slots"></editable-text>
-      Slots
+      <span
+        *ngFor="
+          let item of [].constructor(specialSlotsAvailable);
+          let i = index
+        "
+        (click)="adjustSpecialAvailable(-i - 1)"
+        class="clickable"
+        >☆</span
+      >
     </div>
-    <div class="res-spacer"></div>
-    <div class="souls">
-      <editable-text [value]="souls"></editable-text>
+
+    <div class="souls res-box">
+      <editable-text
+        [value]="souls"
+        (valueChanged)="soulsChanged($event)"
+      ></editable-text>
       Souls
     </div>
   </div>
@@ -20,6 +57,7 @@
       <span class="spell-name">{{ spell.name }}</span>
       <span class="ritual" *ngIf="spell.ritual">r</span
       ><span class="soul-mastery" *ngIf="spell.soulMastery">m</span>
+      <span class="delete-button"></span>
     </div>
     <div class="add-button" (click)="addSpell()">+</div>
   </div>

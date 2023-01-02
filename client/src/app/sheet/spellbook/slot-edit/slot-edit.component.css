@@ -1,0 +1,45 @@
+.edit-container {
+  display: grid;
+  grid-template-columns: [label] max-content [regular] max-content [special] max-content [end];
+  grid-template-rows: [header] 3em repeat(9, 3em) [button] 3em;
+  grid-auto-flow: column;
+  column-gap: 1em;
+}
+.tier-header {
+  grid-row: header;
+  grid-column: label;
+  text-align: center;
+}
+.regular-header {
+  grid-row: header;
+  grid-column: regular;
+  text-align: center;
+}
+.special-header {
+  grid-row: header;
+  grid-column: special;
+}
+.label {
+  grid-column: label;
+}
+.regular-edit {
+  grid-column: regular;
+  width: 3em;
+  text-align: center;
+}
+.special-edit {
+  grid-column: special;
+  width: 3em;
+  text-align: center;
+}
+
+.save-button {
+  grid-row: button;
+  grid-column: label/end;
+  border-style: solid;
+  border-radius: 1.5em;
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+  align-items: center;
+}

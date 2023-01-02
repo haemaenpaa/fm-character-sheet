@@ -55,7 +55,14 @@ export class CharacterService {
     parsed.selections = parsed.selections.map((s: any) =>
       'id' in s ? s : { ...s, id: randomId() }
     );
-
+    if (parsed.spells) {
+      if (!parsed.spells.specialSlots) {
+        parsed.spells.specialSlots = {};
+      }
+      if (!parsed.spells.specialSlotsAvailable) {
+        parsed.spells.specialSlotsAvailable = {};
+      }
+    }
     return Object.assign(template, parsed);
   }
 
