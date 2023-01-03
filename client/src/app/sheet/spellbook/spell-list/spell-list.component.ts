@@ -1,11 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Spell } from 'src/app/model/character-spells';
 import { randomId } from 'src/app/model/id-generator';
+import { SpellEditComponent } from '../spell-edit/spell-edit.component';
 
 export interface ResourceChangeEvent {
   specialSlotsAvailable: number;
   slotsAvailable: number;
   souls: number;
+}
+
+export interface SpellChangeEvent {
+  old: Spell;
+  new: Spell | null;
 }
 
 @Component({
@@ -25,6 +32,10 @@ export class SpellListComponent {
   @Output() resourcesChanged: EventEmitter<ResourceChangeEvent> =
     new EventEmitter();
   @Output() spellAdded: EventEmitter<Spell> = new EventEmitter();
+  @Output() spellChanged: EventEmitter<SpellChangeEvent> = new EventEmitter();
+
+  hoveredId: number | null = null;
+  constructor(private dialog: MatDialog) {}
 
   addSpell() {
     const newSpell = {
@@ -79,6 +90,30 @@ export class SpellListComponent {
       souls: Math.max(0, newValue),
       specialSlotsAvailable: this.specialSlotsAvailable,
       slotsAvailable: this.slots,
+    });
+  }
+
+  editSpell(spell: Spell) {
+    const editDialog = this.dialog.open(SpellEditComponent, {
+      data: {
+        spell: { ...spell },
+      },
+    });
+
+    editDialog.afterClosed().subscribe((edited) => {
+      if (edited) {
+        this.spellChanged.emit({
+          old: spell,
+          new: edited,
+        });
+      }
+    });
+  }
+
+  deleteSpell(spell: Spell) {
+    this.spellChanged.emit({
+      old: spell,
+      new: null,
     });
   }
 }

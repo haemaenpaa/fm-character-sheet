@@ -33,6 +33,7 @@ import { SpellbookComponent } from './spellbook/spellbook.component';
 import { SpellAttackRollComponent } from './roll-log/spell-attack-roll/spell-attack-roll.component';
 import { SpellListComponent } from './spellbook/spell-list/spell-list.component';
 import { SlotEditComponent } from './spellbook/slot-edit/slot-edit.component';
+import { SpellEditComponent } from './spellbook/spell-edit/spell-edit.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -70,6 +71,7 @@ import { SlotEditComponent } from './spellbook/slot-edit/slot-edit.component';
     SpellAttackRollComponent,
     SpellListComponent,
     SlotEditComponent,
+    SpellEditComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

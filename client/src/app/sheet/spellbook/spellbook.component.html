@@ -46,6 +46,7 @@
         [spells]="character!.spells.spells[tier] || []"
         (resourcesChanged)="modifyResources(tier, $event)"
         (spellAdded)="addSpell($event)"
+        (spellChanged)="onSpellModified($event)"
       ></spell-list>
     </div>
   </div>

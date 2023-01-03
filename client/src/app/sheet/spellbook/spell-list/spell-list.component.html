@@ -52,12 +52,27 @@
       Souls
     </div>
   </div>
-  <div class="list-container">
-    <div *ngFor="let spell of spells" class="spell">
+  <div class="list-container" (mouseleave)="hoveredId = null">
+    <div
+      *ngFor="let spell of spells"
+      class="spell"
+      (mouseenter)="hoveredId = spell.id"
+    >
       <span class="spell-name">{{ spell.name }}</span>
-      <span class="ritual" *ngIf="spell.ritual">r</span
-      ><span class="soul-mastery" *ngIf="spell.soulMastery">m</span>
-      <span class="delete-button"></span>
+      <div>
+        <span class="ritual" *ngIf="spell.ritual">r</span>
+        <span class="soul-mastery" *ngIf="spell.soulMastery">m</span>
+      </div>
+      <div class="spell-buttons" *ngIf="hoveredId === spell.id">
+        <span class="delete-button" (click)="deleteSpell(spell)"> - </span>
+        <span
+          *ngIf="hoveredId === spell.id"
+          class="edit-button"
+          (click)="editSpell(spell)"
+        >
+          Edit
+        </span>
+      </div>
     </div>
     <div class="add-button" (click)="addSpell()">+</div>
   </div>

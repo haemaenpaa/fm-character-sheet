@@ -16,6 +16,7 @@
   border-radius: 1em;
   justify-self: center;
 }
+
 .res-value {
   width: 2em;
   text-align: center;
@@ -35,8 +36,17 @@
 }
 
 .spell {
+  display: grid;
+  grid-template-columns: [name]1fr [labels]max-content [buttons]1fr;
   border-style: none none solid none;
   border-width: 2px;
+}
+
+.spell-buttons {
+  display: flex;
+  width: 100%;
+  justify-items: flex-end;
+  justify-content: flex-end;
 }
 
 .spell-name {
@@ -50,4 +60,9 @@
 .soul-mastery {
   font-variant: small-caps;
   margin-inline-start: 1em;
+}
+
+.edit-button {
+  font-style: italic;
+  cursor: pointer;
 }

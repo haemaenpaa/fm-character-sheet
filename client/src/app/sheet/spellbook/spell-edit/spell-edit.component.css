@@ -1,0 +1,13 @@
+.spell-edit-container {
+  width: 15em;
+}
+
+.save-button {
+  border-style: solid;
+  border-radius: 1.5em;
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+}

@@ -1,0 +1,60 @@
+<div class="spell-edit-container">
+  <div class="name">
+    <editable-text
+      [value]="spell.name"
+      (valueChanged)="spell.name = $event"
+    ></editable-text>
+  </div>
+  <div class="tier">
+    Tier:<editable-text
+      [value]="spell.tier"
+      (valueChanged)="setTier($event)"
+    ></editable-text>
+  </div>
+  <div class="school">
+    School:
+    <select [value]="spell.school" (change)="onSchoolSelect($event)">
+      <option *ngFor="let school of availableSchools" [value]="school">
+        {{ school }}
+      </option>
+    </select>
+  </div>
+  <div class="Casting time">
+    Casting time:
+    <editable-text
+      [value]="spell.castingTime"
+      (valueChanged)="spell.castingTime = $event"
+    ></editable-text>
+  </div>
+  <div class="save">
+    Save:
+    <select [value]="spell.saveAbility" (change)="onSaveSelect($event)">
+      <option [value]="null">None</option>
+      <option *ngFor="let save of availableSaves | keyvalue" [value]="save.key">
+        {{ save.value }}
+      </option>
+    </select>
+  </div>
+  <div class="description">
+    <editable-text
+      [placeholder]="'Spell description'"
+      [rows]="10"
+      (valueChanged)="spell.description = $event"
+    ></editable-text>
+  </div>
+  <div class="ritual">
+    <input
+      type="checkbox"
+      [checked]="spell.ritual"
+      (change)="setBool($event, 'ritual')"
+    />Ritual
+  </div>
+  <div class="soul-mastery">
+    <input
+      type="checkbox"
+      [checked]="spell.soulMastery"
+      (change)="setBool($event, 'soulMastery')"
+    />Soul Mastery
+  </div>
+  <div class="save-button" (click)="save()">Save</div>
+</div>

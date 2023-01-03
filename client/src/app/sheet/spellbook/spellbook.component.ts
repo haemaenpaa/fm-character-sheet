@@ -9,7 +9,10 @@ import {
   SlotEditComponent,
   SlotEditResult,
 } from './slot-edit/slot-edit.component';
-import { ResourceChangeEvent } from './spell-list/spell-list.component';
+import {
+  ResourceChangeEvent,
+  SpellChangeEvent,
+} from './spell-list/spell-list.component';
 
 @Component({
   selector: 'spellbook',
@@ -110,5 +113,45 @@ export class SpellbookComponent {
       }
       this.characterChanged.emit();
     });
+  }
+
+  onSpellModified(event: SpellChangeEvent) {
+    if (!event.new) {
+      this.deleteSpell(event.old);
+      return;
+    }
+    const spellId = event.old.id;
+    const oldTier = event.old.tier;
+    const newTier = event.new.tier;
+    if (newTier !== oldTier) {
+      this.changeSpellTier(event.old, event.new);
+    } else {
+      const spellList = this.character.spells.spells[oldTier];
+      this.character.spells.spells[oldTier] = spellList.map((s) =>
+        s.id !== spellId ? s : event.new!
+      );
+      this.characterChanged.emit();
+    }
+  }
+
+  deleteSpell(spell: Spell) {
+    this.character.spells.spells[spell.tier] = this.character.spells.spells[
+      spell.tier
+    ].filter((s) => s.id !== spell.id);
+    this.characterChanged.emit();
+  }
+
+  changeSpellTier(oldSpell: Spell, newSpell: Spell) {
+    this.character.spells.spells[oldSpell.tier] = this.character.spells.spells[
+      oldSpell.tier
+    ].filter((s) => s.id !== oldSpell.id);
+    if (!this.character.spells.spells[newSpell.tier]) {
+      this.character.spells.spells[newSpell.tier] = [];
+    }
+    this.character.spells.spells[newSpell.tier] = [
+      ...this.character.spells.spells[newSpell.tier],
+      newSpell,
+    ];
+    this.characterChanged.emit();
   }
 }
