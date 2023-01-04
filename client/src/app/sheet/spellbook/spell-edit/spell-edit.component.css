@@ -1,5 +1,5 @@
 .spell-edit-container {
-  width: 15em;
+  width: 25em;
 }
 
 .save-button {
@@ -10,4 +10,13 @@
   text-align: center;
   align-items: center;
   cursor: pointer;
+}
+.description {
+  white-space: pre-line;
+  border-style: double;
+}
+.damage {
+  width: 100%;
+  border-style: double;
+  border-radius: 0.5em;
 }

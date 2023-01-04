@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Spell } from 'src/app/model/character-spells';
+import { DamageRoll } from 'src/app/model/damage-roll';
 
 @Component({
   selector: 'spell-edit',
@@ -62,5 +63,18 @@ export class SpellEditComponent {
 
   setBool(event: Event, field: 'ritual' | 'soulMastery') {
     this.spell[field] = (event.target as HTMLInputElement).checked;
+  }
+
+  onDieChanged(category: 'damage' | 'upcastDamage', roll: DamageRoll) {
+    const damageList: DamageRoll[] = this.spell[category];
+    const newList: DamageRoll[] = damageList.map((r: DamageRoll) =>
+      r.id === roll.id ? roll : r
+    );
+    this.spell[category] = newList;
+  }
+  onDieDeleted(category: 'damage' | 'upcastDamage', roll: DamageRoll) {
+    const damageList: DamageRoll[] = this.spell[category];
+    const newList: DamageRoll[] = damageList.filter((r) => r.id !== roll.id);
+    this.spell[category] = newList;
   }
 }
