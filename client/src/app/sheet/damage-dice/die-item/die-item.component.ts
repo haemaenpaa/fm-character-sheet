@@ -15,20 +15,11 @@ export class DieItemComponent {
   @Input() roll!: DamageRoll;
   @Output() rollChanged: EventEmitter<DamageRollChangedEvent> =
     new EventEmitter();
-  @Output() rolled: EventEmitter<DamageRoll> = new EventEmitter();
   hovered: boolean = false;
   selectOpen: boolean = false;
-  rollable: boolean = true;
 
   delete() {
     this.rollChanged.emit({ old: this.roll, new: null });
-  }
-
-  onRollClicked() {
-    if (!this.rollable) {
-      return;
-    }
-    this.rolled.emit(this.roll);
   }
   onCountChanged(value: number) {
     const changed: DamageRoll = { ...this.roll };
