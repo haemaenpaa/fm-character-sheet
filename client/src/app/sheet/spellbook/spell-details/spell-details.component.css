@@ -1,0 +1,77 @@
+.details-container {
+  width: 30em;
+  display: grid;
+  grid-template-columns: [first] 1fr [second] 1fr [end];
+  grid-template-rows: [title] max-content [time-area] max-content [duration-save] max-content [components-effect] max-content [description] max-content [damage] max-content;
+  padding: 0.5em;
+  row-gap: 0.5em;
+  column-gap: 1em;
+}
+
+.header {
+  grid-row: title;
+  grid-column: first/end;
+  display: flex;
+}
+
+.spell-name {
+  font-weight: bold;
+  font-size: large;
+  margin-inline-end: 0.5em;
+}
+
+.title-detail {
+  font-style: italic;
+  margin-inline-end: 0.5em;
+}
+
+.casting-time {
+  grid-row: time-area;
+  grid-column: first;
+}
+.range {
+  grid-row: time-area;
+  grid-column: second;
+}
+
+.duration {
+  grid-row: duration-save;
+  grid-column: first;
+}
+
+.save-attack {
+  grid-row: duration-save;
+  grid-column: second;
+}
+.optional-span {
+  margin-inline-end: 0.5em;
+}
+
+.components {
+  grid-row: components-effect;
+  grid-column: first;
+}
+
+.effect {
+  grid-row: components-effect;
+  grid-column: second;
+}
+
+.description {
+  grid-row: description;
+  grid-column: first/end;
+  white-space: pre-line;
+  border-style: double;
+}
+.damage {
+  display: flex;
+  flex-direction: row;
+  grid-row: damage;
+  grid-column: first;
+}
+.upcast {
+  display: flex;
+  flex-direction: row;
+  grid-row: damage;
+  grid-column: second;
+}

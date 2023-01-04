@@ -1,0 +1,43 @@
+<div class="details-container">
+  <div class="header">
+    <span class="spell-name">{{ spell.name }}</span>
+    <span class="title-detail">
+      {{ spell.school }} {{ spell.tier > 0 ? spell.tier : "cantrip" }},
+    </span>
+    <span *ngIf="spell.ritual" class="title-detail">ritual</span>
+  </div>
+  <div class="casting-time">Casting time: {{ spell.castingTime }}</div>
+  <div class="range">Range/area: {{ spell.range }}</div>
+  <div class="duration">
+    Duration:{{ spell.duration }}
+    <span class="title-detail" *ngIf="spell.concentration">conc.</span>
+  </div>
+  <div class="save-attack">
+    <span *ngIf="spell.attack" class="optional-span">Spell attack</span>
+    <span *ngIf="spell.saveAbility" class="optional-span">
+      Save:
+      <span *ngFor="let save of saves">
+        {{ save | abilityName : "long" }}
+      </span>
+    </span>
+  </div>
+  <div class="components">Components: {{ spell.components }}</div>
+  <div class="effect">Effect: {{ spell.effect }}</div>
+  <div class="description" *ngIf="spell.description.length > 0">
+    {{ spell.description }}
+  </div>
+  <div class="damage" *ngIf="spell.damage.length > 0">
+    Damage:
+    <span *ngFor="let roll of spell.damage; last as isLast">
+      {{ roll.roll.dice }}d{{ roll.roll.sides }} {{ roll.type
+      }}{{ isLast ? "" : "," }}
+    </span>
+  </div>
+  <div class="upcast" *ngIf="spell.upcastDamage.length > 0">
+    Damage/upcast:
+    <span *ngFor="let roll of spell.upcastDamage; last as isLast">
+      {{ roll.roll.dice }}d{{ roll.roll.sides }} {{ roll.type
+      }}{{ isLast ? "" : "," }}
+    </span>
+  </div>
+</div>
