@@ -34,6 +34,8 @@ import { SpellAttackRollComponent } from './roll-log/spell-attack-roll/spell-att
 import { SpellListComponent } from './spellbook/spell-list/spell-list.component';
 import { SlotEditComponent } from './spellbook/slot-edit/slot-edit.component';
 import { SpellEditComponent } from './spellbook/spell-edit/spell-edit.component';
+import { DamageDiceComponent } from './damage-dice/damage-dice.component';
+import { DieItemComponent } from './damage-dice/die-item/die-item.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -72,6 +74,8 @@ import { SpellEditComponent } from './spellbook/spell-edit/spell-edit.component'
     SpellListComponent,
     SlotEditComponent,
     SpellEditComponent,
+    DamageDiceComponent,
+    DieItemComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],
