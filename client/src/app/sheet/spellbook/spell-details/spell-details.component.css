@@ -1,5 +1,5 @@
 .details-container {
-  width: 30em;
+  width: 40em;
   display: grid;
   grid-template-columns: [first] 1fr [second] 1fr [end];
   grid-template-rows: [title] max-content [time-area] max-content [duration-save] max-content [components-effect] max-content [description] max-content [damage] max-content;
@@ -12,6 +12,7 @@
   grid-row: title;
   grid-column: first/end;
   display: flex;
+  align-items: center;
 }
 
 .spell-name {
