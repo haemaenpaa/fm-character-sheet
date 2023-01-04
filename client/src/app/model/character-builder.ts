@@ -371,6 +371,9 @@ export class CharacterBuilder {
    * @param concentration is this a concentration spell
    * @param castingTime Casting time of the spell
    * @param duration Duration of the spell
+   * @param range Range and AoE of the spell
+   * @param components Components of the spell
+   * @param effect Effect of the spell
    * @returns
    */
   addUtilitySpell(
@@ -382,7 +385,10 @@ export class CharacterBuilder {
     soulMastery: boolean = false,
     concentration: boolean = false,
     castingTime: string = 'Action',
-    duration: string = '10 minutes'
+    duration: string = '10 minutes',
+    range: string = 'Touch',
+    components: 'S, V',
+    effect: 'Damage'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
@@ -399,6 +405,9 @@ export class CharacterBuilder {
       castingTime,
       concentration,
       duration,
+      range,
+      components,
+      effect,
     };
     return this.addSpell(spell);
   }
@@ -415,6 +424,9 @@ export class CharacterBuilder {
    * @param concentration is this a concentration spell
    * @param castingTime Casting time of the spell
    * @param duration Duration of the spell
+   * @param range Range and AoE of the spell
+   * @param components Components of the spell
+   * @param effect Effect of the spell
    * @returns
    */
   addSaveSpell(
@@ -429,7 +441,10 @@ export class CharacterBuilder {
     soulMastery: boolean = false,
     concentration: boolean = false,
     castingTime: string = 'Action',
-    duration: string = 'Instant'
+    duration: string = 'Instant',
+    range: string = 'Touch',
+    components: 'S, V',
+    effect: 'Damage'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
@@ -446,6 +461,9 @@ export class CharacterBuilder {
       castingTime,
       concentration,
       duration,
+      range,
+      components,
+      effect,
     };
     return this.addSpell(spell);
   }
@@ -462,6 +480,9 @@ export class CharacterBuilder {
    * @param concentration is this a concentration spell
    * @param castingTime Casting time of the spell
    * @param duration Duration of the spell
+   * @param range Range and AoE of the spell
+   * @param components Components of the spell
+   * @param effect Effect of the spell
    * @returns
    */
   addAttackSpell(
@@ -475,7 +496,10 @@ export class CharacterBuilder {
     soulMastery: boolean = false,
     concentration: boolean = false,
     castingTime: string = 'Action',
-    duration: string = 'Instant'
+    duration: string = 'Instant',
+    range: string = 'Touch',
+    components: 'S, V',
+    effect: 'Damage'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
@@ -492,6 +516,9 @@ export class CharacterBuilder {
       soulMastery,
       concentration,
       duration,
+      range,
+      components,
+      effect,
     };
     return this.addSpell(spell);
   }

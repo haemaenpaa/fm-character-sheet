@@ -5,11 +5,18 @@
   padding: 0.5em;
 }
 
+.labeled-edit {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 0.5em;
+}
+
 .option-row {
   width: 100%;
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
+  column-gap: 0.5em;
 }
 .save-button {
   border-style: solid;

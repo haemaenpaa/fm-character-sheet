@@ -58,7 +58,9 @@
       class="spell"
       (mouseenter)="hoveredId = spell.id"
     >
-      <span class="spell-name">{{ spell.name }}</span>
+      <span class="spell-name" (click)="showDetails(spell)">{{
+        spell.name
+      }}</span>
       <div>
         <span class="ritual" *ngIf="spell.ritual">r</span>
         <span class="soul-mastery" *ngIf="spell.soulMastery">m</span>

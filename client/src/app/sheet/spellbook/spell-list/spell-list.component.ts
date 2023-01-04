@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Spell } from 'src/app/model/character-spells';
 import { randomId } from 'src/app/model/id-generator';
+import { SpellDetailsComponent } from '../spell-details/spell-details.component';
 import { SpellEditComponent } from '../spell-edit/spell-edit.component';
 
 export interface ResourceChangeEvent {
@@ -53,6 +54,9 @@ export class SpellListComponent {
       attack: false,
       castingTime: '1 Action',
       duration: 'Instant',
+      range: '',
+      components: '',
+      effect: '',
     };
     this.spellAdded.emit(newSpell);
   }
@@ -110,6 +114,12 @@ export class SpellListComponent {
           new: edited,
         });
       }
+    });
+  }
+
+  showDetails(spell: Spell) {
+    this.dialog.open(SpellDetailsComponent, {
+      data: { spell: { ...spell } },
     });
   }
 

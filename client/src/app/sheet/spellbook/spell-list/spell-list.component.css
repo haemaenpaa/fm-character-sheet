@@ -51,6 +51,7 @@
 
 .spell-name {
   font-style: italic;
+  cursor: pointer;
 }
 
 .ritual {

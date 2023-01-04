@@ -57,6 +57,18 @@ export interface Spell {
    * Duration of this spell
    */
   duration: string;
+  /**
+   * Range of the spell
+   */
+  range: string;
+  /**
+   * Components of the spell
+   */
+  components: string;
+  /**
+   * Effect of the spell
+   */
+  effect: string;
 }
 
 export class CharacterSpells {
