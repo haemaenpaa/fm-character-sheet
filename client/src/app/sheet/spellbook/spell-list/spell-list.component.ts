@@ -38,7 +38,7 @@ export class SpellListComponent {
   constructor(private dialog: MatDialog) {}
 
   addSpell() {
-    const newSpell = {
+    const newSpell: Spell = {
       id: randomId(),
       tier: this.tier,
       school: 'Abjuration',
@@ -49,7 +49,10 @@ export class SpellListComponent {
       upcastDamage: [],
       ritual: false,
       soulMastery: false,
+      concentration: false,
+      attack: false,
       castingTime: '1 Action',
+      duration: 'Instant',
     };
     this.spellAdded.emit(newSpell);
   }

@@ -1,7 +1,16 @@
 .spell-edit-container {
-  width: 25em;
+  width: 30em;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
 }
 
+.option-row {
+  width: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
 .save-button {
   border-style: solid;
   border-radius: 1.5em;

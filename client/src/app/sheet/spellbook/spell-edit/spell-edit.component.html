@@ -26,6 +26,46 @@
       (valueChanged)="spell.castingTime = $event"
     ></editable-text>
   </div>
+
+  <div class="option-row">
+    <div class="duration">
+      Duration:
+      <editable-text
+        [value]="spell.duration"
+        placeholder="Spell duration"
+        (valueChanged)="spell.duration = $event"
+      ></editable-text>
+    </div>
+    <div class="concentration">
+      <input
+        type="checkbox"
+        [checked]="spell.concentration"
+        (change)="setBool($event, 'concentration')"
+      />Concentration
+    </div>
+  </div>
+  <div class="option-row">
+    <div class="save">
+      Save:
+      <select [value]="spell.saveAbility" (change)="onSaveSelect($event)">
+        <option [value]="null">None</option>
+        <option
+          *ngFor="let save of availableSaves | keyvalue"
+          [value]="save.key"
+        >
+          {{ save.value }}
+        </option>
+      </select>
+    </div>
+
+    <div class="attack">
+      <input
+        type="checkbox"
+        [checked]="spell.attack"
+        (change)="setBool($event, 'attack')"
+      />Spell Attack
+    </div>
+  </div>
   <div class="description">
     <editable-text
       [value]="spell.description"
@@ -34,19 +74,21 @@
       (valueChanged)="spell.description = $event"
     ></editable-text>
   </div>
-  <div class="ritual">
-    <input
-      type="checkbox"
-      [checked]="spell.ritual"
-      (change)="setBool($event, 'ritual')"
-    />Ritual
-  </div>
-  <div class="soul-mastery">
-    <input
-      type="checkbox"
-      [checked]="spell.soulMastery"
-      (change)="setBool($event, 'soulMastery')"
-    />Soul Mastery
+  <div class="option-row">
+    <div class="ritual">
+      <input
+        type="checkbox"
+        [checked]="spell.ritual"
+        (change)="setBool($event, 'ritual')"
+      />Ritual
+    </div>
+    <div class="soul-mastery">
+      <input
+        type="checkbox"
+        [checked]="spell.soulMastery"
+        (change)="setBool($event, 'soulMastery')"
+      />Soul Mastery
+    </div>
   </div>
   <div class="damage">
     Damage:
@@ -66,15 +108,6 @@
       (dieDeleted)="onDieDeleted('upcastDamage', $event)"
     ></damage-dice>
   </div>
-  <div class="save-button" (click)="save()">Save</div>
 
-  <div class="save">
-    Save:
-    <select [value]="spell.saveAbility" (change)="onSaveSelect($event)">
-      <option [value]="null">None</option>
-      <option *ngFor="let save of availableSaves | keyvalue" [value]="save.key">
-        {{ save.value }}
-      </option>
-    </select>
-  </div>
+  <div class="save-button" (click)="save()">Save</div>
 </div>

@@ -62,6 +62,7 @@
       <div>
         <span class="ritual" *ngIf="spell.ritual">r</span>
         <span class="soul-mastery" *ngIf="spell.soulMastery">m</span>
+        <span class="concentration" *ngIf="spell.concentration">c</span>
       </div>
       <div class="spell-buttons" *ngIf="hoveredId === spell.id">
         <span class="delete-button" (click)="deleteSpell(spell)"> - </span>

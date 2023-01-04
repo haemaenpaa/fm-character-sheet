@@ -363,9 +363,14 @@ export class CharacterBuilder {
   /**
    * Adds an utility spell, i.e. one without a save or spell attack.
    * @param tier Spell tier
-   * @param name spell name
-   * @param school spell school
-   * @param description spell description
+   * @param name Name of the spell
+   * @param school Spell school
+   * @param description Spell description
+   * @param ritual Is this a ritual spell
+   * @param soulMastery is this spell soul mastery for the character
+   * @param concentration is this a concentration spell
+   * @param castingTime Casting time of the spell
+   * @param duration Duration of the spell
    * @returns
    */
   addUtilitySpell(
@@ -375,11 +380,14 @@ export class CharacterBuilder {
     description: string,
     ritual: boolean = false,
     soulMastery: boolean = false,
-    castingTime: string = 'Action'
+    concentration: boolean = false,
+    castingTime: string = 'Action',
+    duration: string = '10 minutes'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
       saveAbility: null,
+      attack: false,
       tier,
       school,
       name,
@@ -389,6 +397,8 @@ export class CharacterBuilder {
       ritual,
       soulMastery,
       castingTime,
+      concentration,
+      duration,
     };
     return this.addSpell(spell);
   }
@@ -401,6 +411,10 @@ export class CharacterBuilder {
    * @param saveAbility ability used for saving throw.
    * @param damage Base damage of the spell.
    * @param upcastDamage additional damage per level of upcast.
+   * @param soulMastery is this spell soul mastery for the character
+   * @param concentration is this a concentration spell
+   * @param castingTime Casting time of the spell
+   * @param duration Duration of the spell
    * @returns
    */
   addSaveSpell(
@@ -413,10 +427,13 @@ export class CharacterBuilder {
     upcastDamage: DamageRoll[] = [],
     ritual: boolean = false,
     soulMastery: boolean = false,
-    castingTime: string = 'Action'
+    concentration: boolean = false,
+    castingTime: string = 'Action',
+    duration: string = 'Instant'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
+      attack: false,
       tier,
       school,
       name,
@@ -427,6 +444,8 @@ export class CharacterBuilder {
       ritual,
       soulMastery,
       castingTime,
+      concentration,
+      duration,
     };
     return this.addSpell(spell);
   }
@@ -439,6 +458,10 @@ export class CharacterBuilder {
    * @param description spell description
    * @param damage base damage
    * @param upcastDamage additional damage per level of upcast.
+   * @param soulMastery is this spell soul mastery for the character
+   * @param concentration is this a concentration spell
+   * @param castingTime Casting time of the spell
+   * @param duration Duration of the spell
    * @returns
    */
   addAttackSpell(
@@ -450,10 +473,13 @@ export class CharacterBuilder {
     upcastDamage: DamageRoll[] = [],
     ritual: boolean = false,
     soulMastery: boolean = false,
-    castingTime: string = 'Action'
+    concentration: boolean = false,
+    castingTime: string = 'Action',
+    duration: string = 'Instant'
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
+      attack: true,
       tier,
       school,
       name,
@@ -464,6 +490,8 @@ export class CharacterBuilder {
       ritual,
       castingTime,
       soulMastery,
+      concentration,
+      duration,
     };
     return this.addSpell(spell);
   }

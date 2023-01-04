@@ -61,7 +61,10 @@ export class SpellEditComponent {
     }
   }
 
-  setBool(event: Event, field: 'ritual' | 'soulMastery') {
+  setBool(
+    event: Event,
+    field: 'ritual' | 'soulMastery' | 'concentration' | 'attack'
+  ) {
     this.spell[field] = (event.target as HTMLInputElement).checked;
   }
 

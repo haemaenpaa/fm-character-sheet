@@ -36,6 +36,7 @@ import { SlotEditComponent } from './spellbook/slot-edit/slot-edit.component';
 import { SpellEditComponent } from './spellbook/spell-edit/spell-edit.component';
 import { DamageDiceComponent } from './damage-dice/damage-dice.component';
 import { DieItemComponent } from './damage-dice/die-item/die-item.component';
+import { SpellDetailsComponent } from './spellbook/spell-details/spell-details.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -76,6 +77,7 @@ import { DieItemComponent } from './damage-dice/die-item/die-item.component';
     SpellEditComponent,
     DamageDiceComponent,
     DieItemComponent,
+    SpellDetailsComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

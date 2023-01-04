@@ -61,6 +61,10 @@
   font-variant: small-caps;
   margin-inline-start: 1em;
 }
+.concentration {
+  font-variant: small-caps;
+  margin-inline-start: 1em;
+}
 
 .edit-button {
   font-style: italic;

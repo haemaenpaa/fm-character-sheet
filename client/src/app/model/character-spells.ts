@@ -42,9 +42,21 @@ export interface Spell {
    */
   soulMastery: boolean;
   /**
+   * Is this a concentration spell
+   */
+  concentration: boolean;
+  /**
+   * Is this an attack spell
+   */
+  attack: boolean;
+  /**
    * Casting time of this spell
    */
   castingTime: string;
+  /**
+   * Duration of this spell
+   */
+  duration: string;
 }
 
 export class CharacterSpells {
