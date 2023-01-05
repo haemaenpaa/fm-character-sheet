@@ -3,8 +3,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnInit,
-  SimpleChange,
   ViewChild,
 } from '@angular/core';
 import { Roll } from 'src/app/model/diceroll';

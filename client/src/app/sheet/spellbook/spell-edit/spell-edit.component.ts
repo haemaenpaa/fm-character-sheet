@@ -3,12 +3,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Spell } from 'src/app/model/character-spells';
 import { DamageRoll } from 'src/app/model/damage-roll';
 
+/**
+ * Popup component for editing a spell. The value returned is the newly edited spell.
+ */
 @Component({
   selector: 'spell-edit',
   templateUrl: './spell-edit.component.html',
   styleUrls: ['./spell-edit.component.css'],
 })
 export class SpellEditComponent {
+  /**
+   * Spell schools.
+   */
   availableSchools: string[] = [
     'Abjuration',
     'Conjuration',
@@ -19,6 +25,9 @@ export class SpellEditComponent {
     'Transmutation',
     'Vismancy',
   ];
+  /**
+   * Saving throw values and their names.
+   */
   availableSaves: { [key: string]: string } = {
     br: 'Brawn',
     dex: 'Dexterity',

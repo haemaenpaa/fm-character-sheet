@@ -16,6 +16,9 @@ export interface SpellChangeEvent {
   new: Spell | null;
 }
 
+/**
+ * Component that displays a single spell tier's section of the spellbook.
+ */
 @Component({
   selector: 'spell-list',
   templateUrl: './spell-list.component.html',

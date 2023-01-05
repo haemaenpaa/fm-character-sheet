@@ -18,8 +18,8 @@
     <span *ngIf="spell.attack" class="optional-span">Spell attack</span>
     <span *ngIf="spell.saveAbility" class="optional-span">
       Save:
-      <span *ngFor="let save of saves">
-        {{ save | abilityName : "long" }}
+      <span *ngFor="let save of saves; last as isLast">
+        {{ save | abilityName : "long" }}{{ isLast ? "" : "/" }}
       </span>
     </span>
   </div>

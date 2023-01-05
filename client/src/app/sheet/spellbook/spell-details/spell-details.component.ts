@@ -2,6 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Spell } from 'src/app/model/character-spells';
 
+/**
+ * Popup dialog that displays the details of a spell.
+ */
 @Component({
   selector: 'spell-details',
   templateUrl: './spell-details.component.html',

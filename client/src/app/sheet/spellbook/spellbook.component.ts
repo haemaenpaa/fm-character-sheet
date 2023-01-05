@@ -14,6 +14,11 @@ import {
   SpellChangeEvent,
 } from './spell-list/spell-list.component';
 
+/**
+ * Component that displays the spellcasting related information of the character.
+ *
+ * This includes spellcasting ability and the derived stats, souls and spells.
+ */
 @Component({
   selector: 'spellbook',
   templateUrl: './spellbook.component.html',

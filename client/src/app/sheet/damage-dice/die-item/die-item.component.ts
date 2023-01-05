@@ -2,10 +2,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DamageRoll } from 'src/app/model/damage-roll';
 
 export interface DamageRollChangedEvent {
+  /**
+   * Original value
+   */
   old: DamageRoll;
+  /**
+   * New value. In case of deletion, this will be null.
+   */
   new: DamageRoll | null;
 }
-
+/**
+ * Component that displays a single segment of a damage roll
+ */
 @Component({
   selector: 'die-item',
   templateUrl: './die-item.component.html',
@@ -13,6 +21,9 @@ export interface DamageRollChangedEvent {
 })
 export class DieItemComponent {
   @Input() roll!: DamageRoll;
+  /**
+   * Event emitted when a die is altered in any way.
+   */
   @Output() rollChanged: EventEmitter<DamageRollChangedEvent> =
     new EventEmitter();
   hovered: boolean = false;
