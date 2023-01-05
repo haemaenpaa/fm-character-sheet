@@ -5,12 +5,13 @@
   >
     {{ roll.character }} :
   </div>
-  <div class="roll-title" *ngIf="!roll.name">Spell attack:</div>
-  <div class="roll-title" *ngIf="roll.name">{{ roll.name }} to hit:</div>
+  <div *ngIf="roll.title" class="roll-title">
+    Soul check for {{ roll.name }} DV {{ roll.target }}:
+  </div>
   <div *ngFor="let d of roll.dice" class="die-roll">
     {{ d | roll }}
   </div>
-  <div *ngFor="let m of roll.filteredModifiers" class="die-modifier">
-    {{ m.value | modifier }}
+  <div *ngFor="let mod of roll.modifiers" class="roll-modifier">
+    {{ mod.value | modifier }}
   </div>
 </div>

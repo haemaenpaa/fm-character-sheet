@@ -1,3 +1,4 @@
+import { NumberValueAccessor } from '@angular/forms';
 import { Ability } from './ability';
 
 export type Advantage = 'none' | 'disadvantage' | 'advantage';
@@ -5,7 +6,8 @@ export type ActionType =
   | 'ability-check'
   | 'ability-save'
   | 'skill-check'
-  | 'spell-attack';
+  | 'spell-attack'
+  | 'spell';
 
 /**
  * Parameters for an ability check.
@@ -40,7 +42,24 @@ export interface SpellAttackParams {
   advantage: Advantage;
 }
 
+export interface SpellParams {
+  characterId: number;
+  spellTier: number;
+  castingTier: number;
+  spellId: number;
+  soulCheck: boolean;
+  advantage: {
+    soulCheck: Advantage;
+    attack: Advantage;
+  };
+}
+
 export interface GameAction {
   type: ActionType;
-  params: CheckParams | SaveParams | SkillParams | SpellAttackParams;
+  params:
+    | CheckParams
+    | SaveParams
+    | SkillParams
+    | SpellAttackParams
+    | SpellParams;
 }

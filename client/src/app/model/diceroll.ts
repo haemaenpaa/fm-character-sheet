@@ -23,16 +23,19 @@ export class RollComponent {
   dice: number = 1;
   keepMode: KeepMode = 'HIGHEST';
   keep: number;
+  name?: string;
   constructor(
     sides: number,
     dice: number = 1,
     keepMode: KeepMode = 'HIGHEST',
-    keep: number = dice
+    keep: number = dice,
+    name?: string
   ) {
     this.sides = sides;
     this.dice = dice;
     this.keep = keep;
     this.keepMode = keepMode;
+    this.name = name;
   }
 }
 
@@ -45,7 +48,8 @@ export class Roll {
   private _dice: RollComponent[] = []; //The dice being rolled
   private _modifiers: RollModifier[] = []; //The modifiers applied
   private _target: number | null = null; //Target to beat, if any.
-  private _id: string | null = null;
+  private _id?: number;
+  private _name?: string;
 
   get character(): string | null {
     return this._character;
@@ -75,10 +79,10 @@ export class Roll {
     }
     return ret;
   }
-  get id(): string | null {
+  get id(): number | undefined {
     return this._id;
   }
-  set id(value: string | null) {
+  set id(value: number | undefined) {
     this._id = value;
   }
 
@@ -100,5 +104,15 @@ export class Roll {
 
   get modifiers(): RollModifier[] {
     return Array.from(this._modifiers);
+  }
+
+  /**
+   * Name of the specific thing being rolled for
+   */
+  get name(): string | undefined {
+    return this._name;
+  }
+  set name(value: string | undefined) {
+    this._name = value;
   }
 }

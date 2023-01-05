@@ -1,0 +1,44 @@
+<div class="cast-container" *ngIf="spell && character">
+  <div class="title">Cast {{ spell.name }}</div>
+  <div class="tier" *ngIf="spell.tier > 0">
+    <span *ngIf="!this.ritual">
+      Cast at tier:
+      <select [value]="tier" (change)="onTierChange($event)">
+        <option *ngFor="let tier of availableTiers" [value]="tier">
+          {{ tier }}
+        </option>
+      </select>
+    </span>
+    <span *ngIf="spell.ritual" class="ritual">
+      <input
+        type="checkbox"
+        [checked]="ritual"
+        (change)="onRitualChange($event)"
+      />
+      Cast as ritual
+    </span>
+  </div>
+  <div class="advantage">
+    <span *ngIf="spell.attack">
+      Spell attack advantage:
+      <select id="attackAdvantage" [value]="attackAdvantage">
+        <option
+          *ngFor="let advantage of advantageOptions"
+          [value]="attackAdvantage"
+          (change)="onAdvantageChange($event)"
+        >
+          {{ advantage }}
+        </option>
+      </select>
+    </span>
+    <span *ngIf="spell.tier > 0 && !ritual">
+      Soul check advantage:
+      <select id="soulCheckAdvantage" [value]="soulCheckAdvantage">
+        <option *ngFor="let advantage of advantageOptions" [value]="advantage">
+          {{ advantage }}
+        </option>
+      </select>
+    </span>
+  </div>
+  <div class="cast-button" (click)="cast()">Cast</div>
+</div>

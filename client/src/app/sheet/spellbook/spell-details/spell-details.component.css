@@ -2,7 +2,7 @@
   width: 40em;
   display: grid;
   grid-template-columns: [first] 1fr [second] 1fr [end];
-  grid-template-rows: [title] max-content [time-area] max-content [duration-save] max-content [components-effect] max-content [description] max-content [damage] max-content;
+  grid-template-rows: [title] max-content [time-area] max-content [duration-save] max-content [components-effect] max-content [description] max-content [damage] max-content [cast] max-content;
   padding: 0.5em;
   row-gap: 0.5em;
   column-gap: 1em;
@@ -75,4 +75,13 @@
   flex-direction: row;
   grid-row: damage;
   grid-column: second;
+}
+
+.cast {
+  width: 100%;
+  grid-row: cast;
+  grid-column: first/end;
+  text-align: center;
+  border-style: solid;
+  border-radius: 1em;
 }

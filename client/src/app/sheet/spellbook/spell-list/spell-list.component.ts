@@ -32,6 +32,7 @@ export class SpellListComponent {
   @Input() specialSlots: number = 0;
   @Input() specialSlotsAvailable: number = 0;
   @Input() spells: Spell[] = [];
+  @Input() characterId?: number;
 
   @Output() resourcesChanged: EventEmitter<ResourceChangeEvent> =
     new EventEmitter();
@@ -122,7 +123,7 @@ export class SpellListComponent {
 
   showDetails(spell: Spell) {
     this.dialog.open(SpellDetailsComponent, {
-      data: { spell: { ...spell } },
+      data: { spell: { ...spell }, characterId: this.characterId },
     });
   }
 

@@ -8,17 +8,13 @@ import {
   SaveParams,
   SkillParams,
   SpellAttackParams,
+  SpellParams,
 } from '../model/game-action';
 import { Ability } from '../model/ability';
+import { CharacterService } from './character.service';
+import { Spell } from '../model/character-spells';
+import { randomId } from '../model/id-generator';
 
-function rollId() {
-  const idNumber = Math.floor(Math.random() * 2 ** 32);
-  var rootStr = idNumber.toString(16);
-  while (rootStr.length < 8) {
-    rootStr = '0' + rootStr;
-  }
-  return rootStr;
-}
 /**
  * A service to dispatch game actions that call for a roll.
  */
@@ -27,7 +23,7 @@ function rollId() {
 })
 export class ActionDispatchService {
   private readonly _rolls: Subject<Roll> = new Subject();
-  constructor() {}
+  constructor(private characterService: CharacterService) {}
 
   public rolls(): Observable<Roll> {
     return this._rolls.asObservable();
@@ -37,25 +33,27 @@ export class ActionDispatchService {
     const params = action.params;
     switch (action.type) {
       case 'ability-check':
+        const checkParams = params as CheckParams;
         this.dispatchAbilityCheck(
-          params.characterName,
-          (params as CheckParams).ability,
-          params.advantage
+          checkParams.characterName,
+          checkParams.ability,
+          checkParams.advantage
         );
         break;
       case 'ability-save':
+        const saveParams = params as SaveParams;
         this.dispatchSavingThrow(
-          params.characterName,
-          (params as CheckParams).ability,
-          (params as SaveParams).abilities,
-          (params as SaveParams).proficiency,
-          params.advantage
+          saveParams.characterName,
+          saveParams.ability,
+          saveParams.abilities,
+          saveParams.proficiency,
+          saveParams.advantage
         );
         break;
       case 'skill-check':
         const skillParams = params as SkillParams;
         this.dispatchSkillCheck(
-          params.characterName,
+          skillParams.characterName,
           skillParams.abilityIdentifier,
           skillParams.skillIdentifier,
           skillParams.abilityModifier,
@@ -64,13 +62,16 @@ export class ActionDispatchService {
         );
         break;
       case 'spell-attack':
-        const spellParams = params as SpellAttackParams;
+        const spellAttackParams = params as SpellAttackParams;
         this.dispatchSpellAttack(
-          spellParams.characterName,
-          spellParams.abilityIdentifier,
-          spellParams.spellAttackBonus,
-          spellParams.advantage
+          spellAttackParams.characterName,
+          spellAttackParams.spellAttackBonus,
+          spellAttackParams.advantage
         );
+        break;
+      case 'spell':
+        const spellParams = params as SpellParams;
+        this.dispatchSpell(spellParams);
         break;
     }
   }
@@ -146,13 +147,16 @@ export class ActionDispatchService {
 
   private dispatchSpellAttack(
     name: string,
-    ability: string,
     modifier: number,
-    advantage: Advantage
+    advantage: Advantage,
+    spellName: string | null = null
   ) {
     const roll: Roll = new Roll();
-    roll.title = 'spell_' + ability;
+    roll.title = 'spellatk';
     roll.character = name;
+    if (spellName) {
+      roll.name = spellName;
+    }
 
     const dieCheckRoll = this.getD20Check(advantage);
     roll.addDie(dieCheckRoll);
@@ -161,9 +165,110 @@ export class ActionDispatchService {
     this.sendRoll(roll);
   }
 
+  private dispatchSpell(params: SpellParams) {
+    this.characterService
+      .getCharacterById(params.characterId)
+      .then((character) => {
+        const characterName = character.name;
+        const spell = character.spells.spells[params.spellTier].find(
+          (s) => s.id === params.spellId
+        );
+        if (!spell) {
+          console.error(
+            `No spell of id ${params.spellId} of tier ${params.spellTier}`
+          );
+          return;
+        }
+        if (params.castingTier > 0 && params.soulCheck) {
+          const soulCheck = new Roll();
+          soulCheck.character = character.name;
+          soulCheck.title = 'soulcheck';
+          soulCheck.target = 12 + params.castingTier;
+          soulCheck.name = spell.name;
+          soulCheck.addDie(this.getD20Check(params.advantage.soulCheck));
+          soulCheck.addModifier({
+            name: 'Spell attack',
+            value: character.spellAttack,
+          });
+          this.sendRoll(soulCheck);
+        }
+        if (spell.attack) {
+          this.dispatchSpellAttack(
+            character.name,
+            character.spellAttack,
+            params.advantage.attack,
+            spell.name
+          );
+        }
+        if (spell.saveAbility) {
+          const spellSave = new Roll();
+          spellSave.title = 'spellsave';
+          spellSave.character = character.name;
+          spellSave.name = spell.name;
+          spellSave.addModifier({
+            name: spell.saveAbility,
+            value: character.spellSave,
+          });
+          this.sendRoll(spellSave);
+        }
+        if (spell.damage.length + spell.upcastDamage.length > 0) {
+          const spellDamage = this.constructSpellDamage(
+            spell,
+            params.castingTier,
+            character.name
+          );
+          this.sendRoll(spellDamage);
+        }
+      });
+  }
+  private constructSpellDamage(
+    spell: Spell,
+    castTier: number,
+    character: string
+  ) {
+    const damageRoll: Roll = new Roll();
+
+    damageRoll.character = character;
+    damageRoll.title = `spelldmg`;
+
+    const upcast = castTier - spell.tier;
+    damageRoll.name = spell.name + (upcast > 0 ? ` (tier ${spell.tier})` : '');
+
+    const damageTotals: { [key: string]: RollComponent } = {};
+    for (const damage of spell.damage) {
+      damageTotals[damage.type] = { ...damage.roll };
+      damageTotals[damage.type].name = damage.type;
+    }
+
+    if (upcast > 0) {
+      for (const damage of spell.upcastDamage) {
+        if (!(damage.type in damageTotals)) {
+          damageTotals[damage.type] = { ...damage.roll };
+          damageTotals[damage.type].name;
+          damageTotals[damage.type].dice *= upcast;
+          damageTotals[damage.type].keep *= upcast;
+        } else if (damageTotals[damage.type].sides !== damage.roll.sides) {
+          const upcastComponent =
+            damageTotals[damage.type + ' upcast'] ||
+            new RollComponent(damage.roll.sides, 0, 'HIGHEST', 0, damage.type);
+          upcastComponent.dice += upcast * damage.roll.dice;
+          upcastComponent.keep += upcast * damage.roll.dice;
+          damageTotals[damage.type + ' upcast'] = upcastComponent;
+        } else {
+          damageTotals[damage.type].dice += upcast * damage.roll.dice;
+          damageTotals[damage.type].keep += upcast * damage.roll.dice;
+        }
+      }
+    }
+    for (const key in damageTotals) {
+      damageRoll.addDie(damageTotals[key]);
+    }
+    return damageRoll;
+  }
+
   private sendRoll(roll: Roll) {
     if (!roll.id) {
-      roll.id = rollId();
+      roll.id = randomId();
     }
     this._rolls.next(roll);
   }
