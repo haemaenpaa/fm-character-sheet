@@ -55,7 +55,7 @@ export class SpellCastComponent {
       },
     };
     this.actionDispatch.dispatch({ type: 'spell', params });
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   get availableTiers(): number[] {

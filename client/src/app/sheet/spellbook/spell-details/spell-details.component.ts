@@ -41,6 +41,10 @@ export class SpellDetailsComponent {
         characterId: this.characterId,
       },
     });
-    castDialog.afterClosed().subscribe((_) => this.dialogRef.close());
+    castDialog.afterClosed().subscribe((wasCast) => {
+      if (wasCast) {
+        this.dialogRef.close();
+      }
+    });
   }
 }
