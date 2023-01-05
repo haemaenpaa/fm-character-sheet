@@ -22,7 +22,11 @@ export interface SpellChangeEvent {
 @Component({
   selector: 'spell-list',
   templateUrl: './spell-list.component.html',
-  styleUrls: ['./spell-list.component.css', '../../common.css'],
+  styleUrls: [
+    './spell-list.component.css',
+    './spell-list.component.accessibility.css',
+    '../../common.css',
+  ],
 })
 export class SpellListComponent {
   @Input() tier: number = 0;
@@ -33,6 +37,7 @@ export class SpellListComponent {
   @Input() specialSlotsAvailable: number = 0;
   @Input() spells: Spell[] = [];
   @Input() characterId?: number;
+  @Input() colorized: boolean = false;
 
   @Output() resourcesChanged: EventEmitter<ResourceChangeEvent> =
     new EventEmitter();
@@ -110,6 +115,7 @@ export class SpellListComponent {
         spell: { ...spell },
       },
     });
+    editDialog.componentInstance.colorized = this.colorized;
 
     editDialog.afterClosed().subscribe((edited) => {
       if (edited) {

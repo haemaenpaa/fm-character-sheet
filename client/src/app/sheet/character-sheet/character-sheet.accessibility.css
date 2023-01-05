@@ -40,6 +40,11 @@
   color: orange;
 }
 
+.accessibility-colorized > .info-section > .nav-tab-container > .spellbook {
+  border-color: black;
+  color: rgb(0, 64, 128);
+}
+
 .accessibility-colorized > .character-skills > .section-header {
   color: blue;
 }

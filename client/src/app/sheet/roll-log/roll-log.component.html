@@ -15,13 +15,12 @@
         [roll]="r"
         *ngSwitchCase="'spell-attack'"
       ></spell-attack-roll>
-      <spell-save-log [roll="r]" *ngSwitchCase="'spell-save'"></spell-save-log>
+      <spell-save-log [roll="r" *ngSwitchCase="'spell-save'"></spell-save-log>
       <soul-check-log [roll]="r" *ngSwitchCase="'soul-check'"></soul-check-log>
       <spell-damage-roll
         [roll]="r"
         *ngSwitchCase="'spell-damage'"
       ></spell-damage-roll>
-      <spell-save-log [roll]="r" *ngSwitchCase="'spell-save'"></spell-save-log>
 
       <unknown-roll *ngSwitchCase="'unknown'" [roll]="r"></unknown-roll>
     </div>

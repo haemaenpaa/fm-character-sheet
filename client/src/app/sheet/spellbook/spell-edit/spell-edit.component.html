@@ -1,4 +1,7 @@
-<div class="spell-edit-container">
+<div
+  class="spell-edit-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="name">
     <editable-text
       [value]="spell.name"

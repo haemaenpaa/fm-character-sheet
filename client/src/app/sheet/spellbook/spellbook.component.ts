@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import Character from 'src/app/model/character';
 import { Spell } from 'src/app/model/character-spells';
-import { CheckParams, SpellAttackParams } from 'src/app/model/game-action';
+import { SpellAttackParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { AbilitySelectComponent } from '../ability-select/ability-select.component';
 import {
@@ -24,6 +24,7 @@ import {
   templateUrl: './spellbook.component.html',
   styleUrls: [
     './spellbook.component.css',
+    './spellbook.component.accessibility.css',
     '../common.css',
     '../accessibility-common.css',
   ],

@@ -6,7 +6,7 @@
     {{ roll.character }} :
   </div>
   <div *ngIf="roll.title" class="roll-title">
-    {{ skillName }} / {{ roll.title.split("_")[2] | abilityName: "long" }}
+    {{ skillName }} / {{ roll.title.split("_")[2] | abilityName : "long" }}
     check:
   </div>
   <div *ngFor="let d of roll.dice" class="die-roll">

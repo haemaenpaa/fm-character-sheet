@@ -21,3 +21,16 @@
 .accessibility-colorized > .saving-throw {
   color: purple;
 }
+
+.accessibility-colorized > .spell-attack {
+  color: rgb(0, 64, 128);
+}
+.accessibility-colorized > .spell-save {
+  color: rgb(0, 64, 128);
+}
+.accessibility-colorized > .spell-damage {
+  color: rgb(0, 64, 128);
+}
+.accessibility-colorized > .soul-check {
+  color: rgb(0, 64, 128);
+}

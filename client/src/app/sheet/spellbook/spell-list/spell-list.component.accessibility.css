@@ -1,12 +1,11 @@
-.list-container {
-  display: flex;
-  flex-direction: column;
+.accessibility-colorized.color-0 {
+  color: mediumblue;
 }
-.resource-list {
-  display: grid;
-  width: 100%;
-  grid-template-columns: [left] 1fr [right] max-content[end];
-  column-gap: 1em;
+.accessibility-colorized.color-1 {
+  color: magenta;
+}
+.accessibility-colorized.color-2 {
+  color: mediumseagreen;
 }
 
 .slots {

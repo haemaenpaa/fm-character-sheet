@@ -1,0 +1,13 @@
+.accessibility-colorized.spellbook-container {
+  color: rgb(0, 64, 128);
+}
+.accessibility-colorized > .casting-ability-display {
+  color: rgb(32, 128, 64);
+}
+.accessibility-colorized > .spell-save-display {
+  color: rgb(128, 64, 64);
+}
+
+.accessibility-colorized > .spell-attack-display {
+  color: rgb(0, 64, 128);
+}

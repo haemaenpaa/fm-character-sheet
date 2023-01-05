@@ -45,6 +45,7 @@
         "
         [souls]="character!.spells.souls[tier] || 0"
         [spells]="character!.spells.spells[tier] || []"
+        [colorized]="colorized"
         (resourcesChanged)="modifyResources(tier, $event)"
         (spellAdded)="addSpell($event)"
         (spellChanged)="onSpellModified($event)"

@@ -9,7 +9,10 @@ import { DamageRoll } from 'src/app/model/damage-roll';
 @Component({
   selector: 'spell-edit',
   templateUrl: './spell-edit.component.html',
-  styleUrls: ['./spell-edit.component.css'],
+  styleUrls: [
+    './spell-edit.component.css',
+    './spell-edit.component.accessibility.css',
+  ],
 })
 export class SpellEditComponent {
   /**
@@ -36,6 +39,7 @@ export class SpellEditComponent {
     'pre/man': 'Pre/Man',
   };
   spell: Spell;
+  colorized: boolean = false;
   constructor(
     private dialogRef: MatDialogRef<SpellEditComponent>,
     @Inject(MAT_DIALOG_DATA)

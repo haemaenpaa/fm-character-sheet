@@ -1,4 +1,12 @@
-<div class="list-container">
+<div
+  class="list-container"
+  [ngClass]="{
+    'accessibility-colorized': colorized,
+    'color-0': tier % 3 === 0,
+    'color-1': tier % 3 === 1,
+    'color-2': tier % 3 === 2
+  }"
+>
   <div class="tier-label">{{ tier == 0 ? "Cantrips" : "Tier " + tier }}</div>
   <div class="resource-list" *ngIf="tier > 0">
     <div
