@@ -1,0 +1,42 @@
+.accessibility-colorized > .header > .spell-name {
+  color: blue;
+}
+
+.accessibility-colorized > .header > .title-detail {
+  color: blueviolet;
+}
+
+.accessibility-colorized > .casting-time {
+  color: saddlebrown;
+}
+.accessibility-colorized > .range {
+  color: saddlebrown;
+}
+
+.accessibility-colorized > .duration {
+  color: slateblue;
+}
+
+.accessibility-colorized > .save-attack {
+  color: brown;
+}
+
+.accessibility-colorized > .components {
+  color: rgb(64, 128, 0);
+}
+
+.accessibility-colorized > .effect {
+  color: rgb(64, 128, 0);
+}
+
+.accessibility-colorized > .description {
+  color: rgb(32, 64, 0);
+}
+
+.accessibility-colorized > .damage {
+  color: rgb(0, 128, 128);
+}
+
+.accessibility-colorized > .cast {
+  color: rgb(64, 0, 128);
+}

@@ -66,17 +66,15 @@
 }
 .damage {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   grid-row: damage;
-  grid-column: first;
-}
-.upcast {
-  display: flex;
-  flex-direction: row;
-  grid-row: damage;
-  grid-column: second;
+  grid-column: first/end;
 }
 
+.damage-item {
+  font-style: italic;
+  margin-inline-end: 0.5em;
+}
 .cast {
   width: 100%;
   grid-row: cast;

@@ -7,11 +7,11 @@
 }
 
 .accessibility-colorized > .school {
-  color: red;
+  color: blueviolet;
 }
 
 .accessibility-colorized > .option-row > .casting-time {
-  color: green;
+  color: saddlebrown;
 }
 
 .accessibility-colorized > .option-row > .range {
@@ -22,20 +22,20 @@
 }
 
 .accessibility-colorized > .option-row > .concentration {
-  color: salmon;
+  color: slateblue;
 }
 
 .accessibility-colorized > .option-row > .save {
   color: brown;
 }
 .accessibility-colorized > .option-row > .attack {
-  color: rebeccapurple;
+  color: brown;
 }
 .accessibility-colorized > .option-row > .components {
   color: rgb(64, 128, 0);
 }
 .accessibility-colorized > .option-row > .effect {
-  color: rgb(128, 64, 0);
+  color: rgb(64, 128, 0);
 }
 
 .accessibility-colorized > .description {
@@ -46,7 +46,7 @@
   color: rgb(128, 128, 0);
 }
 .accessibility-colorized > .option-row > .soul-mastery {
-  color: rgb(128, 0, 128);
+  color: rgb(128, 128, 0);
 }
 .accessibility-colorized > .damage {
   color: rgb(0, 128, 128);

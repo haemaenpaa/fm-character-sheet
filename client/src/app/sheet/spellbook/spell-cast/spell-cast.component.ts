@@ -9,7 +9,10 @@ import { ActionDispatchService } from 'src/app/services/action-dispatch.service'
 @Component({
   selector: 'spell-cast',
   templateUrl: './spell-cast.component.html',
-  styleUrls: ['./spell-cast.component.css'],
+  styleUrls: [
+    './spell-cast.component.css',
+    './spell-cast.component.accessibility.css',
+  ],
 })
 export class SpellCastComponent {
   character?: Character;
@@ -19,6 +22,7 @@ export class SpellCastComponent {
   soulCheckAdvantage: Advantage = 'none';
   attackAdvantage: Advantage = 'none';
   advantageOptions: Advantage[] = ['none', 'advantage', 'disadvantage'];
+  colorized: boolean = false;
 
   constructor(
     characterService: CharacterService,

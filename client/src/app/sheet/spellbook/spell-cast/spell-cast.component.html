@@ -1,4 +1,8 @@
-<div class="cast-container" *ngIf="spell && character">
+<div
+  class="cast-container"
+  *ngIf="spell && character"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="title">Cast {{ spell.name }}</div>
   <div class="tier" *ngIf="spell.tier > 0">
     <span *ngIf="!this.ritual">

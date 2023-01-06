@@ -1,4 +1,7 @@
-<div class="details-container">
+<div
+  class="details-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="header">
     <span class="spell-name">{{ spell.name }}</span>
     <span class="title-detail">
@@ -29,18 +32,28 @@
     {{ spell.description }}
   </div>
   <div class="damage" *ngIf="spell.damage.length > 0">
-    Damage:
-    <span *ngFor="let roll of spell.damage; last as isLast">
-      {{ roll.roll.dice }}d{{ roll.roll.sides }} {{ roll.type
-      }}{{ isLast ? "" : "," }}
+    <span>
+      Damage:
+      <span
+        *ngFor="let roll of spell.damage; last as isLast"
+        class="damage-item"
+      >
+        {{ roll.roll.dice }}d{{ roll.roll.sides }} {{ roll.type
+        }}{{ isLast ? "" : "," }}
+      </span>
+    </span>
+    <span *ngIf="spell.upcastDamage.length > 0">
+      Additional
+      <span
+        *ngFor="let roll of spell.upcastDamage; last as isLast"
+        class="damage-item"
+      >
+        {{ roll.roll.dice }}d{{ roll.roll.sides }} {{ roll.type
+        }}{{ isLast ? "" : "," }}
+      </span>
+      per upcast tier.
     </span>
   </div>
-  <div class="upcast" *ngIf="spell.upcastDamage.length > 0">
-    Damage/upcast:
-    <span *ngFor="let roll of spell.upcastDamage; last as isLast">
-      {{ roll.roll.dice }}d{{ roll.roll.sides }} {{ roll.type
-      }}{{ isLast ? "" : "," }}
-    </span>
-  </div>
+
   <div class="cast" (click)="cast()">Cast</div>
 </div>

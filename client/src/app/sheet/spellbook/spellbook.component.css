@@ -41,10 +41,24 @@
   grid-column: start/end;
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: max-content max-content max-content max-content;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(5, max-content);
   column-gap: 1em;
   row-gap: 1em;
+}
+
+@media (min-width: 1200px) {
+  [class*="spells-container"] {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(4, max-content);
+  }
+}
+
+@media (max-width: 800px) {
+  [class*="spells-container"] {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .edit-slots-button {

@@ -1,0 +1,23 @@
+.accessibility-colorized > .title {
+  color: blue;
+}
+.accessibility-colorized > .tier {
+  color: blueviolet;
+}
+
+.accessibility-colorized > .tier > .ritual {
+  color: slateblue;
+}
+
+.cast-button {
+  cursor: pointer;
+  border-style: solid;
+  border-radius: 1em;
+  width: 100%;
+  text-align: center;
+}
+.advantage {
+  display: flex;
+  flex-direction: column;
+  color: orange;
+}

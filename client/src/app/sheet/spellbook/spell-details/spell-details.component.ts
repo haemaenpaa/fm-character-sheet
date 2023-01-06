@@ -13,11 +13,15 @@ import { SpellCastComponent } from '../spell-cast/spell-cast.component';
 @Component({
   selector: 'spell-details',
   templateUrl: './spell-details.component.html',
-  styleUrls: ['./spell-details.component.css'],
+  styleUrls: [
+    './spell-details.component.css',
+    './spell-details.component.accessibility.css',
+  ],
 })
 export class SpellDetailsComponent {
   spell: Spell;
   characterId: string;
+  colorized: boolean = false;
   constructor(
     private dialogRef: MatDialogRef<SpellDetailsComponent>,
     private dialog: MatDialog,
@@ -41,6 +45,7 @@ export class SpellDetailsComponent {
         characterId: this.characterId,
       },
     });
+    castDialog.componentInstance.colorized = this.colorized;
     castDialog.afterClosed().subscribe((wasCast) => {
       if (wasCast) {
         this.dialogRef.close();

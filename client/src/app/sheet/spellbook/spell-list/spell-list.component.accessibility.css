@@ -2,10 +2,10 @@
   color: mediumblue;
 }
 .accessibility-colorized.color-1 {
-  color: magenta;
+  color: rgb(205, 0, 0);
 }
 .accessibility-colorized.color-2 {
-  color: mediumseagreen;
+  color: rgb(0, 128, 0);
 }
 
 .slots {

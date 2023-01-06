@@ -128,9 +128,10 @@ export class SpellListComponent {
   }
 
   showDetails(spell: Spell) {
-    this.dialog.open(SpellDetailsComponent, {
+    const detailsDialog = this.dialog.open(SpellDetailsComponent, {
       data: { spell: { ...spell }, characterId: this.characterId },
     });
+    detailsDialog.componentInstance.colorized = this.colorized;
   }
 
   deleteSpell(spell: Spell) {
