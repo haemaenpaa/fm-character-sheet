@@ -1,5 +1,6 @@
 import { A11yModule } from '@angular/cdk/a11y';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EditableTextComponent } from '../editable-text/editable-text.component';
 
 import { HitPointsComponent } from './hit-points.component';
 
@@ -9,7 +10,7 @@ describe('HitPointsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HitPointsComponent],
+      declarations: [HitPointsComponent, EditableTextComponent],
       imports: [A11yModule],
     }).compileComponents();
 
@@ -26,86 +27,114 @@ describe('HitPointsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should edit current', () => {
+  it('should adjust current down', () => {
     spyOn(component.currentChanged, 'emit');
     spyOn(component.tempChanged, 'emit');
-    const value = 9;
-    component.setEditingCurrent();
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('#current-edit'))
-      .withContext('Changing to current HP edit should show current HP edit.')
-      .not.toBeNull();
-
-    const target = { value: value.toString() } as any as HTMLInputElement;
-    component.onInputValueChanged({ target: target } as any as Event);
-
+    const initial = 10;
+    const adjust = 9;
+    component.current = initial;
+    component.onTotalChanged(`-${adjust}`);
     expect(component.currentChanged.emit)
-      .withContext('Current HP edit event should have been emitted')
-      .toHaveBeenCalledWith(value);
-    expect(component.tempChanged.emit)
-      .withContext('Temp HP edit event should not have been emitted')
-      .not.toHaveBeenCalled();
+      .withContext('Negative value should have resulted in subtraction')
+      .toHaveBeenCalledWith(initial - adjust);
   });
 
-  it('should edit temporary', () => {
+  it('should adjust current up', () => {
     spyOn(component.currentChanged, 'emit');
     spyOn(component.tempChanged, 'emit');
-    const value = 9;
-    component.setEditingTemp();
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('#temp-edit'))
-      .withContext(
-        'Changing to temporary HP edit should show temporary HP edit.'
-      )
-      .not.toBeNull();
-
-    const target = { value: value.toString() } as any as HTMLInputElement;
-    component.onInputValueChanged({ target: target } as any as Event);
-
-    expect(component.tempChanged.emit)
-      .withContext('Temporary HP edit event should have been emitted')
-      .toHaveBeenCalledWith(value);
+    const initial = 10;
+    const adjust = 9;
+    component.current = initial;
+    component.onTotalChanged(`+${adjust}`);
     expect(component.currentChanged.emit)
-      .withContext('Current HP edit event should not have been emitted.')
-      .not.toHaveBeenCalled();
+      .withContext('Value starting with + should have resulted in addition')
+      .toHaveBeenCalledWith(initial + adjust);
+  });
+  it('should set current', () => {
+    spyOn(component.currentChanged, 'emit');
+    spyOn(component.tempChanged, 'emit');
+    const initial = 10;
+    const adjust = 9;
+    component.current = initial;
+    component.onTotalChanged(`${adjust}`);
+    expect(component.currentChanged.emit)
+      .withContext('Value without prefix sholud have resulted in override')
+      .toHaveBeenCalledWith(adjust);
   });
 
-  it('should switch editing', () => {
-    component.editingCurrent = true;
-    fixture.detectChanges;
-    component.setEditingTemp();
-    fixture.detectChanges();
-    expect(component.editingCurrent).toBeFalse();
-    expect(component.editingTemp).toBeTrue();
-    expect(fixture.nativeElement.querySelector('#temp-edit')).not.toBeNull();
-    expect(fixture.nativeElement.querySelector('#current-edit')).toBeNull();
-
-    component.setEditingCurrent();
-    fixture.detectChanges();
-
-    expect(component.editingCurrent).toBeTrue();
-    expect(component.editingTemp).toBeFalse();
-    expect(fixture.nativeElement.querySelector('#current-edit')).not.toBeNull();
-    expect(fixture.nativeElement.querySelector('#temp-edit')).toBeNull();
+  it('should adjust max down', () => {
+    spyOn(component.currentChanged, 'emit');
+    spyOn(component.tempChanged, 'emit');
+    spyOn(component.maxChanged, 'emit');
+    const initial = 10;
+    const adjust = 9;
+    component.max = initial;
+    component.onMaxChanged(`-${adjust}`);
+    expect(component.maxChanged.emit)
+      .withContext('Negative value should have resulted in subtraction')
+      .toHaveBeenCalledWith(initial - adjust);
   });
 
-  it('should end editing current', () => {
-    component.editingCurrent = true;
-    component.endEditing();
-    fixture.detectChanges();
-
-    expect(component.editingCurrent).toBeFalse();
-    expect(component.editingTemp).toBeFalse();
-    expect(fixture.nativeElement.querySelector('input'))
-      .withContext('No inputs should be visible after editing is ended.')
-      .toBeNull();
+  it('should adjust max up', () => {
+    spyOn(component.currentChanged, 'emit');
+    spyOn(component.tempChanged, 'emit');
+    spyOn(component.maxChanged, 'emit');
+    const initial = 10;
+    const adjust = 9;
+    component.max = initial;
+    component.onMaxChanged(`+${adjust}`);
+    expect(component.maxChanged.emit)
+      .withContext('Value starting with + should have resulted in addition')
+      .toHaveBeenCalledWith(initial + adjust);
   });
-  it('should end editing temp', () => {
-    component.editingTemp = true;
-    component.endEditing();
-    fixture.detectChanges();
-    expect(component.editingCurrent).toBeFalse();
-    expect(component.editingTemp).toBeFalse();
-    expect(fixture.nativeElement.querySelector('input')).toBeNull();
+  it('should set max', () => {
+    spyOn(component.currentChanged, 'emit');
+    spyOn(component.tempChanged, 'emit');
+    spyOn(component.maxChanged, 'emit');
+    const initial = 10;
+    const adjust = 9;
+    component.max = initial;
+    component.onMaxChanged(`${adjust}`);
+    expect(component.maxChanged.emit)
+      .withContext('Value without prefix sholud have resulted in override')
+      .toHaveBeenCalledWith(adjust);
+  });
+
+  it('should adjust temp down', () => {
+    spyOn(component.currentChanged, 'emit');
+    spyOn(component.tempChanged, 'emit');
+    spyOn(component.maxChanged, 'emit');
+    const initial = 10;
+    const adjust = 9;
+    component.temporary = initial;
+    component.onTempChanged(`-${adjust}`);
+    expect(component.tempChanged.emit)
+      .withContext('Negative value should have resulted in subtraction')
+      .toHaveBeenCalledWith(initial - adjust);
+  });
+
+  it('should adjust temp up', () => {
+    spyOn(component.currentChanged, 'emit');
+    spyOn(component.tempChanged, 'emit');
+    spyOn(component.maxChanged, 'emit');
+    const initial = 10;
+    const adjust = 9;
+    component.temporary = initial;
+    component.onTempChanged(`+${adjust}`);
+    expect(component.tempChanged.emit)
+      .withContext('Value starting with + should have resulted in addition')
+      .toHaveBeenCalledWith(initial + adjust);
+  });
+  it('should set temp', () => {
+    spyOn(component.currentChanged, 'emit');
+    spyOn(component.tempChanged, 'emit');
+    spyOn(component.maxChanged, 'emit');
+    const initial = 10;
+    const adjust = 9;
+    component.temporary = initial;
+    component.onTempChanged(`${adjust}`);
+    expect(component.tempChanged.emit)
+      .withContext('Value without prefix sholud have resulted in override')
+      .toHaveBeenCalledWith(adjust);
   });
 });

@@ -67,13 +67,6 @@ export class SpellEditComponent {
     }
   }
 
-  setTier(strValue: string) {
-    const newValue = Number.parseInt(strValue);
-    if (!isNaN(newValue)) {
-      this.spell.tier = newValue;
-    }
-  }
-
   setBool(
     event: Event,
     field: 'ritual' | 'soulMastery' | 'concentration' | 'attack'

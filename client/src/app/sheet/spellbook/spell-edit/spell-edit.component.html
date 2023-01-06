@@ -11,7 +11,7 @@
   <div class="tier">
     Tier:<editable-text
       [value]="spell.tier"
-      (valueChanged)="setTier($event)"
+      (numberChanged)="spell.tier = $event"
     ></editable-text>
   </div>
   <div class="school labeled-edit">
