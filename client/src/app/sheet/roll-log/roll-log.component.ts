@@ -3,8 +3,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnInit,
-  SimpleChange,
   ViewChild,
 } from '@angular/core';
 import { Roll } from 'src/app/model/diceroll';
@@ -13,9 +11,21 @@ import { RollLogService } from 'src/app/services/roll-log-service.service';
 const ABILITY_CHECK_PATTERN = /^(br|dex|vit|int|cun|res|pre|man|com)$/;
 const SKILL_CHECK_PATTERN = /^skill_(.+)_(\w{2,3})$/;
 const ABILITY_SAVE_PATTERN = /^([\w/]+)_save$/;
+const SPELL_ATTACK_PATTERN = /^spellatk$/;
+const SPELL_SAVE_PATTERN = /^spellsave$/;
+const SOUL_CHECK_PATTERN = /^soulcheck$/;
+const SPELL_DAMAGE_PATTERN = /^spelldmg$/;
 
 // Row type, to be used in an ngSwitch to select the component to display.
-type RowType = 'simple-check' | 'skill-check' | 'saving-throw' | 'unknown';
+type RowType =
+  | 'simple-check'
+  | 'skill-check'
+  | 'saving-throw'
+  | 'spell-attack'
+  | 'soul-check'
+  | 'spell-save'
+  | 'spell-damage'
+  | 'unknown';
 
 /**
  * Component to display a log of rolls made.
@@ -53,6 +63,18 @@ export class RollLogComponent implements AfterViewChecked {
     }
     if (roll.title?.match(SKILL_CHECK_PATTERN)) {
       return 'skill-check';
+    }
+    if (roll.title?.match(SPELL_ATTACK_PATTERN)) {
+      return 'spell-attack';
+    }
+    if (roll.title?.match(SPELL_SAVE_PATTERN)) {
+      return 'spell-save';
+    }
+    if (roll.title?.match(SPELL_DAMAGE_PATTERN)) {
+      return 'spell-damage';
+    }
+    if (roll.title?.match(SOUL_CHECK_PATTERN)) {
+      return 'soul-check';
     }
     return 'unknown';
   }

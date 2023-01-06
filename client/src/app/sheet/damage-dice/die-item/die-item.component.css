@@ -1,0 +1,21 @@
+.die-container {
+  display: flex;
+}
+
+.count {
+  width: 3em;
+  text-align: end;
+}
+
+.roll-button {
+  background-color: black;
+  color: white;
+  border-radius: 0.5em;
+  padding-inline-start: 0.25em;
+  padding-inline-end: 0.25em;
+}
+
+.die-size {
+  margin-inline-end: 0.25em;
+  width: 4em;
+}

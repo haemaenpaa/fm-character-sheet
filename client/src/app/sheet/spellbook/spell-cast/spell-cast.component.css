@@ -1,0 +1,23 @@
+.cast-container {
+  width: 30em;
+  display: flex;
+  flex-direction: column;
+}
+.tier {
+  display: flex;
+  flex-direction: row;
+}
+.cast-button {
+  cursor: pointer;
+  border-style: solid;
+  border-radius: 1em;
+  width: 100%;
+  text-align: center;
+}
+.advantage {
+  display: flex;
+  flex-direction: column;
+}
+.ritual {
+  margin-inline-start: 0.5em;
+}

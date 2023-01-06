@@ -1,0 +1,77 @@
+.list-container {
+  display: flex;
+  flex-direction: column;
+}
+.resource-list {
+  display: grid;
+  width: 100%;
+  grid-template-columns: [left] 1fr [right] max-content[end];
+  column-gap: 1em;
+}
+
+.slots {
+  display: flex;
+  flex-direction: row;
+  grid-column: left;
+  padding-inline-start: 0.5em;
+  padding-inline-end: 0.5em;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 1em;
+  justify-self: center;
+}
+
+.res-value {
+  width: 2em;
+  text-align: center;
+}
+
+.res-box {
+  padding: 0.25em;
+  border-style: double;
+  border-radius: 0.5em;
+}
+
+.souls {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 2em 1fr;
+  grid-column: [right]/end;
+}
+
+.spell {
+  display: grid;
+  grid-template-columns: [name]1fr [labels]max-content [buttons]1fr;
+  border-style: none none solid none;
+  border-width: 2px;
+}
+
+.spell-buttons {
+  display: flex;
+  width: 100%;
+  justify-items: flex-end;
+  justify-content: flex-end;
+}
+
+.spell-name {
+  font-style: italic;
+  cursor: pointer;
+}
+
+.ritual {
+  font-variant: small-caps;
+  margin-inline-start: 1em;
+}
+.soul-mastery {
+  font-variant: small-caps;
+  margin-inline-start: 1em;
+}
+.concentration {
+  font-variant: small-caps;
+  margin-inline-start: 1em;
+}
+
+.edit-button {
+  font-style: italic;
+  cursor: pointer;
+}

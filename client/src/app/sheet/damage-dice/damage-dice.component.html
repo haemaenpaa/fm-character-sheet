@@ -1,0 +1,6 @@
+<div>
+  <div *ngFor="let die of dice">
+    <die-item [roll]="die" (rollChanged)="onrollChanged($event)"></die-item>
+  </div>
+  <div class="add-button" (click)="addRoll()">+</div>
+</div>

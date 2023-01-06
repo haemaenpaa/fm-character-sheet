@@ -1,0 +1,32 @@
+<div
+  class="die-container"
+  (mouseenter)="hovered = true"
+  (mouseleave)="hovered = false"
+>
+  <div class="count">
+    <editable-text
+      [value]="roll.roll.dice"
+      (numberChanged)="onCountChanged($event)"
+    ></editable-text>
+  </div>
+  <select
+    class="die-size"
+    *ngIf="hovered || selectOpen"
+    [value]="roll.roll.sides"
+    (change)="onDieChanged($event)"
+    (focus)="selectOpen = true"
+    (blur)="selectOpen = false"
+  >
+    <option *ngFor="let size of [4, 6, 8, 10, 12]" [value]="size">
+      d{{ size }}
+    </option>
+  </select>
+  <div *ngIf="!hovered && !selectOpen" class="die-size">
+    d{{ roll.roll.sides }}
+  </div>
+  <editable-text
+    [value]="roll.type"
+    (valueChanged)="onTypeChanged($event)"
+  ></editable-text>
+  <div class="delete-button" *ngIf="hovered" (click)="delete()">-</div>
+</div>

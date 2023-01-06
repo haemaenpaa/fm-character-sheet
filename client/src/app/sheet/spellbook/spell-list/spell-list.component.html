@@ -1,0 +1,90 @@
+<div
+  class="list-container"
+  [ngClass]="{
+    'accessibility-colorized': colorized,
+    'color-0': tier % 3 === 0,
+    'color-1': tier % 3 === 1,
+    'color-2': tier % 3 === 2
+  }"
+>
+  <div class="tier-label">{{ tier == 0 ? "Cantrips" : "Tier " + tier }}</div>
+  <div class="resource-list" *ngIf="tier > 0">
+    <div
+      class="slots"
+      [ngClass]="{ 'zero-slots': slots == 0 }"
+      *ngIf="slots + specialSlots > 0"
+    >
+      <span
+        *ngFor="
+          let item of [].constructor(slots - slotsAvailable);
+          let i = index
+        "
+        (click)="adjustAvailable(slots - slotsAvailable - i)"
+        class="clickable"
+        >◈</span
+      >
+      <span
+        *ngFor="let item of [].constructor(slotsAvailable); let i = index"
+        (click)="adjustAvailable(-i - 1)"
+        class="clickable"
+        >◇</span
+      >
+      <span
+        *ngFor="
+          let item of [].constructor(specialSlots - specialSlotsAvailable);
+          let i = index
+        "
+        (click)="
+          adjustSpecialAvailable(specialSlots - specialSlotsAvailable - i)
+        "
+        class="clickable"
+      >
+        ✭
+      </span>
+      <span
+        *ngFor="
+          let item of [].constructor(specialSlotsAvailable);
+          let i = index
+        "
+        (click)="adjustSpecialAvailable(-i - 1)"
+        class="clickable"
+        >☆</span
+      >
+    </div>
+
+    <div class="souls res-box">
+      <editable-text
+        [value]="souls"
+        (valueChanged)="soulsChanged($event)"
+      ></editable-text>
+      Souls
+    </div>
+  </div>
+  <div class="list-container" (mouseleave)="hoveredId = null">
+    <div
+      *ngFor="let spell of spells"
+      class="spell"
+      (mouseenter)="hoveredId = spell.id"
+    >
+      <span class="spell-name" (click)="showDetails(spell)">{{
+        spell.name
+      }}</span>
+      <div>
+        <span class="ritual" *ngIf="spell.ritual">r</span>
+        <span class="soul-mastery" *ngIf="spell.soulMastery">m</span>
+        <span class="concentration" *ngIf="spell.concentration">c</span>
+      </div>
+      <div class="spell-buttons" *ngIf="hoveredId === spell.id">
+        <span class="delete-button" (click)="deleteSpell(spell)"> - </span>
+        <span
+          *ngIf="hoveredId === spell.id"
+          class="edit-button"
+          (click)="editSpell(spell)"
+        >
+          Edit
+        </span>
+      </div>
+    </div>
+    <div class="add-button" (click)="addSpell()">+</div>
+  </div>
+</div>

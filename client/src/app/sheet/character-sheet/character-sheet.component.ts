@@ -67,9 +67,10 @@ export class CharacterSheetComponent {
   }
 
   onOutletLoaded(component: any) {
-    if ('character' in component) {
-      component.character = this.character;
-    }
+    console.log('onOutletLoaded', component);
+
+    component.character = this.character;
+
     if ('characterChanged' in component) {
       const onCharacterChanged = this.onCharacterChanged.bind(this);
       component.characterChanged.subscribe(onCharacterChanged);

@@ -1,0 +1,56 @@
+.accessibility-colorized > .name {
+  color: blue;
+}
+
+.accessibility-colorized > .tier {
+  color: blueviolet;
+}
+
+.accessibility-colorized > .school {
+  color: blueviolet;
+}
+
+.accessibility-colorized > .option-row > .casting-time {
+  color: saddlebrown;
+}
+
+.accessibility-colorized > .option-row > .range {
+  color: saddlebrown;
+}
+.accessibility-colorized > .option-row > .duration {
+  color: slateblue;
+}
+
+.accessibility-colorized > .option-row > .concentration {
+  color: slateblue;
+}
+
+.accessibility-colorized > .option-row > .save {
+  color: brown;
+}
+.accessibility-colorized > .option-row > .attack {
+  color: brown;
+}
+.accessibility-colorized > .option-row > .components {
+  color: rgb(64, 128, 0);
+}
+.accessibility-colorized > .option-row > .effect {
+  color: rgb(64, 128, 0);
+}
+
+.accessibility-colorized > .description {
+  color: rgb(32, 64, 0);
+}
+
+.accessibility-colorized > .option-row > .ritual {
+  color: rgb(128, 128, 0);
+}
+.accessibility-colorized > .option-row > .soul-mastery {
+  color: rgb(128, 128, 0);
+}
+.accessibility-colorized > .damage {
+  color: rgb(0, 128, 128);
+}
+.accessibility-colorized > .save-button {
+  color: rgb(64, 0, 128);
+}

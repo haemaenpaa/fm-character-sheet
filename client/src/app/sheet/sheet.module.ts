@@ -29,6 +29,18 @@ import { AoSelectionListComponent } from './ao-selection-list/ao-selection-list.
 import { AoSelectionItemComponent } from './ao-selection-item/ao-selection-item.component';
 import { SortSelectionsPipe } from './ao-selection-list/sort-selections.pipe';
 import { RaceEditComponent } from './race-edit/race-edit.component';
+import { SpellbookComponent } from './spellbook/spellbook.component';
+import { SpellAttackRollComponent } from './roll-log/spell-attack-roll/spell-attack-roll.component';
+import { SpellListComponent } from './spellbook/spell-list/spell-list.component';
+import { SlotEditComponent } from './spellbook/slot-edit/slot-edit.component';
+import { SpellEditComponent } from './spellbook/spell-edit/spell-edit.component';
+import { DamageDiceComponent } from './damage-dice/damage-dice.component';
+import { DieItemComponent } from './damage-dice/die-item/die-item.component';
+import { SpellDetailsComponent } from './spellbook/spell-details/spell-details.component';
+import { SpellCastComponent } from './spellbook/spell-cast/spell-cast.component';
+import { SpellSaveLogComponent } from './roll-log/spell-save-log/spell-save-log.component';
+import { SoulCheckLogComponent } from './roll-log/soul-check-log/soul-check-log.component';
+import { SpellDamageRollComponent } from './roll-log/spell-damage-roll/spell-damage-roll.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -62,6 +74,18 @@ import { RaceEditComponent } from './race-edit/race-edit.component';
     AoSelectionItemComponent,
     SortSelectionsPipe,
     RaceEditComponent,
+    SpellbookComponent,
+    SpellAttackRollComponent,
+    SpellListComponent,
+    SlotEditComponent,
+    SpellEditComponent,
+    DamageDiceComponent,
+    DieItemComponent,
+    SpellDetailsComponent,
+    SpellCastComponent,
+    SpellSaveLogComponent,
+    SoulCheckLogComponent,
+    SpellDamageRollComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

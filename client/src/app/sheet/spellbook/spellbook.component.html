@@ -1,0 +1,56 @@
+<div
+  class="spellbook-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
+  <div class="casting-ability-display">
+    Spellcasting ability
+    <div
+      class="casting-ability value-box clickable"
+      *ngIf="character!.spells.spellcastingAbility"
+      (click)="selectCastingAbility()"
+    >
+      {{ character!.spells.spellcastingAbility! | abilityName : "long" }}
+    </div>
+    <div
+      class="casting-ability value-box clickable"
+      *ngIf="!character!.spells.spellcastingAbility"
+      (click)="selectCastingAbility()"
+    >
+      N/A
+    </div>
+  </div>
+
+  <div class="spell-save-display">
+    Spell DV
+    <div class="spell-save value-box">{{ character.spellSave }}</div>
+  </div>
+
+  <div class="spell-attack-display">
+    Spell Attack
+    <div class="spell-attack value-box clickable" (click)="callSpellAttack()">
+      {{ character.spellAttack | modifier }}
+    </div>
+  </div>
+
+  <div class="spells-container">
+    <div *ngFor="let tier of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]">
+      <spell-list
+        [characterId]="character!.id!"
+        [tier]="tier"
+        [slots]="character!.spells.spellSlots[tier] || 0"
+        [specialSlots]="character!.spells.specialSlots[tier] || 0"
+        [slotsAvailable]="character!.spells.spellSlotsAvailable[tier] || 0"
+        [specialSlotsAvailable]="
+          character!.spells.specialSlotsAvailable[tier] || 0
+        "
+        [souls]="character!.spells.souls[tier] || 0"
+        [spells]="character!.spells.spells[tier] || []"
+        [colorized]="colorized"
+        (resourcesChanged)="modifyResources(tier, $event)"
+        (spellAdded)="addSpell($event)"
+        (spellChanged)="onSpellModified($event)"
+      ></spell-list>
+    </div>
+  </div>
+  <div class="edit-slots-button" (click)="editSlots()">Edit spell slots</div>
+</div>

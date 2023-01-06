@@ -14,9 +14,15 @@ export class EditableTextComponent {
   @Input() placeholder: string = 'click to edit';
   editing: boolean = false;
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
+  @Output() numberChanged: EventEmitter<number> = new EventEmitter();
 
   onValueChanged(event: Event) {
-    this.valueChanged.emit((event.target as HTMLInputElement).value);
+    const val = (event.target as HTMLInputElement).value;
+    this.valueChanged.emit(val);
+    const num = Number.parseInt(val);
+    if (!isNaN(num)) {
+      this.numberChanged.emit(num);
+    }
   }
   get isEmpty(): boolean {
     if (this.value == null) {

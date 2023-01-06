@@ -1,0 +1,141 @@
+<div
+  class="spell-edit-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
+  <div class="name">
+    <editable-text
+      [value]="spell.name"
+      (valueChanged)="spell.name = $event"
+    ></editable-text>
+  </div>
+  <div class="tier">
+    Tier:<editable-text
+      [value]="spell.tier"
+      (numberChanged)="spell.tier = $event"
+    ></editable-text>
+  </div>
+  <div class="school labeled-edit">
+    School:
+    <select [value]="spell.school" (change)="onSchoolSelect($event)">
+      <option *ngFor="let school of availableSchools" [value]="school">
+        {{ school }}
+      </option>
+    </select>
+  </div>
+  <div class="option-row">
+    <div class="casting-time labeled-edit">
+      Casting time:
+      <editable-text
+        [value]="spell.castingTime"
+        (valueChanged)="spell.castingTime = $event"
+      ></editable-text>
+    </div>
+    <div class="range labeled-edit">
+      Range/Area:
+      <editable-text
+        [value]="spell.range"
+        (valueChanged)="spell.range = $event"
+      ></editable-text>
+    </div>
+  </div>
+
+  <div class="option-row">
+    <div class="duration labeled-edit">
+      Duration:
+      <editable-text
+        [value]="spell.duration"
+        placeholder="Spell duration"
+        (valueChanged)="spell.duration = $event"
+      ></editable-text>
+    </div>
+    <div class="concentration labeled-edit">
+      <input
+        type="checkbox"
+        [checked]="spell.concentration"
+        (change)="setBool($event, 'concentration')"
+      />Concentration
+    </div>
+  </div>
+  <div class="option-row">
+    <div class="save labeled-edit">
+      Save:
+      <select [value]="spell.saveAbility" (change)="onSaveSelect($event)">
+        <option [value]="null">None</option>
+        <option
+          *ngFor="let save of availableSaves | keyvalue"
+          [value]="save.key"
+        >
+          {{ save.value }}
+        </option>
+      </select>
+    </div>
+
+    <div class="attack labeled-edit">
+      <input
+        type="checkbox"
+        [checked]="spell.attack"
+        (change)="setBool($event, 'attack')"
+      />Spell Attack
+    </div>
+  </div>
+  <div class="option-row">
+    <div class="components labeled-edit">
+      Components:
+      <editable-text
+        [value]="spell.components"
+        (valueChanged)="spell.components = $event"
+      ></editable-text>
+    </div>
+    <div class="effect labeled-edit">
+      Effect:
+      <editable-text
+        [value]="spell.effect"
+        (valueChanged)="spell.effect = $event"
+      ></editable-text>
+    </div>
+  </div>
+  <div class="description">
+    <editable-text
+      [value]="spell.description"
+      [placeholder]="'Spell description'"
+      [rows]="10"
+      (valueChanged)="spell.description = $event"
+    ></editable-text>
+  </div>
+  <div class="option-row">
+    <div class="ritual labeled-edit">
+      <input
+        type="checkbox"
+        [checked]="spell.ritual"
+        (change)="setBool($event, 'ritual')"
+      />Ritual
+    </div>
+    <div class="soul-mastery labeled-edit">
+      <input
+        type="checkbox"
+        [checked]="spell.soulMastery"
+        (change)="setBool($event, 'soulMastery')"
+      />Soul Mastery
+    </div>
+  </div>
+  <div class="damage">
+    Damage:
+    <damage-dice
+      [dice]="spell.damage"
+      defaultType="force"
+      (dieAdded)="spell.damage.push($event)"
+      (dieChanged)="onDieChanged('damage', $event)"
+      (dieDeleted)="onDieDeleted('damage', $event)"
+    ></damage-dice>
+    Upcast Damage/tier:
+    <damage-dice
+      [dice]="spell.upcastDamage"
+      defaultType="force"
+      (dieAdded)="spell.upcastDamage.push($event)"
+      (dieChanged)="onDieChanged('upcastDamage', $event)"
+      (dieDeleted)="onDieDeleted('upcastDamage', $event)"
+    ></damage-dice>
+  </div>
+
+  <div class="save-button" (click)="save()">Save</div>
+</div>

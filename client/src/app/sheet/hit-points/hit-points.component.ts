@@ -21,32 +21,26 @@ export class HitPointsComponent {
   @Output() tempChanged: EventEmitter<number> = new EventEmitter();
 
   onTempChanged(value: string) {
-    const newTemp = Number.parseInt(value);
-    if (isNaN(newTemp)) {
-      return;
-    }
-    this.tempChanged.emit(newTemp);
+    this.tempChanged.emit(this.applyChange(this.temporary, value));
   }
 
   onMaxChanged(value: string) {
-    const newMax = Number.parseInt(value);
-    if (!isNaN(newMax)) {
-      this.maxChanged.emit(newMax);
-    }
+    this.maxChanged.emit(this.applyChange(this.max, value));
   }
 
   onTotalChanged(value: string) {
-    const newTotal = Number.parseInt(value);
-    if (!isNaN(newTotal)) {
-      this.currentChanged.emit(newTotal);
-    }
+    this.currentChanged.emit(this.applyChange(this.current, value));
   }
 
-  applyChange(initial: number, modifier: string): number {
+  private applyChange(initial: number, modifier: string): number {
+    const parsed = Number.parseInt(modifier);
+    if (isNaN(parsed)) {
+      return initial;
+    }
     if (modifier.charAt(0) == '+' || modifier.charAt(0) == '-') {
       // A preceding plus sign is parsed into a positive number.
-      return initial + Number.parseInt(modifier);
+      return initial + parsed;
     }
-    return Number.parseInt(modifier);
+    return parsed;
   }
 }

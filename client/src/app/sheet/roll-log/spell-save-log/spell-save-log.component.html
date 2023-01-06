@@ -1,0 +1,15 @@
+<div class="single-roll">
+  <div
+    *ngIf="roll.character && roll.character.length > 0"
+    class="roll-character"
+  >
+    {{ roll.character }} :
+  </div>
+  <div *ngIf="roll.title" class="roll-title">{{ roll.name }} save:</div>
+  <div *ngFor="let mod of roll.modifiers" class="roll-modifier">
+    DV {{ mod.value }}
+    <span *ngFor="let abl of saveAbilities(mod.name); last as isLast">
+      {{ abl | abilityName : "long" }}{{ isLast ? "" : "/" }}
+    </span>
+  </div>
+</div>

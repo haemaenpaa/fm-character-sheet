@@ -1,0 +1,17 @@
+<div class="single-roll">
+  <div
+    *ngIf="roll.character && roll.character.length > 0"
+    class="roll-character"
+  >
+    {{ roll.character }} :
+  </div>
+  <div *ngIf="roll.title" class="roll-title">
+    Soul check for {{ roll.name }} DV {{ roll.target }}:
+  </div>
+  <div *ngFor="let d of roll.dice" class="die-roll">
+    {{ d | roll }}
+  </div>
+  <div *ngFor="let mod of roll.modifiers" class="roll-modifier">
+    {{ mod.value | modifier }}
+  </div>
+</div>
