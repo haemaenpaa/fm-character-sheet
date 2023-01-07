@@ -1,6 +1,7 @@
 import { Ability } from './ability';
 import { AoSelection } from './ao-selection';
 import CharacterAbilities from './character-abilities';
+import CharacterAttack from './character-attack';
 import { CharacterSpells } from './character-spells';
 import { SKILL_DEFAULT_ABILITIES } from './constants';
 import { Race } from './race';
@@ -79,18 +80,22 @@ export default class Character {
    */
   tempHitPoints: number;
   /**
-   * Damage resistances.
+   * Damage resistances and immunities.
    */
   damageResistances: Resistance[];
   /**
-   * Damage immunities.
+   * Status resistances and immunities.
    */
   statusResistances: Resistance[];
 
   /**
-   * Character's spells
+   * Character's spells, spellcasting ability, souls and spell slots.
    */
   spells: CharacterSpells;
+  /**
+   * Attacks this character can make.
+   */
+  attacks: CharacterAttack[];
 
   constructor(
     name: string,
@@ -124,7 +129,8 @@ export default class Character {
     hitPointMax: number,
     damageResistances: Resistance[],
     statusResistances: Resistance[],
-    spells: CharacterSpells
+    spells: CharacterSpells,
+    attacks: CharacterAttack[]
   ) {
     this.name = name;
     this.race = race;
@@ -164,6 +170,7 @@ export default class Character {
     this.damageResistances = damageResistances;
     this.statusResistances = statusResistances;
     this.spells = spells;
+    this.attacks = attacks;
   }
   /**
    * Gets a struct of ability modifiers.

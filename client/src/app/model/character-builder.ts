@@ -6,6 +6,8 @@ import Resistance, { ResistanceType } from './resistance';
 import { CharacterSpells, Spell } from './character-spells';
 import { randomId } from './id-generator';
 import { DamageRoll } from './damage-roll';
+import CharacterAbilities from './character-abilities';
+import CharacterAttack, { AttackEffect } from './character-attack';
 
 /**
  * Builder for ease of constructing a character.
@@ -56,6 +58,7 @@ export class CharacterBuilder {
 
   spellcastingAbility: string | null = null;
   spells: CharacterSpells = new CharacterSpells();
+  attacks: CharacterAttack[] = [];
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -523,6 +526,49 @@ export class CharacterBuilder {
     return this.addSpell(spell);
   }
 
+  addMeleeAttack(
+    name: string,
+    proficient: boolean,
+    damage: DamageRoll[],
+    ability: string = 'br',
+    effects: AttackEffect[] = []
+  ): CharacterBuilder {
+    const attack: CharacterAttack = {
+      id: randomId(),
+      name,
+      abilities: [ability],
+      range: '1m',
+      proficient,
+      attackBonus: 0,
+      damage,
+      effects,
+      offhand: false,
+    };
+    this.attacks.push(attack);
+    return this;
+  }
+  addRangedAttack(
+    name: string,
+    range: string,
+    proficient: boolean,
+    damage: DamageRoll[],
+    effects: AttackEffect[] = []
+  ): CharacterBuilder {
+    const attack: CharacterAttack = {
+      id: randomId(),
+      name,
+      abilities: ['dex'],
+      range,
+      proficient,
+      attackBonus: 0,
+      damage,
+      effects,
+      offhand: false,
+    };
+    this.attacks.push(attack);
+    return this;
+  }
+
   build(): Character {
     var armorValue = 10 + Math.floor((this.dex - 10) / 2);
     if (this.armorValueOverride) {
@@ -561,7 +607,8 @@ export class CharacterBuilder {
       this.hitPointMaximum,
       this.damageResistances,
       this.statusResistances,
-      this.spells
+      this.spells,
+      this.attacks
     );
   }
 }
