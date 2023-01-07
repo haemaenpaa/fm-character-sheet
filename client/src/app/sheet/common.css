@@ -24,3 +24,18 @@
 .grayed-out {
   color: lightgray;
 }
+.save-button {
+  border-style: solid;
+  border-radius: 1.5em;
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-style: dotted;
+}

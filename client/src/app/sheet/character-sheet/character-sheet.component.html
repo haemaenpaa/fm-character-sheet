@@ -62,6 +62,13 @@
   <div class="info-section">
     <div class="nav-tab-container">
       <div
+        class="nav-tab attacks"
+        [routerLink]="[{ outlets: { 'info-outlet': ['attacks'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Attacks
+      </div>
+      <div
         class="nav-tab selections"
         [routerLink]="[{ outlets: { 'info-outlet': ['selections'] } }]"
         [routerLinkActive]="'nav-tab-active'"

@@ -15,6 +15,9 @@ const SPELL_ATTACK_PATTERN = /^spellatk$/;
 const SPELL_SAVE_PATTERN = /^spellsave$/;
 const SOUL_CHECK_PATTERN = /^soulcheck$/;
 const SPELL_DAMAGE_PATTERN = /^spelldmg$/;
+const ATTACK_PATTERN = /^attack$/;
+const ATTACK_DAMAGE_PATTERN = /^attackdmg$/;
+const ATTACK_EFFECT_PATTERN = /^attackeffect$/;
 
 // Row type, to be used in an ngSwitch to select the component to display.
 type RowType =
@@ -25,6 +28,9 @@ type RowType =
   | 'soul-check'
   | 'spell-save'
   | 'spell-damage'
+  | 'attack'
+  | 'attack-damage'
+  | 'attack-effect'
   | 'unknown';
 
 /**
@@ -75,6 +81,15 @@ export class RollLogComponent implements AfterViewChecked {
     }
     if (roll.title?.match(SOUL_CHECK_PATTERN)) {
       return 'soul-check';
+    }
+    if (roll.title?.match(ATTACK_PATTERN)) {
+      return 'attack';
+    }
+    if (roll.title?.match(ATTACK_DAMAGE_PATTERN)) {
+      return 'attack-damage';
+    }
+    if (roll.title?.match(ATTACK_EFFECT_PATTERN)) {
+      return 'attack-effect';
     }
     return 'unknown';
   }

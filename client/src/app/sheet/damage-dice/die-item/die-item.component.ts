@@ -21,6 +21,7 @@ export interface DamageRollChangedEvent {
 })
 export class DieItemComponent {
   @Input() roll!: DamageRoll;
+  @Input() hasBonuses: boolean = false;
   /**
    * Event emitted when a die is altered in any way.
    */

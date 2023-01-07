@@ -1,0 +1,33 @@
+<div
+  class="attack-container"
+  (mouseenter)="startHover()"
+  (mouseleave)="endHover()"
+>
+  <div class="name" (click)="roll()">{{ attack.name }}</div>
+  <div class="bonus">
+    {{ totalBonus | modifier }}
+  </div>
+  <div class="damage">
+    <span *ngFor="let dmg of attack.damage; last as isLast; first as isFirst">
+      <span class="damage-roll">{{ dmg.roll.dice }}d{{ dmg.roll.sides }} </span>
+      <span
+        class="damage-modifier"
+        *ngIf="isFirst && (abilityDamageBonus !== 0 || dmg.roll.bonus)"
+      >
+        {{ abilityDamageBonus + (dmg.roll.bonus || 0) | modifier }}
+      </span>
+      <span class="damage-modifier" *ngIf="!isFirst && dmg.roll.bonus">
+        {{ dmg.roll.bonus | modifier }}
+      </span>
+
+      <span class="damage-type"> {{ dmg.type }} </span>
+      <span class="comma" *ngIf="!isLast">,</span>
+    </span>
+  </div>
+  <div class="effects" *ngIf="attack.effects.length > 0">E</div>
+  <div class="buttons" *ngIf="hovered">
+    <div class="edit-button" (click)="edit()">Edit</div>
+    <div class="edit-button" (click)="copy()">Copy</div>
+    <div class="delete-button" (click)="delete()">-</div>
+  </div>
+</div>

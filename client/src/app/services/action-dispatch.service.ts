@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { KeepMode, Roll, RollComponent } from '../model/diceroll';
 import {
   Advantage,
+  AttackParams,
   CheckParams,
   GameAction,
   SaveParams,
@@ -14,6 +15,9 @@ import { Ability } from '../model/ability';
 import { CharacterService } from './character.service';
 import { Spell } from '../model/character-spells';
 import { randomId } from '../model/id-generator';
+import CharacterAttack, { AttackEffect } from '../model/character-attack';
+import Character from '../model/character';
+import { __values } from 'tslib';
 
 /**
  * A service to dispatch game actions that call for a roll.
@@ -72,6 +76,10 @@ export class ActionDispatchService {
       case 'spell':
         const spellParams = params as SpellParams;
         this.dispatchSpell(spellParams);
+        break;
+      case 'attack':
+        const attackParams = params as AttackParams;
+        this.dispatchAttack(attackParams);
         break;
     }
   }
@@ -264,6 +272,112 @@ export class ActionDispatchService {
       damageRoll.addDie(damageTotals[key]);
     }
     return damageRoll;
+  }
+
+  private dispatchAttack(params: AttackParams) {
+    this.characterService
+      .getCharacterById(params.characterId)
+      .then((character) => {
+        const attack = character.attacks.find((a) => a.id === params.attackId);
+        if (!attack) {
+          console.error(
+            `Character id ${character.id} did not have attack id ${params.attackId}`
+          );
+          return;
+        }
+
+        var toHit = this.composeToHit(attack, character, params.advantage);
+        this.sendRoll(toHit);
+        var damage = this.composeDamage(attack, character);
+        this.sendRoll(damage);
+        attack.effects.forEach((ef) => {
+          const effectRoll = this.composeEffect(ef, attack, character);
+          this.sendRoll(effectRoll);
+        });
+      });
+  }
+
+  private composeEffect(
+    effect: AttackEffect,
+    attack: CharacterAttack,
+    character: Character
+  ): Roll {
+    const effectRoll = new Roll();
+    effectRoll.title = 'attackeffect';
+    effectRoll.name = attack.name;
+    effectRoll.character = character.name;
+    if (effect.save) {
+      effectRoll.addModifier({ name: effect.save, value: effect.dv! });
+    }
+    effectRoll.description = effect.description;
+    return effectRoll;
+  }
+
+  private composeToHit(
+    attack: CharacterAttack,
+    character: Character,
+    advantage: Advantage
+  ): Roll {
+    const attackRoll = new Roll();
+    attackRoll.title = 'attack';
+    attackRoll.character = character.name;
+    attackRoll.name = attack.name;
+    attackRoll.addDie(this.getD20Check(advantage));
+    attackRoll.addModifier({ name: 'Base bonus', value: attack.attackBonus });
+    if (attack.proficient) {
+      attackRoll.addModifier({
+        name: 'Proficiency',
+        value: character.proficiency,
+      });
+    }
+    attack.abilities.forEach((ab) => {
+      attackRoll.addModifier({
+        name: ab,
+        value: (character.abilities as any)[ab].modifier,
+      });
+    });
+    return attackRoll;
+  }
+
+  private composeDamage(attack: CharacterAttack, character: Character): Roll {
+    const damageRoll = new Roll();
+    damageRoll.title = 'attackdmg';
+    damageRoll.character = character.name;
+    damageRoll.name = attack.name;
+    attack.damage.forEach((dmg) => {
+      damageRoll.addDie({ ...dmg.roll, name: dmg.type });
+    });
+    if (damageRoll.dice.length > 0) {
+      const rollBonus = damageRoll.dice[0].bonus;
+      const abilityBonus = this.damageBonus(attack, character);
+      damageRoll.dice[0].bonus = rollBonus
+        ? rollBonus + abilityBonus
+        : abilityBonus;
+    } else {
+      attack.abilities.forEach((ab) => {
+        const ability: Ability = (character.abilities as any)[ab];
+        damageRoll.addModifier({
+          name: ability.identifier,
+          value: attack.offhand
+            ? Math.min(ability.modifier, 0)
+            : ability.modifier,
+        });
+      });
+    }
+    console.log('damage roll', damageRoll);
+    return damageRoll;
+  }
+  private damageBonus(attack: CharacterAttack, character: Character) {
+    if (attack.offhand) {
+      return attack.abilities
+        .map((ab) => (character.abilities as any)[ab])
+        .filter((ab: Ability) => ab.modifier < 0)
+        .reduce((sum: number, ab: Ability) => sum + ab.modifier);
+    } else {
+      return attack.abilities
+        .map((ab) => (character.abilities as any)[ab])
+        .reduce((sum: number, ab: Ability) => sum + ab.modifier);
+    }
   }
 
   private sendRoll(roll: Roll) {

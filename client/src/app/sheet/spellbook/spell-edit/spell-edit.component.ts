@@ -12,6 +12,7 @@ import { DamageRoll } from 'src/app/model/damage-roll';
   styleUrls: [
     './spell-edit.component.css',
     './spell-edit.component.accessibility.css',
+    '../../common.css',
   ],
 })
 export class SpellEditComponent {

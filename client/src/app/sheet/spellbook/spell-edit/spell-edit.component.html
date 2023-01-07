@@ -16,8 +16,12 @@
   </div>
   <div class="school labeled-edit">
     School:
-    <select [value]="spell.school" (change)="onSchoolSelect($event)">
-      <option *ngFor="let school of availableSchools" [value]="school">
+    <select (change)="onSchoolSelect($event)">
+      <option
+        *ngFor="let school of availableSchools"
+        [value]="school"
+        [selected]="school === spell.school"
+      >
         {{ school }}
       </option>
     </select>

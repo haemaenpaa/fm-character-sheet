@@ -7,7 +7,8 @@ export type ActionType =
   | 'ability-save'
   | 'skill-check'
   | 'spell-attack'
-  | 'spell';
+  | 'spell'
+  | 'attack';
 
 /**
  * Parameters for an ability check.
@@ -54,6 +55,12 @@ export interface SpellParams {
   };
 }
 
+export interface AttackParams {
+  characterId: number;
+  attackId: number;
+  advantage: Advantage;
+}
+
 export interface GameAction {
   type: ActionType;
   params:
@@ -61,5 +68,6 @@ export interface GameAction {
     | SaveParams
     | SkillParams
     | SpellAttackParams
-    | SpellParams;
+    | SpellParams
+    | AttackParams;
 }

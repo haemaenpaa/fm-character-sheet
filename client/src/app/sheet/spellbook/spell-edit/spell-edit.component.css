@@ -18,15 +18,7 @@
   grid-auto-columns: 1fr;
   column-gap: 0.5em;
 }
-.save-button {
-  border-style: solid;
-  border-radius: 1.5em;
-  width: 100%;
-  height: fit-content;
-  text-align: center;
-  align-items: center;
-  cursor: pointer;
-}
+
 .description {
   white-space: pre-line;
   border-style: double;

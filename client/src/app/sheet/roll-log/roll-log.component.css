@@ -34,3 +34,13 @@
 .accessibility-colorized > .soul-check {
   color: rgb(0, 64, 128);
 }
+
+.accessibility-colorized > .attack {
+  color: rgb(0, 200, 200);
+}
+.accessibility-colorized > .attack-damage {
+  color: rgb(0, 200, 200);
+}
+.accessibility-colorized > .attack-effect {
+  color: rgb(0, 200, 200);
+}
