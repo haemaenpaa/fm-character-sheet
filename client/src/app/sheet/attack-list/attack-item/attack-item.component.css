@@ -1,14 +1,15 @@
 .attack-container {
   display: grid;
-  border-style: dashed;
   grid-template-columns: [name] max-content [bonus] max-content [damage] 2fr [effects] max-content [buttons] 1fr;
   width: 100%;
+  border-style: none solid solid none;
 }
 .name {
   grid-column: name;
   font-weight: bold;
   width: 100%;
   margin-inline-end: 1em;
+  cursor: pointer;
 }
 .bonus {
   grid-column: bonus;
@@ -35,4 +36,5 @@
 
 .edit-button {
   cursor: pointer;
+  margin-inline-end: 0.5em;
 }

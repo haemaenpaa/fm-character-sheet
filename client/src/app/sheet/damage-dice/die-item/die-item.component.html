@@ -12,21 +12,33 @@
   <select
     class="die-size"
     *ngIf="hovered || selectOpen"
-    [value]="roll.roll.sides"
     (change)="onDieChanged($event)"
     (focus)="selectOpen = true"
     (blur)="selectOpen = false"
   >
-    <option *ngFor="let size of [4, 6, 8, 10, 12]" [value]="size">
+    <option
+      *ngFor="let size of [4, 6, 8, 10, 12]"
+      [value]="size"
+      [selected]="size === roll.roll.sides"
+    >
       d{{ size }}
     </option>
   </select>
   <div *ngIf="!hovered && !selectOpen" class="die-size">
     d{{ roll.roll.sides }}
   </div>
+  <div *ngIf="hasBonuses && (!roll.roll.bonus || roll.roll.bonus >= 0)">+</div>
   <editable-text
-    [value]="roll.type"
-    (valueChanged)="onTypeChanged($event)"
+    *ngIf="hasBonuses"
+    [value]="roll.roll.bonus || 0"
+    [placeholder]="'bonus'"
+    (numberChanged)="roll.roll.bonus = $event"
   ></editable-text>
+  <div class="type">
+    <editable-text
+      [value]="roll.type"
+      (valueChanged)="onTypeChanged($event)"
+    ></editable-text>
+  </div>
   <div class="delete-button" *ngIf="hovered" (click)="delete()">-</div>
 </div>

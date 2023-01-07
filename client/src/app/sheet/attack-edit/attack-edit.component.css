@@ -1,0 +1,73 @@
+.attack-edit-container {
+  width: 35em;
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-weight: bold;
+  font-size: larger;
+}
+.modifier {
+  display: grid;
+  grid-template-columns: [label] max-content [plus]max-content [value]1fr[end];
+  grid-template-rows: max-content;
+}
+.modifier-label {
+  grid-column: label/plus;
+}
+.modifier-plus {
+  grid-column: plus/value;
+}
+.modifier-value {
+  grid-column: value/end;
+  width: 100%;
+}
+
+.proficiency {
+  display: flex;
+  flex-direction: row;
+}
+
+.section-header {
+  font-weight: bold;
+}
+.description {
+  border-style: solid;
+}
+.ability-list {
+  width: 100%;
+  display: flex;
+  overflow-wrap: normal;
+}
+.ability-item {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 0.5em;
+  background-color: lightgray;
+  margin-inline-end: 0.5em;
+  margin-inline-start: 0.5em;
+}
+.damage-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.effects-list {
+  display: flex;
+  flex-direction: column;
+  border-style: double;
+}
+.option-row {
+  display: flex;
+  flex-direction: row;
+}
+.effect-item {
+  border-style: solid none none none;
+  border-width: 2px;
+  margin-block-start: 0.5em;
+}

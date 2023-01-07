@@ -3,7 +3,7 @@
   (mouseenter)="startHover()"
   (mouseleave)="endHover()"
 >
-  <div class="name">{{ attack.name }}</div>
+  <div class="name" (click)="roll()">{{ attack.name }}</div>
   <div class="bonus">
     {{ totalBonus | modifier }}
   </div>
@@ -22,7 +22,8 @@
   </div>
   <div class="effects" *ngIf="attack.effects.length > 0">E</div>
   <div class="buttons" *ngIf="hovered">
-    <div class="edit-button">Edit</div>
-    <div class="delete-button">-</div>
+    <div class="edit-button" (click)="edit()">Edit</div>
+    <div class="edit-button" (click)="copy()">Copy</div>
+    <div class="delete-button" (click)="delete()">-</div>
   </div>
 </div>

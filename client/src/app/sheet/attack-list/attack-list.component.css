@@ -1,6 +1,7 @@
 .attacks-container {
   display: flex;
   flex-direction: column;
+  padding: 0.5em;
 }
 
 .header {
@@ -12,6 +13,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-flow: row;
+  row-gap: 0.5em;
+  column-gap: 0.5em;
 }
 @media (min-width: 1200px) {
   [class*="attacks-list"] {

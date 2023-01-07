@@ -25,12 +25,12 @@ export class AbilitySelectComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       abilities: AbilityNumberStruct;
-      baseModifier: number;
+      baseModifier?: number;
       colorized: boolean;
     }
   ) {
     this.abilities = data.abilities;
-    this.baseModifier = data.baseModifier;
+    this.baseModifier = data.baseModifier || 0;
     this.colorized = data.colorized;
   }
 

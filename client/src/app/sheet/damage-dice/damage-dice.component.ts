@@ -15,6 +15,7 @@ import { DamageRollChangedEvent } from './die-item/die-item.component';
 export class DamageDiceComponent {
   @Input() dice: DamageRoll[] = [];
   @Input() defaultType: string = 'slashing';
+  @Input() hasBonuses: boolean = false;
   /**
    * Event emitted when a roll is added.
    */

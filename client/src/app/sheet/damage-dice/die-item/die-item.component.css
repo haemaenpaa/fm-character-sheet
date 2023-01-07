@@ -19,3 +19,8 @@
   margin-inline-end: 0.25em;
   width: 4em;
 }
+
+.type {
+  margin-inline-end: 1em;
+  margin-inline-start: 1em;
+}

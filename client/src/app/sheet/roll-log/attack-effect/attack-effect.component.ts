@@ -9,7 +9,6 @@ import { Roll } from 'src/app/model/diceroll';
 export class AttackEffectComponent {
   @Input() roll!: Roll;
   saveAbilities(saveVal: string): string[] {
-    debugger;
     return saveVal.split('/');
   }
 }

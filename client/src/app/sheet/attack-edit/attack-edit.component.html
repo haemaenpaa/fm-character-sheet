@@ -1,0 +1,79 @@
+<div class="attack-edit-container">
+  <div class="name">
+    <editable-text
+      [value]="attack.name"
+      (valueChanged)="attack.name = $event"
+    ></editable-text>
+  </div>
+  <div class="modifier">
+    <span class="modifier-label">Bonus:</span>
+    <span *ngIf="attack.attackBonus >= 0" class="modifier-plus">+</span>
+    <div class="modifier-value">
+      <editable-text
+        [value]="attack.attackBonus"
+        (numberChanged)="attack.attackBonus = $event"
+        [placeholder]="'Attack bonus'"
+      ></editable-text>
+    </div>
+  </div>
+  <div class="proficiency">
+    <input
+      type="checkbox"
+      [checked]="attack.proficient"
+      (change)="setBool('proficient', $event)"
+    />Proficient
+  </div>
+  <div class="ability-list">
+    Abilities:
+    <div *ngFor="let abl of attack.abilities" class="ability-item">
+      {{ abl | abilityName : "short" }}
+      <div class="delete-button" (click)="removeAbility(abl)">-</div>
+    </div>
+    <div class="add-button" (click)="addAbility()">+</div>
+  </div>
+  <div class="damage-list">
+    <span class="section-header">Damage:</span>
+    <damage-dice
+      [dice]="attack.damage"
+      [hasBonuses]="true"
+      (dieAdded)="attack.damage.push($event)"
+      (dieDeleted)="removeDie($event)"
+      (dieChanged)="modifyDie($event)"
+    ></damage-dice>
+  </div>
+  <div class="effects-list">
+    <span class="section-header"> Effects: </span>
+    <div *ngFor="let ef of attack.effects" class="effect-item">
+      <div class="option-row">
+        Save:
+        <select class="save" (change)="setEffectSave(ef, $event)">
+          <option [value]="null">None</option>
+          <option
+            *ngFor="let save of availableSaves | keyvalue"
+            [value]="save.key"
+            [selected]="save.key === ef.save"
+          >
+            {{ save.value }}
+          </option>
+        </select>
+        <editable-text
+          [value]="ef.dv"
+          [placeholder]="'DV'"
+          (numberChanged)="ef.dv = $event"
+        ></editable-text>
+        <div class="delete-button" (click)="removeEffect(ef)">-</div>
+      </div>
+      <div class="description">
+        <editable-text
+          [value]="ef.description"
+          (valueChanged)="ef.description = $event"
+          [placeholder]="'Effect description'"
+          [rows]="2"
+        ></editable-text>
+      </div>
+    </div>
+
+    <div class="add-button" (click)="addEffect()">+</div>
+  </div>
+  <div class="save-button" (click)="save()">Save</div>
+</div>

@@ -17,7 +17,7 @@ const SOUL_CHECK_PATTERN = /^soulcheck$/;
 const SPELL_DAMAGE_PATTERN = /^spelldmg$/;
 const ATTACK_PATTERN = /^attack$/;
 const ATTACK_DAMAGE_PATTERN = /^attackdmg$/;
-const ATTACK_EFFECT_PATTERN = /^attackdmg$/;
+const ATTACK_EFFECT_PATTERN = /^attackeffect$/;
 
 // Row type, to be used in an ngSwitch to select the component to display.
 type RowType =

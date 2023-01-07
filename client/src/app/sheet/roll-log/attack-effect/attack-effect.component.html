@@ -7,7 +7,11 @@
   </div>
   <div class="roll-title" *ngIf="roll.name">{{ roll.name }} effect:</div>
   <div *ngFor="let modifier of roll.modifiers" class="die-roll">
-    {{ saveAbilities(modifier.name) }} DV {{ modifier.value }} or:
+    <span *ngFor="let ab of saveAbilities(modifier.name); last as isLast">
+      {{ ab | abilityName : "long" }} {{ isLast ? "" : "/" }}
+    </span>
+    DV
+    {{ modifier.value }}
   </div>
   <div class="roll-description">
     {{ roll.description }}

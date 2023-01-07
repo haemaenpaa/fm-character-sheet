@@ -1,7 +1,9 @@
 import { DamageRoll } from './damage-roll';
 
 export interface AttackEffect {
+  id: number;
   save?: string;
+  dv?: number;
   description: string;
 }
 
@@ -31,9 +33,20 @@ export default interface CharacterAttack {
    * Damage for this attack.
    */
   damage: DamageRoll[];
+  /**
+   * Is this an offhand attack
+   */
   offhand: boolean;
   /**
    * Any additional effects.
    */
   effects: AttackEffect[];
+}
+
+export function copyAttack(original: CharacterAttack): CharacterAttack {
+  const ret = { ...original };
+  ret.abilities = [...original.abilities];
+  ret.damage = original.damage.map((d) => ({ ...d, roll: { ...d.roll } }));
+  ret.effects = original.effects.map((e) => ({ ...e }));
+  return ret;
 }
