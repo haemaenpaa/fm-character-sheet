@@ -41,6 +41,8 @@ import { SpellCastComponent } from './spellbook/spell-cast/spell-cast.component'
 import { SpellSaveLogComponent } from './roll-log/spell-save-log/spell-save-log.component';
 import { SoulCheckLogComponent } from './roll-log/soul-check-log/soul-check-log.component';
 import { SpellDamageRollComponent } from './roll-log/spell-damage-roll/spell-damage-roll.component';
+import { AttackListComponent } from './attack-list/attack-list.component';
+import { AttackItemComponent } from './attack-list/attack-item/attack-item.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -86,6 +88,8 @@ import { SpellDamageRollComponent } from './roll-log/spell-damage-roll/spell-dam
     SpellSaveLogComponent,
     SoulCheckLogComponent,
     SpellDamageRollComponent,
+    AttackListComponent,
+    AttackItemComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

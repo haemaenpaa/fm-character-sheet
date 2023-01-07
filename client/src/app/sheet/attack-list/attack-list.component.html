@@ -1,0 +1,14 @@
+<div
+  class="attacks-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
+  <div class="header">Attacks</div>
+  <div class="attacks-list">
+    <attack-item
+      *ngFor="let attack of character.attacks"
+      [attack]="attack"
+      [abilityModifiers]="abilityModifiers"
+    ></attack-item>
+  </div>
+  <div class="add-button" (click)="addAttack()">+</div>
+</div>

@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { AbilitiesListComponent } from './abilities-list/abilities-list.component';
+import { AttackListComponent } from './attack-list/attack-list.component';
 import { DefensesComponent } from './defenses/defenses.component';
 import { RollLogComponent } from './roll-log/roll-log.component';
 import { SpellbookComponent } from './spellbook/spellbook.component';
@@ -20,7 +21,7 @@ export const upperOutletRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'selections',
+    redirectTo: 'attacks',
     outlet: 'info-outlet',
   },
   {
@@ -33,6 +34,12 @@ export const upperOutletRoutes: Route[] = [
     path: 'spellbook',
     pathMatch: 'full',
     component: SpellbookComponent,
+    outlet: 'info-outlet',
+  },
+  {
+    path: 'attacks',
+    pathMatch: 'full',
+    component: AttackListComponent,
     outlet: 'info-outlet',
   },
 ];

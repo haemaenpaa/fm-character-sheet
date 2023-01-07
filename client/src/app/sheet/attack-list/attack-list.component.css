@@ -1,0 +1,25 @@
+.attacks-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  font-weight: bold;
+  font-size: larger;
+}
+
+.attacks-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: row;
+}
+@media (min-width: 1200px) {
+  [class*="attacks-list"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  [class*="attacks-list"] {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

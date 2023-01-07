@@ -1,0 +1,38 @@
+.attack-container {
+  display: grid;
+  border-style: dashed;
+  grid-template-columns: [name] max-content [bonus] max-content [damage] 2fr [effects] max-content [buttons] 1fr;
+  width: 100%;
+}
+.name {
+  grid-column: name;
+  font-weight: bold;
+  width: 100%;
+  margin-inline-end: 1em;
+}
+.bonus {
+  grid-column: bonus;
+  font-style: italic;
+}
+.damage {
+  grid-column: damage;
+  margin-inline-start: 0.5em;
+  width: 100%;
+}
+.effects {
+  grid-column: effects;
+  font-variant: small-caps;
+  font-weight: bold;
+  width: 2em;
+  text-align: center;
+}
+.buttons {
+  grid-column: buttons;
+  width: 100%;
+  display: flex;
+  justify-items: flex-end;
+}
+
+.edit-button {
+  cursor: pointer;
+}
