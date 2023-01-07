@@ -17,7 +17,6 @@ import { Spell } from '../model/character-spells';
 import { randomId } from '../model/id-generator';
 import CharacterAttack, { AttackEffect } from '../model/character-attack';
 import Character from '../model/character';
-import { NumberValueAccessor } from '@angular/forms';
 import { __values } from 'tslib';
 
 /**
@@ -292,15 +291,20 @@ export class ActionDispatchService {
         var damage = this.composeDamage(attack, character);
         this.sendRoll(damage);
         attack.effects.forEach((ef) => {
-          const effectRoll = this.composeEffect(ef, character);
+          const effectRoll = this.composeEffect(ef, attack, character);
           this.sendRoll(effectRoll);
         });
       });
   }
 
-  private composeEffect(effect: AttackEffect, character: Character): Roll {
+  private composeEffect(
+    effect: AttackEffect,
+    attack: CharacterAttack,
+    character: Character
+  ): Roll {
     const effectRoll = new Roll();
     effectRoll.title = 'attackeffect';
+    effectRoll.name = attack.name;
     effectRoll.character = character.name;
     if (effect.save) {
       effectRoll.addModifier({ name: effect.save, value: effect.dv! });

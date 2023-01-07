@@ -8,11 +8,20 @@
   font-weight: bold;
   font-size: larger;
 }
+
+.accessibility-colorized > .name {
+  color: mediumblue;
+}
 .modifier {
   display: grid;
   grid-template-columns: [label] max-content [plus]max-content [value]1fr[end];
   grid-template-rows: max-content;
 }
+
+.accessibility-colorized > .modifier {
+  color: blueviolet;
+}
+
 .modifier-label {
   grid-column: label/plus;
 }
@@ -29,11 +38,19 @@
   flex-direction: row;
 }
 
+.accessibility-colorized > .proficiency {
+  color: brown;
+}
+
 .section-header {
   font-weight: bold;
 }
 .description {
   border-style: solid;
+}
+
+.accessibility-colorized > .description {
+  color: rgb(0, 205, 0);
 }
 .ability-list {
   width: 100%;
@@ -51,10 +68,19 @@
   margin-inline-end: 0.5em;
   margin-inline-start: 0.5em;
 }
+
+.accessibility-colorized > .ability-list {
+  color: rgb(205, 0, 205);
+}
+
 .damage-list {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.accessibility-colorized > .damage-list {
+  color: rgb(0, 205, 205);
 }
 
 .effects-list {
@@ -70,4 +96,8 @@
   border-style: solid none none none;
   border-width: 2px;
   margin-block-start: 0.5em;
+}
+
+.accessibility-colorized > .effects-list {
+  color: darkgoldenrod;
 }

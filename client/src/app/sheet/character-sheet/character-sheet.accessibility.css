@@ -45,6 +45,10 @@
   color: rgb(0, 64, 128);
 }
 
+.accessibility-colorized > .info-section > .nav-tab-container > .attacks {
+  border-color: black;
+  color: rgb(0, 200, 200);
+}
 .accessibility-colorized > .character-skills > .section-header {
   color: blue;
 }
