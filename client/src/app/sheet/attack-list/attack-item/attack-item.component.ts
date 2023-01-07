@@ -45,6 +45,20 @@ export class AttackItemComponent extends Hoverable {
       0
     );
   }
+  get abilityDamageBonus(): number {
+    if (this.attack.offhand) {
+      return this.attack.abilities.reduce(
+        (bonus: number, abl: string) =>
+          bonus + Math.min(0, (this.abilityModifiers as any)[abl]),
+        0
+      );
+    }
+    return this.attack.abilities.reduce(
+      (bonus: number, abl: string) =>
+        bonus + (this.abilityModifiers as any)[abl],
+      0
+    );
+  }
 
   edit() {
     console.log('Opening edit dialog');

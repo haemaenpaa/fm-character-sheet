@@ -1,4 +1,7 @@
-<div class="attack-edit-container">
+<div
+  class="attack-edit-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="name">
     <editable-text
       [value]="attack.name"

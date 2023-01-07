@@ -9,13 +9,17 @@
   </div>
   <div class="damage">
     <span *ngFor="let dmg of attack.damage; last as isLast; first as isFirst">
-      <span class="damage-roll">{{ dmg.roll.dice }}d{{ dmg.roll.sides }}</span>
+      <span class="damage-roll">{{ dmg.roll.dice }}d{{ dmg.roll.sides }} </span>
       <span
         class="damage-modifier"
-        *ngIf="isFirst && !attack.offhand && abilityBonus > 0"
+        *ngIf="isFirst && (abilityDamageBonus !== 0 || dmg.roll.bonus)"
       >
-        {{ abilityBonus | modifier }}
+        {{ abilityDamageBonus + (dmg.roll.bonus || 0) | modifier }}
       </span>
+      <span class="damage-modifier" *ngIf="!isFirst && dmg.roll.bonus">
+        {{ dmg.roll.bonus | modifier }}
+      </span>
+
       <span class="damage-type"> {{ dmg.type }} </span>
       <span class="comma" *ngIf="!isLast">,</span>
     </span>
