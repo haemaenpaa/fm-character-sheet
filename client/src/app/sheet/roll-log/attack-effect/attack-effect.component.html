@@ -1,0 +1,15 @@
+<div class="single-roll">
+  <div
+    *ngIf="roll.character && roll.character.length > 0"
+    class="roll-character"
+  >
+    {{ roll.character }} :
+  </div>
+  <div class="roll-title" *ngIf="roll.name">{{ roll.name }} effect:</div>
+  <div *ngFor="let modifier of roll.modifiers" class="die-roll">
+    {{ saveAbilities(modifier.name) }} DV {{ modifier.value }} or:
+  </div>
+  <div class="roll-description">
+    {{ roll.description }}
+  </div>
+</div>

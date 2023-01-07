@@ -1,0 +1,16 @@
+<div class="single-roll">
+  <div
+    *ngIf="roll.character && roll.character.length > 0"
+    class="roll-character"
+  >
+    {{ roll.character }} :
+  </div>
+  <div class="roll-title">{{ roll.name }} damage:</div>
+  <div *ngFor="let d of roll.dice; last as isLast" class="die-roll">
+    {{ d | roll }} {{ d.name }}<span *ngIf="!isLast">,</span>
+  </div>
+  <div class="crit-label">On Crit:</div>
+  <div *ngFor="let d of roll.dice; last as isLast" class="die-roll">
+    {{ d.sides | modifier }} {{ d.name }}<span *ngIf="!isLast">,</span>
+  </div>
+</div>

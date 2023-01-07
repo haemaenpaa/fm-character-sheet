@@ -24,6 +24,7 @@ export class RollComponent {
   keepMode: KeepMode = 'HIGHEST';
   keep: number;
   name?: string;
+  bonus?: number;
   constructor(
     sides: number,
     dice: number = 1,
@@ -50,6 +51,7 @@ export class Roll {
   private _target: number | null = null; //Target to beat, if any.
   private _id?: number;
   private _name?: string;
+  private _description?: string;
 
   get character(): string | null {
     return this._character;
@@ -114,5 +116,12 @@ export class Roll {
   }
   set name(value: string | undefined) {
     this._name = value;
+  }
+
+  get description(): string | undefined {
+    return this._description;
+  }
+  set description(value: string | undefined) {
+    this._description = value;
   }
 }

@@ -21,6 +21,9 @@
         [roll]="r"
         *ngSwitchCase="'spell-damage'"
       ></spell-damage-roll>
+      <attack [roll]="r" *ngSwitchCase="'attack'"></attack>
+      <attack-damage [roll]="r" *ngSwitchCase="'attack-damage'"></attack-damage>
+      <attack-effect [roll]="r" *ngSwitchCase="'attack-effect'"></attack-effect>
 
       <unknown-roll *ngSwitchCase="'unknown'" [roll]="r"></unknown-roll>
     </div>
