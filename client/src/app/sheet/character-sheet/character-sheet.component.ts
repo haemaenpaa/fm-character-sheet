@@ -89,11 +89,14 @@ export class CharacterSheetComponent {
     }
     console.log(this.character.race);
     const race: Race = {
-      name: this.character.race.name,
-      subrace: this.character.race.subrace,
+      ...this.character.race,
       abilities: { ...this.character.race.abilities },
-      damageResistances: [...this.character.race.damageResistances],
-      statusResistances: [...this.character.race.statusResistances],
+      damageResistances: this.character.race.damageResistances.map((r) => ({
+        ...r,
+      })),
+      statusResistances: this.character.race.statusResistances.map((r) => ({
+        ...r,
+      })),
     };
     const editDialog = this.dialog.open(RaceEditComponent, {
       data: { race, colorized: this.colorized },

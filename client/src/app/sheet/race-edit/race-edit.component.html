@@ -41,5 +41,12 @@
       (abilityChanged)="onAbilityChanged($event)"
     ></racial-abilities>
   </div>
+  <div class="powerful-build">
+    <input
+      type="checkbox"
+      [checked]="race.powerfulBuild"
+      (change)="togglePowerfulBuild($event)"
+    />Powerful build
+  </div>
   <div class="submit-button" (click)="onSubmit()">Save</div>
 </div>
