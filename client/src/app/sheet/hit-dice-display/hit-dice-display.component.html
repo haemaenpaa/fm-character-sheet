@@ -7,6 +7,7 @@
   <div class="hit-dice-list">
     <div
       *ngFor="let disp of hitDiceDisplay"
+      [id]="'d' + disp.size"
       class="hit-die-item"
       [ngClass]="{
         d6: disp.size === 6,
