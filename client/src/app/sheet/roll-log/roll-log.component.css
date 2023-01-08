@@ -44,3 +44,10 @@
 .accessibility-colorized > .attack-effect {
   color: rgb(0, 200, 200);
 }
+.accessibility-colorized > .hit-dice {
+  color: crimson;
+}
+
+.accessibility-colorized > .hit-points {
+  color: hsl(300, 100%, 25%);
+}

@@ -1,4 +1,7 @@
-<div class="roller-container">
+<div
+  class="roller-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="heading">Hit Die options</div>
   <div class="var-button button spend" (click)="roll(spend)">Roll</div>
   <div class="var-value spend">
@@ -20,12 +23,16 @@
     ></editable-text>
   </div>
   <span class="max regain">/{{ maximum }}</span>
-  <div class="full-button button" (click)="regainHalf()">Regain half</div>
+  <div class="full-button button regain-half" (click)="regainHalf()">
+    Regain half
+  </div>
   <div
-    class="full-button button"
+    class="full-button button regain-all"
     (click)="regainDice(maximum - totalRemaining)"
   >
     Regain all
   </div>
-  <div class="full-button button" (click)="rollHealth()">Roll health</div>
+  <div class="full-button button health" (click)="rollHealth()">
+    Roll health
+  </div>
 </div>

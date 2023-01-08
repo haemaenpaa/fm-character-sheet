@@ -6,17 +6,24 @@
     [heading] max-content [spend] max-content [regain] max-content
     repeat(3, max-content);
   column-gap: 0.5em;
+  row-gap: 0.5em;
+  padding: 0.5em;
 }
 
 .heading {
   grid-row: heading;
   grid-column: button/end;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-variant: small-caps;
 }
 
 .button {
   cursor: pointer;
   border-style: solid;
-  border-radius: 0.5em;
+  border-radius: 1em;
+  text-align: center;
 }
 .var-value {
   grid-column: variable;
@@ -32,6 +39,22 @@
 }
 .regain {
   grid-row: regain;
+}
+
+.accessibility-colorized > .regain-all {
+  color: firebrick;
+}
+.accessibility-colorized > .regain-half {
+  color: hsl(39, 100%, 30%);
+}
+.accessibility-colorized > .regain {
+  color: green;
+}
+.accessibility-colorized > .spend {
+  color: crimson;
+}
+.accessibility-colorized > .health {
+  color: hsl(300, 100%, 25%);
 }
 
 .var-button {
