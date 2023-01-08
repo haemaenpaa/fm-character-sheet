@@ -89,7 +89,6 @@ export class DefensesComponent {
   }
 
   onHpTotalChanged($event: number) {
-    debugger;
     if (this.character) {
       this.character.hitPointTotal = clamp(
         $event,
