@@ -7,6 +7,7 @@ import { SKILL_DEFAULT_ABILITIES } from './constants';
 import { Race } from './race';
 import Resistance from './resistance';
 import { Skill } from './skill';
+import CharacterHitDice from './character-hit-dice';
 
 export interface AbilityNumberStruct {
   br: number;
@@ -25,17 +26,11 @@ export interface AbilityNumberStruct {
  *
  */
 export default class Character {
-  id: number | null = null;
-  name: string;
-  race: Race;
+  id?: number;
   /**
    * Abilities; brawn, dexterity etc.
    */
   abilities: CharacterAbilities;
-  /**
-   * The Ability Origin selections. A list of class abilities gained with levels.
-   */
-  selections: AoSelection[];
   /**
    * The default skills, always displayed on the character sheet.
    */
@@ -54,52 +49,56 @@ export default class Character {
     ste: number;
     sur: number;
   };
-  /**
-   * Any number of non-default skills.
-   */
-  customSkills: Skill[];
 
-  /**
-   * Saving throws the character is proficient in.
-   */
-  savingThrows: string[];
-  /**
-   * Armor value. The target an attacker must meet or beat for an attack to hit.
-   */
-  armorValue: number;
   /**
    * Current hit point total.
    */
   hitPointTotal: number;
   /**
-   * Hit point maximum
-   */
-  hitPointMaximum: number;
-  /**
    * Temporary hit points.
    */
   tempHitPoints: number;
-  /**
-   * Damage resistances and immunities.
-   */
-  damageResistances: Resistance[];
-  /**
-   * Status resistances and immunities.
-   */
-  statusResistances: Resistance[];
 
   /**
-   * Character's spells, spellcasting ability, souls and spell slots.
+   *
+   * @param name Character name
+   * @param race Character's race and the related abilities.
+   * @param br Brawn
+   * @param dex Dexterity
+   * @param vit Vitality
+   * @param int Intelligence
+   * @param cun Cunning
+   * @param res Resolve
+   * @param pre Presence
+   * @param man Manipulation
+   * @param com Composure
+   * @param anh Animal handling
+   * @param ath Athletics
+   * @param dec Deception
+   * @param emp Empathy
+   * @param inv Investigation
+   * @param lea Leadership
+   * @param med Medicine
+   * @param occ Occult
+   * @param perc Perception
+   * @param pers Persuasion
+   * @param sub Subterfuge
+   * @param ste Stealth
+   * @param sur Survival
+   * @param selections The Ability Origin selections. A list of class abilities gained with levels.
+   * @param customSkills Custom skills, such as academics and crafts
+   * @param savingThrows Saving throw proficiencies
+   * @param armorValue Armor value, the target number to hit the character with an attack.
+   * @param hitPointMaximum The character's hit point maximum.
+   * @param damageResistances Damage resistances and/or immunities
+   * @param statusResistances Status resistances and/or immunities
+   * @param spells Character's spells, spellcasting ability, souls and spell slots.
+   * @param attacks
+   * @param hitDice
    */
-  spells: CharacterSpells;
-  /**
-   * Attacks this character can make.
-   */
-  attacks: CharacterAttack[];
-
   constructor(
-    name: string,
-    race: Race,
+    public name: string,
+    public race: Race,
     br: number,
     dex: number,
     vit: number,
@@ -122,15 +121,16 @@ export default class Character {
     sub: number,
     ste: number,
     sur: number,
-    selections: AoSelection[],
-    customSkills: Skill[],
-    savingThrows: string[],
-    armorValue: number,
-    hitPointMax: number,
-    damageResistances: Resistance[],
-    statusResistances: Resistance[],
-    spells: CharacterSpells,
-    attacks: CharacterAttack[]
+    public selections: AoSelection[],
+    public customSkills: Skill[],
+    public savingThrows: string[],
+    public armorValue: number,
+    public hitPointMaximum: number,
+    public damageResistances: Resistance[],
+    public statusResistances: Resistance[],
+    public spells: CharacterSpells,
+    public attacks: CharacterAttack[],
+    public hitDice: CharacterHitDice
   ) {
     this.name = name;
     this.race = race;
@@ -164,13 +164,8 @@ export default class Character {
     this.customSkills = customSkills;
     this.savingThrows = savingThrows;
     this.armorValue = armorValue;
-    this.hitPointMaximum = hitPointMax;
-    this.hitPointTotal = this.hitPointMaximum;
+    this.hitPointTotal = hitPointMaximum;
     this.tempHitPoints = 0;
-    this.damageResistances = damageResistances;
-    this.statusResistances = statusResistances;
-    this.spells = spells;
-    this.attacks = attacks;
   }
   /**
    * Gets a struct of ability modifiers.

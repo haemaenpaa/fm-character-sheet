@@ -43,3 +43,23 @@ export const SKILL_DEFAULT_NAME: { [key: string]: string } = {
   ste: 'Stealth',
   sur: 'Survival',
 };
+
+/**
+ * Mapping from AO name to Hit Dice
+ */
+export const AO_HIT_DICE: { [key: string]: number } = {
+  Artistry: 8,
+  Devotion: 8,
+  Discipline: 12,
+  'Divine Oath': 10,
+  Finesse: 10,
+  'Occult Student': 6,
+  Pact: 10,
+  Power: 12,
+  Predator: 10,
+  'Soul Oath': 12,
+  'Soul Weapon': 10,
+  Tactics: 10,
+  'Unique Ancestry': 8,
+  'World Magic': 8,
+};
