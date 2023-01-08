@@ -81,6 +81,6 @@ export class CharacterListComponent {
       .build();
     this.characterService
       .persistCharacter(character)
-      .then((c) => (this.hilightId = c.id));
+      .then((c) => (this.hilightId = c.id || 0));
   }
 }

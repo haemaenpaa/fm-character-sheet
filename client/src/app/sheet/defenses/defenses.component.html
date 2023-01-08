@@ -22,6 +22,15 @@
       (maxChanged)="onHpMaxChanged($event)"
       (tempChanged)="onTempHpChanged($event)"
     ></hit-points>
+    <div class="hit-dice-container">
+      <hit-dice-display
+        [hitDiceMax]="character!.hitDice"
+        [hitDiceRemaining]="character!.hitDiceRemaining"
+        [characterId]="character!.id!"
+        [colorized]="colorized"
+        (remainingChanged)="onRemainingHitDiceChanged($event)"
+      ></hit-dice-display>
+    </div>
   </div>
   <div class="saves-container container-border">
     <div class="label">Saving throws</div>

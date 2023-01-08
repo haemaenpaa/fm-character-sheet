@@ -22,7 +22,7 @@ export class AoSelectionListComponent {
   onSelectionAdd() {
     const selection: AoSelection = {
       id: randomId(),
-      abilityOrigin: 'Unknown AO',
+      abilityOrigin: 'Artistry',
       level: 0,
       name: 'New Ability',
       description: '',

@@ -16,7 +16,7 @@ function characterCompare(a: Character, b: Character): number {
   if (a.id === null || b.id === null) {
     return a.id === null ? -1 : 1;
   }
-  return a.id < b.id ? -1 : 1;
+  return a.id! < b.id! ? -1 : 1;
 }
 /**
  * An injectable service that manages the character information.

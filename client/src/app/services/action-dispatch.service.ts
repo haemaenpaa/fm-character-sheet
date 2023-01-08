@@ -6,6 +6,7 @@ import {
   AttackParams,
   CheckParams,
   GameAction,
+  HitDieParams,
   SaveParams,
   SkillParams,
   SpellAttackParams,
@@ -80,6 +81,12 @@ export class ActionDispatchService {
       case 'attack':
         const attackParams = params as AttackParams;
         this.dispatchAttack(attackParams);
+        break;
+      case 'hit-die':
+        this.dispatchHitDice(params as HitDieParams);
+        break;
+      case 'health-roll':
+        this.dispatchHealthRoll(params as HitDieParams);
         break;
     }
   }
@@ -378,6 +385,50 @@ export class ActionDispatchService {
         .map((ab) => (character.abilities as any)[ab])
         .reduce((sum: number, ab: Ability) => sum + ab.modifier);
     }
+  }
+
+  private dispatchHitDice(params: HitDieParams) {
+    this.characterService
+      .getCharacterById(params.characterId)
+      .then((character) => {
+        const roll: Roll = new Roll();
+        roll.character = character.name;
+        roll.name = 'Hit dice';
+        roll.title = 'hit-dice';
+
+        for (const size of [6, 8, 10, 12]) {
+          const number = (params as any)[size];
+          if (number > 0) {
+            roll.addDie(new RollComponent(size, number));
+          }
+        }
+        this.sendRoll(roll);
+      });
+  }
+  private dispatchHealthRoll(params: HitDieParams) {
+    this.characterService
+      .getCharacterById(params.characterId)
+      .then((character) => {
+        const roll: Roll = new Roll();
+        roll.character = character.name;
+        roll.name = 'Hit points';
+        roll.title = 'hit-points';
+        var constantHealth = 0;
+        for (const size of [6, 8, 10, 12]) {
+          const number = (params as any)[size];
+          if (number > 0) {
+            const actualSize = Math.floor(size / 2);
+            const component: RollComponent = new RollComponent(
+              actualSize,
+              number
+            );
+            constantHealth += actualSize;
+            roll.addDie(component);
+          }
+        }
+        roll.addModifier({ name: 'baseline', value: constantHealth });
+        this.sendRoll(roll);
+      });
   }
 
   private sendRoll(roll: Roll) {

@@ -8,7 +8,9 @@ export type ActionType =
   | 'skill-check'
   | 'spell-attack'
   | 'spell'
-  | 'attack';
+  | 'attack'
+  | 'hit-die'
+  | 'health-roll';
 
 /**
  * Parameters for an ability check.
@@ -60,6 +62,13 @@ export interface AttackParams {
   attackId: number;
   advantage: Advantage;
 }
+export interface HitDieParams {
+  characterId: number;
+  6: number;
+  8: number;
+  10: number;
+  12: number;
+}
 
 export interface GameAction {
   type: ActionType;
@@ -69,5 +78,6 @@ export interface GameAction {
     | SkillParams
     | SpellAttackParams
     | SpellParams
-    | AttackParams;
+    | AttackParams
+    | HitDieParams;
 }

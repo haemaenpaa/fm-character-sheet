@@ -1,4 +1,4 @@
-<div class="container" (mouseenter)="onHover()" (mouseleave)="onHoverEnd()">
+<div class="container" (mouseenter)="startHover()" (mouseleave)="endHover()">
   <div class="selection-name">
     <editable-text
       [ngStyle]="{ color: selection.hilightColor || 'inherit' }"
@@ -9,16 +9,23 @@
   </div>
   <div class="ao-container">
     <div class="ao-name">
-      <editable-text
-        [value]="selection.abilityOrigin"
-        (valueChanged)="onFieldChanged('abilityOrigin', $event)"
-      ></editable-text>
+      <select (change)="onAoSelected($event)">
+        <option
+          *ngFor="let ao of knownAoNames"
+          [selected]="ao === selection.abilityOrigin"
+        >
+          {{ ao }}
+        </option>
+      </select>
     </div>
     <div class="ao-level">
       <editable-text
         [value]="selection.level"
         (valueChanged)="onLevelChanged($event)"
       ></editable-text>
+    </div>
+    <div class="ao-hit-die" *ngIf="selection.isPrimary">
+      Hit die: {{ hitDie }}
     </div>
   </div>
   <div class="selection-description">

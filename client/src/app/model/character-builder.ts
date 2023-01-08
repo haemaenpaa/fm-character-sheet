@@ -6,8 +6,9 @@ import Resistance, { ResistanceType } from './resistance';
 import { CharacterSpells, Spell } from './character-spells';
 import { randomId } from './id-generator';
 import { DamageRoll } from './damage-roll';
-import CharacterAbilities from './character-abilities';
 import CharacterAttack, { AttackEffect } from './character-attack';
+import CharacterHitDice from './character-hit-dice';
+import { AO_HIT_DICE } from './constants';
 
 /**
  * Builder for ease of constructing a character.
@@ -574,6 +575,19 @@ export class CharacterBuilder {
     if (this.armorValueOverride) {
       armorValue = this.armorValueOverride;
     }
+
+    const hitDice: CharacterHitDice = {
+      6: 0,
+      8: 0,
+      10: 0,
+      12: 0,
+    };
+    this.selections.forEach((sel) => {
+      if (sel.abilityOrigin in AO_HIT_DICE) {
+        (hitDice as any)[AO_HIT_DICE[sel.abilityOrigin]] += 1;
+      }
+    });
+
     return new Character(
       this.name,
       this.race,
@@ -608,7 +622,8 @@ export class CharacterBuilder {
       this.damageResistances,
       this.statusResistances,
       this.spells,
-      this.attacks
+      this.attacks,
+      hitDice
     );
   }
 }
