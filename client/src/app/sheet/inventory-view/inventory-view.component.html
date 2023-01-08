@@ -1,0 +1,29 @@
+<div
+  class="inventory-view-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
+  <div class="containers-list">
+    <div *ngFor="let cont of character.inventory">
+      <container-view
+        [container]="cont"
+        (itemAdded)="addItem(cont, $event)"
+      ></container-view>
+    </div>
+  </div>
+  <div class="weight-total">
+    <div class="weight-sum">
+      <divided-number
+        [value]="totalWeight"
+        [shiftDigits]="3"
+        [precision]="2"
+      ></divided-number>
+    </div>
+    <span>/</span>
+    <div class="carry-weight">
+      <divided-number [value]="carryWeight" [shiftDigits]="3" [precision]="0">
+      </divided-number>
+      kg
+    </div>
+    <div class="encumbrance" *ngIf="encumbered">{{ encumbered }}</div>
+  </div>
+</div>

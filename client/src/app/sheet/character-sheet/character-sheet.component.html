@@ -69,6 +69,13 @@
         Attacks
       </div>
       <div
+        class="nav-tab inventory"
+        [routerLink]="[{ outlets: { 'info-outlet': ['inventory'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Inventory
+      </div>
+      <div
         class="nav-tab selections"
         [routerLink]="[{ outlets: { 'info-outlet': ['selections'] } }]"
         [routerLinkActive]="'nav-tab-active'"

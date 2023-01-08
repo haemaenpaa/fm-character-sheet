@@ -1,0 +1,47 @@
+.item-container {
+  display: grid;
+  grid-template-columns: [name] max-content [flags] max-content [weight] max-content [quantity] 1fr [end];
+}
+
+.name {
+  grid-column: name;
+}
+
+.flags {
+  grid-column: flags;
+  display: flex;
+  flex-direction: row;
+  margin-inline-start: 1em;
+}
+
+.attunement {
+  padding-inline-start: 0.5em;
+  padding-inline-end: 0.5em;
+  width: 100%;
+  cursor: pointer;
+}
+.equipment {
+  padding-inline-start: 0.5em;
+  padding-inline-end: 0.5em;
+  width: 100%;
+  cursor: pointer;
+}
+
+.quantity-container {
+  grid-column: quantity;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: end;
+}
+
+.weight {
+  font-style: italic;
+}
+
+.quantity {
+  margin-inline-end: 1em;
+}
+.total-weight {
+  width: 6em;
+}

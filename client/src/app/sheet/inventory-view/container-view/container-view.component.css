@@ -1,0 +1,11 @@
+.outer-container {
+  display: flex;
+  flex-direction: column;
+}
+.name {
+  font-weight: bold;
+}
+
+.description {
+  border-style: double;
+}

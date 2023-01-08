@@ -51,6 +51,10 @@ import { HitDiceDisplayComponent } from './hit-dice-display/hit-dice-display.com
 import { HitDiceRollerComponent } from './hit-dice-roller/hit-dice-roller.component';
 import { HitDieRowComponent } from './roll-log/hit-die-row/hit-die-row.component';
 import { HealthRollRowComponent } from './roll-log/health-roll-row/health-roll-row.component';
+import { InventoryViewComponent } from './inventory-view/inventory-view.component';
+import { ContainerViewComponent } from './inventory-view/container-view/container-view.component';
+import { DividedNumberComponent } from './divided-number/divided-number.component';
+import { ItemViewComponent } from './inventory-view/item-view/item-view.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -106,6 +110,10 @@ import { HealthRollRowComponent } from './roll-log/health-roll-row/health-roll-r
     HitDiceRollerComponent,
     HitDieRowComponent,
     HealthRollRowComponent,
+    InventoryViewComponent,
+    ContainerViewComponent,
+    DividedNumberComponent,
+    ItemViewComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],

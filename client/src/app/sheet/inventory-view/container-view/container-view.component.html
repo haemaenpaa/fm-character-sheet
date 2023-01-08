@@ -1,0 +1,31 @@
+<div class="outer-container">
+  <div class="name">
+    <editable-text
+      [value]="container.name"
+      (valueChanged)="container.name = $event"
+    >
+    </editable-text>
+  </div>
+  <div class="description">
+    <editable-text
+      [value]="container.description"
+      [rows]="3"
+      (valueChanged)="container.description = $event"
+    ></editable-text>
+  </div>
+  <div class="items">
+    <item-view
+      *ngFor="let item of container.contents"
+      [item]="item"
+    ></item-view>
+    <div class="add-button" (click)="addItem()">+</div>
+  </div>
+  <div class="weight">
+    <divided-number
+      [value]="totalWeight"
+      [shiftDigits]="3"
+      [precision]="2"
+    ></divided-number
+    >kg
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div
+  class="item-container"
+  (mouseenter)="startHover()"
+  (mouseleave)="endHover()"
+>
+  <div class="name"><editable-text [value]="item.name"></editable-text></div>
+
+  <div class="flags">
+    <div
+      class="attunement"
+      *ngIf="
+        item.attunement !== 'none' && (hovered || item.attunement === 'attuned')
+      "
+      [ngClass]="item.attunement"
+    >
+      A
+    </div>
+    <div
+      class="equipment"
+      *ngIf="
+        item.equipped !== 'none' && (hovered || item.equipped === 'equipped')
+      "
+      [ngClass]="item.equipped"
+    >
+      E
+    </div>
+  </div>
+
+  <div class="quantity-container">
+    <div class="weight" *ngIf="hovered">
+      <divided-number
+        [value]="item.weight"
+        [shiftDigits]="3"
+        [precision]="2"
+      ></divided-number
+      >kg x
+    </div>
+    <div class="quantity">
+      <editable-text [value]="item.quantity"></editable-text>
+    </div>
+    <div class="total-weight">
+      <divided-number
+        [value]="item.weight * item.quantity"
+        [shiftDigits]="3"
+        [precision]="2"
+      ></divided-number
+      >kg
+    </div>
+  </div>
+</div>
