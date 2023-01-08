@@ -18,6 +18,8 @@ const SPELL_DAMAGE_PATTERN = /^spelldmg$/;
 const ATTACK_PATTERN = /^attack$/;
 const ATTACK_DAMAGE_PATTERN = /^attackdmg$/;
 const ATTACK_EFFECT_PATTERN = /^attackeffect$/;
+const HIT_DICE_PATTERN = /^hit-dice$/;
+const HIT_POINTS_PATTERN = /^hit-points$/;
 
 // Row type, to be used in an ngSwitch to select the component to display.
 type RowType =
@@ -31,6 +33,8 @@ type RowType =
   | 'attack'
   | 'attack-damage'
   | 'attack-effect'
+  | 'hit-dice'
+  | 'hit-points'
   | 'unknown';
 
 /**
@@ -90,6 +94,12 @@ export class RollLogComponent implements AfterViewChecked {
     }
     if (roll.title?.match(ATTACK_EFFECT_PATTERN)) {
       return 'attack-effect';
+    }
+    if (roll.title?.match(HIT_DICE_PATTERN)) {
+      return 'hit-dice';
+    }
+    if (roll.title?.match(HIT_POINTS_PATTERN)) {
+      return 'hit-points';
     }
     return 'unknown';
   }

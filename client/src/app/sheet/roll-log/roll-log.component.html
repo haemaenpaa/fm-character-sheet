@@ -24,6 +24,11 @@
       <attack [roll]="r" *ngSwitchCase="'attack'"></attack>
       <attack-damage [roll]="r" *ngSwitchCase="'attack-damage'"></attack-damage>
       <attack-effect [roll]="r" *ngSwitchCase="'attack-effect'"></attack-effect>
+      <hit-die-row [roll]="r" *ngSwitchCase="'hit-dice'"></hit-die-row>
+      <health-roll-row
+        [roll]="r"
+        *ngSwitchCase="'hit-points'"
+      ></health-roll-row>
 
       <unknown-roll *ngSwitchCase="'unknown'" [roll]="r"></unknown-roll>
     </div>

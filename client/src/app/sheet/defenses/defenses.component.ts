@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import Character from 'src/app/model/character';
+import CharacterHitDice from 'src/app/model/character-hit-dice';
 import { SaveParams } from 'src/app/model/game-action';
 import Resistance from 'src/app/model/resistance';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
@@ -192,6 +193,11 @@ export class DefensesComponent {
     }
     const newAv = Number.parseInt(newValue);
     this.character!.armorValue = newAv;
+    this.characterChanged.emit();
+  }
+
+  onRemainingHitDiceChanged(hitDice: CharacterHitDice) {
+    this.character!.hitDiceRemaining = hitDice;
     this.characterChanged.emit();
   }
 

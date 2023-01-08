@@ -8,18 +8,24 @@
   height: 100%;
 }
 .hp-and-av {
-  display: flex;
+  display: grid;
+  grid-template-columns: [av] max-content [hp] max-content;
+  grid-template-rows: max-content max-content;
   align-items: center;
   justify-items: center;
   justify-content: space-around;
   height: 100%;
+  row-gap: 0.5em;
 }
 
 .accessibility-colorized > .hp-and-av > .av-container {
-  color: yellowgreen;
+  color: rgb(114, 165, 10);
 }
 .accessibility-colorized > .hp-and-av > .hp-container {
-  color: orangered;
+  color: rgb(215, 29, 0);
+}
+.accessibility-colorized > .hp-and-av > .hit-dice-container {
+  color: mediumblue;
 }
 
 .container-border {
@@ -31,14 +37,23 @@
 }
 
 .av-container {
-  grid-row: 1;
-  grid-column: 1;
+  grid-row: 1 / span 2;
+  grid-column: av;
   display: flex;
   flex-direction: column;
   width: min-content;
   padding: 0.5em;
   justify-self: center;
   align-self: center;
+}
+.hp-container {
+  grid-column: hp;
+  grid-row: 1;
+}
+.hit-dice-container {
+  grid-column: hp;
+  grid-row: 2;
+  width: 100%;
 }
 
 .av-label {
@@ -84,7 +99,7 @@
 .accessibility-colorized
   > .resistance-container
   > .damage-resistance-container {
-  color: orchid;
+  color: #aa00aa;
 }
 .status-resistance-container {
   margin-block-end: 1em;

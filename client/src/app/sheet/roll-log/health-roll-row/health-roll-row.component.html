@@ -1,0 +1,15 @@
+<div class="single-roll">
+  <div
+    *ngIf="roll.character && roll.character.length > 0"
+    class="roll-character"
+  >
+    {{ roll.character }} :
+  </div>
+  <div class="roll-title">Health :</div>
+  <div *ngFor="let d of roll.dice; last as isLast" class="die-roll">
+    {{ d | roll }}<span *ngIf="!isLast">+</span>
+  </div>
+  <div class="die-modifier" *ngFor="let mod of roll.modifiers">
+    {{ mod.value | modifier }}
+  </div>
+</div>

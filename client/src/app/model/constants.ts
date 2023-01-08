@@ -47,7 +47,7 @@ export const SKILL_DEFAULT_NAME: { [key: string]: string } = {
 /**
  * Mapping from AO name to Hit Dice
  */
-export const AO_HIT_DICE: { [key: string]: number } = {
+export const AO_HIT_DICE: any = {
   Artistry: 8,
   Devotion: 8,
   Discipline: 12,

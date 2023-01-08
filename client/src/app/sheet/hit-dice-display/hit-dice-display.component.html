@@ -1,0 +1,21 @@
+<div
+  class="hit-dice-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+  (click)="openRoller()"
+>
+  Hit dice:
+  <div class="hit-dice-list">
+    <div
+      *ngFor="let disp of hitDiceDisplay"
+      class="hit-die-item"
+      [ngClass]="{
+        d6: disp.size === 6,
+        d8: disp.size === 8,
+        d10: disp.size == 10,
+        d12: disp.size === 12
+      }"
+    >
+      {{ disp.remaining }}/{{ disp.max }} d{{ disp.size }}
+    </div>
+  </div>
+</div>

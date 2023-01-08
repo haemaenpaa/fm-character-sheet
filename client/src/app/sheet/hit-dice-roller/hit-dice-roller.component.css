@@ -1,0 +1,42 @@
+.roller-container {
+  width: 20em;
+  display: grid;
+  grid-template-columns: [button] 1fr [variable] max-content [maximum] max-content [end];
+  grid-template-rows:
+    [heading] max-content [spend] max-content [regain] max-content
+    repeat(3, max-content);
+  column-gap: 0.5em;
+}
+
+.heading {
+  grid-row: heading;
+  grid-column: button/end;
+}
+
+.button {
+  cursor: pointer;
+  border-style: solid;
+  border-radius: 0.5em;
+}
+.var-value {
+  grid-column: variable;
+  width: 3em;
+  text-align: end;
+}
+
+.max {
+  grid-column: maximum/end;
+}
+.spend {
+  grid-row: spend;
+}
+.regain {
+  grid-row: regain;
+}
+
+.var-button {
+  grid-column: button;
+}
+.full-button {
+  grid-column: button/end;
+}

@@ -12,6 +12,8 @@ export class EditableTextComponent {
   @Input() rows: number = 1;
   @Input() cols: number = 20;
   @Input() placeholder: string = 'click to edit';
+  @Input() max?: number;
+  @Input() min?: number;
   editing: boolean = false;
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
   @Output() numberChanged: EventEmitter<number> = new EventEmitter();
@@ -21,7 +23,14 @@ export class EditableTextComponent {
     this.valueChanged.emit(val);
     const num = Number.parseInt(val);
     if (!isNaN(num)) {
-      this.numberChanged.emit(num);
+      var clamped = num;
+      if (this.max !== undefined) {
+        clamped = Math.min(clamped, this.max!);
+      }
+      if (this.min !== undefined) {
+        clamped = Math.max(this.min, clamped);
+      }
+      this.numberChanged.emit(clamped);
     }
   }
   get isEmpty(): boolean {
