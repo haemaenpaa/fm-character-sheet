@@ -8,6 +8,7 @@ import { Race } from './race';
 import Resistance from './resistance';
 import { Skill } from './skill';
 import CharacterHitDice from './character-hit-dice';
+import { InventoryContainer } from './item';
 
 export interface AbilityNumberStruct {
   br: number;
@@ -134,7 +135,8 @@ export default class Character {
     public statusResistances: Resistance[],
     public spells: CharacterSpells,
     public attacks: CharacterAttack[],
-    public hitDice: CharacterHitDice
+    public hitDice: CharacterHitDice,
+    public inventory: InventoryContainer[]
   ) {
     this.name = name;
     this.race = race;

@@ -9,4 +9,5 @@ export interface Race {
   abilities: { [key: string]: string };
   damageResistances: Resistance[];
   statusResistances: Resistance[];
+  powerfulBuild?: boolean;
 }

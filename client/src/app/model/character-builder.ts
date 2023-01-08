@@ -9,6 +9,7 @@ import { DamageRoll } from './damage-roll';
 import CharacterAttack, { AttackEffect } from './character-attack';
 import CharacterHitDice from './character-hit-dice';
 import { AO_HIT_DICE } from './constants';
+import { InventoryContainer, Item } from './item';
 
 /**
  * Builder for ease of constructing a character.
@@ -60,6 +61,16 @@ export class CharacterBuilder {
   spellcastingAbility: string | null = null;
   spells: CharacterSpells = new CharacterSpells();
   attacks: CharacterAttack[] = [];
+  inventory: InventoryContainer[] = [
+    {
+      id: randomId(),
+      name: 'Equipment',
+      description: 'Items carried on your person.',
+      baseWeight: 0,
+      weightMultiplierPercent: 100,
+      contents: [],
+    },
+  ];
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -293,7 +304,6 @@ export class CharacterBuilder {
     this.armorValueOverride = av;
     return this;
   }
-
   private buildSelection(
     ao: string,
     name: string,
@@ -570,6 +580,31 @@ export class CharacterBuilder {
     return this;
   }
 
+  /**
+   * Adds an item to the equipment.
+   * @returns
+   */
+  addItem(
+    name: string,
+    description: string,
+    weight: number,
+    quantity: number = 1,
+    equipped: boolean = false,
+    attuned: boolean = false
+  ): CharacterBuilder {
+    const item: Item = {
+      id: randomId(),
+      name,
+      description,
+      weight,
+      quantity,
+      equipped: equipped ? 'unequipped' : 'none',
+      attunement: attuned ? 'unattuned' : 'none',
+    };
+    this.inventory[0].contents.push(item);
+    return this;
+  }
+
   build(): Character {
     var armorValue = 10 + Math.floor((this.dex - 10) / 2);
     if (this.armorValueOverride) {
@@ -623,7 +658,8 @@ export class CharacterBuilder {
       this.statusResistances,
       this.spells,
       this.attacks,
-      hitDice
+      hitDice,
+      this.inventory
     );
   }
 }
