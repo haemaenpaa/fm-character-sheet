@@ -58,6 +58,10 @@ export default class Character {
    * Temporary hit points.
    */
   tempHitPoints: number;
+  /**
+   * Currently available hit dice.
+   */
+  hitDiceRemaining: CharacterHitDice;
 
   /**
    *
@@ -166,6 +170,7 @@ export default class Character {
     this.armorValue = armorValue;
     this.hitPointTotal = hitPointMaximum;
     this.tempHitPoints = 0;
+    this.hitDiceRemaining = { ...hitDice };
   }
   /**
    * Gets a struct of ability modifiers.

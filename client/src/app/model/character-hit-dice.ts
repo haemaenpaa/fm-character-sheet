@@ -4,3 +4,11 @@ export default interface CharacterHitDice {
   10: number;
   12: number;
 }
+
+export function hitDiceSum(input: CharacterHitDice): number {
+  var ret = 0;
+  for (const key in input) {
+    ret += (input as any)[key];
+  }
+  return ret;
+}
