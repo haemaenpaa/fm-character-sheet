@@ -10,7 +10,8 @@ import { containerWeight, InventoryContainer, Item } from 'src/app/model/item';
 export class ContainerViewComponent {
   @Input() container!: InventoryContainer;
 
-  @Output() itemAdded: EventEmitter<Item> = new EventEmitter();
+  @Output() containerChanged: EventEmitter<InventoryContainer> =
+    new EventEmitter();
   get totalWeight() {
     return containerWeight(this.container);
   }
@@ -25,6 +26,32 @@ export class ContainerViewComponent {
       attunement: 'none',
       equipped: 'none',
     };
-    this.itemAdded.emit(item);
+    this.containerChanged.emit({
+      ...this.container,
+      contents: [...this.container.contents, item],
+    });
+  }
+
+  onItemChange(oldItem: Item, newItem: Item) {
+    if (newItem.quantity <= 0) {
+      this.containerChanged.emit({
+        ...this.container,
+        contents: this.container.contents.filter((it) => it.id !== oldItem.id),
+      });
+    } else {
+      this.containerChanged.emit({
+        ...this.container,
+        contents: this.container.contents.map((it) =>
+          it.id !== oldItem.id ? it : newItem
+        ),
+      });
+    }
+  }
+
+  onDescriptionChange(description: string) {
+    this.containerChanged.emit({ ...this.container, description });
+  }
+  onNameChange(name: string) {
+    this.containerChanged.emit({ ...this.container, name });
   }
 }

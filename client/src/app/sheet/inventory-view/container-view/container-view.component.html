@@ -10,13 +10,14 @@
     <editable-text
       [value]="container.description"
       [rows]="3"
-      (valueChanged)="container.description = $event"
+      (valueChanged)="onDescriptionChange($event)"
     ></editable-text>
   </div>
   <div class="items">
     <item-view
       *ngFor="let item of container.contents"
       [item]="item"
+      (itemChanged)="onItemChange(item, $event)"
     ></item-view>
     <div class="add-button" (click)="addItem()">+</div>
   </div>

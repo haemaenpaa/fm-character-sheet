@@ -1,0 +1,25 @@
+.item-container {
+  display: flex;
+  flex-direction: column;
+}
+.name {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.attunement {
+  display: flex;
+  flex-direction: row;
+}
+.equipment {
+  display: flex;
+  flex-direction: row;
+}
+
+.save-button {
+  border-radius: 1em;
+  height: max-content;
+  border-style: solid;
+  text-align: center;
+  cursor: pointer;
+}

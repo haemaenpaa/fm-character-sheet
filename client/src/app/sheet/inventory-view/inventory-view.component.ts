@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import Character from 'src/app/model/character';
-import { containerWeight, InventoryContainer, Item } from 'src/app/model/item';
-import { ContainerViewComponent } from './container-view/container-view.component';
+import { randomId } from 'src/app/model/id-generator';
+import { containerWeight, InventoryContainer } from 'src/app/model/item';
 
 @Component({
   selector: 'inventory-view',
   templateUrl: './inventory-view.component.html',
-  styleUrls: ['./inventory-view.component.css'],
+  styleUrls: ['./inventory-view.component.css', '../common.css'],
 })
 export class InventoryViewComponent {
   @Input() character!: Character;
@@ -37,14 +37,23 @@ export class InventoryViewComponent {
     return 'Heavily encumbered';
   }
 
-  addItem(container: InventoryContainer, item: Item) {
-    this.character.inventory = this.character.inventory.map((cnt) => {
-      if (cnt.id !== container.id) {
-        return cnt;
-      }
-      return { ...container, contents: [...container.contents, item] };
-    });
-    container.contents.push(item);
+  onContainerChange(container: InventoryContainer) {
+    this.character.inventory = this.character.inventory.map((old) =>
+      old.id !== container.id ? old : container
+    );
+    this.characterChanged.emit();
+  }
+
+  addContainer() {
+    const newContainer: InventoryContainer = {
+      id: randomId(),
+      name: 'New Container',
+      description: '',
+      baseWeight: 0,
+      weightMultiplierPercent: 0,
+      contents: [],
+    };
+    this.character.inventory.push(newContainer);
     this.characterChanged.emit();
   }
 }

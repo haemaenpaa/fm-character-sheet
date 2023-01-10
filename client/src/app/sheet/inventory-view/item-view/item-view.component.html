@@ -3,7 +3,7 @@
   (mouseenter)="startHover()"
   (mouseleave)="endHover()"
 >
-  <div class="name"><editable-text [value]="item.name"></editable-text></div>
+  <div class="name" (click)="edit()">{{ item.name }}</div>
 
   <div class="flags">
     <div
@@ -12,6 +12,7 @@
         item.attunement !== 'none' && (hovered || item.attunement === 'attuned')
       "
       [ngClass]="item.attunement"
+      (click)="toggleAttunement()"
     >
       A
     </div>
@@ -36,7 +37,11 @@
       >kg x
     </div>
     <div class="quantity">
-      <editable-text [value]="item.quantity"></editable-text>
+      <editable-text
+        [value]="item.quantity"
+        [min]="0"
+        (numberChanged)="onQuantityChange($event)"
+      ></editable-text>
     </div>
     <div class="total-weight">
       <divided-number

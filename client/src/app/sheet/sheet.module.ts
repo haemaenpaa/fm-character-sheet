@@ -55,6 +55,7 @@ import { InventoryViewComponent } from './inventory-view/inventory-view.componen
 import { ContainerViewComponent } from './inventory-view/container-view/container-view.component';
 import { DividedNumberComponent } from './divided-number/divided-number.component';
 import { ItemViewComponent } from './inventory-view/item-view/item-view.component';
+import { ItemDetailsComponent } from './inventory-view/item-details/item-details.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -114,6 +115,7 @@ import { ItemViewComponent } from './inventory-view/item-view/item-view.componen
     ContainerViewComponent,
     DividedNumberComponent,
     ItemViewComponent,
+    ItemDetailsComponent,
   ],
   imports: [CommonModule, RouterModule.forChild([]), A11yModule],
   exports: [CharacterSheetComponent],
