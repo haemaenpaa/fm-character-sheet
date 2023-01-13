@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import Character from 'src/app/model/character';
 import { randomId } from 'src/app/model/id-generator';
 import { containerWeight, InventoryContainer } from 'src/app/model/item';
+import { ItemMoveEvent } from './container-view/container-view.component';
 
 @Component({
   selector: 'inventory-view',
@@ -54,6 +55,42 @@ export class InventoryViewComponent {
       contents: [],
     };
     this.character.inventory.push(newContainer);
+    this.characterChanged.emit();
+  }
+
+  onItemMove(event: ItemMoveEvent) {
+    const source = this.character.inventory.find(
+      (c) => c.id === event.sourceContainerId
+    );
+
+    const destination = this.character.inventory.find(
+      (c) => c.id === event.destinationContainerId
+    );
+    if (!source) {
+      throw new Error(
+        `Source container with id ${event.sourceContainerId} not found for move.`
+      );
+    }
+    if (!destination) {
+      throw new Error(
+        `Destination container wih id ${event.destinationContainerId} not found for move.`
+      );
+    }
+    const item = source.contents.find((it) => it.id === event.itemId);
+    if (!item) {
+      throw new Error(
+        `Item with id ${event.itemId} not found in source container for move.`
+      );
+    }
+    source.contents = source.contents.filter((it) => it.id !== event.itemId);
+    debugger;
+    if (event.index !== undefined) {
+      destination.contents = [...destination.contents]; //Change the array ref
+      destination.contents.splice(event.index, 0, item);
+    } else {
+      destination.contents = [...destination.contents, item];
+    }
+
     this.characterChanged.emit();
   }
 }

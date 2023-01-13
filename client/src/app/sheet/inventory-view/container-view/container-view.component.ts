@@ -1,6 +1,23 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { randomId } from 'src/app/model/id-generator';
 import { containerWeight, InventoryContainer, Item } from 'src/app/model/item';
+
+const LIST_ID_EXPRESSION = /^items_\d+$/;
+
+function getContainerId(elementId: string): number {
+  if (!elementId.match(LIST_ID_EXPRESSION)![0]) {
+    return NaN;
+  }
+  return Number.parseInt(elementId.split('_')[1]);
+}
+
+export interface ItemMoveEvent {
+  sourceContainerId: number;
+  destinationContainerId: number;
+  itemId: number;
+  index?: number;
+}
 
 @Component({
   selector: 'container-view',
@@ -12,6 +29,7 @@ export class ContainerViewComponent {
 
   @Output() containerChanged: EventEmitter<InventoryContainer> =
     new EventEmitter();
+  @Output() itemMoved: EventEmitter<ItemMoveEvent> = new EventEmitter();
   get totalWeight() {
     return containerWeight(this.container);
   }
@@ -53,5 +71,21 @@ export class ContainerViewComponent {
   }
   onNameChange(name: string) {
     this.containerChanged.emit({ ...this.container, name });
+  }
+
+  drop(event: CdkDragDrop<Item>) {
+    if (event.previousContainer.id === event.container.id) {
+      const contents = [...this.container.contents];
+      moveItemInArray(contents, event.previousIndex, event.currentIndex);
+      this.containerChanged.emit({ ...this.container, contents });
+    } else {
+      const prevId = getContainerId(event.previousContainer.id);
+      this.itemMoved.emit({
+        sourceContainerId: prevId,
+        destinationContainerId: this.container.id,
+        itemId: event.item.data.id,
+        index: event.currentIndex,
+      });
+    }
   }
 }

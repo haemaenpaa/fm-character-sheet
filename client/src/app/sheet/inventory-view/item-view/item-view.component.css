@@ -1,6 +1,6 @@
 .item-container {
   display: grid;
-  grid-template-columns: [name] max-content [flags] max-content [weight] max-content [quantity] 1fr [end];
+  grid-template-columns: [handle] max-content[name] max-content [flags] max-content [weight] max-content [quantity] 1fr [end];
 }
 
 .name {

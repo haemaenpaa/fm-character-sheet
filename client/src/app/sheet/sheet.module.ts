@@ -56,6 +56,7 @@ import { ContainerViewComponent } from './inventory-view/container-view/containe
 import { DividedNumberComponent } from './divided-number/divided-number.component';
 import { ItemViewComponent } from './inventory-view/item-view/item-view.component';
 import { ItemDetailsComponent } from './inventory-view/item-details/item-details.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -117,7 +118,12 @@ import { ItemDetailsComponent } from './inventory-view/item-details/item-details
     ItemViewComponent,
     ItemDetailsComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild([]), A11yModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([]),
+    A11yModule,
+    DragDropModule,
+  ],
   exports: [CharacterSheetComponent],
 })
 export class SheetModule {}

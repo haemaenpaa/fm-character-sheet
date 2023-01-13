@@ -12,3 +12,7 @@
 .description {
   border-style: double;
 }
+
+.itemRow {
+  display: flex;
+}

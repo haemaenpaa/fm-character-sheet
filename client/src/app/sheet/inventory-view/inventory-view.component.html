@@ -2,11 +2,12 @@
   class="inventory-view-container"
   [ngClass]="{ 'accessibility-colorized': colorized }"
 >
-  <div class="containers-list">
+  <div class="containers-list" cdkDropListGroup>
     <container-view
       *ngFor="let cont of character.inventory"
       [container]="cont"
       (containerChanged)="onContainerChange($event)"
+      (itemMoved)="onItemMove($event)"
     ></container-view>
     <div class="add-button" (click)="addContainer()">Add Container</div>
   </div>
