@@ -1,0 +1,75 @@
+.item-container {
+  display: flex;
+  flex-direction: column;
+}
+.name {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.attunement {
+  display: flex;
+  flex-direction: row;
+}
+.equipment {
+  display: flex;
+  flex-direction: row;
+}
+
+.description {
+  border-style: double;
+}
+
+.weight {
+  font-style: italic;
+  display: flex;
+  flex-direction: row;
+}
+
+.weight-edit {
+  width: fit-content;
+  max-width: 5em;
+  margin-inline-start: 0.5em;
+  margin-inline-end: 0.5em;
+}
+
+.save-button {
+  border-radius: 1em;
+  height: max-content;
+  border-style: solid;
+  text-align: center;
+  cursor: pointer;
+}
+
+.accessibility-colorized > .name {
+  color: rgb(0, 0, 205);
+}
+
+.accessibility-colorized > .attunement {
+  color: rgb(0, 205, 0);
+}
+.accessibility-colorized > .attunement > select {
+  color: rgb(0, 205, 0);
+  border-color: rgb(0, 205, 0);
+}
+
+.accessibility-colorized > .equipment {
+  color: rgb(205, 0, 0);
+}
+.accessibility-colorized > .equipment > select {
+  color: rgb(205, 0, 0);
+  border-color: rgb(205, 0, 0);
+}
+
+.accessibility-colorized > .description {
+  color: rgb(0, 64, 128);
+  border-color: rgb(0, 64, 128);
+}
+
+.accessibility-colorized > .weight {
+  color: rgb(60, 0, 128);
+}
+
+.accessibility-colorized > .save-button {
+  color: rgb(128, 0, 64);
+}

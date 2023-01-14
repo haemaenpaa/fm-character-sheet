@@ -1,0 +1,71 @@
+<div
+  class="item-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
+  <div class="name">
+    <editable-text
+      [value]="item.name"
+      (valueChanged)="item.name = $event"
+    ></editable-text>
+  </div>
+  <div class="attunement">
+    <select
+      *ngIf="item.attunement !== 'none'"
+      (change)="onAttunementSelect($event)"
+    >
+      <option value="attuned" [selected]="item.attunement === 'attuned'">
+        Attuned
+      </option>
+      <option value="unattuned" [selected]="item.attunement === 'unattuned'">
+        Not attuned
+      </option>
+    </select>
+    <input
+      type="checkbox"
+      [checked]="item.attunement !== 'none'"
+      (change)="onAttunementCheck($event)"
+    />
+    Requires attunement
+  </div>
+  <div class="equipment">
+    <select
+      *ngIf="item.equipped !== 'none'"
+      (change)="onEquipmentSelect($event)"
+    >
+      <option value="equipped" [selected]="item.equipped === 'equipped'">
+        Equipped
+      </option>
+      <option value="unequipped" [selected]="item.equipped === 'unequipped'">
+        Unequipped
+      </option>
+    </select>
+    <input
+      type="checkbox"
+      [checked]="item.equipped !== 'none'"
+      (change)="onEquipmentCheck($event)"
+    />
+    Equippable
+  </div>
+  <div class="description">
+    <editable-text
+      [value]="item.description"
+      [rows]="3"
+      placeholder="No description"
+      (valueChanged)="item.description = $event"
+    ></editable-text>
+  </div>
+  <div class="weight">
+    Weight
+    <div class="weight-edit">
+      <editable-text
+        id="weight-edit"
+        [value]="weightInKilos()"
+        [min]="0"
+        (numberChanged)="setWeightInKilos($event)"
+        [floatingPoint]="true"
+      ></editable-text>
+    </div>
+    kg
+  </div>
+  <div class="save-button" (click)="save()">Save</div>
+</div>

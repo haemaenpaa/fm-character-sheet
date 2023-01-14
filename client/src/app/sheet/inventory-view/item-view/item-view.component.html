@@ -1,0 +1,57 @@
+<div
+  class="item-container"
+  (mouseenter)="startHover()"
+  (mouseleave)="endHover()"
+>
+  <div class="name" (click)="edit()">{{ item.name }}</div>
+
+  <div class="flags">
+    <div
+      class="attunement"
+      *ngIf="
+        item.attunement !== 'none' && (hovered || item.attunement === 'attuned')
+      "
+      [ngClass]="item.attunement"
+      (click)="toggleAttunement()"
+    >
+      A
+    </div>
+    <div
+      class="equipment"
+      *ngIf="
+        item.equipped !== 'none' && (hovered || item.equipped === 'equipped')
+      "
+      [ngClass]="item.equipped"
+      (click)="toggleEquipment()"
+    >
+      E
+    </div>
+  </div>
+
+  <div class="weight" *ngIf="hovered">
+    <divided-number
+      [value]="item.weight"
+      [shiftDigits]="3"
+      [precision]="2"
+    ></divided-number
+    >kg x
+  </div>
+  <div class="quantity-container">
+    <div class="quantity">
+      <editable-text
+        [value]="item.quantity"
+        [min]="0"
+        (numberChanged)="onQuantityChange($event)"
+      ></editable-text>
+    </div>
+  </div>
+
+  <div class="total-weight">
+    <divided-number
+      [value]="item.weight * item.quantity"
+      [shiftDigits]="3"
+      [precision]="2"
+    ></divided-number
+    >kg
+  </div>
+</div>

@@ -45,7 +45,7 @@
         Defenses
       </div>
       <div
-        class="nav-tab-last rolls"
+        class="nav-tab nav-tab-last rolls"
         [routerLink]="[{ outlets: { 'details-outlet': ['rolls'] } }]"
         [routerLinkActive]="'nav-tab-active'"
       >
@@ -69,6 +69,13 @@
         Attacks
       </div>
       <div
+        class="nav-tab inventory"
+        [routerLink]="[{ outlets: { 'info-outlet': ['inventory'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Inventory
+      </div>
+      <div
         class="nav-tab selections"
         [routerLink]="[{ outlets: { 'info-outlet': ['selections'] } }]"
         [routerLinkActive]="'nav-tab-active'"
@@ -76,7 +83,7 @@
         Abilities and selections
       </div>
       <div
-        class="nav-tab-last spellbook"
+        class="nav-tab nav-tab-last spellbook"
         [routerLink]="[{ outlets: { 'info-outlet': ['spellbook'] } }]"
         [routerLinkActive]="'nav-tab-active'"
       >

@@ -1,0 +1,63 @@
+.item-container {
+  display: grid;
+  grid-template-columns: [name] max-content [flags] max-content [weight] max-content [quantity] 1fr [total-weight] 1fr [end];
+  width: 100%;
+}
+
+.name {
+  cursor: pointer;
+  grid-column: name;
+}
+
+.flags {
+  grid-column: flags;
+  display: flex;
+  flex-direction: row;
+  margin-inline-start: 1em;
+}
+
+.attunement {
+  padding-inline-start: 0.5em;
+  padding-inline-end: 0.5em;
+  width: 100%;
+  cursor: pointer;
+}
+.equipment {
+  padding-inline-start: 0.5em;
+  padding-inline-end: 0.5em;
+  width: 100%;
+  cursor: pointer;
+}
+
+.weight {
+  grid-column: weight;
+  font-style: italic;
+  width: max-content;
+}
+
+.quantity-container {
+  grid-column: quantity;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: end;
+}
+
+.quantity {
+  width: 3em;
+}
+.total-weight {
+  grid-column: total-weight;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  justify-items: end;
+}
+
+.unattuned {
+  color: gray;
+}
+.unequipped {
+  color: gray;
+}

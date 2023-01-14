@@ -49,6 +49,11 @@
   border-color: black;
   color: rgb(0, 200, 200);
 }
+
+.accessibility-colorized > .info-section > .nav-tab-container > .inventory {
+  border-color: black;
+  color: rgb(0, 128, 64);
+}
 .accessibility-colorized > .character-skills > .section-header {
   color: blue;
 }

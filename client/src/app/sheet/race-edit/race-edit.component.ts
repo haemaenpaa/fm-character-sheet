@@ -98,4 +98,8 @@ export class RaceEditComponent {
     }
     this.changeDetector.detectChanges();
   }
+
+  togglePowerfulBuild(event: Event) {
+    this.race.powerfulBuild = (event.target as HTMLInputElement).checked;
+  }
 }
