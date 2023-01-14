@@ -61,7 +61,7 @@ export class InventoryViewComponent {
       (cnt) => cnt.id !== container.id
     );
 
-    if (contents && this.character) {
+    if (contents.length && this.character.inventory.length > 0) {
       this.character.inventory[0].contents = [
         ...this.character.inventory[0].contents,
         ...contents,
