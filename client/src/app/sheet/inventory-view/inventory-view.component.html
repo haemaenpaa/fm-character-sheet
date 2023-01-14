@@ -12,6 +12,7 @@
     <div class="add-button" (click)="addContainer()">Add Container</div>
   </div>
   <div class="weight-total">
+    <div class="encumberance" *ngIf="encumbered">{{ encumbered }}</div>
     <div class="weight-sum">
       <divided-number
         [value]="totalWeight"
@@ -25,6 +26,5 @@
       </divided-number>
       kg
     </div>
-    <div class="encumbrance" *ngIf="encumbered">{{ encumbered }}</div>
   </div>
 </div>

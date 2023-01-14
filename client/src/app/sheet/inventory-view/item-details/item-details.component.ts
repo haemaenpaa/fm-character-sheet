@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { throttleTime } from 'rxjs';
 import { AttunementStatus, EquipStatus, Item } from 'src/app/model/item';
 
 @Component({
@@ -37,5 +38,12 @@ export class ItemDetailsComponent {
   onEquipmentSelect(event: Event) {
     this.item.equipped = (event.target as HTMLSelectElement)
       .value as EquipStatus;
+  }
+
+  weightInKilos(): string {
+    return (this.item.weight / 1000).toFixed(2);
+  }
+  setWeightInKilos(weight: number) {
+    this.item.weight = Math.round(weight * 1000);
   }
 }

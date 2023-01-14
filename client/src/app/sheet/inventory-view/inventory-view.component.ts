@@ -29,7 +29,7 @@ export class InventoryViewComponent {
   get encumbered(): string | undefined {
     const weight = this.totalWeight;
     const maximum = this.carryWeight;
-    if (weight < maximum) {
+    if (weight <= maximum) {
       return undefined;
     }
     if (weight < 2 * maximum) {

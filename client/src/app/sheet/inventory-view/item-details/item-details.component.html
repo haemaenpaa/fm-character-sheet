@@ -53,10 +53,13 @@
   <div class="weight">
     Weight
     <editable-text
-      [value]="item.weight"
-      (numberChanged)="item.weight = $event"
+      id="weight-edit"
+      [value]="weightInKilos()"
+      [min]="0"
+      (numberChanged)="setWeightInKilos($event)"
+      [floatingPoint]="true"
     ></editable-text>
-    grams
+    kg
   </div>
   <div class="save-button" (click)="save()">Save</div>
 </div>

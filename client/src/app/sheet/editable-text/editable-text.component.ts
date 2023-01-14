@@ -14,6 +14,7 @@ export class EditableTextComponent {
   @Input() placeholder: string = 'click to edit';
   @Input() max?: number;
   @Input() min?: number;
+  @Input() floatingPoint: boolean = false;
   editing: boolean = false;
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
   @Output() numberChanged: EventEmitter<number> = new EventEmitter();
@@ -21,11 +22,13 @@ export class EditableTextComponent {
   onValueChanged(event: Event) {
     const val = (event.target as HTMLInputElement).value;
     this.valueChanged.emit(val);
-    const num = Number.parseInt(val);
+    const num = this.floatingPoint
+      ? Number.parseFloat(val)
+      : Number.parseInt(val);
     if (!isNaN(num)) {
       var clamped = num;
       if (this.max !== undefined) {
-        clamped = Math.min(clamped, this.max!);
+        clamped = Math.min(clamped, this.max);
       }
       if (this.min !== undefined) {
         clamped = Math.max(this.min, clamped);

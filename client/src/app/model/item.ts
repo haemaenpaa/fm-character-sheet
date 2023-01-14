@@ -63,7 +63,8 @@ export interface InventoryContainer {
 export function containerWeight(container: InventoryContainer): number {
   var ret = container.baseWeight;
   for (const item of container.contents) {
-    ret += (item.weight * container.weightMultiplierPercent) / 100.0;
+    ret +=
+      (item.weight * item.quantity * container.weightMultiplierPercent) / 100.0;
   }
   return Math.round(ret);
 }
