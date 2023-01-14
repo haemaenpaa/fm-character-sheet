@@ -1,9 +1,11 @@
 .item-container {
   display: grid;
-  grid-template-columns: [handle] max-content[name] max-content [flags] max-content [weight] max-content [quantity] 1fr [end];
+  grid-template-columns: [name] max-content [flags] max-content [weight] max-content [quantity] 1fr [total-weight] 1fr [end];
+  width: 100%;
 }
 
 .name {
+  cursor: pointer;
   grid-column: name;
 }
 
@@ -27,6 +29,12 @@
   cursor: pointer;
 }
 
+.weight {
+  grid-column: weight;
+  font-style: italic;
+  width: max-content;
+}
+
 .quantity-container {
   grid-column: quantity;
   display: flex;
@@ -35,13 +43,21 @@
   justify-content: end;
 }
 
-.weight {
-  font-style: italic;
-}
-
 .quantity {
-  margin-inline-end: 1em;
+  width: 3em;
 }
 .total-weight {
-  width: 6em;
+  grid-column: total-weight;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  justify-items: end;
+}
+
+.unattuned {
+  color: gray;
+}
+.unequipped {
+  color: gray;
 }

@@ -51,7 +51,7 @@ export class InventoryViewComponent {
       name: 'New Container',
       description: '',
       baseWeight: 0,
-      weightMultiplierPercent: 0,
+      weightMultiplierPercent: 100,
       contents: [],
     };
     this.character.inventory.push(newContainer);

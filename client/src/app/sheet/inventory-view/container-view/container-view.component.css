@@ -4,15 +4,40 @@
   border-style: solid;
   border-radius: 1em;
   padding: 0.75em;
+  width: 100%;
 }
 .name {
   font-weight: bold;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+}
+
+.base-weight {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }
 
 .description {
   border-style: double;
 }
 
-.itemRow {
+.item-row {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  width: 100%;
+}
+.items {
+  width: 100%;
+}
+.weight {
   display: flex;
+  justify-content: end;
+  width: 100%;
+}
+.label {
+  margin-inline-end: 1em;
+}
+.handle {
+  font-weight: bold;
 }

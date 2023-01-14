@@ -22,20 +22,21 @@
         item.equipped !== 'none' && (hovered || item.equipped === 'equipped')
       "
       [ngClass]="item.equipped"
+      (click)="toggleEquipment()"
     >
       E
     </div>
   </div>
 
+  <div class="weight" *ngIf="hovered">
+    <divided-number
+      [value]="item.weight"
+      [shiftDigits]="3"
+      [precision]="2"
+    ></divided-number
+    >kg x
+  </div>
   <div class="quantity-container">
-    <div class="weight" *ngIf="hovered">
-      <divided-number
-        [value]="item.weight"
-        [shiftDigits]="3"
-        [precision]="2"
-      ></divided-number
-      >kg x
-    </div>
     <div class="quantity">
       <editable-text
         [value]="item.quantity"
@@ -43,13 +44,14 @@
         (numberChanged)="onQuantityChange($event)"
       ></editable-text>
     </div>
-    <div class="total-weight">
-      <divided-number
-        [value]="item.weight * item.quantity"
-        [shiftDigits]="3"
-        [precision]="2"
-      ></divided-number
-      >kg
-    </div>
+  </div>
+
+  <div class="total-weight">
+    <divided-number
+      [value]="item.weight * item.quantity"
+      [shiftDigits]="3"
+      [precision]="2"
+    ></divided-number
+    >kg
   </div>
 </div>

@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Hoverable } from 'src/app/common/hoverable';
 import { randomId } from 'src/app/model/id-generator';
 import { containerWeight, InventoryContainer, Item } from 'src/app/model/item';
 
@@ -24,12 +25,14 @@ export interface ItemMoveEvent {
   templateUrl: './container-view.component.html',
   styleUrls: ['./container-view.component.css', '../../common.css'],
 })
-export class ContainerViewComponent {
+export class ContainerViewComponent extends Hoverable {
   @Input() container!: InventoryContainer;
 
   @Output() containerChanged: EventEmitter<InventoryContainer> =
     new EventEmitter();
   @Output() itemMoved: EventEmitter<ItemMoveEvent> = new EventEmitter();
+  @Output() containerDeleted: EventEmitter<InventoryContainer> =
+    new EventEmitter();
   get totalWeight() {
     return containerWeight(this.container);
   }
@@ -72,6 +75,12 @@ export class ContainerViewComponent {
   onNameChange(name: string) {
     this.containerChanged.emit({ ...this.container, name });
   }
+  onWeightChange(weight: number) {
+    this.containerChanged.emit({
+      ...this.container,
+      baseWeight: Math.round(weight * 1000),
+    });
+  }
 
   drop(event: CdkDragDrop<Item>) {
     if (event.previousContainer.id === event.container.id) {
@@ -87,5 +96,9 @@ export class ContainerViewComponent {
         index: event.currentIndex,
       });
     }
+  }
+
+  delete() {
+    this.containerDeleted.emit(this.container);
   }
 }

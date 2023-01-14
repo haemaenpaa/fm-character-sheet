@@ -1,10 +1,15 @@
-<div class="outer-container">
+<div
+  class="outer-container"
+  (mouseenter)="startHover()"
+  (mouseleave)="endHover()"
+>
   <div class="name">
     <editable-text
       [value]="container.name"
       (valueChanged)="container.name = $event"
     >
     </editable-text>
+    <div class="delete-button" *ngIf="hovered">-</div>
   </div>
   <div class="description">
     <editable-text
@@ -21,11 +26,11 @@
   >
     <div
       cdkDrag
-      class="itemRow"
+      class="item-row"
       *ngFor="let item of container.contents"
       [cdkDragData]="item"
     >
-      <div class="handle" cdkDragHandle>⋮</div>
+      <div class="handle" cdkDragHandle>≡</div>
       <item-view
         [item]="item"
         (itemChanged)="onItemChange(item, $event)"
@@ -34,12 +39,22 @@
     <div class="add-button" (click)="addItem()">+</div>
   </div>
 
+  <div class="base-weight">
+    <span class="label">Own weight</span>
+    <editable-text
+      [value]="(container.baseWeight / 1000).toFixed(2)"
+      (numberChanged)="onWeightChange($event)"
+      [floatingPoint]="true"
+    ></editable-text
+    >kg
+  </div>
   <div class="weight">
+    <span class="label">Total</span>
     <divided-number
       [value]="totalWeight"
       [shiftDigits]="3"
       [precision]="2"
-    ></divided-number
-    >kg
+    ></divided-number>
+    kg
   </div>
 </div>

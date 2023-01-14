@@ -2,17 +2,9 @@
   class="inventory-view-container"
   [ngClass]="{ 'accessibility-colorized': colorized }"
 >
-  <div class="containers-list" cdkDropListGroup>
-    <container-view
-      *ngFor="let cont of character.inventory"
-      [container]="cont"
-      (containerChanged)="onContainerChange($event)"
-      (itemMoved)="onItemMove($event)"
-    ></container-view>
-    <div class="add-button" (click)="addContainer()">Add Container</div>
-  </div>
   <div class="weight-total">
     <div class="encumberance" *ngIf="encumbered">{{ encumbered }}</div>
+    <div class="label">Carrying</div>
     <div class="weight-sum">
       <divided-number
         [value]="totalWeight"
@@ -26,5 +18,14 @@
       </divided-number>
       kg
     </div>
+  </div>
+  <div class="containers-list" cdkDropListGroup>
+    <container-view
+      *ngFor="let cont of character.inventory"
+      [container]="cont"
+      (containerChanged)="onContainerChange($event)"
+      (itemMoved)="onItemMove($event)"
+    ></container-view>
+    <div class="add-button" (click)="addContainer()">Add Container</div>
   </div>
 </div>
