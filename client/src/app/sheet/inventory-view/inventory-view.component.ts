@@ -45,6 +45,30 @@ export class InventoryViewComponent {
     this.characterChanged.emit();
   }
 
+  onContainerDelete(container: InventoryContainer) {
+    const existing = this.character.inventory.find(
+      (cnt) => cnt.id === container.id
+    );
+    if (!existing) {
+      throw new Error(`No inventory container with id ${container.id} found`);
+    }
+    if (this.character.inventory.length <= 1) {
+      console.error("Can't delete the last container.");
+      return;
+    }
+    const contents = existing.contents;
+    this.character.inventory = this.character.inventory.filter(
+      (cnt) => cnt.id !== container.id
+    );
+
+    if (contents && this.character) {
+      this.character.inventory[0].contents = [
+        ...this.character.inventory[0].contents,
+        ...contents,
+      ];
+    }
+  }
+
   addContainer() {
     const newContainer: InventoryContainer = {
       id: randomId(),

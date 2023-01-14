@@ -9,7 +9,9 @@
       (valueChanged)="container.name = $event"
     >
     </editable-text>
-    <div class="delete-button" *ngIf="hovered">-</div>
+    <div class="delete-button" *ngIf="hovered && deletable" (click)="delete()">
+      -
+    </div>
   </div>
   <div class="description">
     <editable-text
@@ -17,6 +19,16 @@
       [rows]="3"
       (valueChanged)="onDescriptionChange($event)"
     ></editable-text>
+  </div>
+  <div class="weight-reduce">
+    <div class="label">Content weight multiplier</div>
+    <span class="percent-edit">
+      <editable-text
+        [value]="container.weightMultiplierPercent"
+        (numberChanged)="onPercentageChange($event)"
+      ></editable-text>
+    </span>
+    %
   </div>
   <div
     [id]="'items_' + container.id"
@@ -33,6 +45,7 @@
       <div class="handle" cdkDragHandle>≡</div>
       <item-view
         [item]="item"
+        [colorized]="colorized"
         (itemChanged)="onItemChange(item, $event)"
       ></item-view>
     </div>

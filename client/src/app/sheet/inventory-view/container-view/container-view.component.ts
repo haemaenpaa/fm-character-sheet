@@ -27,6 +27,8 @@ export interface ItemMoveEvent {
 })
 export class ContainerViewComponent extends Hoverable {
   @Input() container!: InventoryContainer;
+  @Input() colorized: boolean = false;
+  @Input() deletable: boolean = true;
 
   @Output() containerChanged: EventEmitter<InventoryContainer> =
     new EventEmitter();
@@ -82,6 +84,13 @@ export class ContainerViewComponent extends Hoverable {
     });
   }
 
+  onPercentageChange(newValue: number) {
+    this.containerChanged.emit({
+      ...this.container,
+      weightMultiplierPercent: newValue,
+    });
+  }
+
   drop(event: CdkDragDrop<Item>) {
     if (event.previousContainer.id === event.container.id) {
       const contents = [...this.container.contents];
@@ -99,6 +108,12 @@ export class ContainerViewComponent extends Hoverable {
   }
 
   delete() {
-    this.containerDeleted.emit(this.container);
+    if (
+      this.deletable &&
+      (this.container.contents.length <= 0 ||
+        confirm(`Delete container ${this.container.name}?`))
+    ) {
+      this.containerDeleted.emit(this.container);
+    }
   }
 }

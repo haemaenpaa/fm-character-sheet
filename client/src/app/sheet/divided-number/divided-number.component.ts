@@ -18,7 +18,7 @@ export class DividedNumberComponent {
     const pointLoc = ret.length - this.shiftDigits;
     const whole = ret.substring(0, pointLoc);
     const fraction = ret.substring(pointLoc, pointLoc + this.precision);
-    if (this.precision) {
+    if (this.precision && !fraction.match(/^0+$/)) {
       return whole + '.' + fraction;
     } else {
       return whole;

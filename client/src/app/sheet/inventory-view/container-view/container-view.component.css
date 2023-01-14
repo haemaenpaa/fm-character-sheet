@@ -12,6 +12,16 @@
   grid-template-columns: 1fr max-content;
 }
 
+.weight-reduce {
+  font-style: italic;
+  display: flex;
+  flex-direction: row;
+  font-size: smaller;
+}
+.percent-edit {
+  max-width: 2.5em;
+}
+
 .base-weight {
   display: flex;
   flex-direction: row;

@@ -20,12 +20,26 @@
     </div>
   </div>
   <div class="containers-list" cdkDropListGroup>
-    <container-view
-      *ngFor="let cont of character.inventory"
-      [container]="cont"
-      (containerChanged)="onContainerChange($event)"
-      (itemMoved)="onItemMove($event)"
-    ></container-view>
-    <div class="add-button" (click)="addContainer()">Add Container</div>
+    <div
+      class="container-view"
+      [ngClass]="'color-' + (idx % 3)"
+      *ngFor="let cont of character.inventory; index as idx"
+    >
+      <container-view
+        [container]="cont"
+        [colorized]="colorized"
+        [deletable]="idx > 0"
+        (containerChanged)="onContainerChange($event)"
+        (itemMoved)="onItemMove($event)"
+        (containerDeleted)="onContainerDelete($event)"
+      ></container-view>
+    </div>
+    <div
+      class="add-button"
+      [ngClass]="'color-' + (character.inventory.length % 3)"
+      (click)="addContainer()"
+    >
+      Add Container
+    </div>
   </div>
 </div>
