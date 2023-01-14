@@ -1,4 +1,7 @@
-<div class="item-container">
+<div
+  class="item-container"
+  [ngClass]="{ 'accessibility-colorized': colorized }"
+>
   <div class="name">
     <editable-text
       [value]="item.name"
@@ -47,18 +50,21 @@
     <editable-text
       [value]="item.description"
       [rows]="3"
+      placeholder="No description"
       (valueChanged)="item.description = $event"
     ></editable-text>
   </div>
   <div class="weight">
     Weight
-    <editable-text
-      id="weight-edit"
-      [value]="weightInKilos()"
-      [min]="0"
-      (numberChanged)="setWeightInKilos($event)"
-      [floatingPoint]="true"
-    ></editable-text>
+    <div class="weight-edit">
+      <editable-text
+        id="weight-edit"
+        [value]="weightInKilos()"
+        [min]="0"
+        (numberChanged)="setWeightInKilos($event)"
+        [floatingPoint]="true"
+      ></editable-text>
+    </div>
     kg
   </div>
   <div class="save-button" (click)="save()">Save</div>
