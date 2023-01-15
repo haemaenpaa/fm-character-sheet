@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { AbilitiesListComponent } from './abilities-list/abilities-list.component';
 import { AttackListComponent } from './attack-list/attack-list.component';
+import { BiographyComponent } from './biography/biography.component';
 import { DefensesComponent } from './defenses/defenses.component';
 import { DescriptionComponent } from './description/description.component';
 import { InventoryViewComponent } from './inventory-view/inventory-view.component';
@@ -53,6 +54,12 @@ export const upperOutletRoutes: Route[] = [
     path: 'inventory',
     pathMatch: 'full',
     component: InventoryViewComponent,
+    outlet: 'info-outlet',
+  },
+  {
+    path: 'biography',
+    pathMatch: 'full',
+    component: BiographyComponent,
     outlet: 'info-outlet',
   },
 ];

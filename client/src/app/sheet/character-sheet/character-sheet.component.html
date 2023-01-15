@@ -70,6 +70,13 @@
   <div class="info-section">
     <div class="nav-tab-container">
       <div
+        class="nav-tab biography"
+        [routerLink]="[{ outlets: { 'info-outlet': ['biography'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Biography
+      </div>
+      <div
         class="nav-tab attacks"
         [routerLink]="[{ outlets: { 'info-outlet': ['attacks'] } }]"
         [routerLinkActive]="'nav-tab-active'"

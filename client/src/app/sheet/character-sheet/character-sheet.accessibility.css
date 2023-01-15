@@ -46,6 +46,11 @@
   color: black;
 }
 
+.accessibility-colorized > .info-section > .nav-tab-container > .biography {
+  border-color: black;
+  color: rgb(180, 0, 64);
+}
+
 .accessibility-colorized > .info-section > .nav-tab-container > .selections {
   border-color: black;
   color: rgb(245, 110, 0);
