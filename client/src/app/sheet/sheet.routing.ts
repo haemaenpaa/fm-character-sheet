@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { AbilitiesListComponent } from './abilities-list/abilities-list.component';
 import { AttackListComponent } from './attack-list/attack-list.component';
 import { DefensesComponent } from './defenses/defenses.component';
+import { DescriptionComponent } from './description/description.component';
 import { InventoryViewComponent } from './inventory-view/inventory-view.component';
 import { RollLogComponent } from './roll-log/roll-log.component';
 import { SpellbookComponent } from './spellbook/spellbook.component';
@@ -13,11 +14,16 @@ export const upperOutletRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'defenses',
+    redirectTo: 'description',
     outlet: 'details-outlet',
   },
   { path: 'rolls', component: RollLogComponent, outlet: 'details-outlet' },
   { path: 'defenses', component: DefensesComponent, outlet: 'details-outlet' },
+  {
+    path: 'description',
+    component: DescriptionComponent,
+    outlet: 'details-outlet',
+  },
 
   {
     path: '',

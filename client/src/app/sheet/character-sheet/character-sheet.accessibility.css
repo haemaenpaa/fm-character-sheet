@@ -10,6 +10,10 @@
   color: crimson;
 }
 
+.accessibility-colorized > .character-particulars > .character-concept {
+  color: yellowgreen;
+}
+
 .accessibility-colorized > .character-abilities {
   color: unset;
 }

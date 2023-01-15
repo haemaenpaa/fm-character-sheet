@@ -67,8 +67,6 @@ export class CharacterSheetComponent {
   }
 
   onOutletLoaded(component: any) {
-    console.log('onOutletLoaded', component);
-
     component.character = this.character;
 
     if ('characterChanged' in component) {
@@ -81,6 +79,7 @@ export class CharacterSheetComponent {
         .asObservable()
         .subscribe((c) => (component.colorized = c));
     }
+    console.log('onOutletLoaded', component);
   }
 
   editRace() {

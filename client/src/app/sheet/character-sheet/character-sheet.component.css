@@ -18,16 +18,26 @@
   grid-area: header;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "name race"
+    "concept ."
+    "level level";
 }
 
 .character-name {
-  grid-area: 1/1;
+  grid-area: name;
 }
 
 .character-race {
-  grid-area: 1/2;
+  grid-area: race;
   display: flex;
   justify-items: left;
+}
+
+.character-concept {
+  grid-area: concept;
+  font-weight: bold;
 }
 .character-race-label {
   font-weight: bold;
@@ -42,7 +52,7 @@
 }
 
 .character-level {
-  grid-area: 2/1/2/2;
+  grid-area: level;
   display: flex;
 }
 
