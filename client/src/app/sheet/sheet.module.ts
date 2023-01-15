@@ -57,6 +57,7 @@ import { DividedNumberComponent } from './divided-number/divided-number.componen
 import { ItemViewComponent } from './inventory-view/item-view/item-view.component';
 import { ItemDetailsComponent } from './inventory-view/item-details/item-details.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DescriptionComponent } from './description/description.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -117,6 +118,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     DividedNumberComponent,
     ItemViewComponent,
     ItemDetailsComponent,
+    DescriptionComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,17 @@
+.accessibility-colorized > .concept {
+  color: rgb(128, 64, 0);
+}
+.accessibility-colorized > .appearance {
+  color: rgb(0, 128, 0);
+}
+
+.accessibility-colorized > .soul-mark {
+  color: rgb(0, 0, 160);
+}
+.accessibility-colorized > .size > .height {
+  color: rgb(128, 128, 0);
+}
+
+.accessibility-colorized > .size > .weight {
+  color: rgb(128, 0, 0);
+}
