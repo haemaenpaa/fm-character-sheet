@@ -10,6 +10,7 @@ import CharacterAttack, { AttackEffect } from './character-attack';
 import CharacterHitDice from './character-hit-dice';
 import { AO_HIT_DICE } from './constants';
 import { InventoryContainer, Item } from './item';
+import { CharacterBiography } from './character-bio';
 
 /**
  * Builder for ease of constructing a character.
@@ -71,6 +72,14 @@ export class CharacterBuilder {
       contents: [],
     },
   ];
+
+  biography: CharacterBiography = {
+    appearance: '',
+    characterBiography: '',
+    characterConnections: '',
+    height: 0,
+    weight: 0,
+  };
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -605,6 +614,71 @@ export class CharacterBuilder {
     return this;
   }
 
+  /**
+   * Sets the appearance in biography info
+   * @param appearance The character's appearance.
+   * @returns
+   */
+  setAppearance(appearance: string): CharacterBuilder {
+    this.biography.appearance = appearance;
+    return this;
+  }
+  /**
+   * Sets the concept; a short description of the character.
+   * @param concept a short, descriptive phrase
+   * @returns
+   */
+  setConcept(concept: string | undefined): CharacterBuilder {
+    this.biography.concept = concept;
+    return this;
+  }
+  /**
+   * Sets a description of the character's soul mark.
+   * @param descr Description of the soul mark
+   * @returns
+   */
+  setSoulMarkDescription(descr: string | undefined): CharacterBuilder {
+    this.biography.soulMarkDescription = descr;
+    return this;
+  }
+  /**
+   * Sets the character's long form biography.
+   * @param bio biography.
+   */
+  setBiography(bio: string): CharacterBuilder {
+    this.biography.characterBiography = bio;
+    return this;
+  }
+  /**
+   * Sets a description of the character's connections.
+   * @param connections
+   */
+  setCharacterConnections(connections: string): CharacterBuilder {
+    this.biography.characterConnections = connections;
+    return this;
+  }
+
+  /**
+   * Sets the character's height.
+   * @param height Height in cm
+   */
+  setHeight(height: number): CharacterBuilder {
+    this.biography.height = Math.round(height);
+    return this;
+  }
+
+  /**
+   * Sets the character's weight.
+   * @param weight Weight in kg
+   */
+  setWeight(weight: number) {
+    this.biography.weight = weight;
+  }
+
+  /**
+   * Builds the character.
+   * @returns A character with the values in this builder.
+   */
   build(): Character {
     var armorValue = 10 + Math.floor((this.dex - 10) / 2);
     if (this.armorValueOverride) {
@@ -659,7 +733,8 @@ export class CharacterBuilder {
       this.spells,
       this.attacks,
       hitDice,
-      this.inventory
+      this.inventory,
+      this.biography
     );
   }
 }
