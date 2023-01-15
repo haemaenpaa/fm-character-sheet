@@ -58,6 +58,7 @@ import { ItemViewComponent } from './inventory-view/item-view/item-view.componen
 import { ItemDetailsComponent } from './inventory-view/item-details/item-details.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DescriptionComponent } from './description/description.component';
+import { BiographyComponent } from './biography/biography.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -119,6 +120,7 @@ import { DescriptionComponent } from './description/description.component';
     ItemViewComponent,
     ItemDetailsComponent,
     DescriptionComponent,
+    BiographyComponent,
   ],
   imports: [
     CommonModule,
