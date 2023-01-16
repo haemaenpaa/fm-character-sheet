@@ -1,0 +1,25 @@
+<div
+  class="biography-container"
+  [ngClass]="{
+    'accessibility-colorized': colorized
+  }"
+>
+  <div class="biography">
+    <span class="label">Biography:</span>
+    <editable-text
+      [value]="character.biography.characterBiography"
+      placeholder="Enter biography"
+      [rows]="25"
+      (valueChanged)="onSectionChange('characterBiography', $event)"
+    ></editable-text>
+  </div>
+  <div class="connections">
+    <span class="label">Connections:</span>
+    <editable-text
+      [value]="character.biography.characterConnections"
+      placeholder="Enter biography"
+      [rows]="25"
+      (valueChanged)="onSectionChange('characterConnections', $event)"
+    ></editable-text>
+  </div>
+</div>

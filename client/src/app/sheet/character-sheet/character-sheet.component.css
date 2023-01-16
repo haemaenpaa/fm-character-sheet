@@ -1,6 +1,6 @@
 .sheet-container {
   display: grid;
-  grid-template-columns: [left] max-content [right] 3fr;
+  grid-template-columns: [left] max-content [right] 1fr;
   grid-template-rows: 6em 24em 4fr 3em;
   column-gap: 1em;
   row-gap: 1em;
@@ -11,23 +11,36 @@
     "skills info"
     "footer footer";
   margin: 1em;
-  width: 100%;
+  justify-content: space-around;
+  justify-items: start;
 }
 
 .character-particulars {
   grid-area: header;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "name race"
+    "concept ."
+    "level level";
+  border-style: double;
+  width: 100%;
 }
 
 .character-name {
-  grid-area: 1/1;
+  grid-area: name;
 }
 
 .character-race {
-  grid-area: 1/2;
+  grid-area: race;
   display: flex;
   justify-items: left;
+}
+
+.character-concept {
+  grid-area: concept;
+  font-weight: bold;
 }
 .character-race-label {
   font-weight: bold;
@@ -42,7 +55,7 @@
 }
 
 .character-level {
-  grid-area: 2/1/2/2;
+  grid-area: level;
   display: flex;
 }
 
@@ -108,18 +121,22 @@
 .tab-router-container {
   border-style: solid;
   border-radius: 0.5em;
-  margin-inline-end: 2em;
+  height: 100%;
+  width: 100%;
 }
 
 .info-section {
   grid-area: info;
   height: 100%;
+  width: 100%;
   display: grid;
   grid-template-rows: 2em 1fr;
   grid-auto-flow: column;
 }
+
 .details-section {
   grid-area: details;
+  width: 100%;
   height: 100%;
   display: grid;
   grid-template-rows: 2em 1fr;

@@ -1,0 +1,54 @@
+<div
+  class="description-container"
+  [ngClass]="{
+    'accessibility-colorized': colorized
+  }"
+>
+  <div class="concept">
+    <editable-text
+      [value]="character.biography.concept"
+      placeholder="No concept"
+      (valueChanged)="onSectionChange('concept', $event)"
+    ></editable-text>
+  </div>
+  <div class="appearance">
+    <span class="label">Appearance:</span>
+    <editable-text
+      [value]="character.biography.appearance"
+      (valueChanged)="onSectionChange('appearance', $event)"
+      [rows]="5"
+    ></editable-text>
+  </div>
+
+  <div class="soul-mark" *ngIf="character.spells.spellcastingAbility">
+    <span class="label">Soul mark:</span>
+    <editable-text
+      placeholder="No description"
+      [value]="character.biography.soulMarkDescription"
+      [cols]="3"
+      (valueChanged)="onSectionChange('soulMarkDescription', $event)"
+    ></editable-text>
+  </div>
+  <div class="size">
+    <div class="height size-section">
+      <span class="label">Height:</span>
+      <span class="height-edit">
+        <editable-text
+          [value]="character.biography.height"
+          (numberChanged)="onNumberChange('height', $event)"
+        ></editable-text>
+      </span>
+      <span class="unit">cm</span>
+    </div>
+    <div class="weight size-section">
+      <span class="label">Weight:</span>
+      <span class="weight-edit">
+        <editable-text
+          [value]="character.biography.weight"
+          (numberChanged)="onNumberChange('weight', $event)"
+        ></editable-text>
+      </span>
+      <span class="unit">kg</span>
+    </div>
+  </div>
+</div>

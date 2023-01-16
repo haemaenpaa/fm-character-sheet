@@ -26,6 +26,7 @@
         {{ level.abilityOrigin }} {{ level.level }}
       </div>
     </div>
+    <div class="character-concept">{{ character.biography.concept }}</div>
   </div>
   <div class="character-abilities section-container">
     <span class="section-header">Abilities</span>
@@ -37,6 +38,13 @@
   </div>
   <div class="details-section">
     <div class="nav-tab-container">
+      <div
+        class="nav-tab description"
+        [routerLink]="[{ outlets: { 'details-outlet': ['description'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Description
+      </div>
       <div
         class="nav-tab defenses"
         [routerLink]="[{ outlets: { 'details-outlet': ['defenses'] } }]"
@@ -74,6 +82,13 @@
         [routerLinkActive]="'nav-tab-active'"
       >
         Inventory
+      </div>
+      <div
+        class="nav-tab biography"
+        [routerLink]="[{ outlets: { 'info-outlet': ['biography'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Biography
       </div>
       <div
         class="nav-tab selections"

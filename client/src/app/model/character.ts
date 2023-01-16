@@ -9,6 +9,7 @@ import Resistance from './resistance';
 import { Skill } from './skill';
 import CharacterHitDice from './character-hit-dice';
 import { InventoryContainer } from './item';
+import { CharacterBiography } from './character-bio';
 
 export interface AbilityNumberStruct {
   br: number;
@@ -63,7 +64,6 @@ export default class Character {
    * Currently available hit dice.
    */
   hitDiceRemaining: CharacterHitDice;
-
   /**
    *
    * @param name Character name
@@ -98,8 +98,9 @@ export default class Character {
    * @param damageResistances Damage resistances and/or immunities
    * @param statusResistances Status resistances and/or immunities
    * @param spells Character's spells, spellcasting ability, souls and spell slots.
-   * @param attacks
-   * @param hitDice
+   * @param attacks Attacks the character is able to make.
+   * @param hitDice Character's hit dice.
+   * @param bio Character's biographic info
    */
   constructor(
     public name: string,
@@ -136,7 +137,8 @@ export default class Character {
     public spells: CharacterSpells,
     public attacks: CharacterAttack[],
     public hitDice: CharacterHitDice,
-    public inventory: InventoryContainer[]
+    public inventory: InventoryContainer[],
+    public biography: CharacterBiography
   ) {
     this.name = name;
     this.race = race;

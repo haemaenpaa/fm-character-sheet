@@ -3,11 +3,15 @@
 }
 
 .accessibility-colorized > .character-particulars > .character-level {
-  color: orange;
+  color: rgb(245, 110, 0);
 }
 
 .accessibility-colorized > .character-particulars > .character-race {
   color: crimson;
+}
+
+.accessibility-colorized > .character-particulars > .character-concept {
+  color: rgb(128, 64, 0);
 }
 
 .accessibility-colorized > .character-abilities {
@@ -31,13 +35,25 @@
   border-color: black;
   color: green;
 }
+.accessibility-colorized
+  > .details-section
+  > .nav-tab-container
+  > .description {
+  border-color: black;
+  color: rgb(128, 64, 0);
+}
 .accessibility-colorized > .info-section {
   color: black;
 }
 
+.accessibility-colorized > .info-section > .nav-tab-container > .biography {
+  border-color: black;
+  color: rgb(180, 0, 64);
+}
+
 .accessibility-colorized > .info-section > .nav-tab-container > .selections {
   border-color: black;
-  color: orange;
+  color: rgb(245, 110, 0);
 }
 
 .accessibility-colorized > .info-section > .nav-tab-container > .spellbook {

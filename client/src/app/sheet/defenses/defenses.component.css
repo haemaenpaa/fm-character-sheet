@@ -1,6 +1,6 @@
 .defenses-container {
   display: grid;
-  grid-template-rows: 1fr 1fr [end];
+  grid-template-rows: max-content max-content [end];
   grid-template-columns: max-content max-content;
   row-gap: 0.5em;
   column-gap: 0.5em;
@@ -14,7 +14,7 @@
   align-items: center;
   justify-items: center;
   justify-content: space-around;
-  height: 100%;
+
   row-gap: 0.5em;
 }
 
