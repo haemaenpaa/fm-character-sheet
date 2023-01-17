@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Hoverable } from 'src/app/common/hoverable';
 import { AoSelection } from 'src/app/model/ao-selection';
 import { AO_HIT_DICE } from 'src/app/model/constants';
+import { AoSelectionEditComponent } from '../ao-selection-edit/ao-selection-edit.component';
 
 @Component({
   selector: 'ao-selection-item',
@@ -14,7 +16,7 @@ export class AoSelectionItemComponent extends Hoverable {
   @Output() selectionDeleted: EventEmitter<AoSelection> = new EventEmitter();
   knownAoNames: string[] = [];
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     super();
     for (const name in AO_HIT_DICE) {
       this.knownAoNames.push(name);
@@ -22,23 +24,15 @@ export class AoSelectionItemComponent extends Hoverable {
     this.knownAoNames = this.knownAoNames.sort();
   }
 
-  onFieldChanged(name: string, value: string) {
-    const newSelection: AoSelection = { ...this.selection, [name]: value };
-    console.log(`Field ${name} changed to ${value}`, newSelection);
-    this.selectionChanged.emit(newSelection);
-  }
-  onLevelChanged(value: string) {
-    const level = Number.parseInt(value);
-    const isPrimary = level > 3 ? true : this.selection.isPrimary;
-    if (!isNaN(level)) {
-      this.selectionChanged.emit({ ...this.selection, level, isPrimary });
-    }
-  }
-  onPrimaryToggle(event: Event) {
-    const element = event.target as HTMLInputElement;
-    this.selectionChanged.emit({
-      ...this.selection,
-      isPrimary: element.checked,
+  onEdit() {
+    const dialogRef = this.dialog.open(AoSelectionEditComponent, {
+      data: { selection: { ...this.selection } },
+    });
+
+    dialogRef.afterClosed().subscribe((s) => {
+      if (s) {
+        this.selectionChanged.emit(s);
+      }
     });
   }
   onDelete() {

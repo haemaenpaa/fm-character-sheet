@@ -10,7 +10,7 @@ import { SelectionChangeEvent } from '../ao-selection-list/ao-selection-list.com
   styleUrls: ['./abilities-list.component.css'],
 })
 export class AbilitiesListComponent {
-  @Input() character: Character | null = null;
+  @Input() character!: Character;
   @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
 

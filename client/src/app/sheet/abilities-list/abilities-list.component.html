@@ -11,7 +11,8 @@
     <h3>Ability Origin selections</h3>
     <div class="ao-selections">
       <ao-selection-list
-        [selections]="character!.selections"
+        [selections]="character.selections"
+        [characterLevel]="character.totalLevel"
         (selectionAdded)="onSelectionAdd($event)"
         (selectionDeleted)="onSelectionRemove($event)"
         (selectionChanged)="onSelectionEdit($event)"

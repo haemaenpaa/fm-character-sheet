@@ -27,4 +27,5 @@ export class AoSelection {
    * Is this a primary selection. Secondary selections don't count towards total level.
    */
   isPrimary: boolean = true;
+  takenAtLevel?: number;
 }

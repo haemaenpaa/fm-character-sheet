@@ -1,0 +1,29 @@
+p {
+  text-align: center;
+  font-weight: bold;
+}
+.color-picker {
+  width: max-content;
+}
+.color-button-grid {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(7, max-content);
+}
+
+.color-button {
+  width: 3em;
+  height: 3em;
+  border-style: solid;
+  border-radius: 1em;
+  margin-inline-end: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.unset-button {
+  border-style: solid;
+  border-radius: 1em;
+  align-self: center;
+  width: 100%;
+  text-align: center;
+}
