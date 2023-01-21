@@ -8,7 +8,7 @@
     "prod-env": "ts-node set-env.ts -f .production-env",
     "build": "npm run prod-env&& ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --watch=false --source-map=false --browsers=ChromiumHeadless"
   },
   "private": true,
   "dependencies": {
