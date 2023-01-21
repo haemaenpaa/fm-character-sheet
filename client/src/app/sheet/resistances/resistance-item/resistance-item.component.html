@@ -17,7 +17,7 @@
   <span
     id="resistance-immunity"
     class="resistance-modifier clickable grayed-out"
-    *ngIf="resistance.type !== 'immunity' && !racial"
+    *ngIf="resistance.type !== 'immunity' && !racial && hovered"
     (click)="toggleImmunity()"
   >
     {{ hovered ? "I" : "&nbsp;" }}

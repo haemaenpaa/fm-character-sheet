@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Roll } from 'src/app/model/diceroll';
 
 import { AttackDamageComponent } from './attack-damage.component';
 
@@ -8,12 +9,12 @@ describe('AttackDamageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AttackDamageComponent ]
-    })
-    .compileComponents();
+      declarations: [AttackDamageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AttackDamageComponent);
     component = fixture.componentInstance;
+    component.roll = new Roll();
     fixture.detectChanges();
   });
 

@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 import { range } from 'rxjs';
 import { CharacterBuilder } from 'src/app/model/character-builder';
 import { GameAction, SaveParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { EditableTextComponent } from '../editable-text/editable-text.component';
+import { HitDiceDisplayComponent } from '../hit-dice-display/hit-dice-display.component';
 import { HitPointsComponent } from '../hit-points/hit-points.component';
 import { AbilityNamePipe } from '../pipe/ability-name.pipe';
 import { ResistancesComponent } from '../resistances/resistances.component';
@@ -30,9 +33,12 @@ describe('DefensesComponent', () => {
         SavingThrowComponent,
         ResistancesComponent,
         AbilityNamePipe,
+        EditableTextComponent,
+        HitDiceDisplayComponent,
       ],
       providers: [
         { provide: ActionDispatchService, useClass: MockActionDispatchService },
+        { provide: MatDialog, useValue: {} },
       ],
     }).compileComponents();
 
@@ -42,6 +48,7 @@ describe('DefensesComponent', () => {
 
     fixture = TestBed.createComponent(DefensesComponent);
     component = fixture.componentInstance;
+    component.character = new CharacterBuilder().build();
     fixture.detectChanges();
   });
 
@@ -57,7 +64,7 @@ describe('DefensesComponent', () => {
       fixture.detectChanges();
       const element: HTMLElement = fixture.nativeElement;
       const shownAv = element.querySelector('#av-display')?.textContent;
-      expect(shownAv).toBe(character.armorValue.toString());
+      expect(shownAv?.trim()).toBe(character.armorValue.toString());
     }
   });
 

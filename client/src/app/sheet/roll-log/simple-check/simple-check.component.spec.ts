@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Roll } from 'src/app/model/diceroll';
 
 import { SimpleCheckComponent } from './simple-check.component';
 
@@ -8,12 +9,12 @@ describe('SimpleCheckComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SimpleCheckComponent ]
-    })
-    .compileComponents();
+      declarations: [SimpleCheckComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SimpleCheckComponent);
     component = fixture.componentInstance;
+    component.roll = new Roll();
     fixture.detectChanges();
   });
 
