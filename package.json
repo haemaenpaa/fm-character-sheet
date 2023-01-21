@@ -8,7 +8,10 @@
     "build-client": "cd client;npm run build;cp -r dist/fm-character-sheet/ ../dist/fm-character-sheet-main/fm-character-sheet/",
     "copy-includes": "cp include/* dist/fm-character-sheet-main/",
     "copy-license": "cp LICENSE dist/fm-character-sheet-main/",
-    "build": "rm -r dist;mkdir -p dist;npm run build-server;npm run build-client;npm run copy-includes;npm run copy-license"
+    "build": "rm -r dist;mkdir -p dist;npm run build-server;npm run build-client;npm run copy-includes;npm run copy-license",
+    "test-client": "cd client; npm test",
+    "test-server": "Echo Server tests not yet configured",
+    "test": "npm run test-client && npm run test-server"
   },
   "author": "Heikki Mäenpää",
   "license": "CC-BY-SA-4.0"
