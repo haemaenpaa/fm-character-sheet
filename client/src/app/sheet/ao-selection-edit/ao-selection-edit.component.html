@@ -6,6 +6,7 @@
       placeholder="?"
       (numberChanged)="selection.takenAtLevel = $event"
     ></editable-text>
+    <p>:</p>
   </div>
   <div
     class="selection-name"
@@ -30,7 +31,9 @@
     <div class="ao-level">
       <editable-text
         [value]="selection.level"
-        (valueChanged)="onLevelChanged($event)"
+        [max]="selection.takenAtLevel"
+        [min]="1"
+        (numberChanged)="onLevelChanged($event)"
       ></editable-text>
     </div>
     <div class="ao-hit-die" *ngIf="selection.isPrimary">

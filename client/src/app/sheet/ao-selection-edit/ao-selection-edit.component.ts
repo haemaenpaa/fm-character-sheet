@@ -23,11 +23,10 @@ export class AoSelectionEditComponent {
     @Inject(MAT_DIALOG_DATA)
     data: {
       selection: AoSelection;
+      aoNames: string[];
     }
   ) {
-    for (const name in AO_HIT_DICE) {
-      this.knownAoNames.push(name);
-    }
+    this.knownAoNames = data.aoNames;
     this.knownAoNames = this.knownAoNames.sort();
     this.selection = data.selection;
   }
@@ -49,6 +48,7 @@ export class AoSelectionEditComponent {
 
   onHilightColorChanged(newColor?: string) {
     if (!newColor) {
+      //Color picker was closed
       return;
     }
     if (newColor.length > 0) {
@@ -56,17 +56,15 @@ export class AoSelectionEditComponent {
       style.color = newColor;
       this.selection.hilightColor = style.color;
     } else {
-      this.selection.hilightColor = null;
+      //Color picker returns an empty string to indicate color was not found.
+      this.selection.hilightColor = undefined;
     }
   }
 
-  onLevelChanged(value: string) {
-    const level = Number.parseInt(value);
-    if (!isNaN(level)) {
-      const isPrimary = level > 3 ? true : this.selection.isPrimary;
-      this.selection.level = level;
-      this.selection.isPrimary = isPrimary;
-    }
+  onLevelChanged(level: number) {
+    const isPrimary = level > 3 ? true : this.selection.isPrimary;
+    this.selection.level = level;
+    this.selection.isPrimary = isPrimary;
   }
   onPrimaryToggle(event: Event) {
     const element = event.target as HTMLInputElement;

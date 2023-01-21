@@ -42,14 +42,24 @@ export class HitDiceDisplayComponent {
   @Input() colorized: boolean = false;
   @Output() remainingChanged: EventEmitter<CharacterHitDice> =
     new EventEmitter();
-  displaymemo: { hash: number; value?: HitDieDisplay[] } = { hash: 0 };
+  displaymemo: {
+    hash: number;
+    value?: HitDieDisplay[];
+    hitDice?: CharacterHitDice;
+    remaining?: CharacterHitDice;
+  } = { hash: 0 };
 
   constructor(private dialog: MatDialog) {}
 
   get hitDiceDisplay(): HitDieDisplay[] {
     const hash =
       hitDiceHash(this.hitDiceMax) + 31 * hitDiceHash(this.hitDiceRemaining);
-    if (!this.displaymemo.value || hash != this.displaymemo.hash) {
+    if (
+      !this.displaymemo.value ||
+      hash != this.displaymemo.hash ||
+      !hitDiceEqual(this.displaymemo.hitDice!, this.hitDiceMax) ||
+      !hitDiceEqual(this.displaymemo.remaining!, this.hitDiceRemaining)
+    ) {
       this.displaymemo.hash = hash;
       const value: HitDieDisplay[] = [];
       for (const size in this.hitDiceMax) {
@@ -65,7 +75,10 @@ export class HitDiceDisplayComponent {
         });
       }
       this.displaymemo.value = value;
+      this.displaymemo.hitDice = { ...this.hitDiceMax };
+      this.displaymemo.remaining = { ...this.hitDiceRemaining };
     }
+    console.log(this.displaymemo.remaining);
     return this.displaymemo.value!;
   }
 

@@ -4,8 +4,10 @@
   (mouseleave)="endHover()"
   [ngStyle]="{ color: selection.hilightColor }"
 >
-  <div class="selection-name" (click)="onEdit()">
-    {{ selection.name }}
+  <div class="character-level">Level {{ selection.takenAtLevel }}</div>
+  <div class="selection-name">
+    <span class="name"> {{ selection.name }}</span>
+    <div class="button" *ngIf="hovered" (click)="onEdit()">Edit</div>
     <span *ngIf="hovered" (click)="onDelete()" class="delete-button">-</span>
   </div>
   <div class="ao-container">

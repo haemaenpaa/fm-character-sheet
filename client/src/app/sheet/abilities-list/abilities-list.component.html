@@ -9,10 +9,23 @@
   </div>
   <div class="selections-container">
     <h3>Ability Origin selections</h3>
+    <div>
+      Order:
+      <select [value]="selectionSort" (change)="onSortChange($event)">
+        <option
+          *ngFor="let opt of sortOptions"
+          [value]="opt.value"
+          [selected]="opt.value === selectionSort"
+        >
+          {{ opt.label }}
+        </option>
+      </select>
+    </div>
     <div class="ao-selections">
       <ao-selection-list
         [selections]="character.selections"
         [characterLevel]="character.totalLevel"
+        [sortOrder]="selectionSort"
         (selectionAdded)="onSelectionAdd($event)"
         (selectionDeleted)="onSelectionRemove($event)"
         (selectionChanged)="onSelectionEdit($event)"

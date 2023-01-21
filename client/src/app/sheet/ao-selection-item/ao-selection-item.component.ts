@@ -12,21 +12,17 @@ import { AoSelectionEditComponent } from '../ao-selection-edit/ao-selection-edit
 })
 export class AoSelectionItemComponent extends Hoverable {
   @Input() selection!: AoSelection;
+  @Input() availableAos: string[] = [];
   @Output() selectionChanged: EventEmitter<AoSelection> = new EventEmitter();
   @Output() selectionDeleted: EventEmitter<AoSelection> = new EventEmitter();
-  knownAoNames: string[] = [];
 
   constructor(private dialog: MatDialog) {
     super();
-    for (const name in AO_HIT_DICE) {
-      this.knownAoNames.push(name);
-    }
-    this.knownAoNames = this.knownAoNames.sort();
   }
 
   onEdit() {
     const dialogRef = this.dialog.open(AoSelectionEditComponent, {
-      data: { selection: { ...this.selection } },
+      data: { selection: { ...this.selection }, aoNames: this.availableAos },
     });
 
     dialogRef.afterClosed().subscribe((s) => {

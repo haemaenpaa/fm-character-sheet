@@ -22,10 +22,13 @@ export class AoSelection {
   /**
    * A hilight color for the selection, for accessibility.
    */
-  hilightColor: string | null = null;
+  hilightColor?: string;
   /**
    * Is this a primary selection. Secondary selections don't count towards total level.
    */
   isPrimary: boolean = true;
+  /**
+   * Character level this selection was taken on.
+   */
   takenAtLevel?: number;
 }
