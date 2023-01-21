@@ -142,4 +142,12 @@ export class CharacterService {
     };
     reader.readAsText(file);
   }
+
+  delete(id: number): Promise<void> {
+    return new Promise((resolve) => {
+      localStorage.removeItem(LS_CHAR_PREFIX + id);
+      this.characters = this.characters.filter((c) => c.id !== id);
+      resolve();
+    });
+  }
 }

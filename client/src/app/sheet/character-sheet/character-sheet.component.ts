@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import Character from 'src/app/model/character';
 import { Race } from 'src/app/model/race';
@@ -32,6 +32,7 @@ export class CharacterSheetComponent {
    */
   constructor(
     private characterService: CharacterService,
+    private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
@@ -133,5 +134,17 @@ export class CharacterSheetComponent {
     link.href = URL.createObjectURL(fileBlob);
     link.click();
     link.remove();
+  }
+
+  deleteCharacter() {
+    if (
+      !this.character ||
+      !confirm(`Really delete ${this.character.name}? This can not be undone.`)
+    ) {
+      return;
+    }
+    this.characterService.delete(this.character.id!).then(() => {
+      this.router.navigate(['character-list']);
+    });
   }
 }

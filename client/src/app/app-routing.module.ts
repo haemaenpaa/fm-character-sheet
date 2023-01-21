@@ -7,6 +7,11 @@ import { upperOutletRoutes } from './sheet/sheet.routing';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'character-list',
+  },
+  {
+    path: 'character-list',
     component: CharacterListComponent,
     pathMatch: 'full',
   },
