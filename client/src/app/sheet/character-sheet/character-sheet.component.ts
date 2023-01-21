@@ -124,15 +124,13 @@ export class CharacterSheetComponent {
     if (!this.character) {
       return;
     }
-    const fileName =
-      (this.character.name.length > 0 ? this.character.name : 'fm-character') +
-      '.json';
     const fileContent = JSON.stringify(this.character, undefined, 2);
 
-    const file = new Blob([fileContent], { type: 'application/json' });
+    const fileBlob = new Blob([fileContent], { type: 'application/json' });
+
     const link = document.createElement('a');
-    link.target = '_blank';
-    link.href = URL.createObjectURL(file);
+    link.download = this.character.name || 'fm-character';
+    link.href = URL.createObjectURL(fileBlob);
     link.click();
     link.remove();
   }
