@@ -8,7 +8,14 @@
     </character-li>
   </div>
 
-  <button class="add-character-button" (click)="newCharacter()">
-    Add character
-  </button>
+  <div class="add-character-button" (click)="newCharacter()">Add character</div>
+  <div class="import-button">
+    <label for="file-input">Import JSON</label>
+    <input
+      id="file-input"
+      type="file"
+      accept=".json"
+      (input)="onImport($event)"
+    />
+  </div>
 </div>

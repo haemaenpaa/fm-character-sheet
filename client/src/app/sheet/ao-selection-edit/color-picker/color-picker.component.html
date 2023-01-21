@@ -1,0 +1,14 @@
+<div class="color-picker">
+  <p>Choose a color</p>
+  <div class="color-button-grid">
+    <div
+      class="color-button"
+      *ngFor="let hue of [0, 45, 90, 135, 180, 225, 270]"
+      [ngStyle]="{
+        'background-color': 'hsl(' + hue + ',90%, 40%)'
+      }"
+      (click)="chooseColor(hue, 90, 40)"
+    ></div>
+  </div>
+  <div class="unset-button" (click)="(unset)">Unset</div>
+</div>

@@ -2,11 +2,37 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 40em;
+  float: inline-start;
 }
 
 .selection-name {
+  display: grid;
+  grid-template-columns: 1fr max-content max-content;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+}
+
+.name {
   font-weight: bold;
   font-size: larger;
+  padding-block-start: 0.12em;
+  padding-block-end: 0.12em;
+}
+
+.button {
+  border-style: solid;
+  text-align: center;
+  border-radius: 1em;
+  padding-inline-start: 0.5em;
+  padding-inline-end: 0.5em;
+  margin-inline-start: 1em;
+  width: fit-content;
+  justify-self: start;
+  cursor: pointer;
+  justify-self: end;
+  font-weight: normal;
 }
 
 .ao-container {
@@ -26,17 +52,6 @@
   width: 100%;
   white-space: pre-line;
   border-style: double;
-}
-
-.extra-selections {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-}
-
-.hilight-color-select {
-  height: 100%;
-  display: flex;
 }
 
 .label {

@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="character-level">
+    <p>Selection for level</p>
+    <editable-text
+      [value]="selection.takenAtLevel"
+      placeholder="?"
+      (numberChanged)="selection.takenAtLevel = $event"
+    ></editable-text>
+    <p>:</p>
+  </div>
+  <div
+    class="selection-name"
+    [ngStyle]="{ color: selection.hilightColor || 'inherit' }"
+  >
+    <editable-text
+      [value]="selection.name"
+      (valueChanged)="onFieldChanged('name', $event)"
+    ></editable-text>
+  </div>
+  <div class="ao-container">
+    <div class="ao-name">
+      <select (change)="onAoSelected($event)">
+        <option
+          *ngFor="let ao of knownAoNames"
+          [selected]="ao === selection.abilityOrigin"
+        >
+          {{ ao }}
+        </option>
+      </select>
+    </div>
+    <div class="ao-level">
+      <editable-text
+        [value]="selection.level"
+        [max]="selection.takenAtLevel"
+        [min]="1"
+        (numberChanged)="onLevelChanged($event)"
+      ></editable-text>
+    </div>
+    <div class="ao-hit-die" *ngIf="selection.isPrimary">
+      Hit die: {{ hitDie }}
+    </div>
+  </div>
+  <div class="selection-description">
+    <editable-text
+      [value]="selection.description"
+      [placeholder]="'No description'"
+      (valueChanged)="onFieldChanged('description', $event)"
+      [rows]="12"
+    ></editable-text>
+  </div>
+  <div class="extra-selections">
+    <div class="primary-select" *ngIf="selection!.level <= 3">
+      <input
+        type="checkbox"
+        [checked]="selection.isPrimary"
+        (change)="onPrimaryToggle($event)"
+      />Primary selection
+    </div>
+    <div class="hilight-color-select button" (click)="onSelectColor()">
+      <div
+        class="hilight-sample"
+        *ngIf="selection.hilightColor"
+        [ngStyle]="{ 'background-color': selection.hilightColor }"
+      ></div>
+      Hilight color
+    </div>
+  </div>
+  <div class="save-button button" (click)="save()">Save</div>
+</div>

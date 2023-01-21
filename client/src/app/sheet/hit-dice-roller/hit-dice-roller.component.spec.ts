@@ -63,19 +63,47 @@ describe('HitDiceRollerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should regain half', () => {
+  it('should regain half of maximum', () => {
     component.hitDiceMax = {
-      6: 1,
+      6: 2,
       8: 2,
       10: 2,
+      12: 0,
+    };
+    component.hitDiceRemaining = {
+      6: 1,
+      8: 0,
+      10: 0,
       12: 0,
     };
 
     component.regainHalf();
     expect(result).not.toBeNull();
-    expect(result[6]).withContext('wrong count of d6').toBe(1);
-    expect(result[8]).withContext('wrong count of d8').toBe(1);
+    expect(result[6]).withContext('wrong count of d6').toBe(2);
+    expect(result[8]).withContext('wrong count of d8').toBe(2);
     expect(result[10]).withContext('wrong count of d10').toBe(0);
+    expect(result[12]).withContext('wrong count of d12').toBe(0);
+  });
+
+  it('should not regain more than maximum', () => {
+    component.hitDiceMax = {
+      6: 2,
+      8: 2,
+      10: 2,
+      12: 0,
+    };
+    component.hitDiceRemaining = {
+      6: 2,
+      8: 2,
+      10: 0,
+      12: 0,
+    };
+
+    component.regainHalf();
+    expect(result).not.toBeNull();
+    expect(result[6]).withContext('wrong count of d6').toBe(2);
+    expect(result[8]).withContext('wrong count of d8').toBe(2);
+    expect(result[10]).withContext('wrong count of d10').toBe(2);
     expect(result[12]).withContext('wrong count of d12').toBe(0);
   });
 

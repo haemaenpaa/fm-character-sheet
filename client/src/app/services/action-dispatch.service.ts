@@ -19,6 +19,7 @@ import { randomId } from '../model/id-generator';
 import CharacterAttack, { AttackEffect } from '../model/character-attack';
 import Character from '../model/character';
 import { __values } from 'tslib';
+import { AO_HIT_DICE } from '../model/constants';
 
 /**
  * A service to dispatch game actions that call for a roll.
@@ -414,6 +415,15 @@ export class ActionDispatchService {
         roll.name = 'Hit points';
         roll.title = 'hit-points';
         var constantHealth = 0;
+
+        const firstAo = character.selections
+          .filter((sel) => sel.isPrimary && sel.takenAtLevel)
+          .reduce((a, b) => (a.takenAtLevel! < b.takenAtLevel! ? a : b));
+        if (firstAo && firstAo.abilityOrigin in AO_HIT_DICE) {
+          (params as any)[AO_HIT_DICE[firstAo.abilityOrigin]] -= 1;
+          constantHealth = AO_HIT_DICE[firstAo.abilityOrigin];
+        }
+
         for (const size of [6, 8, 10, 12]) {
           const number = (params as any)[size];
           if (number > 0) {

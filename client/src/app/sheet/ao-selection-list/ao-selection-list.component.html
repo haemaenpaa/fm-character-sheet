@@ -1,12 +1,27 @@
-<div
-  *ngFor="let selection of selections | sortSelections; let index = index"
-  class="selection-item"
-  [ngStyle]="{ 'border-color': selection.hilightColor || 'inherit' }"
->
-  <ao-selection-item
-    [selection]="selection"
-    (selectionChanged)="onSelectionAltered($event, selection)"
-    (selectionDeleted)="onSelectionDeleted(selection)"
-  ></ao-selection-item>
+<div class="selections-list">
+  <div
+    *ngFor="
+      let selection of selections | sortSelections : sortOrder;
+      let index = index
+    "
+    class="selection-item"
+    [ngStyle]="{ 'border-color': selection.hilightColor || 'inherit' }"
+  >
+    <ao-selection-item
+      [selection]="selection"
+      [availableAos]="availableAos"
+      (selectionChanged)="onSelectionAltered($event, selection)"
+      (selectionDeleted)="onSelectionDeleted(selection)"
+    ></ao-selection-item>
+  </div>
+  <div class="add-buttons">
+    <div class="add-button" (click)="onSelectionAdd()">Add selection</div>
+    <div
+      class="add-button"
+      (click)="onSecondarySelectionAdd()"
+      *ngIf="missingSecondaries"
+    >
+      Add Secondary
+    </div>
+  </div>
 </div>
-<div class="add-button" (click)="onSelectionAdd()">+</div>

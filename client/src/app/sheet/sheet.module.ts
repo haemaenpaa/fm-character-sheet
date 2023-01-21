@@ -59,6 +59,8 @@ import { ItemDetailsComponent } from './inventory-view/item-details/item-details
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DescriptionComponent } from './description/description.component';
 import { BiographyComponent } from './biography/biography.component';
+import { AoSelectionEditComponent } from './ao-selection-edit/ao-selection-edit.component';
+import { ColorPickerComponent } from './ao-selection-edit/color-picker/color-picker.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -121,6 +123,8 @@ import { BiographyComponent } from './biography/biography.component';
     ItemDetailsComponent,
     DescriptionComponent,
     BiographyComponent,
+    AoSelectionEditComponent,
+    ColorPickerComponent,
   ],
   imports: [
     CommonModule,

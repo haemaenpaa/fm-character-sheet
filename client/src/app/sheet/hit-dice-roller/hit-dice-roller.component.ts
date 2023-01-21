@@ -74,7 +74,7 @@ export class HitDiceRollerComponent {
   }
 
   regainHalf() {
-    const toRegain = Math.floor((this.maximum - this.totalRemaining) / 2);
+    const toRegain = Math.floor(this.maximum / 2);
     this.regainDice(Math.max(1, toRegain));
   }
 

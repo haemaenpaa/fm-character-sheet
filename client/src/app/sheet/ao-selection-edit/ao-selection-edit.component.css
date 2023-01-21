@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 30em;
+  border-radius: 1em;
+}
+
+.character-level {
+  display: flex;
+  font-style: italic;
+}
+.character-level > p {
+  margin-inline-end: 0.5em;
+}
+
+.selection-name {
+  font-weight: bold;
+  font-size: larger;
+}
+
+.ao-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.ao-name {
+  font-style: italic;
+  margin-inline-end: 1em;
+}
+.ao-level {
+  width: 3em;
+}
+
+.selection-description {
+  width: 100%;
+  white-space: pre-line;
+  border-style: double;
+}
+
+.extra-selections {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  border-style: solid;
+  border-radius: 1em;
+  padding-inline-start: 1em;
+  padding-inline-end: 1em;
+}
+
+.hilight-color-select {
+  height: 100%;
+  display: flex;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.hilight-sample {
+  height: 1em;
+  width: 1em;
+  border-radius: 0.5em;
+  align-self: center;
+  justify-self: center;
+  margin-inline-end: 0.5em;
+}
+
+.label {
+  margin-inline-start: 0.5em;
+  margin-inline-end: 0.5em;
+}
+
+.save-button {
+  width: 100%;
+  text-align: center;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}

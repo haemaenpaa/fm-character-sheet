@@ -3,6 +3,7 @@ import { AoSelection } from 'src/app/model/ao-selection';
 import Character from 'src/app/model/character';
 import { AO_HIT_DICE } from 'src/app/model/constants';
 import { SelectionChangeEvent } from '../ao-selection-list/ao-selection-list.component';
+import { AoSelectionSort } from '../ao-selection-list/sort-selections.pipe';
 
 @Component({
   selector: 'abilities-list',
@@ -10,9 +11,19 @@ import { SelectionChangeEvent } from '../ao-selection-list/ao-selection-list.com
   styleUrls: ['./abilities-list.component.css'],
 })
 export class AbilitiesListComponent {
-  @Input() character: Character | null = null;
+  @Input() character!: Character;
   @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
+
+  selectionSort: AoSelectionSort = 'character-level';
+
+  sortOptions = [
+    { value: 'character-level', label: 'Character level' },
+    { value: 'ao-level', label: 'Selection level' },
+    { value: 'ao-name', label: 'Ability origin' },
+    { value: 'name', label: 'Selection name' },
+    { value: 'hilight-color', label: 'Hilight color' },
+  ];
 
   get hasRacialAbilities(): boolean {
     if (!this.character) {
@@ -23,6 +34,14 @@ export class AbilitiesListComponent {
 
   onSelectionAdd(selection: AoSelection) {
     this.character!.selections = [...this.character!.selections, selection];
+    if (selection.isPrimary && selection.abilityOrigin in AO_HIT_DICE) {
+      (this.character.hitDiceRemaining as any)[
+        AO_HIT_DICE[selection.abilityOrigin]
+      ] += 1;
+      (this.character.hitDice as any)[
+        AO_HIT_DICE[selection.abilityOrigin]
+      ] += 1;
+    }
     this.characterChanged.emit();
   }
   onSelectionRemove(deleted: AoSelection) {
@@ -94,5 +113,10 @@ export class AbilitiesListComponent {
         Math.min(value - 1, remaining)
       );
     }
+  }
+
+  onSortChange(event: Event) {
+    this.selectionSort = (event.target as HTMLSelectElement)
+      .value as AoSelectionSort;
   }
 }
