@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbilityNamePipe } from '../pipe/ability-name.pipe';
 
 import { SavingThrowComponent } from './saving-throw.component';
 
@@ -8,9 +9,8 @@ describe('SavingThrowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SavingThrowComponent ]
-    })
-    .compileComponents();
+      declarations: [SavingThrowComponent, AbilityNamePipe],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SavingThrowComponent);
     component = fixture.componentInstance;

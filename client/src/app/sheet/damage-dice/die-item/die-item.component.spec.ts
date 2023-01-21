@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Roll, RollComponent } from 'src/app/model/diceroll';
+import { EditableTextComponent } from '../../editable-text/editable-text.component';
 
 import { DieItemComponent } from './die-item.component';
 
@@ -8,12 +10,12 @@ describe('DieItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DieItemComponent ]
-    })
-    .compileComponents();
+      declarations: [DieItemComponent, EditableTextComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DieItemComponent);
     component = fixture.componentInstance;
+    component.roll = { id: 0, roll: new RollComponent(6), type: 'test' };
     fixture.detectChanges();
   });
 

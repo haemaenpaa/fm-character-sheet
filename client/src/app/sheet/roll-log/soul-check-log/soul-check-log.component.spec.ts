@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Roll } from 'src/app/model/diceroll';
 
 import { SoulCheckLogComponent } from './soul-check-log.component';
 
@@ -8,12 +9,12 @@ describe('SoulCheckLogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SoulCheckLogComponent ]
-    })
-    .compileComponents();
+      declarations: [SoulCheckLogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SoulCheckLogComponent);
     component = fixture.componentInstance;
+    component.roll = new Roll();
     fixture.detectChanges();
   });
 

@@ -48,6 +48,7 @@ describe('ResistancesComponent', () => {
     const value = 'new-resistance';
     const event = { target: { value } } as any as Event;
     spyOn(component.resistanceInserted, 'emit');
+    component.inserting = true;
     component.endInserting(event);
 
     expect(component.resistanceInserted.emit)
@@ -55,13 +56,14 @@ describe('ResistancesComponent', () => {
       .toHaveBeenCalledWith(value);
   });
   it('should not emit inserting an empty resistance', () => {
-    const value = 'new-resistance';
+    const value = '';
     const event = { target: { value } } as any as Event;
     spyOn(component.resistanceInserted, 'emit');
+    component.inserting = true;
     component.endInserting(event);
 
     expect(component.resistanceInserted.emit)
       .withContext('Resistance should have been inserted.')
-      .toHaveBeenCalledWith(value);
+      .not.toHaveBeenCalled();
   });
 });
