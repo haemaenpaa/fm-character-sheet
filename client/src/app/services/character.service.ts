@@ -43,9 +43,22 @@ export class CharacterService {
   }
 
   private loadCharacterFromLocalStorage(key: string): Character {
-    const item = localStorage.getItem(key);
+    const item = localStorage.getItem(key)!;
+    return this.parseJSONString(item);
+  }
+
+  private parseJSONString(item: string): Character {
     const template = new CharacterBuilder().build();
-    const parsed = JSON.parse(item!);
+    const parsed = JSON.parse(item);
+    if (
+      typeof parsed !== 'object' ||
+      !parsed.name ||
+      !parsed.race ||
+      !parsed.abilities ||
+      !parsed.defaultSkills
+    ) {
+      throw new Error('JSON does not appear to be a character json.');
+    }
     for (const abl in parsed.abilities) {
       (template.abilities as any)[abl].score = (parsed.abilities as any)[
         abl
@@ -86,6 +99,11 @@ export class CharacterService {
     });
   }
 
+  /**
+   * Saves the character.
+   * @param character
+   * @returns
+   */
   persistCharacter(character: Character): Promise<Character> {
     const nullId = !character.id;
     if (nullId) {
@@ -106,5 +124,22 @@ export class CharacterService {
       }
       resolve(character);
     });
+  }
+
+  importCharacterFromFile(file: File) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const json = e.target?.result?.toString();
+      if (json) {
+        try {
+          const character = this.parseJSONString(json);
+          character.id = undefined;
+          this.persistCharacter(character);
+        } catch (e) {
+          alert(`File ${file.name} does not look like a character file.`);
+        }
+      }
+    };
+    reader.readAsText(file);
   }
 }

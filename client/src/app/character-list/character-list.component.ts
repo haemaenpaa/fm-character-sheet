@@ -83,4 +83,15 @@ export class CharacterListComponent {
       .persistCharacter(character)
       .then((c) => (this.hilightId = c.id || 0));
   }
+
+  onImport(event: Event) {
+    debugger;
+    const files = (event.target as HTMLInputElement).files;
+    if (!files) {
+      return;
+    }
+    for (var i = 0; i < files.length; i++) {
+      this.characterService.importCharacterFromFile(files[i]);
+    }
+  }
 }
