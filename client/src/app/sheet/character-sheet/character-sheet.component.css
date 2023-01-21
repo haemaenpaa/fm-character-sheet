@@ -151,8 +151,8 @@
 
 .footer {
   grid-area: footer;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr max-content max-content;
   height: 100%;
   width: 100%;
   align-items: center;
@@ -162,4 +162,12 @@
 .footer-item {
   margin-inline-start: 1em;
   margin-inline-end: 1em;
+}
+
+.io-button {
+  border-radius: 1em;
+  border-style: solid;
+  padding-inline-start: 1em;
+  padding-inline-end: 1em;
+  cursor: pointer;
 }
