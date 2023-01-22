@@ -1,7 +1,10 @@
 import express from "express";
 import * as path from "path";
+import { initializeSchema } from "./model/schema";
 const app = express();
 const port = process.env.PORT || 3000;
+
+const sequelize = initializeSchema("sqlite::memory:");
 
 const frontendPath =
   process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");
