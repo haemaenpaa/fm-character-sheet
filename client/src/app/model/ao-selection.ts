@@ -30,5 +30,5 @@ export class AoSelection {
   /**
    * Character level this selection was taken on.
    */
-  takenAtLevel?: number;
+  takenAtLevel: number = 0;
 }
