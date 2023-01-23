@@ -1,5 +1,4 @@
 import { DataTypes, Model, ModelAttributes } from "sequelize";
-import { AoSelection } from "./ao-selection";
 
 export class Character extends Model {}
 
