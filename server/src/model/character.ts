@@ -6,6 +6,7 @@ export const CharacterDef: ModelAttributes<Character> = {
   id: {
     type: DataTypes.NUMBER,
     primaryKey: true,
+    allowNull: false,
   },
   name: {
     type: DataTypes.STRING,
