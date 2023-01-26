@@ -1,0 +1,31 @@
+.resource-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-style: solid;
+  border-radius: 1em;
+  width: fit-content;
+  padding: 0.5em;
+}
+
+.label {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.name {
+  font-variant: small-caps;
+  text-align: center;
+}
+
+.counter {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+}
+.delete-button {
+}

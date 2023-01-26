@@ -1,0 +1,21 @@
+<div class="container" [ngClass]="{colorized}">
+  <div
+    *ngFor="
+      let resource of character.resources | resourceSort : hilightId;
+      index as i
+    "
+    [ngClass]="{
+      'color-0': i % 3 == 0,
+      'color-1': i % 3 == 1,
+      'color-2': i % 3 == 2
+    }"
+  >
+    <single-resource
+      [resource]="resource"
+      [colorized]="this.colorized"
+      (resourceChanged)="resourceChanged($event)"
+      (resourceDeleted)="resourceDeleted($event)"
+    ></single-resource>
+  </div>
+  <div class="add-button" (click)="addResource()">Add Resource</div>
+</div>

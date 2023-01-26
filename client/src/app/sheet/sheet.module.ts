@@ -61,6 +61,10 @@ import { DescriptionComponent } from './description/description.component';
 import { BiographyComponent } from './biography/biography.component';
 import { AoSelectionEditComponent } from './ao-selection-edit/ao-selection-edit.component';
 import { ColorPickerComponent } from './ao-selection-edit/color-picker/color-picker.component';
+import { ResourceViewComponent } from './resource-view/resource-view.component';
+import { SingleResourceComponent } from './resource-view/single-resource/single-resource.component';
+import { ResourceEditComponent } from './resource-view/resource-edit/resource-edit.component';
+import { ResourceSortPipe } from './resource-view/resource-sort.pipe';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -125,6 +129,10 @@ import { ColorPickerComponent } from './ao-selection-edit/color-picker/color-pic
     BiographyComponent,
     AoSelectionEditComponent,
     ColorPickerComponent,
+    ResourceViewComponent,
+    SingleResourceComponent,
+    ResourceEditComponent,
+    ResourceSortPipe,
   ],
   imports: [
     CommonModule,

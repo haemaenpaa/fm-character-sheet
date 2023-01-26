@@ -1,0 +1,25 @@
+.container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, max-content);
+  grid-template-columns: 1fr;
+  grid-auto-columns: 1fr;
+}
+
+.add-button {
+  border-style: solid;
+  border-radius: 1em;
+  width: fit-content;
+  padding-inline-start: 1em;
+  padding-inline-end: 1em;
+}
+
+.colorized > .color-0 {
+  color: rgb(64, 128, 0);
+}
+.colorized > .color-1 {
+  color: rgb(0, 64, 128);
+}
+.colorized > .color-2 {
+  color: rgb(128, 0, 64);
+}

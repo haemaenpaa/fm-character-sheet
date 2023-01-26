@@ -1,0 +1,27 @@
+<div
+  class="resource-container"
+  (mouseenter)="startHover()"
+  (mouseleave)="endHover()"
+>
+  <div class="label">
+    <span class="name" (click)="edit()">{{ resource.name }}</span>
+    <span class="delete-button" *ngIf="hovered">-</span>
+  </div>
+  <div class="counter">
+    <span
+      *ngFor="
+        let item of [].constructor(resource.max - resource.current);
+        let i = index
+      "
+      (click)="adjustAvailable(resource.max - resource.current - i)"
+      class="clickable"
+      >◈</span
+    >
+    <span
+      *ngFor="let item of [].constructor(resource.current); let i = index"
+      (click)="adjustAvailable(-i - 1)"
+      class="clickable"
+      >◇</span
+    >
+  </div>
+</div>
