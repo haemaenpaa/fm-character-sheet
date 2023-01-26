@@ -53,6 +53,13 @@
         Defenses
       </div>
       <div
+        class="nav-tab resources"
+        [routerLink]="[{ outlets: { 'details-outlet': ['resources'] } }]"
+        [routerLinkActive]="'nav-tab-active'"
+      >
+        Resources
+      </div>
+      <div
         class="nav-tab nav-tab-last rolls"
         [routerLink]="[{ outlets: { 'details-outlet': ['rolls'] } }]"
         [routerLinkActive]="'nav-tab-active'"
@@ -125,7 +132,6 @@
   <div class="footer">
     <div class="footer-item colorized-control">
       <input
-        style="height: 100%; background-color: red"
         type="checkbox"
         (change)="setColorized($event)"
         [checked]="colorized"
