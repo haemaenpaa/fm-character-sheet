@@ -10,6 +10,7 @@ import { Skill } from './skill';
 import CharacterHitDice from './character-hit-dice';
 import { InventoryContainer } from './item';
 import { CharacterBiography } from './character-bio';
+import { CharacterResource } from './character-resource';
 
 export interface AbilityNumberStruct {
   br: number;
@@ -138,7 +139,8 @@ export default class Character {
     public attacks: CharacterAttack[],
     public hitDice: CharacterHitDice,
     public inventory: InventoryContainer[],
-    public biography: CharacterBiography
+    public biography: CharacterBiography,
+    public resources: CharacterResource[]
   ) {
     this.name = name;
     this.race = race;
