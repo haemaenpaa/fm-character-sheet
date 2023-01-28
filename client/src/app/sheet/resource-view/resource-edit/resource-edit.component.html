@@ -1,0 +1,24 @@
+<div class="container" [ngClass]="{colorized}">
+  <div class="name">
+    <editable-text
+      [value]="resource.name"
+      (valueChanged)="resource.name = $event"
+    ></editable-text>
+  </div>
+  <div class="remaining">
+    <span class="label">Available:</span>
+    <editable-text
+      [value]="resource.max"
+      [min]="0"
+      (numberChanged)="resource.max = $event"
+    ></editable-text>
+  </div>
+  <div class="short-rest">
+    <input
+      type="checkbox"
+      [checked]="resource.shortRest"
+      (change)="setShortRest($event)"
+    />Replenish on short rest
+  </div>
+  <div class="save-button" (click)="save()">Save</div>
+</div>

@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.label {
+  margin-inline-end: 0.5em;
+}
+.remaining {
+  display: flex;
+  flex-direction: row;
+}
+
+.short-rest {
+  display: flex;
+  flex-direction: row;
+}
+
+.save-button {
+  border-style: solid;
+  border-radius: 1em;
+  width: 100%;
+  text-align: center;
+}
+
+.colorized > .name {
+  color: rgb(128, 64, 0);
+}
+
+.colorized > .remaining {
+  color: rgb(0, 128, 64);
+}
+.colorized > .short-rest {
+  color: rgb(64, 0, 128);
+}
+.colorized > .save-button {
+  color: rgb(64, 128, 0);
+}

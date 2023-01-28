@@ -5,6 +5,7 @@ import { BiographyComponent } from './biography/biography.component';
 import { DefensesComponent } from './defenses/defenses.component';
 import { DescriptionComponent } from './description/description.component';
 import { InventoryViewComponent } from './inventory-view/inventory-view.component';
+import { ResourceViewComponent } from './resource-view/resource-view.component';
 import { RollLogComponent } from './roll-log/roll-log.component';
 import { SpellbookComponent } from './spellbook/spellbook.component';
 
@@ -23,6 +24,11 @@ export const upperOutletRoutes: Route[] = [
   {
     path: 'description',
     component: DescriptionComponent,
+    outlet: 'details-outlet',
+  },
+  {
+    path: 'resources',
+    component: ResourceViewComponent,
     outlet: 'details-outlet',
   },
 
