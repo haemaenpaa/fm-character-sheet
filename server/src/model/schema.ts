@@ -8,6 +8,7 @@ import {
   AttackEffectDef,
 } from "./attack";
 import { Character, CharacterDef } from "./character";
+import { CharacterBio, CharacterBioDef } from "./character-bio";
 import {
   CharacterSpellbook,
   CharacterSpellbookDef,
@@ -56,6 +57,15 @@ function associateModels() {
   associateHitDice();
 
   associateInventory();
+
+  associateBio();
+}
+
+function associateBio() {
+  CharacterBio.Character = CharacterBio.belongsTo(Character, {
+    as: "character",
+  });
+  Character.Bio = Character.hasOne(CharacterBio, { as: "biography" });
 }
 
 function associateInventory() {
@@ -124,10 +134,7 @@ function initModels(sequelize: Sequelize) {
 
   initRace(sequelize);
 
-  CustomSkill.init(CustomSkillDef, {
-    sequelize,
-    modelName: "Skill",
-  });
+  initSkills(sequelize);
 
   initSpellBook(sequelize);
 
@@ -137,9 +144,25 @@ function initModels(sequelize: Sequelize) {
 
   initInventory(sequelize);
 
+  initBio(sequelize);
+
   Character.init(CharacterDef, {
     sequelize,
     modelName: "Character",
+  });
+}
+
+function initSkills(sequelize: Sequelize) {
+  CustomSkill.init(CustomSkillDef, {
+    sequelize,
+    modelName: "Skill",
+  });
+}
+
+function initBio(sequelize: Sequelize) {
+  CharacterBio.init(CharacterBioDef, {
+    sequelize,
+    modelName: "CharacterBio",
   });
 }
 

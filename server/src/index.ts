@@ -49,6 +49,7 @@ sequelize.sync().then((sql) => {
             association: Character.Inventory,
             include: [InventoryContainer.Contents],
           },
+          Character.Bio,
         ],
       }
     )

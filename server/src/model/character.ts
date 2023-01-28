@@ -1,6 +1,7 @@
 import { DataTypes, HasMany, HasOne, Model, ModelAttributes } from "sequelize";
 import { AoSelection } from "./ao-selection";
 import { Attack } from "./attack";
+import { CharacterBio } from "./character-bio";
 import { CharacterSpellbook } from "./character-spells";
 import { CustomSkill } from "./custom-skill";
 import { HitDice, HitDiceRemaining } from "./hit-dice";
@@ -18,6 +19,7 @@ export class Character extends Model {
   static HitDice: HasOne<Character, HitDice>;
   static HitDiceRemaining: HasOne<Character, HitDiceRemaining>;
   static Inventory: HasMany<Character, InventoryContainer>;
+  static Bio: HasOne<Character, CharacterBio>;
 }
 
 export const CharacterDef: ModelAttributes<Character> = {
