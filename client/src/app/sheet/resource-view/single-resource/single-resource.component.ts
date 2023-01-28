@@ -11,7 +11,7 @@ import {
 @Component({
   selector: 'single-resource',
   templateUrl: './single-resource.component.html',
-  styleUrls: ['./single-resource.component.css'],
+  styleUrls: ['./single-resource.component.css', '../../common.css'],
 })
 export class SingleResourceComponent extends Hoverable {
   @Input() resource!: CharacterResource;

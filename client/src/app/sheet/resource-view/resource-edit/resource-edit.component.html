@@ -1,9 +1,11 @@
-<div>
-  <editable-text
-    [value]="resource.name"
-    (valueChanged)="resource.name = $event"
-  ></editable-text>
-  <div>
+<div class="container" [ngClass]="{colorized}">
+  <div class="name">
+    <editable-text
+      [value]="resource.name"
+      (valueChanged)="resource.name = $event"
+    ></editable-text>
+  </div>
+  <div class="remaining">
     <span class="label">Available:</span>
     <editable-text
       [value]="resource.max"
@@ -11,7 +13,7 @@
       (numberChanged)="resource.max = $event"
     ></editable-text>
   </div>
-  <div>
+  <div class="short-rest">
     <input
       type="checkbox"
       [checked]="resource.shortRest"
