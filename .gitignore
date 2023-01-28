@@ -11,6 +11,7 @@
 # Node
 /server/node_modules
 /client/node_modules
+/transfer-model/node_modules
 /node_modules
 npm-debug.log
 yarn-error.log
