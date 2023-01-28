@@ -1,6 +1,7 @@
 import express from "express";
 import * as path from "path";
 import { Association } from "sequelize";
+import { Attack } from "./model/attack";
 import { Character } from "./model/character";
 import { CharacterSpellbook, Spell } from "./model/character-spells";
 import { Race } from "./model/race";
@@ -36,6 +37,10 @@ sequelize.sync().then((sql) => {
                 include: [Spell.Damage, Spell.UpcastDamage],
               },
             ],
+          },
+          {
+            association: Character.Attacks,
+            include: [Attack.Damage, Attack.Effect],
           },
         ],
       }

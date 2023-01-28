@@ -1,5 +1,6 @@
 import { DataTypes, HasMany, HasOne, Model, ModelAttributes } from "sequelize";
 import { AoSelection } from "./ao-selection";
+import { Attack } from "./attack";
 import { CharacterSpellbook } from "./character-spells";
 import { CustomSkill } from "./custom-skill";
 import { Race } from "./race";
@@ -11,6 +12,7 @@ export class Character extends Model {
   static Skills: HasMany<Character, CustomSkill>;
   static Selections: HasMany<Character, AoSelection>;
   static Spellbook: HasOne<CharacterSpellbook>;
+  static Attacks: HasMany<Character, Attack>;
 }
 
 export const CharacterDef: ModelAttributes<Character> = {
