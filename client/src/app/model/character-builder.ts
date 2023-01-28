@@ -11,6 +11,7 @@ import CharacterHitDice from './character-hit-dice';
 import { AO_HIT_DICE } from './constants';
 import { InventoryContainer, Item } from './item';
 import { CharacterBiography } from './character-bio';
+import { CharacterResource } from './character-resource';
 
 /**
  * Builder for ease of constructing a character.
@@ -80,6 +81,8 @@ export class CharacterBuilder {
     height: 0,
     weight: 0,
   };
+
+  resources: CharacterResource[] = [];
 
   setName(name: string): CharacterBuilder {
     this.name = name;
@@ -671,8 +674,31 @@ export class CharacterBuilder {
    * Sets the character's weight.
    * @param weight Weight in kg
    */
-  setWeight(weight: number) {
+  setWeight(weight: number): CharacterBuilder {
     this.biography.weight = weight;
+    return this;
+  }
+
+  /**
+   * Adds a character resource.
+   * @param name Name of the resource
+   * @param maximum  Maximum amount of the resource
+   * @param shortRest Is this resource replenished on a short rest
+   * @returns this
+   */
+  addResource(
+    name: string,
+    maximum: number,
+    shortRest?: boolean
+  ): CharacterBuilder {
+    this.resources.push({
+      id: randomId(),
+      name,
+      max: maximum,
+      current: maximum,
+      shortRest: !!shortRest,
+    });
+    return this;
   }
 
   /**
@@ -734,7 +760,8 @@ export class CharacterBuilder {
       this.attacks,
       hitDice,
       this.inventory,
-      this.biography
+      this.biography,
+      this.resources
     );
   }
 }

@@ -1,0 +1,36 @@
+.container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, max-content);
+  grid-template-columns: max-content;
+  grid-auto-columns: max-content;
+  column-gap: 1em;
+  row-gap: 1em;
+  justify-items: stretch;
+  align-items: center;
+  padding: 0.25em;
+}
+
+.add-button {
+  border-style: solid;
+  border-radius: 1em;
+  width: fit-content;
+  height: fit-content;
+  padding-inline-start: 1em;
+  padding-inline-end: 1em;
+  justify-self: center;
+}
+
+.colorized > .color-0 {
+  color: rgb(64, 128, 0);
+}
+.colorized > .color-1 {
+  color: rgb(0, 64, 128);
+}
+.colorized > .color-2 {
+  color: rgb(128, 0, 64);
+}
+
+.hilight {
+  font-weight: bold;
+}
