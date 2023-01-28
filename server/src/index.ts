@@ -27,8 +27,10 @@ sequelize.sync().then((sql) => {
             association: Character.Race,
             include: [Race.Abilities, Race.Resistances],
           },
-          { association: Character.Resistances },
-          { association: Character.Selections },
+          Character.Resistances,
+          Character.Selections,
+          Character.HitDice,
+          Character.HitDiceRemaining,
           {
             association: Character.Spellbook,
             include: [

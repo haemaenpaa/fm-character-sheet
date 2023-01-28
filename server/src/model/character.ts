@@ -3,6 +3,7 @@ import { AoSelection } from "./ao-selection";
 import { Attack } from "./attack";
 import { CharacterSpellbook } from "./character-spells";
 import { CustomSkill } from "./custom-skill";
+import { HitDice, HitDiceRemaining } from "./hit-dice";
 import { Race } from "./race";
 import { Resistance } from "./resistance";
 
@@ -13,6 +14,8 @@ export class Character extends Model {
   static Selections: HasMany<Character, AoSelection>;
   static Spellbook: HasOne<CharacterSpellbook>;
   static Attacks: HasMany<Character, Attack>;
+  static HitDice: HasOne<Character, HitDice>;
+  static HitDiceRemaining: HasOne<Character, HitDiceRemaining>;
 }
 
 export const CharacterDef: ModelAttributes<Character> = {

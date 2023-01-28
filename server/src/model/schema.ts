@@ -20,6 +20,7 @@ import {
 } from "./character-spells";
 import { CustomSkill, CustomSkillDef } from "./custom-skill";
 import { DamageRollDef } from "./damage-roll";
+import { HitDice, HitDiceDef, HitDiceRemaining } from "./hit-dice";
 import { Race, RaceDef, RacialAbility, RacialAbilityDef } from "./race";
 import { RacialResistance, Resistance, ResistanceDef } from "./resistance";
 
@@ -28,20 +29,37 @@ export function initializeSchema(connectionString: string): Sequelize {
 
   initModels(sequelize);
 
-  Character.Race = Character.hasOne(Race, { as: "race" });
-  Race.Character = Race.belongsTo(Character);
+  associateRace();
 
-  Race.Resistances = Race.hasMany(RacialResistance, { as: "resistances" });
-  Race.Abilities = Race.hasMany(RacialAbility, { as: "abilities" });
+  associateSelections();
 
-  Character.Selections = Character.hasMany(AoSelection, { as: "selections" });
-  AoSelection.Character = AoSelection.belongsTo(Character);
-
-  Character.Skills = Character.hasMany(CustomSkill, { as: "customSkills" });
-  CustomSkill.Character = CustomSkill.belongsTo(Character);
+  associateSkills();
 
   Character.Resistances = Character.hasMany(Resistance, { as: "resistances" });
 
+  associateSpells();
+
+  associateAttacks();
+
+  associateHitDice();
+
+  return sequelize;
+}
+
+function associateHitDice() {
+  Character.HitDice = Character.hasMany(HitDice, { as: "hitDice" });
+  Character.HitDiceRemaining = Character.hasMany(HitDiceRemaining, {
+    as: "hitDiceRemaining",
+  });
+}
+
+function associateAttacks() {
+  Character.Attacks = Character.hasMany(Attack, { as: "attacks" });
+  Attack.Damage = Attack.hasMany(AttackDamage, { as: "damage" });
+  Attack.Effect = Attack.hasMany(AttackEffect, { as: "effect" });
+}
+
+function associateSpells() {
   Character.Spellbook = Character.hasOne(CharacterSpellbook, { as: "spells" });
 
   CharacterSpellbook.Character = CharacterSpellbook.belongsTo(Character);
@@ -54,12 +72,24 @@ export function initializeSchema(connectionString: string): Sequelize {
 
   Spell.Damage = Spell.hasMany(SpellDamage, { as: "damage" });
   Spell.UpcastDamage = Spell.hasMany(UpcastDamage, { as: "upcastDamage" });
+}
 
-  Character.Attacks = Character.hasMany(Attack, { as: "attacks" });
-  Attack.Damage = Attack.hasMany(AttackDamage, { as: "damage" });
-  Attack.Effect = Attack.hasMany(AttackEffect, { as: "effect" });
+function associateSkills() {
+  Character.Skills = Character.hasMany(CustomSkill, { as: "customSkills" });
+  CustomSkill.Character = CustomSkill.belongsTo(Character);
+}
 
-  return sequelize;
+function associateSelections() {
+  Character.Selections = Character.hasMany(AoSelection, { as: "selections" });
+  AoSelection.Character = AoSelection.belongsTo(Character);
+}
+
+function associateRace() {
+  Character.Race = Character.hasOne(Race, { as: "race" });
+  Race.Character = Race.belongsTo(Character);
+
+  Race.Resistances = Race.hasMany(RacialResistance, { as: "resistances" });
+  Race.Abilities = Race.hasMany(RacialAbility, { as: "abilities" });
 }
 
 function initModels(sequelize: Sequelize) {
@@ -81,9 +111,19 @@ function initModels(sequelize: Sequelize) {
 
   initAttacks(sequelize);
 
+  initHitDice(sequelize);
+
   Character.init(CharacterDef, {
     sequelize,
     modelName: "Character",
+  });
+}
+
+function initHitDice(sequelize: Sequelize) {
+  HitDice.init(HitDiceDef, { sequelize, modelName: "HitDice" });
+  HitDiceRemaining.init(HitDiceDef, {
+    sequelize,
+    modelName: "HitDiceRemaining",
   });
 }
 
