@@ -1,25 +1,39 @@
 import { Sequelize } from "sequelize";
 import { AoSelection, AoSelectionDef } from "./ao-selection";
 import { Character, CharacterDef } from "./character";
-import { Race, RaceDef } from "./race";
-import { Resistance, ResistanceDef } from "./resistance";
+import { CustomSkill, CustomSkillDef } from "./custom-skill";
+import { Race, RaceDef, RacialAbility, RacialAbilityDef } from "./race";
+import { RacialResistance, Resistance, ResistanceDef } from "./resistance";
 
 export function initializeSchema(connectionString: string): Sequelize {
   const sequelize = new Sequelize(connectionString);
 
-  const aoSelectionModel = AoSelection.init(AoSelectionDef, {
+  AoSelection.init(AoSelectionDef, {
     sequelize,
     modelName: "AoSelection",
   });
 
-  const resistanceModel = Resistance.init(ResistanceDef, {
+  Resistance.init(ResistanceDef, {
     sequelize,
     modelName: "Resistance",
   });
+  RacialResistance.init(ResistanceDef, {
+    sequelize,
+    modelName: "RacialResistance",
+  });
 
-  const raceModel = Race.init(RaceDef, {
+  Race.init(RaceDef, {
     sequelize,
     modelName: "Race",
+  });
+  RacialAbility.init(RacialAbilityDef, {
+    sequelize,
+    modelName: "RacialAbility",
+  });
+
+  const skillModel = CustomSkill.init(CustomSkillDef, {
+    sequelize,
+    modelName: "Skill",
   });
 
   const characterModel = Character.init(CharacterDef, {
@@ -27,16 +41,19 @@ export function initializeSchema(connectionString: string): Sequelize {
     modelName: "Character",
   });
 
-  characterModel.hasOne(raceModel);
-  raceModel.belongsTo(characterModel);
+  Character.Race = Character.hasOne(Race, { as: "race" });
+  Race.Character = Race.belongsTo(Character);
 
-  raceModel.hasMany(resistanceModel);
+  Race.Resistances = Race.hasMany(RacialResistance, { as: "resistances" });
+  Race.Abilities = Race.hasMany(RacialAbility, { as: "abilities" });
 
-  characterModel.hasMany(aoSelectionModel, { as: "selections" });
-  aoSelectionModel.belongsTo(characterModel);
+  Character.Selections = Character.hasMany(AoSelection, { as: "selections" });
+  AoSelection.Character = AoSelection.belongsTo(Character);
 
-  characterModel.hasMany(resistanceModel, { as: "resistances" });
-  characterModel.sync();
+  Character.Skills = Character.hasMany(CustomSkill, { as: "customSkills" });
+  CustomSkill.Character = CustomSkill.belongsTo(Character);
+
+  Character.Resistances = Character.hasMany(Resistance, { as: "resistances" });
 
   return sequelize;
 }

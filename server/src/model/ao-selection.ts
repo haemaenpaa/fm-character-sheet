@@ -1,6 +1,9 @@
-import { DataTypes, Model, ModelAttributes } from "sequelize";
+import { BelongsTo, DataTypes, Model, ModelAttributes } from "sequelize";
+import { Character } from "./character";
 
-export class AoSelection extends Model {}
+export class AoSelection extends Model {
+  static Character: BelongsTo<AoSelection, Character>;
+}
 
 export const AoSelectionDef: ModelAttributes<AoSelection> = {
   id: {

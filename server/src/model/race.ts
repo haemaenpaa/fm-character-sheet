@@ -1,6 +1,18 @@
-import { DataTypes, Model, ModelAttributes } from "sequelize";
+import {
+  BelongsTo,
+  DataTypes,
+  HasMany,
+  Model,
+  ModelAttributes,
+} from "sequelize";
+import { Character } from "./character";
+import { RacialResistance } from "./resistance";
 
-export class Race extends Model {}
+export class Race extends Model {
+  static Character: BelongsTo<Race, Character>;
+  static Resistances: HasMany<Race, RacialResistance>;
+  static Abilities: HasMany<Race, RacialAbility>;
+}
 
 export class RacialAbility extends Model {}
 

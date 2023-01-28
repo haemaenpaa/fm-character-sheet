@@ -1,6 +1,7 @@
 import { DataTypes, Model, ModelAttributes } from "sequelize";
 
 export class Resistance extends Model {}
+export class RacialResistance extends Model {}
 
 export const ResistanceDef: ModelAttributes<Resistance> = {
   type: {
