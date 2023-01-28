@@ -30,12 +30,18 @@ export class ResourceViewComponent {
     this.character.resources = this.character.resources.map((r) =>
       r.id === resource.id ? resource : r
     );
+    if (resource.id === this.hilightId) {
+      this.hilightId = undefined;
+    }
     this.characterChanged.emit();
   }
   resourceDeleted(resource: CharacterResource) {
     this.character.resources = this.character.resources.filter(
       (r) => r.id !== resource.id
     );
+    if (resource.id === this.hilightId) {
+      this.hilightId = undefined;
+    }
     this.characterChanged.emit();
   }
 }
