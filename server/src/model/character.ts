@@ -1,5 +1,6 @@
 import { DataTypes, HasMany, HasOne, Model, ModelAttributes } from "sequelize";
 import { AoSelection } from "./ao-selection";
+import { CharacterSpellbook } from "./character-spells";
 import { CustomSkill } from "./custom-skill";
 import { Race } from "./race";
 import { Resistance } from "./resistance";
@@ -9,6 +10,7 @@ export class Character extends Model {
   static Resistances: HasMany<Character, Resistance>;
   static Skills: HasMany<Character, CustomSkill>;
   static Selections: HasMany<Character, AoSelection>;
+  static Spellbook: HasOne<CharacterSpellbook>;
 }
 
 export const CharacterDef: ModelAttributes<Character> = {
@@ -58,4 +60,5 @@ export const CharacterDef: ModelAttributes<Character> = {
   sub: { type: DataTypes.SMALLINT, defaultValue: 0 },
   ste: { type: DataTypes.SMALLINT, defaultValue: 0 },
   sur: { type: DataTypes.SMALLINT, defaultValue: 0 },
+  savingThrows: { type: DataTypes.STRING, defaultValue: "" },
 };

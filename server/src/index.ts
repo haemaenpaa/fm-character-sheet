@@ -2,6 +2,7 @@ import express from "express";
 import * as path from "path";
 import { Association } from "sequelize";
 import { Character } from "./model/character";
+import { CharacterSpellbook, Spell } from "./model/character-spells";
 import { Race } from "./model/race";
 import { initializeSchema } from "./model/schema";
 const app = express();
@@ -26,6 +27,16 @@ sequelize.sync().then((sql) => {
             include: [Race.Abilities, Race.Resistances],
           },
           { association: Character.Resistances },
+          { association: Character.Selections },
+          {
+            association: Character.Spellbook,
+            include: [
+              {
+                association: CharacterSpellbook.Spells,
+                include: [Spell.Damage, Spell.UpcastDamage],
+              },
+            ],
+          },
         ],
       }
     )
