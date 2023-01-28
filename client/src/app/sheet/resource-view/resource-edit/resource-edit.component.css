@@ -25,6 +25,7 @@
   border-style: solid;
   border-radius: 1em;
   width: 100%;
+  text-align: center;
 }
 
 .colorized > .name {

@@ -7,7 +7,7 @@
   margin-bottom: 0.5em;
   border-style: solid;
   border-radius: 1em;
-  width: fit-content;
+  width: 100%;
   padding: 0.5em;
 }
 
@@ -16,6 +16,11 @@
   flex-direction: row;
   justify-content: center;
 }
+.extra-padding {
+  padding-inline-start: 1.5em;
+  padding-inline-end: 1.5em;
+}
+
 .name {
   font-variant: small-caps;
   text-align: center;
@@ -24,8 +29,5 @@
 .counter {
   display: flex;
   flex-direction: row;
-
   justify-content: center;
-}
-.delete-button {
 }
