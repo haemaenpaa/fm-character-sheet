@@ -21,6 +21,12 @@ import {
 import { CustomSkill, CustomSkillDef } from "./custom-skill";
 import { DamageRollDef } from "./damage-roll";
 import { HitDice, HitDiceDef, HitDiceRemaining } from "./hit-dice";
+import {
+  InventoryContainer,
+  InventoryContainerDef,
+  Item,
+  ItemDef,
+} from "./inventory";
 import { Race, RaceDef, RacialAbility, RacialAbilityDef } from "./race";
 import { RacialResistance, Resistance, ResistanceDef } from "./resistance";
 
@@ -29,6 +35,12 @@ export function initializeSchema(connectionString: string): Sequelize {
 
   initModels(sequelize);
 
+  associateModels();
+
+  return sequelize;
+}
+
+function associateModels() {
   associateRace();
 
   associateSelections();
@@ -43,7 +55,17 @@ export function initializeSchema(connectionString: string): Sequelize {
 
   associateHitDice();
 
-  return sequelize;
+  associateInventory();
+}
+
+function associateInventory() {
+  Character.Inventory = Character.hasMany(InventoryContainer, {
+    as: "inventory",
+  });
+  InventoryContainer.Contents = InventoryContainer.hasMany(Item, {
+    as: "contents",
+  });
+  Item.Container = Item.belongsTo(InventoryContainer);
 }
 
 function associateHitDice() {
@@ -113,9 +135,22 @@ function initModels(sequelize: Sequelize) {
 
   initHitDice(sequelize);
 
+  initInventory(sequelize);
+
   Character.init(CharacterDef, {
     sequelize,
     modelName: "Character",
+  });
+}
+
+function initInventory(sequelize: Sequelize) {
+  InventoryContainer.init(InventoryContainerDef, {
+    sequelize,
+    modelName: "InventoryContainer",
+  });
+  Item.init(ItemDef, {
+    sequelize,
+    modelName: "Item",
   });
 }
 

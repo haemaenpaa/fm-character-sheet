@@ -4,6 +4,7 @@ import { Association } from "sequelize";
 import { Attack } from "./model/attack";
 import { Character } from "./model/character";
 import { CharacterSpellbook, Spell } from "./model/character-spells";
+import { InventoryContainer } from "./model/inventory";
 import { Race } from "./model/race";
 import { initializeSchema } from "./model/schema";
 const app = express();
@@ -43,6 +44,10 @@ sequelize.sync().then((sql) => {
           {
             association: Character.Attacks,
             include: [Attack.Damage, Attack.Effect],
+          },
+          {
+            association: Character.Inventory,
+            include: [InventoryContainer.Contents],
           },
         ],
       }

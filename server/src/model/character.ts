@@ -4,6 +4,7 @@ import { Attack } from "./attack";
 import { CharacterSpellbook } from "./character-spells";
 import { CustomSkill } from "./custom-skill";
 import { HitDice, HitDiceRemaining } from "./hit-dice";
+import { InventoryContainer } from "./inventory";
 import { Race } from "./race";
 import { Resistance } from "./resistance";
 
@@ -16,6 +17,7 @@ export class Character extends Model {
   static Attacks: HasMany<Character, Attack>;
   static HitDice: HasOne<Character, HitDice>;
   static HitDiceRemaining: HasOne<Character, HitDiceRemaining>;
+  static Inventory: HasMany<Character, InventoryContainer>;
 }
 
 export const CharacterDef: ModelAttributes<Character> = {
