@@ -50,6 +50,7 @@ sequelize.sync().then((sql) => {
             include: [InventoryContainer.Contents],
           },
           Character.Bio,
+          Character.Resources,
         ],
       }
     )

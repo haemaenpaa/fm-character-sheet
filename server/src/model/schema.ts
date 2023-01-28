@@ -30,6 +30,10 @@ import {
 } from "./inventory";
 import { Race, RaceDef, RacialAbility, RacialAbilityDef } from "./race";
 import { RacialResistance, Resistance, ResistanceDef } from "./resistance";
+import {
+  CharacterResource,
+  CharacterResourceRef as CharacterResourceDef,
+} from "./resources";
 
 export function initializeSchema(connectionString: string): Sequelize {
   const sequelize = new Sequelize(connectionString);
@@ -59,6 +63,14 @@ function associateModels() {
   associateInventory();
 
   associateBio();
+
+  associateResources();
+}
+
+function associateResources() {
+  Character.Resources = Character.hasMany(CharacterResource, {
+    as: "resources",
+  });
 }
 
 function associateBio() {
@@ -146,9 +158,18 @@ function initModels(sequelize: Sequelize) {
 
   initBio(sequelize);
 
+  initResource(sequelize);
+
   Character.init(CharacterDef, {
     sequelize,
     modelName: "Character",
+  });
+}
+
+function initResource(sequelize: Sequelize) {
+  CharacterResource.init(CharacterResourceDef, {
+    sequelize,
+    modelName: "CharacterResource",
   });
 }
 
