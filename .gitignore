@@ -4,6 +4,7 @@
 /dist
 /client/dist
 /server/dist
+/server/build/compiled
 /tmp
 /out-tsc
 /bazel-out
