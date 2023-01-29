@@ -91,8 +91,8 @@ function associateInventory() {
 }
 
 function associateHitDice() {
-  Character.HitDice = Character.hasMany(HitDice, { as: "hitDice" });
-  Character.HitDiceRemaining = Character.hasMany(HitDiceRemaining, {
+  Character.HitDice = Character.hasOne(HitDice, { as: "hitDice" });
+  Character.HitDiceRemaining = Character.hasOne(HitDiceRemaining, {
     as: "hitDiceRemaining",
   });
 }

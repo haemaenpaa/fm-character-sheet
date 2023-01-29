@@ -19,7 +19,10 @@ export function convertRaceDto(dto: RaceDto): Race {
   });
 }
 
-export function convertRaceDbModel(race: Race): RaceDto {
+export function convertRaceDbModel(race?: Race): RaceDto | undefined {
+  if (!race) {
+    return undefined;
+  }
   const abilities: { [key: string]: string } = {};
   (race.getDataValue("abilities") as RacialAbility[]).forEach((abl) => {
     abilities[abl.getDataValue("name")] = abl.getDataValue("description");

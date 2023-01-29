@@ -1,5 +1,6 @@
 import express from "express";
 import * as path from "path";
+import { convertCharacterDbModel } from "./mapper/character-mapper";
 import { Attack } from "./model/attack";
 import { Character } from "./model/character";
 import { CharacterSpellbook, Spell } from "./model/character-spells";
@@ -66,7 +67,7 @@ app.get("/api/characters", async (req, res) => {
     .findAll({ include: characterInclude })
     .then((characters) => {
       res.setHeader("Content-Type", "application/json");
-      res.send(characters.map((c) => c.dataValues));
+      res.send(characters.map(convertCharacterDbModel));
     });
 });
 
@@ -86,7 +87,7 @@ app.get("/api/character/:characterId", async (req, res) => {
       }
       //TODO: Map the database model into a data transfer model
       res.setHeader("Content-Type", "application/json");
-      res.send(character.dataValues);
+      res.send(convertCharacterDbModel(character));
     });
 });
 

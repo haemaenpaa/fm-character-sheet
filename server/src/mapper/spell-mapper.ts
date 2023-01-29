@@ -1,4 +1,4 @@
-import { CharacterSpellsDto, SpellDto } from "fm-transfer-model";
+import { CharacterSpellsDto, DamageRollDto, SpellDto } from "fm-transfer-model";
 import {
   CharacterSpellbook,
   Spell,
@@ -24,6 +24,54 @@ export function convertSpellbookDto(
     resources,
     spells,
   });
+}
+export function convertSpellbookDbModel(
+  model?: CharacterSpellbook
+): CharacterSpellsDto | undefined {
+  if (!model) {
+    return undefined;
+  }
+  const modelFragments = model.getDataValue("soulFragments");
+  const soulFragments = modelFragments ? JSON.parse(modelFragments) : {};
+  const souls: { [key: number]: number } = {};
+  const spellSlots: { [key: number]: number } = {};
+  const specialSlots: { [key: number]: number } = {};
+  const spellSlotsAvailable: { [key: number]: number } = {};
+  const specialSlotsAvailable: { [key: number]: number } = {};
+
+  const modelResources = model.getDataValue("resources") as SpellResource[];
+  if (modelResources) {
+    modelResources.forEach((res) => {
+      const tier: number = res.getDataValue("tier");
+      souls[tier] = res.getDataValue("souls");
+      spellSlots[tier] = res.getDataValue("spellSlots");
+      specialSlots[tier] = res.getDataValue("specialSlots");
+      spellSlotsAvailable[tier] = res.getDataValue("spellSlotsAvailable");
+      specialSlotsAvailable[tier] = res.getDataValue("specialSlotsAvailable");
+    });
+  }
+  const modelSpells = model.getDataValue("spells") as Spell[];
+  const spells: { [key: number]: SpellDto[] } = {};
+  if (modelSpells) {
+    modelSpells.forEach((spell) => {
+      const tier: number = spell.getDataValue("tier");
+      if (!(tier in spells)) {
+        spells[tier] = [];
+      }
+      spells[tier].push(convertSpellDbModel(spell));
+    });
+  }
+
+  return {
+    spellcastingAbility: model.getDataValue("spellcastingAbility"),
+    soulFragments,
+    souls,
+    spellSlots,
+    specialSlots,
+    spellSlotsAvailable,
+    specialSlotsAvailable,
+    spells,
+  };
 }
 export function convertSpellDto(dto: SpellDto): Spell {
   const damage: SpellDamage[] = [];
@@ -70,7 +118,44 @@ export function convertSpellDto(dto: SpellDto): Spell {
     upcastDamage,
   });
 }
+function convertSpellDbModel(model: Spell): SpellDto {
+  var damage: DamageRollDto[] = [];
+  var upcastDamage: DamageRollDto[] = [];
+  const modelDamage = model.getDataValue("damage") as SpellDamage[];
+  const modelUpcastDamage = model.getDataValue("upcastDamage") as SpellDamage[];
+  if (modelDamage) {
+    damage = modelDamage.map((dmg) => ({
+      id: dmg.getDataValue("id"),
+      dieCount: dmg.getDataValue("dieCount"),
+      dieSize: dmg.getDataValue("dieSize"),
+      type: dmg.getDataValue("type"),
+    }));
+  }
+  if (modelUpcastDamage) {
+    damage = modelUpcastDamage.map((dmg) => ({
+      id: dmg.getDataValue("id"),
+      dieCount: dmg.getDataValue("dieCount"),
+      dieSize: dmg.getDataValue("dieSize"),
+      type: dmg.getDataValue("type"),
+    }));
+  }
 
+  return {
+    id: model.getDataValue("id"),
+    tier: model.getDataValue("tier"),
+    school: model.getDataValue("school"),
+    name: model.getDataValue("name"),
+    saveAbility: model.getDataValue("saveAbility"),
+    description: model.getDataValue("description"),
+    ritual: model.getDataValue("ritual"),
+    attack: model.getDataValue("attack"),
+    castingTime: model.getDataValue("castingTime"),
+    duration: model.getDataValue("duration"),
+    range: model.getDataValue("range"),
+    components: model.getDataValue("components"),
+    damage,
+  };
+}
 function convertSpellSlotResources(
   dto: CharacterSpellsDto,
   spellResources: { [key: string]: SpellResource }
@@ -79,6 +164,7 @@ function convertSpellSlotResources(
   convertField(dto, "specialSlots", spellResources);
   convertField(dto, "spellSlotsAvailable", spellResources);
   convertField(dto, "specialSlotsAvailable", spellResources);
+  convertField(dto, "souls", spellResources);
 }
 function convertField(
   dto: CharacterSpellsDto,

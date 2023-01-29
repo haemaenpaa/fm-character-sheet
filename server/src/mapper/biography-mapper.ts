@@ -14,8 +14,11 @@ export function convertBiographyDto(dto: CharacterBiographyDto): CharacterBio {
 }
 
 export function convertBiographyDbModel(
-  model: CharacterBio
-): CharacterBiographyDto {
+  model?: CharacterBio
+): CharacterBiographyDto | undefined {
+  if (!model) {
+    return undefined;
+  }
   return {
     concept: model.getDataValue("concept"),
     appearance: model.getDataValue("appearance"),

@@ -20,8 +20,11 @@ export function convertHitDiceRemainingDto(
 }
 
 export function convertHitDiceDbModel(
-  model: HitDice | HitDiceRemaining
-): CharacterHitDiceDto {
+  model?: HitDice | HitDiceRemaining
+): CharacterHitDiceDto | undefined {
+  if (!model) {
+    return undefined;
+  }
   return {
     6: model.getDataValue("d6"),
     8: model.getDataValue("d8"),

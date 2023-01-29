@@ -35,6 +35,7 @@ export function convertInventoryContainerDbModel(
     description: model.getDataValue("description"),
     baseWeight: model.getDataValue("baseWeight"),
     weightMultiplierPercent: model.getDataValue("weightMultiplierPercent"),
+    contents: model.getDataValue("contents")?.map(convertItemDbModel),
   };
 }
 
