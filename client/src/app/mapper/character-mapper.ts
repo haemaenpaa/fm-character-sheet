@@ -1,16 +1,23 @@
 import {
+  AoSelectionDto,
   AttackEffectDto,
+  CharacterAttackDto,
+  CharacterBiographyDto,
+  CharacterResourceDto,
   CharacterSpellsDto,
   DamageRollDto,
   InventoryContainerDto,
   ItemDto,
+  SkillDto,
   SpellDto,
 } from 'fm-transfer-model';
 import { CharacterDto } from 'fm-transfer-model/src/model/character';
 import { AoSelection } from '../model/ao-selection';
 import Character from '../model/character';
 import CharacterAttack, { AttackEffect } from '../model/character-attack';
+import { CharacterBiography } from '../model/character-bio';
 import { CharacterBuilder } from '../model/character-builder';
+import { CharacterResource } from '../model/character-resource';
 import { CharacterSpells, Spell } from '../model/character-spells';
 import { DamageRoll } from '../model/damage-roll';
 import { RollComponent } from '../model/diceroll';
@@ -22,6 +29,7 @@ import {
   Item,
 } from '../model/item';
 import { ResistanceType } from '../model/resistance';
+import { Skill } from '../model/skill';
 
 export function convertCharacterDto(dto: CharacterDto): Character {
   const builder = new CharacterBuilder();
@@ -47,6 +55,171 @@ export function convertCharacterDto(dto: CharacterDto): Character {
   convertHp(ret, dto);
   convertHitDice(dto, ret);
   return ret;
+}
+
+export function convertCharacterModel(character: Character): CharacterDto {
+  const ret = {
+    id: character.id,
+    abilities: {
+      br: character.abilities.br.score,
+      dex: character.abilities.dex.score,
+      vit: character.abilities.vit.score,
+      int: character.abilities.int.score,
+      cun: character.abilities.cun.score,
+      pre: character.abilities.pre.score,
+      man: character.abilities.man.score,
+      com: character.abilities.com.score,
+    },
+    defaultSkills: { ...character.defaultSkills },
+    hitPointTotal: character.hitPointTotal,
+    hitPointMaximum: character.hitPointMaximum,
+    tempHitPoints: character.tempHitPoints,
+    hitDice: { ...character.hitDice },
+    hitDiceRemaining: { ...character.hitDiceRemaining },
+    selections: character.selections.map(convertAoSelectionModel),
+    customSkills: character.customSkills.map(convertSkillModel),
+    savingThrows: [...character.savingThrows],
+    armorValue: character.armorValue,
+    damageResistances: character.damageResistances.map((res) => ({
+      type: res.type,
+      value: res.value,
+    })),
+    statusResistances: character.statusResistances.map((res) => ({
+      type: res.type,
+      value: res.value,
+    })),
+    spells: convertSpellBookModel(character.spells),
+    attacks: character.attacks.map(convertAttackModel),
+    inventory: character.inventory.map(convertInventoryContainerModel),
+    biography: convertBiographyModel(character.biography),
+    resources: character.resources.map(convertResourceModel),
+  };
+
+  return ret;
+}
+
+function convertResourceModel(model: CharacterResource): CharacterResourceDto {
+  return {
+    id: model.id,
+    name: model.name,
+    current: model.current,
+    max: model.max,
+    shortRest: model.shortRest,
+  };
+}
+
+function convertBiographyModel(
+  model: CharacterBiography
+): CharacterBiographyDto {
+  return {
+    concept: model.concept,
+    appearance: model.appearance,
+    soulMarkDescription: model.soulMarkDescription,
+    characterBiography: model.characterBiography,
+    characterConnections: model.characterConnections,
+    height: model.height,
+    weight: model.weight,
+  };
+}
+function convertInventoryContainerModel(
+  model: InventoryContainer
+): InventoryContainerDto {
+  return {
+    id: model.id,
+    name: model.name,
+    description: model.description,
+    baseWeight: model.baseWeight,
+    weightMultiplierPercent: model.weightMultiplierPercent,
+    contents: model.contents.map(convertItemModel),
+  };
+}
+function convertItemModel(model: Item): ItemDto {
+  return {
+    id: model.id,
+    name: model.name,
+    description: model.description,
+    weight: model.weight,
+    quantity: model.quantity,
+    attunement: model.attunement,
+    equipped: model.equipped,
+  };
+}
+
+function convertAttackModel(model: CharacterAttack): CharacterAttackDto {
+  return {
+    id: model.id,
+    name: model.name,
+    range: model.range,
+    abilities: model.abilities,
+    proficient: model.proficient,
+    attackBonus: model.attackBonus,
+    damage: model.damage.map(convertDamageRollModel),
+    offhand: model.offhand,
+    effects: model.effects.map((e) => ({
+      id: e.id,
+      save: e.save,
+      dv: e.dv,
+      description: e.description,
+    })),
+  };
+}
+
+function convertSpellBookModel(model: CharacterSpells): CharacterSpellsDto {
+  const spells: { [key: number]: SpellDto[] } = {};
+  for (const tier in model.spells) {
+    spells[tier] = model.spells[tier].map(convertSpellModel);
+  }
+  return {
+    spellcastingAbility: model.spellcastingAbility,
+    soulFragments: { ...model.soulFragments },
+    souls: { ...model.souls },
+    spellSlots: { ...model.spellSlots },
+    spellSlotsAvailable: { ...model.spellSlotsAvailable },
+    specialSlots: { ...model.specialSlots },
+    specialSlotsAvailable: { ...model.specialSlotsAvailable },
+    spells,
+  };
+}
+function convertSpellModel(model: Spell): SpellDto {
+  return {
+    id: model.id,
+    tier: model.tier,
+    school: model.school,
+    name: model.name,
+    saveAbility: model.saveAbility,
+    description: model.description,
+    damage: model.damage.map(convertDamageRollModel),
+    upcastDamage: model.upcastDamage.map(convertDamageRollModel),
+    ritual: model.ritual,
+    soulMastery: model.soulMastery,
+    concentration: model.concentration,
+    attack: model.attack,
+    castingTime: model.castingTime,
+    duration: model.duration,
+    range: model.range,
+    components: model.components,
+    effect: model.effect,
+  };
+}
+function convertSkillModel(skill: Skill): SkillDto {
+  return {
+    identifier: skill.identifier,
+    name: skill.name,
+    rank: skill.rank,
+    defaultAbilities: [...skill.defaultAbilities],
+  };
+}
+function convertAoSelectionModel(selection: AoSelection): AoSelectionDto {
+  return {
+    id: selection.id,
+    abilityOrigin: selection.abilityOrigin,
+    level: selection.level,
+    name: selection.name,
+    description: selection.description,
+    hilightColor: selection.hilightColor,
+    isPrimary: selection.isPrimary,
+    takenAtLevel: selection.takenAtLevel,
+  };
 }
 
 function convertHp(ret: Character, dto: CharacterDto) {
@@ -271,6 +444,14 @@ function convertDamageRollDto(dto: DamageRollDto): DamageRoll {
     type: dto.type!,
   };
   return roll;
+}
+function convertDamageRollModel(model: DamageRoll): DamageRollDto {
+  return {
+    id: model.id,
+    dieCount: model.roll.dice,
+    dieSize: model.roll.sides,
+    type: model.type,
+  };
 }
 
 function convertAttackEffectDto(dto: AttackEffectDto): AttackEffect {
