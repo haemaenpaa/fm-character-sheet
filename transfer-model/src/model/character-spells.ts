@@ -1,6 +1,6 @@
-import { DamageRoll } from "./damage-roll";
+import { DamageRollDto as DamageRollDto } from "./damage-roll";
 
-export interface Spell {
+export interface SpellDto {
   /**
    * Identifier.
    */
@@ -28,11 +28,11 @@ export interface Spell {
   /**
    * Damage rolls, if applicable.
    */
-  damage?: DamageRoll[];
+  damage?: DamageRollDto[];
   /**
    * Increase in damage on upcast.
    */
-  upcastDamage?: DamageRoll[];
+  upcastDamage?: DamageRollDto[];
   /**
    * Is this spell a ritual
    */
@@ -103,5 +103,5 @@ export interface CharacterSpellsDto {
   /**
    * Spells
    */
-  spells?: { [key: number]: Spell[] };
+  spells?: { [key: number]: SpellDto[] };
 }

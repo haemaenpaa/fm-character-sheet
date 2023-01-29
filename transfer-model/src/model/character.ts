@@ -1,11 +1,11 @@
 import { AoSelectionDto } from "./ao-selection";
-import CharacterAbilitiesDto from "./character-abilities";
-import CharacterAttackDto from "./character-attack";
+import { CharacterAbilitiesDto } from "./character-abilities";
+import { CharacterAttackDto } from "./character-attack";
 import { CharacterSpellsDto as CharacterSpellsDto } from "./character-spells";
-import { Race } from "./race";
-import ResistanceDto from "./resistance";
+import { RaceDto } from "./race";
+import { ResistanceDto } from "./resistance";
 import { SkillDto } from "./skill";
-import CharacterHitDiceDto from "./character-hit-dice";
+import { CharacterHitDiceDto } from "./character-hit-dice";
 import { InventoryContainer as InventoryContainerDto } from "./item";
 import { CharacterBiographyDto as CharacterBiographyDto } from "./character-bio";
 import { CharacterResourceDto } from "./character-resource";
@@ -14,7 +14,7 @@ import { CharacterResourceDto } from "./character-resource";
  * A single character model, that encapsulates everything contained in a character sheet.
  *
  */
-export default class CharacterDto {
+export class CharacterDto {
   id?: number;
   /**
    * Abilities; brawn, dexterity etc.
@@ -67,5 +67,5 @@ export default class CharacterDto {
   public resources?: CharacterResourceDto[];
 
   public name?: string;
-  public race?: Race;
+  public race?: RaceDto;
 }

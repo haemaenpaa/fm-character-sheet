@@ -1,7 +1,7 @@
 /**
  * Data structure to contain a character's abilities.
  */
-export default class CharacterAbilitiesDto {
+export interface CharacterAbilitiesDto {
   br?: number;
   dex?: number;
   vit?: number;

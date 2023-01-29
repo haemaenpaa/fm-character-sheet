@@ -1,4 +1,4 @@
-export default interface CharacterHitDiceDto {
+export interface CharacterHitDiceDto {
   6?: number;
   8?: number;
   10?: number;

@@ -1,4 +1,4 @@
-import { DamageRoll as DamageRollDto } from "./damage-roll";
+import { DamageRollDto as DamageRollDto } from "./damage-roll";
 
 export interface AttackEffectDto {
   id?: number;
@@ -7,7 +7,7 @@ export interface AttackEffectDto {
   description?: string;
 }
 
-export default interface CharacterAttackDto {
+export interface CharacterAttackDto {
   id?: number;
   /**
    * Name of the attack, e.g. Broadsword.

@@ -1,6 +1,6 @@
-export interface DamageRoll {
+export interface DamageRollDto {
   id?: number;
-  diecount?: number;
+  dieCount?: number;
   dieSize?: number;
   type?: string;
 }

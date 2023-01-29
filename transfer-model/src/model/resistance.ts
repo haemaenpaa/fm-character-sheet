@@ -5,7 +5,7 @@ export type ResistanceType = "resistance" | "immunity";
 /**
  * A structure for damage or effect resistance.
  */
-export default interface Resistance {
+export interface ResistanceDto {
   type?: ResistanceType;
   value?: string;
 }
