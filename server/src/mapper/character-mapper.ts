@@ -4,6 +4,7 @@ import { Character } from "../model/character";
 import { Resistance } from "../model/resistance";
 import { convertAbilitiesDto } from "./abilities-mapper";
 import { convertAttackDto } from "./attack-mapper";
+import { convertBiographyDto } from "./biography-mapper";
 import {
   convertHitDiceDto,
   convertHitDiceRemainingDto,
@@ -57,6 +58,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
       ? convertHitDiceRemainingDto(dto.hitDiceRemaining)
       : undefined,
     inventory: dto.inventory?.map(convertInventoryContainerDto),
+    biography: dto.biography ? convertBiographyDto(dto.biography) : undefined,
   });
   return character;
 }
