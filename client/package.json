@@ -24,6 +24,7 @@
     "@angular/router": "15.0.3",
     "@auth0/auth0-angular": "^1.11.1",
     "bootstrap": "5.2.1",
+    "fm-transfer-model": "file:../transfer-model",
     "jquery": "3.6.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
