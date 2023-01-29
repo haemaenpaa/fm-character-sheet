@@ -55,7 +55,7 @@ export class CharacterBuilder {
   selections: AoSelection[] = [];
   skills: Skill[] = [];
   savingThrows: string[] = [];
-  armorValueOverride: number | null = null;
+  armorValueOverride?: number;
   hitPointMaximum: number = 0;
   damageResistances: Resistance[] = [];
   statusResistances: Resistance[] = [];
@@ -89,7 +89,7 @@ export class CharacterBuilder {
     return this;
   }
 
-  setRace(name: string, subrace?: string): CharacterBuilder {
+  setRace(name: string, subrace?: string | null): CharacterBuilder {
     this.race.name = name;
     if (subrace) {
       this.race.subrace = subrace;
@@ -145,6 +145,11 @@ export class CharacterBuilder {
 
   addRacialAbility(name: string, description: string): CharacterBuilder {
     this.race.abilities[name] = description;
+    return this;
+  }
+
+  setRacePowerfulBuild(powerful: boolean): CharacterBuilder {
+    this.race.powerfulBuild = powerful;
     return this;
   }
 
@@ -312,7 +317,7 @@ export class CharacterBuilder {
     return this;
   }
 
-  setArmorValue(av: number | null): CharacterBuilder {
+  setArmorValue(av?: number): CharacterBuilder {
     this.armorValueOverride = av;
     return this;
   }
@@ -418,7 +423,7 @@ export class CharacterBuilder {
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
-      saveAbility: null,
+      saveAbility: undefined,
       attack: false,
       tier,
       school,
@@ -533,7 +538,7 @@ export class CharacterBuilder {
       tier,
       school,
       name,
-      saveAbility: null,
+      saveAbility: undefined,
       description,
       damage,
       upcastDamage,

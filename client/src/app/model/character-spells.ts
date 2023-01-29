@@ -20,7 +20,7 @@ export interface Spell {
   /**
    * Ability used for the saving throw.
    */
-  saveAbility: string | null;
+  saveAbility?: string;
   /**
    * Description of the spell.
    */

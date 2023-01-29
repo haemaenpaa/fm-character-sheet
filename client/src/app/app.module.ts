@@ -11,6 +11,7 @@ import { CharacterLiComponent } from './character-list/character-li/character-li
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 import { LoginButtonComponent } from './login-button/login-button.component';
+import { HttpClientModule } from '@angular/common/http';
 
 /**
  * The main application module.
@@ -29,6 +30,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     BrowserAnimationsModule,
     MatDialogModule,
     AuthModule.forRoot({ ...environment.auth0 }),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

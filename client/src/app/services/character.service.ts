@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CharacterDto } from 'fm-transfer-model/src/model/character';
+import { environment } from 'src/environments/environment';
 import Character from '../model/character';
 import { CharacterBuilder } from '../model/character-builder';
 import { randomId } from '../model/id-generator';
@@ -26,7 +29,7 @@ function characterCompare(a: Character, b: Character): number {
 })
 export class CharacterService {
   private characters: Character[];
-  constructor() {
+  constructor(private http: HttpClient) {
     this.characters = [];
     for (var i = 0; i < localStorage.length; i++) {
       const key: string = localStorage.key(i)!;
@@ -99,6 +102,20 @@ export class CharacterService {
     });
   }
 
+  createCharacter(character: Character): Promise<Character> {
+    const ret: Promise<Character> = new Promise((res, rej) => {
+      this.http
+        .post<CharacterDto>(
+          environment.api.serverUrl + '/api/character/',
+          character
+        )
+        .subscribe((resp) => {
+          console.log(resp);
+          res(character);
+        });
+    });
+    return ret;
+  }
   /**
    * Saves the character.
    * @param character

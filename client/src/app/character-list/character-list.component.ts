@@ -82,6 +82,7 @@ export class CharacterListComponent {
     this.characterService
       .persistCharacter(character)
       .then((c) => (this.hilightId = c.id || 0));
+    this.characterService.createCharacter(character);
   }
 
   onImport(event: Event) {
