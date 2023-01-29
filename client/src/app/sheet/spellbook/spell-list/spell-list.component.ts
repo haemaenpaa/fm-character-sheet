@@ -53,7 +53,6 @@ export class SpellListComponent {
       tier: this.tier,
       school: 'Abjuration',
       name: 'New Spell',
-      saveAbility: null,
       description: '',
       damage: [],
       upcastDamage: [],
