@@ -8,7 +8,7 @@ export class AttackDamage extends Model {}
 export class AttackEffect extends Model {}
 
 export const AttackDef: ModelAttributes<Attack> = {
-  id: { type: DataTypes.NUMBER, primaryKey: true },
+  id: { type: DataTypes.BIGINT, primaryKey: true },
   name: { type: DataTypes.STRING },
   range: { type: DataTypes.STRING },
   /**

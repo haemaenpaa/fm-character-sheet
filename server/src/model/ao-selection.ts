@@ -7,7 +7,7 @@ export class AoSelection extends Model {
 
 export const AoSelectionDef: ModelAttributes<AoSelection> = {
   id: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.BIGINT,
     primaryKey: true,
   },
   name: {

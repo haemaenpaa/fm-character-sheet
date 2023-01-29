@@ -38,7 +38,7 @@ export class SpellResource extends Model {}
 
 export const SpellDef: ModelAttributes<Spell> = {
   id: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.BIGINT,
     primaryKey: true,
   },
   tier: {

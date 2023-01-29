@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 export const DamageRollDef = {
   id: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.BIGINT,
     primaryKey: true,
   },
   dieCount: {

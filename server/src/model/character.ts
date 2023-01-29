@@ -26,7 +26,7 @@ export class Character extends Model {
 
 export const CharacterDef: ModelAttributes<Character> = {
   id: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.BIGINT,
     primaryKey: true,
     allowNull: false,
   },

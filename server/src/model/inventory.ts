@@ -14,7 +14,7 @@ export class InventoryContainer extends Model {
 }
 
 export const ItemDef: ModelAttributes<Item> = {
-  id: { type: DataTypes.NUMBER, primaryKey: true },
+  id: { type: DataTypes.BIGINT, primaryKey: true },
   name: { type: DataTypes.STRING },
   description: { type: DataTypes.TEXT },
   weight: { type: DataTypes.NUMBER },
@@ -24,7 +24,7 @@ export const ItemDef: ModelAttributes<Item> = {
 };
 
 export const InventoryContainerDef: ModelAttributes<InventoryContainer> = {
-  id: { type: DataTypes.NUMBER, primaryKey: true },
+  id: { type: DataTypes.BIGINT, primaryKey: true },
   name: { type: DataTypes.STRING },
   description: { type: DataTypes.TEXT },
   baseWeight: { type: DataTypes.NUMBER },

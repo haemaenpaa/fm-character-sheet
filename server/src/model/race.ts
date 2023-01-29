@@ -18,8 +18,9 @@ export class RacialAbility extends Model {}
 
 export const RaceDef: ModelAttributes<Race> = {
   id: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.BIGINT,
     primaryKey: true,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING,

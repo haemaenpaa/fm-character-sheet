@@ -1,9 +1,14 @@
 import express from "express";
+import { CharacterDto } from "fm-transfer-model/src/model/character";
 import * as path from "path";
-import { convertCharacterDbModel } from "./mapper/character-mapper";
+import {
+  convertCharacterDbModel,
+  convertCharacterDto,
+} from "./mapper/character-mapper";
 import { Attack } from "./model/attack";
 import { Character } from "./model/character";
 import { CharacterSpellbook, Spell } from "./model/character-spells";
+import { randomId } from "./model/id-generator";
 import { InventoryContainer } from "./model/inventory";
 import { Race } from "./model/race";
 import { initializeSchema } from "./model/schema";
@@ -89,6 +94,70 @@ app.get("/api/character/:characterId", async (req, res) => {
       res.setHeader("Content-Type", "application/json");
       res.send(convertCharacterDbModel(character));
     });
+});
+
+app.post("/api/character/", async (req, res) => {
+  const character = req.body as CharacterDto;
+  if (!character.id) {
+    character.id = randomId();
+  }
+  const dbCharacter = convertCharacterDto(character);
+  sequelize
+    .model("Character")
+    .create(dbCharacter.dataValues, { include: characterInclude })
+    .then((created) => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(convertCharacterDbModel(created));
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+app.put("/api/character/:characterId", async (req, res) => {
+  const characterId = Number.parseInt(req.params.characterId);
+  const character = req.body as CharacterDto;
+  if (character.id !== characterId) {
+    res.sendStatus(400);
+    return;
+  }
+
+  const dbCharacter = convertCharacterDto(character);
+  const characterModel = sequelize.model("Character");
+  const existing = await characterModel.findOne({
+    where: { id: characterId },
+    include: characterInclude,
+  });
+  if (existing) {
+    const result = await existing.update(dbCharacter.dataValues);
+    res.setHeader("Content-Type", "application/json");
+    res.send(convertCharacterDbModel(result));
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+app.delete("/api/character/:characterId", async (req, res) => {
+  const characterId = Number.parseInt(req.params.characterId);
+  const characterModel = sequelize.model("Character");
+  const existing = await characterModel.findOne({
+    where: { id: characterId },
+    include: characterInclude,
+  });
+  if (!existing) {
+    res.sendStatus(200);
+  } else {
+    existing
+      .destroy()
+      .then((_) => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.sendStatus(500);
+      });
+  }
 });
 
 /**
