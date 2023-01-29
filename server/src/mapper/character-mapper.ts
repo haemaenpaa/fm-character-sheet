@@ -8,6 +8,7 @@ import {
   convertHitDiceDto,
   convertHitDiceRemainingDto,
 } from "./hit-die-mapper";
+import { convertInventoryContainerDto } from "./inventory-mapper";
 import { convertRaceDto } from "./race-mapper";
 import { convertSelectionDto } from "./selection-mapper";
 
@@ -55,6 +56,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
     hitDiceRemaining: dto.hitDiceRemaining
       ? convertHitDiceRemainingDto(dto.hitDiceRemaining)
       : undefined,
+    inventory: dto.inventory?.map(convertInventoryContainerDto),
   });
   return character;
 }

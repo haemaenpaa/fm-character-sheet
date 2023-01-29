@@ -6,7 +6,7 @@ import { RaceDto } from "./race";
 import { ResistanceDto } from "./resistance";
 import { SkillDto } from "./skill";
 import { CharacterHitDiceDto } from "./character-hit-dice";
-import { InventoryContainer as InventoryContainerDto } from "./item";
+import { InventoryContainerDto as InventoryContainerDto } from "./item";
 import { CharacterBiographyDto as CharacterBiographyDto } from "./character-bio";
 import { CharacterResourceDto } from "./character-resource";
 

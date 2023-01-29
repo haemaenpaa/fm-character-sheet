@@ -1,5 +1,3 @@
-export type AttunementStatus = "none" | "unattuned" | "attuned";
-export type EquipStatus = "none" | "unequipped" | "equipped";
 /**
  * An item entry in a character's inventory.
  */
@@ -27,16 +25,16 @@ export interface ItemDto {
   /**
    * Attunement status
    */
-  attunement?: AttunementStatus;
+  attunement?: string;
   /**
    * Equip status
    */
-  equipped?: EquipStatus;
+  equipped?: string;
 }
 /**
  * An inventory container, e.g. a backpack.
  */
-export interface InventoryContainer {
+export interface InventoryContainerDto {
   id?: number;
   /**
    * Name
