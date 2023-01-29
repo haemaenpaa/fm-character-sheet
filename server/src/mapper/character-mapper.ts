@@ -11,6 +11,7 @@ import {
 } from "./hit-die-mapper";
 import { convertInventoryContainerDto } from "./inventory-mapper";
 import { convertRaceDto } from "./race-mapper";
+import { convertResourceDto } from "./resource-mapper";
 import { convertSelectionDto } from "./selection-mapper";
 
 export function convertCharacterDto(dto: CharacterDto): Character {
@@ -59,6 +60,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
       : undefined,
     inventory: dto.inventory?.map(convertInventoryContainerDto),
     biography: dto.biography ? convertBiographyDto(dto.biography) : undefined,
+    resources: dto.resources?.map(convertResourceDto),
   });
   return character;
 }
