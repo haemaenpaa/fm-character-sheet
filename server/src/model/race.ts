@@ -38,4 +38,7 @@ export const RacialAbilityDef: ModelAttributes<RacialAbility> = {
   name: {
     type: DataTypes.STRING,
   },
+  description: {
+    type: DataTypes.TEXT,
+  },
 };
