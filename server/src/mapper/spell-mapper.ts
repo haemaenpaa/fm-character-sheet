@@ -109,6 +109,7 @@ export function convertSpellDto(dto: SpellDto): Spell {
     description: dto.description,
     ritual: !!dto.ritual,
     attack: !!dto.attack,
+    soulMastery: !!dto.soulMastery,
     castingTime: dto.castingTime,
     duration: dto.duration,
     range: dto.range,

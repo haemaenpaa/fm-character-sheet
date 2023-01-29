@@ -64,7 +64,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
     hitPointMaximum: dto.hitPointMaximum || 0,
     tempHitPoints: dto.tempHitPoints || 0,
     ...convertAbilitiesDto(dto.abilities),
-    savingThrows: dto.savingThrows?.join(",") || [],
+    savingThrows: dto.savingThrows?.join(",") || null,
     race,
     resistances,
     selections: dto.selections?.map((d) => convertSelectionDto(d)),
@@ -100,7 +100,7 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
   const customSkills = model
     .getDataValue("customSkills")
     ?.map(convertSkillDbModel);
-
+  console.log("Brawn", model.getDataValue("br"));
   const abilities: CharacterAbilitiesDto = {
     br: model.getDataValue("br"),
     dex: model.getDataValue("dex"),
@@ -140,9 +140,9 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
     ),
     inventory: model
       .getDataValue("inventory")
-      .map(convertInventoryContainerDbModel),
+      ?.map(convertInventoryContainerDbModel),
     biography: convertBiographyDbModel(model.getDataValue("biography")),
-    resources: model.getDataValue("resources").map(convertResourceDbModel),
+    resources: model.getDataValue("resources")?.map(convertResourceDbModel),
   };
 }
 

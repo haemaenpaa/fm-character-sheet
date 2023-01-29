@@ -1,4 +1,5 @@
-import express from "express";
+import express, { Response } from "express";
+import bodyParser, { json } from "body-parser";
 import { CharacterDto } from "fm-transfer-model/src/model/character";
 import * as path from "path";
 import {
@@ -13,7 +14,10 @@ import { InventoryContainer } from "./model/inventory";
 import { Race } from "./model/race";
 import { initializeSchema } from "./model/schema";
 const app = express();
+const jsonParser = bodyParser.json();
+
 const port = process.env.PORT || 3000;
+const allowedOrigins = process.env.ALLOW_ORIGIN?.split(",") || ["*"];
 
 const sequelize = initializeSchema("sqlite::memory:");
 
@@ -63,20 +67,31 @@ sequelize.sync().then((sql) => {
 const frontendPath =
   process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");
 
+function setHeaders(res: Response) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", ["content-type"]);
+  res.setHeader("Content-Type", "application/json");
+}
 //Serve the frontend content as static.
 app.use(express.static(frontendPath));
+
+app.options("/api/**", async (req, res, next) => {
+  setHeaders(res);
+  next();
+});
 
 app.get("/api/characters", async (req, res) => {
   sequelize
     .model("Character")
     .findAll({ include: characterInclude })
     .then((characters) => {
-      res.setHeader("Content-Type", "application/json");
+      setHeaders(res);
       res.send(characters.map(convertCharacterDbModel));
     });
 });
 
 app.get("/api/character/:characterId", async (req, res) => {
+  setHeaders(res);
   const characterId = Number.parseInt(req.params.characterId);
   if (isNaN(characterId)) {
     res.sendStatus(400);
@@ -90,13 +105,12 @@ app.get("/api/character/:characterId", async (req, res) => {
         res.sendStatus(404);
         return;
       }
-      //TODO: Map the database model into a data transfer model
-      res.setHeader("Content-Type", "application/json");
       res.send(convertCharacterDbModel(character));
     });
 });
 
-app.post("/api/character/", async (req, res) => {
+app.post("/api/character/", jsonParser, async (req, res) => {
+  setHeaders(res);
   const character = req.body as CharacterDto;
   if (!character.id) {
     character.id = randomId();
@@ -106,7 +120,6 @@ app.post("/api/character/", async (req, res) => {
     .model("Character")
     .create(dbCharacter.dataValues, { include: characterInclude })
     .then((created) => {
-      res.setHeader("Content-Type", "application/json");
       res.send(convertCharacterDbModel(created));
     })
     .catch((err) => {
@@ -115,7 +128,8 @@ app.post("/api/character/", async (req, res) => {
     });
 });
 
-app.put("/api/character/:characterId", async (req, res) => {
+app.put("/api/character/:characterId", jsonParser, async (req, res) => {
+  setHeaders(res);
   const characterId = Number.parseInt(req.params.characterId);
   const character = req.body as CharacterDto;
   if (character.id !== characterId) {
@@ -131,7 +145,6 @@ app.put("/api/character/:characterId", async (req, res) => {
   });
   if (existing) {
     const result = await existing.update(dbCharacter.dataValues);
-    res.setHeader("Content-Type", "application/json");
     res.send(convertCharacterDbModel(result));
   } else {
     res.sendStatus(404);
@@ -139,6 +152,7 @@ app.put("/api/character/:characterId", async (req, res) => {
 });
 
 app.delete("/api/character/:characterId", async (req, res) => {
+  setHeaders(res);
   const characterId = Number.parseInt(req.params.characterId);
   const characterModel = sequelize.model("Character");
   const existing = await characterModel.findOne({

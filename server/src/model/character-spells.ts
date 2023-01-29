@@ -64,6 +64,9 @@ export const SpellDef: ModelAttributes<Spell> = {
   attack: {
     type: DataTypes.BOOLEAN,
   },
+  soulMastery: {
+    type: DataTypes.BOOLEAN,
+  },
   castingTime: {
     type: DataTypes.STRING,
   },

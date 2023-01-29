@@ -20,7 +20,7 @@ export interface SpellDto {
   /**
    * Ability used for the saving throw.
    */
-  saveAbility?: string | null;
+  saveAbility?: string;
   /**
    * Description of the spell.
    */
@@ -75,7 +75,7 @@ export interface CharacterSpellsDto {
   /**
    * Spellcasting ability
    */
-  spellcastingAbility?: string | null;
+  spellcastingAbility?: string;
   /**
    * Soul fragments. Indexed by the denominator, e.g. index 4 maps to 1/4.
    */
