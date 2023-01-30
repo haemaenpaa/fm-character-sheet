@@ -2,6 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CharacterDto } from 'fm-transfer-model/src/model/character';
 import { environment } from 'src/environments/environment';
+import {
+  convertCharacterDto,
+  convertCharacterModel,
+} from '../mapper/character-mapper';
 import Character from '../model/character';
 import { CharacterBuilder } from '../model/character-builder';
 import { randomId } from '../model/id-generator';
@@ -102,19 +106,37 @@ export class CharacterService {
     });
   }
 
+  /**
+   * Creates a new character in the backend.
+   * @param character
+   * @returns
+   */
   createCharacter(character: Character): Promise<Character> {
     const ret: Promise<Character> = new Promise((res, rej) => {
       this.http
         .post<CharacterDto>(
           environment.api.serverUrl + '/api/character/',
-          character
+          convertCharacterModel(character)
         )
         .subscribe((resp) => {
-          console.log(resp);
-          res(character);
+          console.log('Character created', resp);
+          res(convertCharacterDto(resp));
         });
     });
     return ret;
+  }
+  updateCharacter(character: Character): Promise<Character> {
+    return new Promise((res, rej) => {
+      this.http
+        .put<CharacterDto>(
+          `${environment.api.serverUrl}/api/character/${character.id}`,
+          convertCharacterModel(character)
+        )
+        .subscribe((resp) => {
+          console.log('Character updated', resp);
+          res(convertCharacterDto(resp));
+        });
+    });
   }
   /**
    * Saves the character.
@@ -164,6 +186,12 @@ export class CharacterService {
     return new Promise((resolve) => {
       localStorage.removeItem(LS_CHAR_PREFIX + id);
       this.characters = this.characters.filter((c) => c.id !== id);
+      this.http
+        .delete(`${environment.api.serverUrl}/api/character/${id}`)
+        .subscribe((resp) => {
+          console.log('Character deleted', resp);
+          resolve;
+        });
       resolve();
     });
   }

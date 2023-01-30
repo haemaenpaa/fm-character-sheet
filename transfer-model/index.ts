@@ -1,4 +1,4 @@
-import CharacterDto from "./src/model/character";
+import { CharacterDto } from "./src/model/character";
 
 export * from "./src/model/ao-selection";
 export * from "./src/model/character";

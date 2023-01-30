@@ -61,7 +61,8 @@ export class CharacterSheetComponent {
 
   onCharacterChanged() {
     console.log('Character changed. Persisting character.');
-    this.characterService.persistCharacter(this.character!).then((c) => {
+    this.characterService.persistCharacter(this.character!);
+    this.characterService.updateCharacter(this.character!).then((c) => {
       this.character = c;
       this.changeDetector.detectChanges();
     });

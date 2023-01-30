@@ -33,6 +33,9 @@ import { Skill } from '../model/skill';
 
 export function convertCharacterDto(dto: CharacterDto): Character {
   const builder = new CharacterBuilder();
+  if (dto.name) {
+    builder.setName(dto.name);
+  }
   convertRace(dto, builder);
 
   convertAbilities(dto, builder);
@@ -60,6 +63,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
 export function convertCharacterModel(character: Character): CharacterDto {
   const ret = {
     id: character.id,
+    name: character.name,
     abilities: {
       br: character.abilities.br.score,
       dex: character.abilities.dex.score,
