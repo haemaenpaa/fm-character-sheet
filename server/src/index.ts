@@ -1,84 +1,30 @@
-import express, { Response } from "express";
-import bodyParser, { json } from "body-parser";
+import express from "express";
+import { json } from "body-parser";
 import { CharacterDto } from "fm-transfer-model/src/model/character";
 import * as path from "path";
 import {
   convertCharacterDbModel,
   convertCharacterDto,
 } from "./mapper/character-mapper";
-import { Attack } from "./model/attack";
-import { Character } from "./model/character";
-import { CharacterSpellbook, Spell } from "./model/character-spells";
 import { randomId } from "./model/id-generator";
-import { InventoryContainer } from "./model/inventory";
+import { characterInclude, sequelize } from "./sequelize-configuration";
+import { app, setHeaders, jsonParser, port } from "./app";
+import { Character } from "./model/character";
 import { Race } from "./model/race";
-import { initializeSchema } from "./model/schema";
-const app = express();
-const jsonParser = bodyParser.json();
-
-const port = process.env.PORT || 3000;
-const allowedOrigins = process.env.ALLOW_ORIGIN?.split(",") || ["*"];
-
-const sequelize = initializeSchema("sqlite::memory:");
-
-const characterInclude = [
-  {
-    association: Character.Race,
-    include: [Race.Abilities, Race.Resistances],
-  },
-  Character.Resistances,
-  Character.Selections,
-  Character.HitDice,
-  Character.HitDiceRemaining,
-  {
-    association: Character.Spellbook,
-    include: [
-      {
-        association: CharacterSpellbook.Spells,
-        include: [Spell.Damage, Spell.UpcastDamage],
-      },
-    ],
-  },
-  {
-    association: Character.Attacks,
-    include: [Attack.Damage, Attack.Effect],
-  },
-  {
-    association: Character.Inventory,
-    include: [InventoryContainer.Contents],
-  },
-  Character.Bio,
-  Character.Resources,
-];
-sequelize.sync().then((sql) => {
-  const charModel = sql.model("Character");
-  charModel.create(
-    {
-      id: 1,
-      name: "Placeholder character",
-      resistances: [{ type: "immunity", value: "Fire", category: "damage" }],
-    },
-    {
-      include: characterInclude,
-    }
-  );
-});
+import { convertRaceDto } from "./mapper/race-mapper";
+import { CharacterSpellbook } from "./model/character-spells";
+import { convertSpellbookDto } from "./mapper/spell-mapper";
+import {
+  convertHitDiceDto,
+  convertHitDiceRemainingDto,
+} from "./mapper/hit-die-mapper";
+import { convertBiographyDto } from "./mapper/biography-mapper";
 
 const frontendPath =
   process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");
 
-function setHeaders(res: Response) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", ["content-type"]);
-  res.setHeader("Content-Type", "application/json");
-}
 //Serve the frontend content as static.
 app.use(express.static(frontendPath));
-
-app.options("/api/**", async (req, res, next) => {
-  setHeaders(res);
-  next();
-});
 
 app.get("/api/characters", async (req, res) => {
   sequelize
@@ -116,16 +62,64 @@ app.post("/api/character/", jsonParser, async (req, res) => {
     character.id = randomId();
   }
   const dbCharacter = convertCharacterDto(character);
-  sequelize
-    .model("Character")
-    .create(dbCharacter.dataValues, { include: characterInclude })
-    .then((created) => {
-      res.send(convertCharacterDbModel(created));
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
+  console.log("creating character:", dbCharacter.dataValues);
+  sequelize.transaction().then((transaction) => {
+    Character.create(dbCharacter.dataValues, { include: characterInclude })
+      .then(async (created) => {
+        const characterId = created.getDataValue("id");
+        const creates = [];
+        if (character.race) {
+          const race = convertRaceDto(character.race);
+          race.setDataValue("id", characterId);
+          race.setDataValue("raceId", characterId);
+          creates.push(race.save());
+        }
+        if (character.spells) {
+          const spells = convertSpellbookDto(character.spells);
+          spells.setDataValue("id", characterId);
+          spells.setDataValue("spellId", characterId);
+          creates.push(spells.save());
+        }
+        if (character.hitDice) {
+          const hitDice = convertHitDiceDto(character.hitDice);
+          hitDice.setDataValue("hitDiceId", characterId);
+          creates.push(hitDice.save());
+        }
+        if (character.hitDiceRemaining) {
+          const hitDiceRemaining = convertHitDiceRemainingDto(
+            character.hitDiceRemaining
+          );
+          hitDiceRemaining.setDataValue("hitDiceRemainingId", characterId);
+          creates.push(hitDiceRemaining.save());
+        }
+
+        if (character.biography) {
+          const bio = convertBiographyDto(character.biography);
+          bio.setDataValue("id", characterId);
+          bio.setDataValue("biographyId", characterId);
+          creates.push(bio.save());
+        }
+        await Promise.all(creates)
+          .catch((error) => {
+            transaction.rollback();
+            console.error("Failed to create character data", error);
+            res.sendStatus(500);
+          })
+          .then(async (_) => await transaction.commit());
+        Character.findOne({
+          where: { id: characterId },
+          include: characterInclude,
+        }).then((found) => {
+          console.log("Created final:", found.dataValues);
+          res.send(convertCharacterDbModel(found));
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        transaction.rollback();
+        res.sendStatus(500);
+      });
+  });
 });
 
 app.put("/api/character/:characterId", jsonParser, async (req, res) => {
@@ -136,6 +130,7 @@ app.put("/api/character/:characterId", jsonParser, async (req, res) => {
     res.sendStatus(400);
     return;
   }
+  console.log("Update request", character);
 
   const dbCharacter = convertCharacterDto(character);
   const characterModel = sequelize.model("Character");
@@ -143,8 +138,13 @@ app.put("/api/character/:characterId", jsonParser, async (req, res) => {
     where: { id: characterId },
     include: characterInclude,
   });
+  console.log("existing", existing.dataValues);
   if (existing) {
-    const result = await existing.update(dbCharacter.dataValues);
+    console.log("Converting", dbCharacter.dataValues);
+    const result = await existing.update(dbCharacter.dataValues, {
+      include: characterInclude,
+    });
+    console.log("Update result:", result.dataValues);
     res.send(convertCharacterDbModel(result));
   } else {
     res.sendStatus(404);

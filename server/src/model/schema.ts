@@ -106,7 +106,6 @@ function associateAttacks() {
 function associateSpells() {
   Character.Spellbook = Character.hasOne(CharacterSpellbook, { as: "spells" });
 
-  CharacterSpellbook.Character = CharacterSpellbook.belongsTo(Character);
   CharacterSpellbook.Spells = CharacterSpellbook.hasMany(Spell, {
     as: "spells",
   });

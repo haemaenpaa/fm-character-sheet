@@ -2,6 +2,7 @@ import { CharacterAbilitiesDto, ResistanceDto } from "fm-transfer-model";
 import { CharacterDto } from "fm-transfer-model/src/model/character";
 import { Model } from "sequelize";
 import ModelManager from "sequelize/types/model-manager";
+import { characterInclude } from "../sequelize-configuration";
 import { Character } from "../model/character";
 import { Resistance } from "../model/resistance";
 import { convertAbilitiesDto } from "./abilities-mapper";
@@ -27,9 +28,10 @@ import {
 } from "./selection-mapper";
 import { convertSkillDbModel, convertSkillDto } from "./skill-mapper";
 import { convertSpellbookDbModel, convertSpellbookDto } from "./spell-mapper";
+import { randomId } from "../model/id-generator";
 
 export function convertCharacterDto(dto: CharacterDto): Character {
-  const ret = Character.build();
+  const characterId = dto.id || randomId();
   var skills = {
     anh: 0,
     ath: 0,
@@ -49,34 +51,46 @@ export function convertCharacterDto(dto: CharacterDto): Character {
     skills = { ...dto.defaultSkills };
   }
   const resistances = (dto.damageResistances || [])
-    .map((d) => convertResistanceDto(d, "damage"))
+    .map((d) => convertResistanceDto(d, "damage").dataValues)
     .concat(
-      dto.statusResistances.map((d) => convertResistanceDto(d, "status"))
+      dto.statusResistances.map(
+        (d) => convertResistanceDto(d, "status").dataValues
+      )
     );
 
-  const race = convertRaceDto(dto.race);
-  const character = Character.build({
+  const race = convertRaceDto(dto.race)?.dataValues;
+  const biography = dto.biography
+    ? convertBiographyDto(dto.biography).dataValues
+    : undefined;
+
+  const dataValues = {
     id: dto.id,
     name: dto.name || "",
     ...skills,
-    customSkills: dto.customSkills?.map(convertSkillDto),
+    customSkills: dto.customSkills?.map((s) => convertSkillDto(s).dataValues),
     hitPointTotal: dto.hitPointTotal || 0,
     hitPointMaximum: dto.hitPointMaximum || 0,
     tempHitPoints: dto.tempHitPoints || 0,
     ...convertAbilitiesDto(dto.abilities),
-    savingThrows: dto.savingThrows?.join(",") || null,
+    savingThrows: dto.savingThrows?.join(","),
     race,
     resistances,
-    selections: dto.selections?.map((d) => convertSelectionDto(d)),
-    attacks: dto.attacks?.map(convertAttackDto),
-    hitDice: dto.hitDice ? convertHitDiceDto(dto.hitDice) : undefined,
-    hitDiceRemaining: dto.hitDiceRemaining
-      ? convertHitDiceRemainingDto(dto.hitDiceRemaining)
+    selections: dto.selections?.map((d) => convertSelectionDto(d).dataValues),
+    attacks: dto.attacks?.map((a) => convertAttackDto(a).dataValues),
+    hitDice: dto.hitDice
+      ? convertHitDiceDto(dto.hitDice).dataValues
       : undefined,
-    inventory: dto.inventory?.map(convertInventoryContainerDto),
-    biography: dto.biography ? convertBiographyDto(dto.biography) : undefined,
+    hitDiceRemaining: dto.hitDiceRemaining
+      ? convertHitDiceRemainingDto(dto.hitDiceRemaining).dataValues
+      : undefined,
+    inventory: dto.inventory?.map(
+      (i) => convertInventoryContainerDto(i).dataValues
+    ),
+    biography,
     resources: dto.resources?.map(convertResourceDto),
-  });
+  };
+  console.log("BUILD OPTIONS:", dataValues);
+  const character = Character.build(dataValues, { include: characterInclude });
   return character;
 }
 
@@ -100,7 +114,6 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
   const customSkills = model
     .getDataValue("customSkills")
     ?.map(convertSkillDbModel);
-  console.log("Brawn", model.getDataValue("br"));
   const abilities: CharacterAbilitiesDto = {
     br: model.getDataValue("br"),
     dex: model.getDataValue("dex"),
@@ -113,7 +126,7 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
     com: model.getDataValue("com"),
   };
 
-  return {
+  const ret: CharacterDto = {
     id: model.getDataValue("id"),
     name: model.getDataValue("name"),
     defaultSkills,
@@ -143,7 +156,10 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
       ?.map(convertInventoryContainerDbModel),
     biography: convertBiographyDbModel(model.getDataValue("biography")),
     resources: model.getDataValue("resources")?.map(convertResourceDbModel),
+    savingThrows: model.getDataValue("savingThrows")?.split(","),
   };
+  console.log("Converted model", ret);
+  return ret;
 }
 
 function convertResistanceDto(

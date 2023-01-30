@@ -5,13 +5,11 @@ import {
   Model,
   ModelAttributes,
 } from "sequelize";
-import { Character } from "./character";
 
 /**
  * The "Spellbook" section of the character.
  */
 export class CharacterSpellbook extends Model {
-  static Character: BelongsTo<Character, CharacterSpellbook>;
   static Spells: HasMany<CharacterSpellbook, Spell>;
   static Resources: HasMany<CharacterSpellbook, SpellResource>;
 }
@@ -85,6 +83,7 @@ export const SpellDef: ModelAttributes<Spell> = {
 };
 
 export const CharacterSpellbookDef: ModelAttributes<CharacterSpellbook> = {
+  id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
   spellcastingAbility: {
     type: DataTypes.STRING,
   },

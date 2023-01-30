@@ -18,12 +18,17 @@ export function convertSpellbookDto(
     : Object.keys(dto.spells)
         .map((k) => convertSpellDto(dto.spells[k]))
         .reduce((out, cur) => out.concat(cur), []);
-  return CharacterSpellbook.build({
-    spellcastingAbility: dto.spellcastingAbility,
-    soulFragments: dto.soulFragments ? JSON.stringify(dto.soulFragments) : "{}",
-    resources,
-    spells,
-  });
+  return CharacterSpellbook.build(
+    {
+      spellcastingAbility: dto.spellcastingAbility,
+      soulFragments: dto.soulFragments
+        ? JSON.stringify(dto.soulFragments)
+        : "{}",
+      resources,
+      spells,
+    },
+    { include: [CharacterSpellbook.Resources, CharacterSpellbook.Spells] }
+  );
 }
 export function convertSpellbookDbModel(
   model?: CharacterSpellbook

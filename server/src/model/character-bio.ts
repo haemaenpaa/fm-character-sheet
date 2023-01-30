@@ -6,6 +6,7 @@ export class CharacterBio extends Model {
 }
 
 export const CharacterBioDef: ModelAttributes<CharacterBio> = {
+  id: { type: DataTypes.BIGINT, primaryKey: true },
   concept: { type: DataTypes.STRING },
   appearance: { type: DataTypes.TEXT("long") },
   soulMarkDescription: { type: DataTypes.TEXT("long") },

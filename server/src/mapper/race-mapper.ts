@@ -3,6 +3,9 @@ import { Race, RacialAbility } from "../model/race";
 import { RacialResistance } from "../model/resistance";
 
 export function convertRaceDto(dto: RaceDto): Race {
+  if (!dto) {
+    return undefined;
+  }
   const resistances = (dto.damageResistances || [])
     .map((d) => convertResistanceDto(d, "damage"))
     .concat(
