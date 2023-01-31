@@ -1,4 +1,5 @@
 import { DamageRoll } from './damage-roll';
+import { randomId } from './id-generator';
 
 export interface Spell {
   /**
@@ -72,6 +73,7 @@ export interface Spell {
 }
 
 export class CharacterSpells {
+  id: number = randomId();
   /**
    * Spellcasting ability
    */

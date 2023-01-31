@@ -30,6 +30,12 @@ import {
 } from '../model/item';
 import { ResistanceType } from '../model/resistance';
 import { Skill } from '../model/skill';
+import { convertBiographyModel } from './biography-mapper';
+import {
+  convertDamageRollModel,
+  convertDamageRollDto,
+} from './damage-roll-mapper';
+import { convertSpellBookModel } from './spell-mapper';
 
 export function convertCharacterDto(dto: CharacterDto): Character {
   const builder = new CharacterBuilder();
@@ -112,19 +118,6 @@ function convertResourceModel(model: CharacterResource): CharacterResourceDto {
   };
 }
 
-function convertBiographyModel(
-  model: CharacterBiography
-): CharacterBiographyDto {
-  return {
-    concept: model.concept,
-    appearance: model.appearance,
-    soulMarkDescription: model.soulMarkDescription,
-    characterBiography: model.characterBiography,
-    characterConnections: model.characterConnections,
-    height: model.height,
-    weight: model.weight,
-  };
-}
 function convertInventoryContainerModel(
   model: InventoryContainer
 ): InventoryContainerDto {
@@ -165,44 +158,6 @@ function convertAttackModel(model: CharacterAttack): CharacterAttackDto {
       dv: e.dv,
       description: e.description,
     })),
-  };
-}
-
-function convertSpellBookModel(model: CharacterSpells): CharacterSpellsDto {
-  const spells: { [key: number]: SpellDto[] } = {};
-  for (const tier in model.spells) {
-    spells[tier] = model.spells[tier].map(convertSpellModel);
-  }
-  return {
-    spellcastingAbility: model.spellcastingAbility,
-    soulFragments: { ...model.soulFragments },
-    souls: { ...model.souls },
-    spellSlots: { ...model.spellSlots },
-    spellSlotsAvailable: { ...model.spellSlotsAvailable },
-    specialSlots: { ...model.specialSlots },
-    specialSlotsAvailable: { ...model.specialSlotsAvailable },
-    spells,
-  };
-}
-function convertSpellModel(model: Spell): SpellDto {
-  return {
-    id: model.id,
-    tier: model.tier,
-    school: model.school,
-    name: model.name,
-    saveAbility: model.saveAbility,
-    description: model.description,
-    damage: model.damage.map(convertDamageRollModel),
-    upcastDamage: model.upcastDamage.map(convertDamageRollModel),
-    ritual: model.ritual,
-    soulMastery: model.soulMastery,
-    concentration: model.concentration,
-    attack: model.attack,
-    castingTime: model.castingTime,
-    duration: model.duration,
-    range: model.range,
-    components: model.components,
-    effect: model.effect,
   };
 }
 function convertSkillModel(skill: Skill): SkillDto {
@@ -262,6 +217,9 @@ function convertBio(dto: CharacterDto, builder: CharacterBuilder) {
     }
     if (biographyDto.weight) {
       builder.setWeight(biographyDto.weight);
+    }
+    if (dto.id) {
+      builder.biography.id = dto.id;
     }
   }
 }
@@ -438,23 +396,6 @@ function convertSpellDto(dto: SpellDto): Spell {
     range: dto.range || '',
     components: dto.components || '',
     effect: dto.effect || '',
-  };
-}
-
-function convertDamageRollDto(dto: DamageRollDto): DamageRoll {
-  const roll: DamageRoll = {
-    id: dto.id || randomId(),
-    roll: new RollComponent(dto.dieSize!, dto.dieCount!),
-    type: dto.type!,
-  };
-  return roll;
-}
-function convertDamageRollModel(model: DamageRoll): DamageRollDto {
-  return {
-    id: model.id,
-    dieCount: model.roll.dice,
-    dieSize: model.roll.sides,
-    type: model.type,
   };
 }
 
