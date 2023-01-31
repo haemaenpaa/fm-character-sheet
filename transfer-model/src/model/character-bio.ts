@@ -1,4 +1,5 @@
 export interface CharacterBiographyDto {
+  id?: number;
   /**
    * A short blurb describing the character concept.
    */

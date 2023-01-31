@@ -126,6 +126,12 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
     com: model.getDataValue("com"),
   };
 
+  const savingThrowsString: string = model.getDataValue("savingThrows");
+  var savingThrows = [];
+  if (savingThrowsString && savingThrowsString.length > 0) {
+    savingThrows = savingThrowsString?.split(",");
+  }
+
   const ret: CharacterDto = {
     id: model.getDataValue("id"),
     name: model.getDataValue("name"),
@@ -156,7 +162,7 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
       ?.map(convertInventoryContainerDbModel),
     biography: convertBiographyDbModel(model.getDataValue("biography")),
     resources: model.getDataValue("resources")?.map(convertResourceDbModel),
-    savingThrows: model.getDataValue("savingThrows")?.split(","),
+    savingThrows,
   };
   console.log("Converted model", ret);
   return ret;

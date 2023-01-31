@@ -75,7 +75,7 @@ export class CharacterSpells {
   /**
    * Spellcasting ability
    */
-  spellcastingAbility: string | null = null;
+  spellcastingAbility?: string;
   /**
    * Soul fragments. Indexed by the denominator, e.g. index 4 maps to 1/4.
    */

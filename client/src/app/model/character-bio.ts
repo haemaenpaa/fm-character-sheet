@@ -1,5 +1,9 @@
 export interface CharacterBiography {
   /**
+   * Identifier.
+   */
+  id: number;
+  /**
    * A short blurb describing the character concept.
    */
   concept?: string;

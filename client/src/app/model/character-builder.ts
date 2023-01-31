@@ -75,6 +75,7 @@ export class CharacterBuilder {
   ];
 
   biography: CharacterBiography = {
+    id: randomId(),
     appearance: '',
     characterBiography: '',
     characterConnections: '',
