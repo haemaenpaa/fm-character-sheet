@@ -72,6 +72,7 @@ export interface SpellDto {
 }
 
 export interface CharacterSpellsDto {
+  id?: number;
   /**
    * Spellcasting ability
    */

@@ -124,7 +124,7 @@ export function convertSpellDto(dto: SpellDto): Spell {
     upcastDamage,
   });
 }
-function convertSpellDbModel(model: Spell): SpellDto {
+export function convertSpellDbModel(model: Spell): SpellDto {
   var damage: DamageRollDto[] = [];
   var upcastDamage: DamageRollDto[] = [];
   const modelDamage = model.getDataValue("damage") as SpellDamage[];
