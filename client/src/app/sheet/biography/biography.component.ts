@@ -25,11 +25,17 @@ export class BiographyComponent {
       ...this.character.biography,
       [section]: value,
     };
+    const old = this.character.biography;
+    this.character.biography = toModify;
     this.bioService
       .updateCharacerBio(this.character.id!, toModify)
       .then((modified) => {
         this.character.biography = modified;
         this.characterChanged.emit();
+      })
+      .catch((err) => {
+        console.log('Error', err);
+        this.character.biography = old;
       });
   }
 }
