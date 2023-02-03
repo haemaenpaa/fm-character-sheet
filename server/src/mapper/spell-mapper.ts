@@ -7,6 +7,7 @@ import {
   UpcastDamage,
 } from "../model/character-spells";
 import { randomId } from "../model/id-generator";
+import { spellInclude } from "../sequelize-configuration";
 
 export function convertSpellbookDto(
   dto: CharacterSpellsDto
@@ -108,24 +109,29 @@ export function convertSpellDto(dto: SpellDto): Spell {
       );
     }
   }
-  return Spell.build({
-    id: dto.id!,
-    tier: dto.tier || 0,
-    school: dto.school,
-    name: dto.name,
-    saveAbility: dto.saveAbility,
-    description: dto.description,
-    ritual: !!dto.ritual,
-    attack: !!dto.attack,
-    soulMastery: !!dto.soulMastery,
-    castingTime: dto.castingTime,
-    duration: dto.duration,
-    range: dto.range,
-    components: dto.components,
-    effect: dto.effect,
-    damage,
-    upcastDamage,
-  });
+  return Spell.build(
+    {
+      id: dto.id!,
+      tier: dto.tier || 0,
+      school: dto.school,
+      name: dto.name,
+      saveAbility: dto.saveAbility,
+      description: dto.description,
+      ritual: !!dto.ritual,
+      attack: !!dto.attack,
+      soulMastery: !!dto.soulMastery,
+      castingTime: dto.castingTime,
+      duration: dto.duration,
+      range: dto.range,
+      components: dto.components,
+      effect: dto.effect,
+      damage,
+      upcastDamage,
+    },
+    {
+      include: spellInclude,
+    }
+  );
 }
 export function convertSpellDbModel(model: Spell): SpellDto {
   var damage: DamageRollDto[] = [];
@@ -141,7 +147,7 @@ export function convertSpellDbModel(model: Spell): SpellDto {
     }));
   }
   if (modelUpcastDamage) {
-    damage = modelUpcastDamage.map((dmg) => ({
+    upcastDamage = modelUpcastDamage.map((dmg) => ({
       id: dmg.getDataValue("id"),
       dieCount: dmg.getDataValue("dieCount"),
       dieSize: dmg.getDataValue("dieSize"),
@@ -163,6 +169,7 @@ export function convertSpellDbModel(model: Spell): SpellDto {
     range: model.getDataValue("range"),
     components: model.getDataValue("components"),
     damage,
+    upcastDamage,
   };
 }
 function convertSpellSlotResources(

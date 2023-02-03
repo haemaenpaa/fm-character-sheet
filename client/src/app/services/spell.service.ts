@@ -60,7 +60,7 @@ export class SpellService {
       }
       this.http
         .post<SpellDto>(
-          `${environment.api.serverUrl}/api/character/${characterId}/spellbook/${spellbookId}`,
+          `${environment.api.serverUrl}/api/character/${characterId}/spells`,
           dto
         )
         .pipe(
@@ -77,11 +77,7 @@ export class SpellService {
     });
   }
 
-  updateSpell(
-    spell: Spell,
-    characterId: number,
-    spellbookId: number
-  ): Promise<Spell> {
+  updateSpell(spell: Spell, characterId: number): Promise<Spell> {
     return new Promise<Spell>((res, rej) => {
       const dto = convertSpellModel(spell);
       if (!spell.id) {
@@ -90,19 +86,39 @@ export class SpellService {
       }
       this.http
         .put<SpellDto>(
-          `${environment.api.serverUrl}/api/character/${characterId}/spellbook/${spellbookId}/${spell.id}`,
+          `${environment.api.serverUrl}/api/character/${characterId}/spells/${spell.id}`,
           dto
         )
         .pipe(
           retry(3),
           catchError((err) => {
             rej(err);
-            return throwError(() => new Error('Failed to create a spell.'));
+            return throwError(() => new Error('Failed to update a spell.'));
           })
         )
         .subscribe((created) => {
           const ret = convertSpellDto(created);
           res(ret);
+        });
+    });
+  }
+
+  deleteSpell(spellId: number, characterId: number): Promise<void> {
+    return new Promise((res, rej) => {
+      this.http
+        .delete(
+          `${environment.api.serverUrl}/api/character/${characterId}/spells/${spellId}`
+        )
+        .pipe(
+          //retry(3),
+          catchError((err) => {
+            rej(err);
+            console.error(err);
+            return throwError(() => new Error('Failed to delete a spell.'));
+          })
+        )
+        .subscribe((_) => {
+          res();
         });
     });
   }

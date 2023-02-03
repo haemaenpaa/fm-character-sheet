@@ -18,7 +18,7 @@ import {
   UpcastDamage,
 } from "../model/character-spells";
 import { randomId } from "../model/id-generator";
-import { DamageRollDto, SpellDto } from "fm-transfer-model";
+import { SpellDto } from "fm-transfer-model";
 
 export const exists = true;
 console.log("Registering spellbook controller.");
@@ -97,7 +97,7 @@ app.put(
             where: { id: modified.getDataValue("id") },
             include: spellBookInclude,
           });
-          console.log("Modified spellbook", ret.dataValues);
+
           res.send(convertSpellbookDbModel(ret));
         });
     }
@@ -123,6 +123,7 @@ app.post(
   "/api/character/:characterId/spells/",
   jsonParser,
   async (req, res) => {
+    setHeaders(res);
     const characterId = Number.parseInt(req.params["characterId"]);
     const spellbook = await CharacterSpellbook.findOne({
       where: { spellId: characterId },
@@ -178,7 +179,7 @@ app.post(
         .then(async (result) => {
           if (result) {
             const ret = await Spell.findOne({
-              where: { id: SpellId, SpellbookId: spellBookInclude },
+              where: { id: SpellId, SpellbookId: spellbookId },
               include: spellInclude,
             });
             res.send(convertSpellDbModel(ret));
@@ -197,16 +198,16 @@ app.put(
     const spellId = Number.parseInt(req.params["spellId"]);
     const spellbook = await CharacterSpellbook.findOne({
       where: { spellId: characterId },
-      include: spellBookInclude,
     });
     if (!spellbook) {
       console.error(`Character ${characterId} does not have a spellbook.`);
       res.sendStatus(404);
       return;
     }
-    const toModify = convertSpellDto(req.body);
+    const dto: SpellDto = req.body;
+    const toModify = convertSpellDto(dto);
     const found = await Spell.findOne({
-      where: { spellId, SpellbookId: spellbook.getDataValue("id") },
+      where: { id: spellId, SpellbookId: spellbook.getDataValue("id") },
     });
     if (!found) {
       console.error(
@@ -215,15 +216,58 @@ app.put(
       res.sendStatus(404);
       return;
     }
+    const transaction = await sequelize.transaction();
     found
       .update(toModify.dataValues, { include: spellInclude })
       .catch((err) => {
         console.log(`Failed to update spell ${spellId}`, err);
+        transaction.rollback();
         res.sendStatus(500);
       })
-      .then((result) => {
+      .then(async (result) => {
         if (result) {
-          res.send(convertSpellDbModel(result));
+          const promises: Promise<any>[] = [];
+          await SpellDamage.destroy({ where: { SpellId: spellId } });
+          await UpcastDamage.destroy({ where: { SpellId: spellId } });
+          if (dto.damage) {
+            promises.push(
+              SpellDamage.bulkCreate(
+                toModify.getDataValue("damage").map((d: SpellDamage) => ({
+                  ...d.dataValues,
+                  SpellId: spellId,
+                }))
+              )
+            );
+          }
+          if (dto.upcastDamage) {
+            promises.push(
+              UpcastDamage.bulkCreate(
+                toModify
+                  .getDataValue("upcastDamage")
+                  .map((d: UpcastDamage) => ({
+                    ...d.dataValues,
+                    SpellId: spellId,
+                  }))
+              )
+            );
+          }
+          Promise.all(promises)
+            .catch((error) => {
+              console.error("Failure updating damages.", error);
+              transaction.rollback();
+              res.sendStatus(500);
+            })
+            .then(async (result) => {
+              if (result) {
+                await transaction.commit();
+                const ret = await Spell.findOne({
+                  where: { id: spellId },
+                  include: spellInclude,
+                });
+                console.log("Updated: ", ret.dataValues);
+                res.send(convertSpellDbModel(ret));
+              }
+            });
         }
       });
   }
@@ -247,168 +291,16 @@ app.delete(
     }
     const toModify = convertSpellDto(req.body);
     Spell.destroy({
-      where: { spellId, SpellbookId: spellbook.getDataValue("id") },
+      where: { id: spellId, SpellbookId: spellbook.getDataValue("id") },
     })
       .catch((err) => {
         console.error("Error deleting spell", err);
         res.sendStatus(500);
       })
-      .then((_) => {
-        res.sendStatus(200);
-      });
-  }
-);
-
-app.put(
-  "/api/character/:characterId/spells/:spellId/:damageCategory",
-  jsonParser,
-  async (req, res) => {
-    const category = req.params["damageCategory"];
-    if (category !== "damage" && category !== "upcastDamage") {
-      console.error(`No damage category ${category} exists for spells.`);
-      res.send(400);
-      return;
-    }
-    setHeaders(res);
-    const characterId = Number.parseInt(req.params["characterId"]);
-    const spellId = Number.parseInt(req.params["spellId"]);
-
-    const damageDto: DamageRollDto = req.body;
-    const damageId = damageDto.id;
-
-    const spellbook = await CharacterSpellbook.findOne({
-      where: { spellId: characterId },
-      include: spellBookInclude,
-    });
-    if (!spellbook) {
-      console.error(`Character ${characterId} does not have a spellbook.`);
-      res.sendStatus(404);
-      return;
-    }
-    const spellbookId = spellbook.getDataValue("id");
-    const spell = Spell.findOne({
-      where: {
-        id: spellId,
-        SpellbookId: spellbookId,
-      },
-    });
-    if (!spell) {
-      console.error(`No spell ${spellId} in spellbook ${spellbookId}`);
-      res.sendStatus(404);
-      return;
-    }
-    const damageModel =
-      category === "upcastDamage" ? UpcastDamage : SpellDamage;
-
-    const existing = await damageModel.findOne({
-      where: {
-        id: damageId,
-        SpellId: spellId,
-      },
-    });
-    if (!existing) {
-      damageModel
-        .create({
-          id: damageDto.id,
-          SpellId: spellId,
-          dieSize: damageDto.dieSize,
-          dieCount: damageDto.dieCount,
-          type: damageDto.type,
-        })
-        .catch((err) => {
-          console.error("Failed to create spell damage:", err);
-          res.sendStatus(500);
-        })
-        .then((created) => {
-          if (created) {
-            const returnDto: DamageRollDto = convertDamageDto(created);
-            res.send(returnDto);
-          }
-        });
-    } else {
-      existing
-        .update({
-          dieCount: damageDto.dieCount,
-          dieSize: damageDto.dieSize,
-          type: damageDto.type,
-        })
-        .catch((err) => {
-          console.error("Failed to create spell damage:", err);
-          res.sendStatus(500);
-        })
-        .then((updated) => {
-          if (updated) {
-            const returnDto = convertDamageDto(updated);
-            res.send(returnDto);
-          }
-        });
-    }
-  }
-);
-
-app.delete(
-  "/api/character/:characterId/spells/:spellId/:damageCategory",
-  jsonParser,
-  async (req, res) => {
-    const category = req.params["damageCategory"];
-    if (category !== "damage" && category !== "upcastDamage") {
-      console.error(`No damage category ${category} exists for spells.`);
-      res.send(400);
-      return;
-    }
-    setHeaders(res);
-    const characterId = Number.parseInt(req.params["characterId"]);
-    const spellId = Number.parseInt(req.params["spellId"]);
-
-    const damageDto: DamageRollDto = req.body;
-    const damageId = damageDto.id;
-
-    const spellbook = await CharacterSpellbook.findOne({
-      where: { spellId: characterId },
-      include: spellBookInclude,
-    });
-    if (!spellbook) {
-      console.error(`Character ${characterId} does not have a spellbook.`);
-      res.sendStatus(404);
-      return;
-    }
-    const spellbookId = spellbook.getDataValue("id");
-    const spell = Spell.findOne({
-      where: {
-        id: spellId,
-        SpellbookId: spellbookId,
-      },
-    });
-    if (!spell) {
-      console.error(`No spell ${spellId} in spellbook ${spellbookId}`);
-      res.sendStatus(404);
-      return;
-    }
-    const damageModel =
-      category === "upcastDamage" ? UpcastDamage : SpellDamage;
-    damageModel
-      .destroy({
-        where: {
-          id: damageId,
-          SpellId: spellId,
-        },
-      })
-      .catch((err) => {
-        console.log("Failed to delete spell damage", err);
-        res.send(500);
-      })
       .then((count) => {
-        if (count) {
-          res.sendStatus(200);
+        if (count >= 0) {
+          res.send();
         }
       });
   }
 );
-function convertDamageDto(created: UpcastDamage | SpellDamage): DamageRollDto {
-  return {
-    id: created.getDataValue("id"),
-    dieCount: created.getDataValue("dieCount"),
-    dieSize: created.getDataValue("dieSize"),
-    type: created.getDataValue("type"),
-  };
-}

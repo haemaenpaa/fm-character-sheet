@@ -1,10 +1,11 @@
 import { DamageRollDto } from 'fm-transfer-model';
 import { DamageRoll } from '../model/damage-roll';
 import { RollComponent } from '../model/diceroll';
+import { randomId } from '../model/id-generator';
 
 export function convertDamageRollDto(dto: DamageRollDto): DamageRoll {
   const roll: DamageRoll = {
-    id: dto.id || -1,
+    id: dto.id || randomId(),
     roll: new RollComponent(dto.dieSize!, dto.dieCount!),
     type: dto.type!,
   };

@@ -112,8 +112,16 @@ export class SpellbookComponent {
     if (!this.character.spells.spells[spell.tier]) {
       this.character.spells.spells[spell.tier] = [];
     }
+    const old = [...this.character.spells.spells[spell.tier]];
     this.character.spells.spells[spell.tier].push(spell);
-    this.characterChanged.emit();
+    this.spellService
+      .addSpell(spell, this.character.id!, this.character.spells.id)
+      .catch((_) => {
+        this.character.spells.spells[spell.tier] = old;
+      })
+      .then((_) => {
+        this.characterChanged.emit();
+      });
   }
 
   editSlots() {
@@ -124,6 +132,15 @@ export class SpellbookComponent {
       },
     });
     dialog.afterClosed().subscribe((result: SlotEditResult) => {
+      const oldSlotsAvailable = {
+        ...this.character.spells.spellSlotsAvailable,
+      };
+      const oldSpecialAvailable = {
+        ...this.character.spells.specialSlotsAvailable,
+      };
+      const oldSlots = { ...this.character.spells.spellSlots };
+      const oldSpecial = { ...this.character.spells.specialSlotsAvailable };
+
       this.character.spells.spellSlots = result.regularSlots;
       this.character.spells.specialSlots = result.specialSlots;
       for (const key in this.character.spells.spellSlotsAvailable) {
@@ -144,7 +161,17 @@ export class SpellbookComponent {
             result.specialSlots[key];
         }
       }
-      this.characterChanged.emit();
+      this.spellService
+        .updateSpellBook(this.character.spells, this.character.id!)
+        .catch((error) => {
+          this.character.spells.specialSlots = oldSpecial;
+          this.character.spells.spellSlots = oldSlots;
+          this.character.spells.spellSlotsAvailable = oldSlotsAvailable;
+          this.character.spells.specialSlotsAvailable = oldSpecialAvailable;
+        })
+        .then(() => {
+          this.characterChanged.emit();
+        });
     });
   }
 
@@ -156,35 +183,65 @@ export class SpellbookComponent {
     const spellId = event.old.id;
     const oldTier = event.old.tier;
     const newTier = event.new.tier;
+    debugger;
     if (newTier !== oldTier) {
       this.changeSpellTier(event.old, event.new);
     } else {
       const spellList = this.character.spells.spells[oldTier];
+      const oldSpells = [...spellList];
       this.character.spells.spells[oldTier] = spellList.map((s) =>
         s.id !== spellId ? s : event.new!
       );
-      this.characterChanged.emit();
+      this.spellService
+        .updateSpell(event.new, this.character.id!)
+        .catch((_) => {
+          this.character.spells.spells[oldTier] = oldSpells;
+        })
+        .then((_) => this.characterChanged.emit());
     }
   }
 
   deleteSpell(spell: Spell) {
+    const oldValue = [...this.character.spells.spells[spell.tier]];
     this.character.spells.spells[spell.tier] = this.character.spells.spells[
       spell.tier
     ].filter((s) => s.id !== spell.id);
-    this.characterChanged.emit();
+    this.spellService
+      .deleteSpell(spell.id, this.character.id!)
+      .catch((err) => {
+        console.error(err);
+        this.character.spells.spells[spell.tier] = oldValue;
+      })
+      .then((_) => this.characterChanged.emit());
   }
 
   changeSpellTier(oldSpell: Spell, newSpell: Spell) {
+    debugger;
+    const oldOriginList = [...this.character.spells.spells[oldSpell.tier]];
+
     this.character.spells.spells[oldSpell.tier] = this.character.spells.spells[
       oldSpell.tier
     ].filter((s) => s.id !== oldSpell.id);
+
+    debugger;
     if (!this.character.spells.spells[newSpell.tier]) {
       this.character.spells.spells[newSpell.tier] = [];
     }
+
+    const oldTargetList = [...this.character.spells.spells[newSpell.tier]];
+
     this.character.spells.spells[newSpell.tier] = [
       ...this.character.spells.spells[newSpell.tier],
       newSpell,
     ];
-    this.characterChanged.emit();
+    this.spellService
+      .updateSpell(newSpell, this.character.id!)
+      .catch((_) => {
+        this.character.spells.spells[oldSpell.tier] = oldOriginList;
+        this.character.spells.spells[newSpell.tier] = oldTargetList;
+      })
+      .then((_) => {
+        this.characterChanged.emit();
+      });
   }
 }
