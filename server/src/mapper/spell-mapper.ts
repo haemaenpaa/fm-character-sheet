@@ -6,6 +6,7 @@ import {
   SpellResource,
   UpcastDamage,
 } from "../model/character-spells";
+import { randomId } from "../model/id-generator";
 
 export function convertSpellbookDto(
   dto: CharacterSpellsDto
@@ -13,6 +14,7 @@ export function convertSpellbookDto(
   const spellResources: { [key: string]: SpellResource } = {};
   convertSpellSlotResources(dto, spellResources);
   const resources = Object.keys(spellResources).map((k) => spellResources[k]);
+
   const spells = !dto.spells
     ? []
     : Object.keys(dto.spells)
@@ -20,6 +22,7 @@ export function convertSpellbookDto(
         .reduce((out, cur) => out.concat(cur), []);
   return CharacterSpellbook.build(
     {
+      id: dto.id,
       spellcastingAbility: dto.spellcastingAbility,
       soulFragments: dto.soulFragments
         ? JSON.stringify(dto.soulFragments)
@@ -66,8 +69,7 @@ export function convertSpellbookDbModel(
       spells[tier].push(convertSpellDbModel(spell));
     });
   }
-
-  return {
+  const ret = {
     spellcastingAbility: model.getDataValue("spellcastingAbility"),
     soulFragments,
     souls,
@@ -77,6 +79,7 @@ export function convertSpellbookDbModel(
     specialSlotsAvailable,
     spells,
   };
+  return ret;
 }
 export function convertSpellDto(dto: SpellDto): Spell {
   const damage: SpellDamage[] = [];
@@ -179,19 +182,22 @@ function convertField(
 ) {
   if (dto[field]) {
     for (const tier in dto[field]) {
-      ensureTierPresent(tier, spellResources);
+      ensureTierPresent(dto, tier, spellResources);
       spellResources[tier].setDataValue(field, dto[field][tier]);
     }
   }
 }
 
 function ensureTierPresent(
+  dto: CharacterSpellsDto,
   tier: string,
   spellResources: { [key: string]: SpellResource }
 ) {
   if (!(tier in spellResources)) {
     spellResources[tier] = SpellResource.build({
+      id: randomId(),
       tier: Number.parseInt(tier),
+      SpellbookId: dto.id,
     });
   }
 }

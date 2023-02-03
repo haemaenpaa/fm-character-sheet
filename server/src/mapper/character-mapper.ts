@@ -1,7 +1,5 @@
 import { CharacterAbilitiesDto, ResistanceDto } from "fm-transfer-model";
 import { CharacterDto } from "fm-transfer-model/src/model/character";
-import { Model } from "sequelize";
-import ModelManager from "sequelize/types/model-manager";
 import { characterInclude } from "../sequelize-configuration";
 import { Character } from "../model/character";
 import { Resistance } from "../model/resistance";

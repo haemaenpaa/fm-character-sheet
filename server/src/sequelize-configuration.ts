@@ -8,6 +8,11 @@ import { initializeSchema } from "./model/schema";
 export const sequelize = initializeSchema("sqlite:dev-db.db");
 sequelize.sync();
 
+export const spellInclude = [Spell.Damage, Spell.UpcastDamage];
+export const spellBookInclude = [
+  { association: CharacterSpellbook.Spells, include: spellInclude },
+  CharacterSpellbook.Resources,
+];
 export const characterInclude = [
   {
     association: Character.Race,

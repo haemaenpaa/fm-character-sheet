@@ -1,5 +1,9 @@
 import { app, jsonParser, setHeaders } from "../app";
-import { sequelize } from "../sequelize-configuration";
+import {
+  sequelize,
+  spellBookInclude,
+  spellInclude,
+} from "../sequelize-configuration";
 import {
   convertSpellbookDbModel,
   convertSpellbookDto,
@@ -10,20 +14,14 @@ import {
   CharacterSpellbook,
   Spell,
   SpellDamage,
+  SpellResource,
   UpcastDamage,
 } from "../model/character-spells";
 import { randomId } from "../model/id-generator";
 import { DamageRollDto, SpellDto } from "fm-transfer-model";
-import { DamageRollDef } from "../model/damage-roll";
 
 export const exists = true;
 console.log("Registering spellbook controller.");
-
-const spellInclude = [Spell.Damage, Spell.UpcastDamage];
-const spellBookInclude = [
-  { association: CharacterSpellbook.Spells, include: spellInclude },
-  CharacterSpellbook.Resources,
-];
 
 app.get("/api/character/:characterId/spellbook", async (req, res) => {
   setHeaders(res);
@@ -46,16 +44,19 @@ app.put(
     setHeaders(res);
     const characterId = Number.parseInt(req.params["characterId"]);
     const toModify = convertSpellbookDto(req.body);
+    toModify.setDataValue("spellId", characterId);
     const found = await CharacterSpellbook.findOne({
-      where: { spellbookId: characterId },
+      where: { spellId: characterId },
       include: [CharacterSpellbook.Spells, CharacterSpellbook.Resources],
     });
     if (!found) {
-      toModify.setDataValue("spellId", characterId);
       toModify
         .save()
         .catch((err) => {
-          console.error(err);
+          console.error(
+            `Could not create spellbook for character ${characterId}`,
+            err
+          );
           res.send(500);
         })
         .then(async (modified) => {
@@ -66,6 +67,37 @@ app.put(
             where: { id: modified.getDataValue("id") },
             include: spellBookInclude,
           });
+          res.send(convertSpellbookDbModel(ret));
+        });
+    } else {
+      const transaction = await sequelize.transaction();
+      found
+        .update(toModify.dataValues)
+        .catch((err) => {
+          console.error(
+            `Could not update spellbook for character ${characterId}`,
+            err
+          );
+          transaction.rollback();
+          res.send(500);
+        })
+        .then(async (modified) => {
+          if (!modified) {
+            return;
+          }
+
+          await SpellResource.destroy({
+            where: { SpellbookId: toModify.getDataValue("id") },
+          });
+          await SpellResource.bulkCreate(
+            toModify.getDataValue("resources").map((r) => r.dataValues)
+          );
+          await transaction.commit();
+          const ret = await CharacterSpellbook.findOne({
+            where: { id: modified.getDataValue("id") },
+            include: spellBookInclude,
+          });
+          console.log("Modified spellbook", ret.dataValues);
           res.send(convertSpellbookDbModel(ret));
         });
     }

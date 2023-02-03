@@ -4,6 +4,7 @@ import Character from 'src/app/model/character';
 import { Spell } from 'src/app/model/character-spells';
 import { SpellAttackParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { SpellService } from 'src/app/services/spell.service';
 import { AbilitySelectComponent } from '../ability-select/ability-select.component';
 import {
   SlotEditComponent,
@@ -35,7 +36,8 @@ export class SpellbookComponent {
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
   constructor(
     private dialog: MatDialog,
-    private actionService: ActionDispatchService
+    private actionService: ActionDispatchService,
+    private spellService: SpellService
   ) {}
 
   selectCastingAbility() {
@@ -51,7 +53,14 @@ export class SpellbookComponent {
 
     dialogRef.afterClosed().subscribe((abl) => {
       if (abl) {
+        const old = this.character.spells.spellcastingAbility;
         this.character.spells.spellcastingAbility = abl;
+        this.spellService
+          .updateSpellBook(this.character.spells, this.character.id!)
+          .catch((err) => {
+            console.log('Could not set spellcasting ability', err);
+            this.character.spells.spellcastingAbility = old;
+          });
       }
       this.characterChanged.emit();
     });
@@ -74,11 +83,29 @@ export class SpellbookComponent {
   }
 
   modifyResources(tier: number, event: ResourceChangeEvent) {
+    const oldSlotsAvailable = { ...this.character.spells.spellSlotsAvailable };
+    const oldSpecialAvailable = {
+      ...this.character.spells.specialSlotsAvailable,
+    };
+    const oldSouls = { ...this.character.spells.souls };
     this.character.spells.specialSlotsAvailable[tier] =
       event.specialSlotsAvailable;
     this.character.spells.spellSlotsAvailable[tier] = event.slotsAvailable;
     this.character.spells.souls[tier] = event.souls;
-    this.characterChanged.emit();
+    this.spellService
+      .updateSpellBook(this.character.spells, this.character.id!)
+      .catch((err) => {
+        console.log(
+          'Failed to update spellbook. Resetting to pre-update state.',
+          err
+        );
+        this.character.spells.specialSlotsAvailable = oldSpecialAvailable;
+        this.character.spells.spellSlotsAvailable = oldSlotsAvailable;
+        this.character.spells.souls = oldSouls;
+      })
+      .then((_) => {
+        this.characterChanged.emit();
+      });
   }
 
   addSpell(spell: Spell) {

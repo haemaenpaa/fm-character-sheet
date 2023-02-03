@@ -65,7 +65,9 @@ app.post("/api/character/", jsonParser, async (req, res) => {
         }
         if (character.spells) {
           const spells = convertSpellbookDto(character.spells);
-          spells.setDataValue("id", characterId);
+          if (!character.spells.id) {
+            spells.setDataValue("id", characterId);
+          }
           spells.setDataValue("spellId", characterId);
           creates.push(spells.save());
         }

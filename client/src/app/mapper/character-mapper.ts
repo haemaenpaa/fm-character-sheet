@@ -2,10 +2,8 @@ import {
   AoSelectionDto,
   AttackEffectDto,
   CharacterAttackDto,
-  CharacterBiographyDto,
   CharacterResourceDto,
   CharacterSpellsDto,
-  DamageRollDto,
   InventoryContainerDto,
   ItemDto,
   SkillDto,
@@ -15,12 +13,9 @@ import { CharacterDto } from 'fm-transfer-model/src/model/character';
 import { AoSelection } from '../model/ao-selection';
 import Character from '../model/character';
 import CharacterAttack, { AttackEffect } from '../model/character-attack';
-import { CharacterBiography } from '../model/character-bio';
 import { CharacterBuilder } from '../model/character-builder';
 import { CharacterResource } from '../model/character-resource';
 import { CharacterSpells, Spell } from '../model/character-spells';
-import { DamageRoll } from '../model/damage-roll';
-import { RollComponent } from '../model/diceroll';
 import { randomId } from '../model/id-generator';
 import {
   AttunementStatus,
