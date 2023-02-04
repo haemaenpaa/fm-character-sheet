@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { range } from 'rxjs';
+import Character from 'src/app/model/character';
 import { CharacterBuilder } from 'src/app/model/character-builder';
 import { GameAction, SaveParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { CharacterService } from 'src/app/services/character.service';
 import { EditableTextComponent } from '../editable-text/editable-text.component';
 import { HitDiceDisplayComponent } from '../hit-dice-display/hit-dice-display.component';
 import { HitPointsComponent } from '../hit-points/hit-points.component';
@@ -13,6 +15,11 @@ import { ResistancesComponent } from '../resistances/resistances.component';
 import { SavingThrowComponent } from '../saving-throw/saving-throw.component';
 
 import { DefensesComponent } from './defenses.component';
+
+const mockCharacterService = {
+  updateCharacter: (character: Character) =>
+    new Promise<Character>((res, rej) => res(character)),
+};
 
 class MockActionDispatchService extends ActionDispatchService {
   dispatchedActions: GameAction[] = [];
@@ -41,6 +48,7 @@ describe('DefensesComponent', () => {
         { provide: ActionDispatchService, useClass: MockActionDispatchService },
         { provide: MatDialog, useValue: {} },
         { provide: HttpClient, useValue: {} },
+        { provide: CharacterService, useValue: mockCharacterService },
       ],
     }).compileComponents();
 

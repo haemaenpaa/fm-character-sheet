@@ -11,6 +11,7 @@ import CharacterHitDice from 'src/app/model/character-hit-dice';
 import { SaveParams } from 'src/app/model/game-action';
 import Resistance from 'src/app/model/resistance';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { CharacterService } from 'src/app/services/character.service';
 import { ResistanceModifyEvent } from '../resistances/resistances.component';
 
 function clamp(num: number, min: number, max: number) {
@@ -23,7 +24,7 @@ function clamp(num: number, min: number, max: number) {
   styleUrls: ['./defenses.component.css'],
 })
 export class DefensesComponent {
-  @Input() character: Character | null = null;
+  @Input() character!: Character;
   @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
 
@@ -39,6 +40,7 @@ export class DefensesComponent {
 
   constructor(
     private actionService: ActionDispatchService,
+    private characterService: CharacterService,
     private changeDetector: ChangeDetectorRef
   ) {}
 
@@ -80,43 +82,56 @@ export class DefensesComponent {
   }
 
   toggleAbility(save: string, newValue: boolean) {
+    const oldSaves = [...this.character.savingThrows];
     if (newValue) {
-      this.character?.addSavingThrow(save);
+      this.character.addSavingThrow(save);
     } else {
-      this.character?.removeSavingThrow(save);
+      this.character.removeSavingThrow(save);
     }
+    this.updateOnFieldChange('savingThrows', oldSaves);
     this.characterChanged.emit();
   }
 
   onHpTotalChanged($event: number) {
-    if (this.character) {
-      this.character.hitPointTotal = clamp(
-        $event,
-        0,
-        this.character.hitPointMaximum
-      );
-      this.changeDetector.detectChanges();
-    }
-    this.characterChanged.emit();
+    const oldValue = this.character.hitPointTotal;
+    this.character.hitPointTotal = clamp(
+      $event,
+      0,
+      this.character.hitPointMaximum
+    );
+    this.updateOnFieldChange('hitPointTotal', oldValue);
+    this.changeDetector.detectChanges();
   }
   onHpMaxChanged($event: number) {
-    if (this.character) {
-      this.character.hitPointMaximum = $event;
-      this.character.hitPointTotal = clamp(
-        this.character.hitPointTotal,
-        0,
-        $event
-      );
-      this.changeDetector.detectChanges();
-      this.characterChanged.emit();
-    }
+    const oldTotal = this.character.hitPointTotal;
+    const oldMax = this.character.hitPointMaximum;
+    this.character.hitPointMaximum = $event;
+    this.character.hitPointTotal = clamp(
+      this.character.hitPointTotal,
+      0,
+      $event
+    );
+
+    this.characterService
+      .updateCharacter(this.character)
+      .catch((err) => {
+        console.error('Failed to set hit point max', err);
+        this.character.hitPointMaximum = oldMax;
+        this.character.hitPointTotal = oldTotal;
+      })
+      .then((char) => {
+        if (char) {
+          this.characterChanged.emit();
+        }
+      });
   }
   onTempHpChanged($event: number) {
+    const oldValue = this.character.tempHitPoints;
     if (this.character) {
       this.character.tempHitPoints = Math.max($event, 0);
       this.changeDetector.detectChanges();
     }
-    this.characterChanged.emit();
+    this.updateOnFieldChange('tempHitPoints', oldValue);
   }
 
   addStatusResistance(resistance: string) {
@@ -187,17 +202,31 @@ export class DefensesComponent {
   }
 
   setArmorValue(newValue: string) {
-    if (!this.character) {
-      return;
-    }
+    const oldAv = this.character.armorValue;
     const newAv = Number.parseInt(newValue);
-    this.character!.armorValue = newAv;
-    this.characterChanged.emit();
+    this.character.armorValue = newAv;
+    this.updateOnFieldChange('armorValue', oldAv);
   }
 
   onRemainingHitDiceChanged(hitDice: CharacterHitDice) {
+    const oldRemaining = { ...this.character.hitDiceRemaining };
     this.character!.hitDiceRemaining = hitDice;
     this.characterChanged.emit();
+  }
+
+  private updateOnFieldChange(field: string, oldValue: any) {
+    this.characterService
+      .updateCharacter(this.character)
+      .catch((err) => {
+        console.error(`Failed to set ${field}`, err);
+        (this.character as any)[field] = oldValue;
+        this.changeDetector.detectChanges();
+      })
+      .then((char) => {
+        if (char) {
+          this.characterChanged.emit();
+        }
+      });
   }
 
   private applyModifyEvent(

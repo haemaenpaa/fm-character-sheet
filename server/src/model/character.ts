@@ -34,6 +34,10 @@ export const CharacterDef: ModelAttributes<Character> = {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  armorValue: {
+    type: DataTypes.NUMBER,
+    allowNull: false,
+  },
   hitPointTotal: {
     type: DataTypes.NUMBER,
     allowNull: false,

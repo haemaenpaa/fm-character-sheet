@@ -86,6 +86,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
     ),
     biography,
     resources: dto.resources?.map(convertResourceDto),
+    armorValue: dto.armorValue,
   };
   console.log("BUILD OPTIONS:", dataValues);
   const character = Character.build(dataValues, { include: characterInclude });
@@ -161,8 +162,8 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
     biography: convertBiographyDbModel(model.getDataValue("biography")),
     resources: model.getDataValue("resources")?.map(convertResourceDbModel),
     savingThrows,
+    armorValue: model.getDataValue("armorValue"),
   };
-  console.log("Converted model", ret);
   return ret;
 }
 
