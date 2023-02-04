@@ -14,9 +14,10 @@ export const spellBookInclude = [
   CharacterSpellbook.Resources,
 ];
 export const attackInclude = [
-  { association: Attack.Damage, as: "damage" },
-  { association: Attack.Effect, as: "effect" },
+  { association: Attack.Damage },
+  { association: Attack.Effect },
 ];
+export const inventoryContainerInclude = [InventoryContainer.Contents];
 export const characterInclude = [
   {
     association: Character.Race,
@@ -41,7 +42,7 @@ export const characterInclude = [
   },
   {
     association: Character.Inventory,
-    include: [InventoryContainer.Contents],
+    inventoryContainerInclude,
   },
   Character.Bio,
   Character.Resources,
