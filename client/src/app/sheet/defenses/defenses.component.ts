@@ -12,6 +12,7 @@ import { SaveParams } from 'src/app/model/game-action';
 import Resistance from 'src/app/model/resistance';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { CharacterService } from 'src/app/services/character.service';
+import { HitDiceService } from 'src/app/services/hit-dice.service';
 import { ResistanceModifyEvent } from '../resistances/resistances.component';
 
 function clamp(num: number, min: number, max: number) {
@@ -41,6 +42,7 @@ export class DefensesComponent {
   constructor(
     private actionService: ActionDispatchService,
     private characterService: CharacterService,
+    private hitDiceService: HitDiceService,
     private changeDetector: ChangeDetectorRef
   ) {}
 
@@ -211,7 +213,16 @@ export class DefensesComponent {
   onRemainingHitDiceChanged(hitDice: CharacterHitDice) {
     const oldRemaining = { ...this.character.hitDiceRemaining };
     this.character!.hitDiceRemaining = hitDice;
-    this.characterChanged.emit();
+    this.hitDiceService
+      .updateHitDiceRemaining(hitDice, this.character.id!)
+      .catch((error) => {
+        this.character.hitDiceRemaining = oldRemaining;
+      })
+      .then((r) => {
+        if (r) {
+          this.characterChanged.emit();
+        }
+      });
   }
 
   private updateOnFieldChange(field: string, oldValue: any) {

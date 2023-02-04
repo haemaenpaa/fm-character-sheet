@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { CharacterBuilder } from 'src/app/model/character-builder';
 import { AoSelectionService } from 'src/app/services/ao-selection.service';
+import { HitDiceService } from 'src/app/services/hit-dice.service';
 import { AoSelectionListComponent } from '../ao-selection-list/ao-selection-list.component';
 import { SortSelectionsPipe } from '../ao-selection-list/sort-selections.pipe';
 import { RacialAbilitiesComponent } from '../racial-abilities/racial-abilities.component';
@@ -9,6 +10,7 @@ import { RacialAbilitiesComponent } from '../racial-abilities/racial-abilities.c
 import { AbilitiesListComponent } from './abilities-list.component';
 
 const dummySelectionsService = {};
+const dummyDiceService = {};
 
 describe('AbilitiesListComponent', () => {
   let component: AbilitiesListComponent;
@@ -25,6 +27,7 @@ describe('AbilitiesListComponent', () => {
       providers: [
         { provide: MatDialog, useValue: {} },
         { provide: AoSelectionService, useValue: dummySelectionsService },
+        { provide: HitDiceService, useValue: dummyDiceService },
       ],
     }).compileComponents();
 
