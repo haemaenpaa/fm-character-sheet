@@ -7,6 +7,7 @@ import {
 import { AoSelection } from "../model/ao-selection";
 import { Character } from "../model/character";
 import { randomId } from "../model/id-generator";
+import { fetchBasicCharacter } from "./controller-utils";
 
 export const exists = true;
 
@@ -25,7 +26,7 @@ app.post(
   jsonParser,
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
-    const character = await fetchCharacter(characterId);
+    const character = await fetchBasicCharacter(characterId);
     if (!character) {
       console.error(`Character ${characterId} not found.`);
       res.sendStatus(404);
@@ -56,7 +57,7 @@ app.put(
   jsonParser,
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
-    const character = await fetchCharacter(characterId);
+    const character = await fetchBasicCharacter(characterId);
     const selectionId = Number.parseInt(req.params.selectionId);
     if (!character) {
       console.error(`Character ${characterId} not found.`);
@@ -119,9 +120,3 @@ app.delete(
       });
   }
 );
-
-function fetchCharacter(characterId: number) {
-  return Character.findOne({
-    where: { id: characterId },
-  });
-}

@@ -1,9 +1,10 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, ModelAttributes } from "sequelize";
 
-export const DamageRollDef = {
+export const DamageRollDef: ModelAttributes = {
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
+    autoIncrement: true,
   },
   dieCount: {
     type: DataTypes.NUMBER,

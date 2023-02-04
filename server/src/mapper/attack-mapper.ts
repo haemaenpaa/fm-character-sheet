@@ -4,19 +4,23 @@ import {
   DamageRollDto,
 } from "fm-transfer-model";
 import { Attack, AttackDamage, AttackEffect } from "../model/attack";
+import { attackInclude } from "../sequelize-configuration";
 
 export function convertAttackDto(dto: CharacterAttackDto): Attack {
-  return Attack.build({
-    id: dto.id!,
-    name: dto.name,
-    range: dto.range,
-    abilities: dto.abilities ? dto.abilities.join(",") : "",
-    proficient: !!dto.proficient,
-    attackBonus: dto.attackBonus || 0,
-    offhand: !!dto.offhand,
-    damage: dto.damage?.map(convertDamageDto),
-    effect: dto.effects?.map(convertEffectDto),
-  });
+  return Attack.build(
+    {
+      id: dto.id!,
+      name: dto.name,
+      range: dto.range,
+      abilities: dto.abilities ? dto.abilities.join(",") : "",
+      proficient: !!dto.proficient,
+      attackBonus: dto.attackBonus || 0,
+      offhand: !!dto.offhand,
+      damage: dto.damage?.map(convertDamageDto),
+      effect: dto.effects?.map(convertEffectDto),
+    },
+    { include: attackInclude }
+  );
 }
 
 export function convertAttackDbModel(model: Attack) {
