@@ -6,12 +6,14 @@ import * as characterController from "./controller/character-controller";
 import * as spellController from "./controller/spell-controller";
 import * as selectionController from "./controller/selection-controller";
 import * as attacksController from "./controller/attack-controller";
+import * as hitDiceController from "./controller/hit-dice-controller";
 
 characterController.exists;
 biographyController.exists;
 spellController.exists;
 selectionController.exists;
 attacksController.exists;
+hitDiceController.exists;
 
 const frontendPath =
   process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");
