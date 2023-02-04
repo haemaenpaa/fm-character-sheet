@@ -8,25 +8,25 @@
       <div class="av-value">
         <editable-text
           id="av-display"
-          [value]="character?.armorValue"
+          [value]="character.armorValue"
           (valueChanged)="setArmorValue($event)"
         ></editable-text>
       </div>
     </div>
     <hit-points
       class="container-border hp-container"
-      [current]="character!.hitPointTotal"
-      [max]="character!.hitPointMaximum"
-      [temporary]="character!.tempHitPoints"
+      [current]="character.hitPointTotal"
+      [max]="character.hitPointMaximum"
+      [temporary]="character.tempHitPoints"
       (currentChanged)="onHpTotalChanged($event)"
       (maxChanged)="onHpMaxChanged($event)"
       (tempChanged)="onTempHpChanged($event)"
     ></hit-points>
     <div class="hit-dice-container">
       <hit-dice-display
-        [hitDiceMax]="character!.hitDice"
-        [hitDiceRemaining]="character!.hitDiceRemaining"
-        [characterId]="character!.id!"
+        [hitDiceMax]="character.hitDice"
+        [hitDiceRemaining]="character.hitDiceRemaining"
+        [characterId]="character.id!"
         [colorized]="colorized"
         (remainingChanged)="onRemainingHitDiceChanged($event)"
       ></hit-dice-display>
@@ -46,8 +46,8 @@
     <div class="status-resistance-container">
       <div class="label">Status resistances</div>
       <resistances
-        [racialResistances]="character?.race?.statusResistances || []"
-        [resistances]="character?.statusResistances || []"
+        [racialResistances]="character.race.statusResistances || []"
+        [resistances]="character.statusResistances || []"
         (resistanceInserted)="addStatusResistance($event)"
         (resistanceDeleted)="removeStatusResistance($event)"
         (resistanceModified)="modifyStatusResistance($event)"
@@ -56,8 +56,8 @@
     <div class="damage-resistance-container">
       <div class="label">Damage resistances</div>
       <resistances
-        [racialResistances]="character?.race?.damageResistances || []"
-        [resistances]="character?.damageResistances || []"
+        [racialResistances]="character.race.damageResistances || []"
+        [resistances]="character.damageResistances || []"
         (resistanceInserted)="addDamageResistance($event)"
         (resistanceDeleted)="removeDamageResistance($event)"
         (resistanceModified)="modifyStatusResistance($event)"
