@@ -1,4 +1,4 @@
-import { AoSelectionDto, CharacterAttackDto } from "fm-transfer-model";
+import { CharacterAttackDto } from "fm-transfer-model";
 import { app, jsonParser } from "../app";
 import {
   convertAttackDbModel,
@@ -20,30 +20,40 @@ app.get("/api/character/:characterId/attacks", async (req, res) => {
   res.send(result.map(convertAttackDbModel));
 });
 
-app.put("/api/character/:characterId/attacks", jsonParser, async (req, res) => {
-  const characterId = Number.parseInt(req.params.characterId);
+app.post(
+  "/api/character/:characterId/attacks",
+  jsonParser,
+  async (req, res) => {
+    const characterId = Number.parseInt(req.params.characterId);
 
-  const character = await fetchBasicCharacter(characterId);
-  if (!character) {
-    console.error(`Character ${characterId} not found`);
-    res.sendStatus(404);
-    return;
+    const character = await fetchBasicCharacter(characterId);
+    if (!character) {
+      console.error(`Character ${characterId} not found`);
+      res.sendStatus(404);
+      return;
+    }
+
+    const dto: CharacterAttackDto = req.body;
+    const toCreate: Attack = convertAttackDto(dto);
+    toCreate.setDataValue("CharacterId", characterId);
+    toCreate
+      .getDataValue("damage")
+      .forEach((d: AttackDamage) => d.setDataValue("AttackId", dto.id!));
+    toCreate
+      .getDataValue("effect")
+      .forEach((d: AttackEffect) => d.setDataValue("AttackId", dto.id!));
+    Attack.create(toCreate.dataValues, { include: attackInclude })
+      .catch((error) => {
+        console.error("Could not create attack", error);
+        res.sendStatus(500);
+      })
+      .then((created) => {
+        if (created) {
+          res.send(convertAttackDbModel(created));
+        }
+      });
   }
-
-  const dto: CharacterAttackDto = req.body;
-  const toCreate: Attack = convertAttackDto(dto);
-  toCreate.setDataValue("CharacterId", characterId);
-  Attack.create(toCreate.dataValues, { include: attackInclude })
-    .catch((error) => {
-      console.error("Could not create attack", error);
-      res.sendStatus(500);
-    })
-    .then((created) => {
-      if (created) {
-        res.send(convertAttackDbModel(created));
-      }
-    });
-});
+);
 
 app.put(
   "/api/character/:characterId/attacks/:attackId",
@@ -57,7 +67,7 @@ app.put(
       res.sendStatus(404);
       return;
     }
-    const attackId = Number.parseInt(req.params.characterId);
+    const attackId = Number.parseInt(req.params.attackId);
 
     const existing = await Attack.findOne({
       where: { id: attackId, CharacterId: characterId },
@@ -93,9 +103,10 @@ app.put(
         promises.push(
           damageClear.then((_) =>
             AttackDamage.bulkCreate(
-              toUpdate
-                .getDataValue("damage")
-                .map((d: AttackDamage) => d.dataValues)
+              toUpdate.getDataValue("damage").map((d: AttackDamage) => ({
+                ...d.dataValues,
+                AttackId: attackId,
+              }))
             )
           )
         );
@@ -106,9 +117,10 @@ app.put(
         promises.push(
           effectsClear.then((_) =>
             AttackEffect.bulkCreate(
-              toUpdate
-                .getDataValue("effect")
-                .map((d: AttackEffect) => d.dataValues)
+              toUpdate.getDataValue("effect").map((d: AttackEffect) => ({
+                ...d.dataValues,
+                AttackId: attackId,
+              }))
             )
           )
         );
@@ -119,7 +131,7 @@ app.put(
         .catch((err) => {
           console.error("Failed to update effects or damage", err);
           transaction.rollback();
-          res.send(500);
+          res.sendStatus(500);
         })
         .then(async (result) => {
           if (result) {
@@ -146,7 +158,7 @@ app.delete(
       res.sendStatus(404);
       return;
     }
-    const attackId = Number.parseInt(req.params.characterId);
+    const attackId = Number.parseInt(req.params.attackId);
 
     const existing = await Attack.findOne({
       where: { id: attackId, CharacterId: characterId },

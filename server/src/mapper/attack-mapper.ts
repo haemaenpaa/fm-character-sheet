@@ -26,6 +26,8 @@ export function convertAttackDto(dto: CharacterAttackDto): Attack {
 export function convertAttackDbModel(model: Attack) {
   const modelDamage = model.getDataValue("damage") as AttackDamage[];
   const damage = modelDamage.map(convertDamageDbModel);
+  const modelEffect = model.getDataValue("effect") as AttackEffect[];
+  const effects = modelEffect.map(convertEffectDbModel);
   const ret: CharacterAttackDto = {
     id: model.getDataValue("id"),
     name: model.getDataValue("name"),
@@ -35,6 +37,7 @@ export function convertAttackDbModel(model: Attack) {
     attackBonus: model.getDataValue("attackBonus"),
     offhand: !!model.getDataValue("offhand"),
     damage,
+    effects,
   };
   return ret;
 }

@@ -1,4 +1,5 @@
 import { DamageRoll } from './damage-roll';
+import { randomId } from './id-generator';
 
 export interface AttackEffect {
   id: number;
@@ -46,7 +47,11 @@ export default interface CharacterAttack {
 export function copyAttack(original: CharacterAttack): CharacterAttack {
   const ret = { ...original };
   ret.abilities = [...original.abilities];
-  ret.damage = original.damage.map((d) => ({ ...d, roll: { ...d.roll } }));
-  ret.effects = original.effects.map((e) => ({ ...e }));
+  ret.damage = original.damage.map((d) => ({
+    ...d,
+    roll: { ...d.roll },
+    id: randomId(),
+  }));
+  ret.effects = original.effects.map((e) => ({ ...e, id: randomId() }));
   return ret;
 }

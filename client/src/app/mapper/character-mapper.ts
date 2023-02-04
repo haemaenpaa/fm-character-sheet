@@ -25,6 +25,7 @@ import {
 } from '../model/item';
 import { ResistanceType } from '../model/resistance';
 import { Skill } from '../model/skill';
+import { convertAttackDto, convertAttackModel } from './attack-mapper';
 import { convertBiographyModel } from './biography-mapper';
 import {
   convertDamageRollModel,
@@ -138,24 +139,6 @@ function convertItemModel(model: Item): ItemDto {
   };
 }
 
-function convertAttackModel(model: CharacterAttack): CharacterAttackDto {
-  return {
-    id: model.id,
-    name: model.name,
-    range: model.range,
-    abilities: model.abilities,
-    proficient: model.proficient,
-    attackBonus: model.attackBonus,
-    damage: model.damage.map(convertDamageRollModel),
-    offhand: model.offhand,
-    effects: model.effects.map((e) => ({
-      id: e.id,
-      save: e.save,
-      dv: e.dv,
-      description: e.description,
-    })),
-  };
-}
 function convertSkillModel(skill: Skill): SkillDto {
   return {
     identifier: skill.identifier,
@@ -322,20 +305,7 @@ function convertResistances(dto: CharacterDto, builder: CharacterBuilder) {
 
 function convertAttacks(dto: CharacterDto, builder: CharacterBuilder) {
   if (dto.attacks) {
-    builder.attacks = dto.attacks.map((atk) => {
-      const attack: CharacterAttack = {
-        id: atk.id!,
-        name: atk.name!,
-        range: atk.range || '',
-        abilities: atk.abilities || [],
-        proficient: !!atk.proficient,
-        attackBonus: atk.attackBonus || 0,
-        damage: atk.damage?.map(convertDamageRollDto) || [],
-        offhand: !!atk.offhand,
-        effects: atk.effects?.map(convertAttackEffectDto) || [],
-      };
-      return attack;
-    });
+    builder.attacks = dto.attacks.map(convertAttackDto);
   }
 }
 
@@ -392,14 +362,6 @@ function convertSpellDto(dto: SpellDto): Spell {
   };
 }
 
-function convertAttackEffectDto(dto: AttackEffectDto): AttackEffect {
-  return {
-    id: dto.id || randomId(),
-    dv: dto.dv,
-    save: dto.save,
-    description: dto.description || '',
-  };
-}
 function convertInventoryContainerDto(
   dto: InventoryContainerDto
 ): InventoryContainer {

@@ -11,6 +11,13 @@ import { DamageRoll } from 'src/app/model/damage-roll';
 import { randomId } from 'src/app/model/id-generator';
 import { AbilitySelectComponent } from '../ability-select/ability-select.component';
 
+export interface AttackEditData {
+  attack: CharacterAttack;
+  abilities: AbilityNumberStruct;
+  proficiency: number;
+  colorized?: boolean;
+}
+
 @Component({
   selector: 'attack-edit',
   templateUrl: './attack-edit.component.html',
@@ -35,15 +42,12 @@ export class AttackEditComponent {
     private dialogRef: MatDialogRef<AttackEditComponent>,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
-    data: {
-      attack: CharacterAttack;
-      abilities: AbilityNumberStruct;
-      proficiency: number;
-    }
+    data: AttackEditData
   ) {
     this.attack = data.attack;
     this.abilities = data.abilities;
     this.proficiency = data.proficiency || 0;
+    this.colorized = !!data.colorized;
   }
 
   save() {
