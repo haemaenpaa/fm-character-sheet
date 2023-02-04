@@ -47,7 +47,8 @@ export class AoSelectionEditComponent {
   }
 
   onHilightColorChanged(newColor?: string) {
-    if (!newColor) {
+    console.log('Color set', newColor);
+    if (newColor === undefined) {
       //Color picker was closed
       return;
     }
