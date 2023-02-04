@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AoSelection } from 'src/app/model/ao-selection';
 import Character from 'src/app/model/character';
 import { AO_HIT_DICE } from 'src/app/model/constants';
+import { AoSelectionService } from 'src/app/services/ao-selection.service';
 import { SelectionChangeEvent } from '../ao-selection-list/ao-selection-list.component';
 import { AoSelectionSort } from '../ao-selection-list/sort-selections.pipe';
 
@@ -14,7 +15,7 @@ export class AbilitiesListComponent {
   @Input() character!: Character;
   @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
-
+  constructor(private selectionService: AoSelectionService) {}
   selectionSort: AoSelectionSort = 'character-level';
 
   sortOptions = [
@@ -33,7 +34,11 @@ export class AbilitiesListComponent {
   }
 
   onSelectionAdd(selection: AoSelection) {
-    this.character!.selections = [...this.character!.selections, selection];
+    const oldSelections = [...this.character.selections];
+    const oldHitDice = { ...this.character.hitDice };
+    const oldHitDiceRemianing = { ...this.character.hitDiceRemaining };
+
+    this.character.selections = [...this.character.selections, selection];
     if (selection.isPrimary && selection.abilityOrigin in AO_HIT_DICE) {
       (this.character.hitDiceRemaining as any)[
         AO_HIT_DICE[selection.abilityOrigin]
@@ -42,31 +47,68 @@ export class AbilitiesListComponent {
         AO_HIT_DICE[selection.abilityOrigin]
       ] += 1;
     }
-    this.characterChanged.emit();
+
+    this.selectionService
+      .createSelection(selection, this.character.id!)
+      .catch((err) => {
+        (this.character.selections = oldSelections),
+          (this.character.hitDice = oldHitDice),
+          (this.character.hitDiceRemaining = oldHitDiceRemianing);
+        console.error('Could not add selection', err);
+      })
+      .then((res) => {
+        if (res) {
+          this.characterChanged.emit();
+        }
+      });
   }
+
   onSelectionRemove(deleted: AoSelection) {
-    if (!this.character) {
-      return;
-    }
+    const oldSelections = [...this.character.selections];
+    const oldHitDice = { ...this.character.hitDice };
+    const oldHitDiceRemianing = { ...this.character.hitDiceRemaining };
+
     if (deleted.isPrimary) {
       this.decrementRemovedHitDice(deleted.abilityOrigin);
     }
     this.character.selections = this.character.selections.filter(
       (sel) => sel.id != deleted.id
     );
-    this.characterChanged.emit();
+    this.selectionService
+      .deleteSelection(deleted.id, this.character.id!)
+      .catch((err) => {
+        console.error('Could not delete selection', err);
+        this.character.selections = oldSelections;
+        this.character.hitDice = oldHitDice;
+        this.character.hitDiceRemaining = oldHitDiceRemianing;
+      })
+      .then(() => {
+        this.characterChanged.emit();
+      });
   }
   onSelectionEdit(event: SelectionChangeEvent) {
-    if (!this.character) {
-      return;
-    }
+    const oldSelections = [...this.character.selections];
+    const oldHitDice = { ...this.character.hitDice };
+    const oldHitDiceRemianing = { ...this.character.hitDiceRemaining };
+
     console.log('onSelectionEdit', event);
     this.adjustHitDice(event);
     this.character.selections = this.character.selections.map((sel) =>
       sel.id === event.oldSelection.id ? event.newSelection : sel
     );
-
-    this.characterChanged.emit();
+    this.selectionService
+      .updateSelection(event.newSelection, this.character.id!)
+      .catch((err) => {
+        console.error('Could not update selection', err);
+        this.character.selections = oldSelections;
+        this.character.hitDice = oldHitDice;
+        this.character.hitDiceRemaining = oldHitDiceRemianing;
+      })
+      .then((res) => {
+        if (res) {
+          this.characterChanged.emit();
+        }
+      });
   }
 
   private adjustHitDice(event: SelectionChangeEvent) {

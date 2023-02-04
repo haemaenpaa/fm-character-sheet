@@ -105,7 +105,7 @@ app.delete(
       console.error(
         `Character ${characterId} does not have selection ${selectionId}`
       );
-      res.sendStatus(404);
+      res.status(200).send();
       return;
     }
     existing
@@ -115,7 +115,7 @@ app.delete(
         res.sendStatus(500);
       })
       .then((_) => {
-        res.sendStatus(200);
+        res.status(200).send();
       });
   }
 );

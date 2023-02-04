@@ -329,15 +329,16 @@ export class CharacterBuilder {
     level: number,
     color: string | undefined
   ) {
-    const sel = new AoSelection();
-    sel.abilityOrigin = ao;
-    sel.name = name;
-    sel.description = description;
-    sel.level = level;
-    sel.id = randomId();
-    if (color) {
-      sel.hilightColor = color;
-    }
+    const sel: AoSelection = {
+      id: randomId(),
+      abilityOrigin: ao,
+      level,
+      name,
+      description,
+      isPrimary: false,
+      takenAtLevel: 0,
+      hilightColor: color,
+    };
     return sel;
   }
 

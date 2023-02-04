@@ -30,6 +30,7 @@ import {
   convertDamageRollModel,
   convertDamageRollDto,
 } from './damage-roll-mapper';
+import { convertAoSelectionDto } from './selection-mapper';
 import { convertSpellBookModel } from './spell-mapper';
 
 export function convertCharacterDto(dto: CharacterDto): Character {
@@ -284,10 +285,7 @@ function convertAbilities(dto: CharacterDto, builder: CharacterBuilder) {
 
 function convertSelections(dto: CharacterDto, builder: CharacterBuilder) {
   if (dto.selections) {
-    builder.selections = dto.selections.map((sel) => {
-      const selection = new AoSelection();
-      return Object.assign(selection, sel);
-    });
+    builder.selections = dto.selections.map(convertAoSelectionDto);
   }
 }
 
