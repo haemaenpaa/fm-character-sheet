@@ -4,10 +4,12 @@ import { app, port } from "./app";
 import * as biographyController from "./controller/biography-controller";
 import * as characterController from "./controller/character-controller";
 import * as spellController from "./controller/spell-controller";
+import * as selectionController from "./controller/selection-controller";
 
 characterController.exists;
 biographyController.exists;
 spellController.exists;
+selectionController.exists;
 
 const frontendPath =
   process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");

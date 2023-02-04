@@ -16,7 +16,7 @@ export function setHeaders(res: Response) {
   ]);
   res.setHeader("Content-Type", "application/json");
 }
-app.options("/api/**", async (req, res, next) => {
+app.use("/api/**", async (req, res, next) => {
   setHeaders(res);
   next();
 });
