@@ -1,8 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
+import CharacterAttack from 'src/app/model/character-attack';
 import { CharacterBuilder } from 'src/app/model/character-builder';
 import { RollComponent } from 'src/app/model/diceroll';
+import { CharacterAttackService } from 'src/app/services/character-attack.service';
 
 import { AttackListComponent } from './attack-list.component';
+
+const dummyAttackService = {
+  createAttack: (attack: CharacterAttack) => new Promise((res) => res(attack)),
+  updateAttack: (attack: CharacterAttack) => new Promise((res) => res(attack)),
+  deleteAttack: () => new Promise<void>((res) => res()),
+};
+
+const dummyDialog = {
+  open: (component: any, options: any) => {
+    return {
+      afterClosed: () => ({
+        subscribe: (callable: (atk: CharacterAttack) => void) => {
+          callable(options.data.attack);
+        },
+      }),
+    };
+  },
+};
 
 describe('AttackListComponent', () => {
   let component: AttackListComponent;
@@ -11,6 +32,10 @@ describe('AttackListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AttackListComponent],
+      providers: [
+        { provide: CharacterAttackService, useValue: dummyAttackService },
+        { provide: MatDialog, useValue: dummyDialog },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AttackListComponent);

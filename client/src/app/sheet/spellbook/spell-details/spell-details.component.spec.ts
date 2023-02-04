@@ -16,7 +16,6 @@ function placeholder(): Spell {
     tier: 0,
     school: '',
     name: '',
-    saveAbility: null,
     description: '',
     damage: [],
     upcastDamage: [],

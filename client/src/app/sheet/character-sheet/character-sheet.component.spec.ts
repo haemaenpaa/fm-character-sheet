@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -17,6 +18,7 @@ describe('CharacterSheetComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: { paramMap } },
         { provide: MatDialog, useValue: {} },
+        { provide: HttpClient, useValue: {} },
       ],
     }).compileComponents();
 

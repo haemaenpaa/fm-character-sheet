@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { range } from 'rxjs';
@@ -39,6 +40,7 @@ describe('DefensesComponent', () => {
       providers: [
         { provide: ActionDispatchService, useClass: MockActionDispatchService },
         { provide: MatDialog, useValue: {} },
+        { provide: HttpClient, useValue: {} },
       ],
     }).compileComponents();
 

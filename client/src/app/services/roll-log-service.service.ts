@@ -10,10 +10,7 @@ import { ActionDispatchService } from './action-dispatch.service';
 })
 export class RollLogService {
   private _rolls: Roll[] = [];
-  constructor(
-    private actionDispatchService: ActionDispatchService,
-    zone: NgZone
-  ) {
+  constructor(actionDispatchService: ActionDispatchService, zone: NgZone) {
     actionDispatchService.rolls().subscribe((r) => {
       zone.run(() => {
         this._rolls.push(r);

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { CharacterBuilder } from 'src/app/model/character-builder';
+import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { AbilityNamePipe } from '../pipe/ability-name.pipe';
 import { ModifierPipe } from '../pipe/modifier.pipe';
 import { SkillNamePipe } from '../skill/skill-name.pipe';
@@ -21,7 +22,10 @@ describe('SkillGridComponent', () => {
         SkillNamePipe,
         AbilityNamePipe,
       ],
-      providers: [{ provide: MatDialog, useValue: {} }],
+      providers: [
+        { provide: MatDialog, useValue: {} },
+        { provide: ActionDispatchService, useValue: {} },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkillGridComponent);

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CharacterService } from '../services/character.service';
 
 import { CharacterListComponent } from './character-list.component';
 
@@ -8,9 +9,9 @@ describe('CharacterListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CharacterListComponent ]
-    })
-    .compileComponents();
+      declarations: [CharacterListComponent],
+      providers: [{ provide: CharacterService, useValue: {} }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CharacterListComponent);
     component = fixture.componentInstance;
