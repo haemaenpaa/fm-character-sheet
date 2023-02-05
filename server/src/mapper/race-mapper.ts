@@ -1,6 +1,7 @@
 import { RaceDto, ResistanceDto } from "fm-transfer-model";
 import { Race, RacialAbility } from "../model/race";
 import { RacialResistance } from "../model/resistance";
+import { raceInclude } from "../sequelize-configuration";
 
 export function convertRaceDto(dto: RaceDto): Race {
   if (!dto) {
@@ -13,13 +14,16 @@ export function convertRaceDto(dto: RaceDto): Race {
         convertResistanceDto(d, "status")
       )
     );
-  return Race.build({
-    name: dto.name || "UNKNOWN",
-    subRace: dto.subrace,
-    powerfulBuild: !!dto.powerfulBuild,
-    resistances,
-    abilities: convertAbilitiesDto(dto.abilities),
-  });
+  return Race.build(
+    {
+      name: dto.name || "UNKNOWN",
+      subRace: dto.subrace,
+      powerfulBuild: !!dto.powerfulBuild,
+      resistances,
+      abilities: convertAbilitiesDto(dto.abilities),
+    },
+    { include: raceInclude }
+  );
 }
 
 export function convertRaceDbModel(race?: Race): RaceDto | undefined {

@@ -21,10 +21,13 @@ export const attackInclude = [
 export const inventoryContainerInclude = [
   { association: InventoryContainer.Contents },
 ];
+
+export const raceInclude = [Race.Abilities, Race.Resistances];
+
 export const characterInclude = [
   {
     association: Character.Race,
-    include: [Race.Abilities, Race.Resistances],
+    include: raceInclude,
   },
   Character.Resistances,
   Character.Selections,
