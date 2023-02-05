@@ -6,12 +6,15 @@ import {
   convertItemDbModel,
   convertItemDto,
 } from "../mapper/inventory-mapper";
+import { randomId } from "../model/id-generator";
 import { InventoryContainer, Item } from "../model/inventory";
 import {
   inventoryContainerInclude,
   sequelize,
 } from "../sequelize-configuration";
 import { fetchBasicCharacter } from "./controller-utils";
+
+export const exists = true;
 
 app.get("/api/character/:characterId/inventory", (req, res) => {
   const characterId = Number.parseInt(req.params.characterId);
@@ -32,11 +35,10 @@ app.get("/api/character/:characterId/inventory", (req, res) => {
     });
 });
 app.post(
-  "/api/character/:characterId/inventory/:containerId",
+  "/api/character/:characterId/inventory",
   jsonParser,
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
-    const containerId = Number.parseInt(req.params.containerId);
     const character = fetchBasicCharacter(characterId);
     if (!character) {
       console.error(`Character ${characterId} does not exist`);
@@ -45,6 +47,8 @@ app.post(
     }
 
     const dto: InventoryContainerDto = req.body;
+
+    const containerId = dto.id || randomId();
     const toUpdate = convertInventoryContainerDto(dto);
     toUpdate.setDataValue("id", containerId);
     toUpdate.setDataValue("CharacterId", characterId);
