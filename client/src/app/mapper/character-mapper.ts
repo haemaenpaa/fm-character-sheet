@@ -1,6 +1,5 @@
 import {
   AoSelectionDto,
-  CharacterResourceDto,
   CharacterSpellsDto,
   InventoryContainerDto,
   ItemDto,
@@ -11,7 +10,6 @@ import { CharacterDto } from 'fm-transfer-model/src/model/character';
 import { AoSelection } from '../model/ao-selection';
 import Character from '../model/character';
 import { CharacterBuilder } from '../model/character-builder';
-import { CharacterResource } from '../model/character-resource';
 import { CharacterSpells, Spell } from '../model/character-spells';
 import { randomId } from '../model/id-generator';
 import { InventoryContainer, Item } from '../model/item';
@@ -23,6 +21,7 @@ import { convertInventoryContainerDto } from './inventory-mapper';
 import { convertDamageRollDto } from './damage-roll-mapper';
 import { convertAoSelectionDto } from './selection-mapper';
 import { convertSpellBookModel } from './spell-mapper';
+import { convertResourceModel } from './resource-mapper';
 
 export function convertCharacterDto(dto: CharacterDto): Character {
   const builder = new CharacterBuilder();
@@ -54,7 +53,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
 }
 
 export function convertCharacterModel(character: Character): CharacterDto {
-  const ret = {
+  const ret: CharacterDto = {
     id: character.id,
     name: character.name,
     abilities: {
@@ -93,16 +92,6 @@ export function convertCharacterModel(character: Character): CharacterDto {
   };
 
   return ret;
-}
-
-function convertResourceModel(model: CharacterResource): CharacterResourceDto {
-  return {
-    id: model.id,
-    name: model.name,
-    current: model.current,
-    max: model.max,
-    shortRest: model.shortRest,
-  };
 }
 
 function convertInventoryContainerModel(
