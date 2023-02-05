@@ -125,7 +125,6 @@ app.put(
         )
         .then(
           async (result: any[]) => {
-            console.log("Result", result);
             if (result === undefined) {
               return;
             }
@@ -404,7 +403,7 @@ app.post(
         },
         async (error) => {
           await transaction.rollback();
-          console.log(
+          console.error(
             `Could not move items from ${originId} to ${destinationId}.`,
             error
           );
