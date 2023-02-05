@@ -1,29 +1,28 @@
 import { RaceDto, ResistanceDto } from "fm-transfer-model";
 import { Race, RacialAbility } from "../model/race";
 import { RacialResistance } from "../model/resistance";
-import { raceInclude } from "../sequelize-configuration";
 
 export function convertRaceDto(dto: RaceDto): Race {
   if (!dto) {
     return undefined;
   }
-  const resistances = (dto.damageResistances || [])
+  const resistances = dto.damageResistances
     .map((d) => convertResistanceDto(d, "damage"))
     .concat(
-      (dto.statusResistances || []).map((d) =>
-        convertResistanceDto(d, "status")
-      )
+      dto.statusResistances.map((d) => convertResistanceDto(d, "status"))
     );
-  return Race.build(
-    {
-      name: dto.name || "UNKNOWN",
-      subRace: dto.subrace,
-      powerfulBuild: !!dto.powerfulBuild,
-      resistances,
-      abilities: convertAbilitiesDto(dto.abilities),
-    },
-    { include: raceInclude }
-  );
+  const values = {
+    name: dto.name || "UNKNOWN",
+    subRace: dto.subrace,
+    powerfulBuild: !!dto.powerfulBuild,
+  };
+  const ret = Race.build(values, {
+    include: [Race.Resistances, Race.Abilities],
+  });
+  //For whatever reason, Race.build does not include these from the values.
+  ret.setDataValue("resistances", resistances);
+  ret.setDataValue("abilities", convertAbilitiesDto(dto.abilities));
+  return ret;
 }
 
 export function convertRaceDbModel(race?: Race): RaceDto | undefined {
@@ -49,7 +48,7 @@ export function convertRaceDbModel(race?: Race): RaceDto | undefined {
     }));
   const ret: RaceDto = {
     name: race.getDataValue("name"),
-    subrace: race.getDataValue("subrace"),
+    subrace: race.getDataValue("subRace"),
     abilities,
     damageResistances,
     statusResistances,

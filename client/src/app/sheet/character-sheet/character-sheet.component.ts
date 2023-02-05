@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import Character from 'src/app/model/character';
 import { Race } from 'src/app/model/race';
 import { CharacterService } from 'src/app/services/character.service';
+import { RaceService } from 'src/app/services/race.service';
 import { RollLogService } from 'src/app/services/roll-log-service.service';
 import { LevelStruct, levelStructs } from '../../common/LevelStruct';
 import { RaceEditComponent } from '../race-edit/race-edit.component';
@@ -35,7 +36,7 @@ export class CharacterSheetComponent {
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private changeDetector: ChangeDetectorRef,
+    private raceService: RaceService,
     private _: RollLogService
   ) {
     this.route.paramMap.subscribe((params) => {
@@ -110,8 +111,19 @@ export class CharacterSheetComponent {
     if (!this.character || !race) {
       return;
     }
+
+    const oldRace = { ...this.character.race };
     this.character.race = race;
-    this.onCharacterChanged();
+
+    this.raceService.updateRace(this.character.race, this.character.id!).then(
+      (_) => {
+        this.onCharacterChanged();
+      },
+      (error) => {
+        console.error('Failed to set race', error);
+        this.character!.race = oldRace;
+      }
+    );
   }
 
   setColorized(event: Event) {

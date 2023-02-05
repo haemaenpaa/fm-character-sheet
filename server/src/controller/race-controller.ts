@@ -1,7 +1,6 @@
 import { RaceDto } from "fm-transfer-model";
 import { app, jsonParser } from "../app";
 import { convertRaceDbModel, convertRaceDto } from "../mapper/race-mapper";
-import { randomId } from "../model/id-generator";
 import { Race, RacialAbility } from "../model/race";
 import { RacialResistance } from "../model/resistance";
 import { raceInclude, sequelize } from "../sequelize-configuration";
@@ -12,7 +11,7 @@ app.get("/api/character/:characterId/race", (req, res) => {
   const characterId = Number.parseInt(req.params.characterId);
   Race.findOne({
     where: {
-      CharacterId: characterId,
+      raceId: characterId,
     },
     include: raceInclude,
   }).then(
@@ -31,13 +30,16 @@ app.put("/api/character/:characterId/race", jsonParser, async (req, res) => {
   const characterId = Number.parseInt(req.params.characterId);
   const existing = await Race.findOne({
     where: {
-      CharacterId: characterId,
+      raceId: characterId,
     },
+    include: raceInclude,
   });
 
   const dto: RaceDto = req.body;
+  console.log("Convert....");
   const toUpdate = convertRaceDto(dto);
-  toUpdate.setDataValue("CharacterId", characterId);
+  console.log(toUpdate.dataValues);
+  toUpdate.setDataValue("raceId", characterId);
   if (!existing) {
     toUpdate.save().then(
       (created) => {
@@ -55,7 +57,7 @@ app.put("/api/character/:characterId/race", jsonParser, async (req, res) => {
     toUpdate.setDataValue("id", raceId);
     existing
       .update(toUpdate.dataValues)
-      .then(async (updated) =>
+      .then(async (_) =>
         Promise.all([
           RacialAbility.destroy({
             where: { RaceId: raceId },
@@ -65,7 +67,7 @@ app.put("/api/character/:characterId/race", jsonParser, async (req, res) => {
           }),
         ])
       )
-      .then(async (counts) => {
+      .then(async (_) =>
         Promise.all([
           ...toUpdate.getDataValue("abilities").map((ab: RacialAbility) => {
             ab.setDataValue("RaceId", raceId);
@@ -77,15 +79,15 @@ app.put("/api/character/:characterId/race", jsonParser, async (req, res) => {
               resistance.setDataValue("RaceId", raceId);
               return resistance.save();
             }),
-        ]);
-      })
+        ])
+      )
       .then(
         async (result) => {
           if (result !== undefined) {
-            transaction.commit();
+            await transaction.commit();
             const ret = await Race.findOne({
               where: {
-                CharacterId: characterId,
+                raceId: characterId,
               },
               include: raceInclude,
             });

@@ -18,9 +18,7 @@ export const attackInclude = [
   { association: Attack.Damage },
   { association: Attack.Effect },
 ];
-export const inventoryContainerInclude = [
-  { association: InventoryContainer.Contents },
-];
+export const inventoryContainerInclude = [InventoryContainer.Contents];
 
 export const raceInclude = [Race.Abilities, Race.Resistances];
 

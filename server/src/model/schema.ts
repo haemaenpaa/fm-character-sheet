@@ -129,7 +129,6 @@ function associateSelections() {
 
 function associateRace() {
   Character.Race = Character.hasOne(Race, { as: "race" });
-  Race.Character = Race.belongsTo(Character);
 
   Race.Resistances = Race.hasMany(RacialResistance, { as: "resistances" });
   Race.Abilities = Race.hasMany(RacialAbility, { as: "abilities" });
