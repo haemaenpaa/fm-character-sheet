@@ -4,11 +4,11 @@
   grid-template-rows: max-content 1fr;
   height: 100%;
   overflow-y: scroll;
+  align-items: flex-start;
 }
 .racial-abilities {
   display: flex;
   flex-direction: column;
-  border-style: none;
 }
 .accessibility-colorized > .racial-abilities {
   color: crimson;
