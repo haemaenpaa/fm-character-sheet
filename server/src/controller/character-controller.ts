@@ -4,7 +4,11 @@ import {
   convertCharacterDto,
 } from "../mapper/character-mapper";
 import { randomId } from "../model/id-generator";
-import { characterInclude, sequelize } from "../sequelize-configuration";
+import {
+  characterInclude,
+  characterOrder,
+  sequelize,
+} from "../sequelize-configuration";
 import { app, setHeaders, jsonParser } from "../app";
 import { Character } from "../model/character";
 import { convertRaceDto } from "../mapper/race-mapper";
@@ -20,7 +24,7 @@ export const exists = true;
 app.get("/api/characters", async (req, res) => {
   sequelize
     .model("Character")
-    .findAll({ include: characterInclude })
+    .findAll({ include: characterInclude, order: characterOrder })
     .then((characters) => {
       setHeaders(res);
       res.send(characters.map(convertCharacterDbModel));
@@ -35,7 +39,11 @@ app.get("/api/character/:characterId", async (req, res) => {
   }
   sequelize
     .model("Character")
-    .findOne({ where: { id: characterId }, include: characterInclude })
+    .findOne({
+      where: { id: characterId },
+      include: characterInclude,
+      order: characterOrder,
+    })
     .then((character) => {
       if (!character) {
         res.sendStatus(404);
@@ -100,6 +108,7 @@ app.post("/api/character/", jsonParser, async (req, res) => {
         Character.findOne({
           where: { id: characterId },
           include: characterInclude,
+          order: characterOrder,
         }).then((found) => {
           console.log("Created final:", found.dataValues);
           res.send(convertCharacterDbModel(found));
@@ -133,6 +142,7 @@ app.put("/api/character/:characterId", jsonParser, async (req, res) => {
     const ret = await Character.findOne({
       where: { id: characterId },
       include: characterInclude,
+      order: characterOrder,
     });
     res.send(convertCharacterDbModel(ret));
   } else {
@@ -146,6 +156,7 @@ app.delete("/api/character/:characterId", async (req, res) => {
   const existing = await characterModel.findOne({
     where: { id: characterId },
     include: characterInclude,
+    order: characterOrder,
   });
   if (!existing) {
     res.sendStatus(200);
