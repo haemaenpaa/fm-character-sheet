@@ -1,7 +1,5 @@
 import {
   AoSelectionDto,
-  AttackEffectDto,
-  CharacterAttackDto,
   CharacterResourceDto,
   CharacterSpellsDto,
   InventoryContainerDto,
@@ -12,25 +10,17 @@ import {
 import { CharacterDto } from 'fm-transfer-model/src/model/character';
 import { AoSelection } from '../model/ao-selection';
 import Character from '../model/character';
-import CharacterAttack, { AttackEffect } from '../model/character-attack';
 import { CharacterBuilder } from '../model/character-builder';
 import { CharacterResource } from '../model/character-resource';
 import { CharacterSpells, Spell } from '../model/character-spells';
 import { randomId } from '../model/id-generator';
-import {
-  AttunementStatus,
-  EquipStatus,
-  InventoryContainer,
-  Item,
-} from '../model/item';
+import { InventoryContainer, Item } from '../model/item';
 import { ResistanceType } from '../model/resistance';
 import { Skill } from '../model/skill';
 import { convertAttackDto, convertAttackModel } from './attack-mapper';
 import { convertBiographyModel } from './biography-mapper';
-import {
-  convertDamageRollModel,
-  convertDamageRollDto,
-} from './damage-roll-mapper';
+import { convertInventoryContainerDto } from './inventory-mapper';
+import { convertDamageRollDto } from './damage-roll-mapper';
 import { convertAoSelectionDto } from './selection-mapper';
 import { convertSpellBookModel } from './spell-mapper';
 
@@ -359,29 +349,5 @@ function convertSpellDto(dto: SpellDto): Spell {
     range: dto.range || '',
     components: dto.components || '',
     effect: dto.effect || '',
-  };
-}
-
-function convertInventoryContainerDto(
-  dto: InventoryContainerDto
-): InventoryContainer {
-  return {
-    id: dto.id || randomId(),
-    name: dto.name || '',
-    description: dto.description || '',
-    baseWeight: dto.baseWeight || 0,
-    weightMultiplierPercent: dto.weightMultiplierPercent || 100,
-    contents: dto.contents?.map(convertItemDto) || [],
-  };
-}
-function convertItemDto(dto: ItemDto): Item {
-  return {
-    id: dto.id || randomId(),
-    name: dto.name || '',
-    description: dto.description || '',
-    weight: dto.weight || 0,
-    quantity: dto.quantity || 1,
-    attunement: (dto.attunement as AttunementStatus) || 'none',
-    equipped: (dto.equipped as EquipStatus) || 'unequipped',
   };
 }
