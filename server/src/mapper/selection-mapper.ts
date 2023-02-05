@@ -6,7 +6,7 @@ export function convertSelectionDto(dto: AoSelectionDto): AoSelection {
     id: dto.id!,
     name: dto.name || "UNKNOWN",
     abilityOrigin: dto.abilityOrigin || "Artistry",
-    level: dto.abilityOrigin || 0,
+    level: dto.level || 0,
     description: dto.description || "",
     hilightColor: dto.hilightColor,
     isPrimary: !!dto.isPrimary,
