@@ -1,21 +1,29 @@
 import { InventoryContainerDto, ItemDto } from "fm-transfer-model";
 import { InventoryContainer, Item } from "../model/inventory";
+import { inventoryContainerInclude } from "../sequelize-configuration";
 
 export function convertInventoryContainerDto(
-  dto: InventoryContainerDto
+  dto: InventoryContainerDto,
+  index?: number
 ): InventoryContainer {
-  return InventoryContainer.build({
+  const values = {
     id: dto.id,
     name: dto.name,
     description: dto.description,
     baseWeight: dto.baseWeight,
     weightMultiplierPercent: dto.weightMultiplierPercent,
     contents: dto.contents?.map(convertItemDto),
+  };
+  if (index !== undefined) {
+    values["idx"] = index;
+  }
+  return InventoryContainer.build(values, {
+    include: inventoryContainerInclude,
   });
 }
 
-export function convertItemDto(dto: ItemDto): Item {
-  return Item.build({
+export function convertItemDto(dto: ItemDto, index?: number): Item {
+  const values = {
     id: dto.id,
     name: dto.name,
     description: dto.description,
@@ -23,7 +31,11 @@ export function convertItemDto(dto: ItemDto): Item {
     quantity: dto.quantity,
     attunement: dto.attunement,
     equipped: dto.equipped,
-  });
+  };
+  if (index !== undefined) {
+    values["idx"] = index;
+  }
+  return Item.build(values);
 }
 
 export function convertInventoryContainerDbModel(

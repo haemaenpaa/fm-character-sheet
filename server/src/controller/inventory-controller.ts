@@ -10,6 +10,7 @@ import { randomId } from "../model/id-generator";
 import { InventoryContainer, Item } from "../model/inventory";
 import {
   inventoryContainerInclude,
+  inventoryContainerOrder,
   sequelize,
 } from "../sequelize-configuration";
 import { fetchBasicCharacter } from "./controller-utils";
@@ -23,6 +24,7 @@ app.get("/api/character/:characterId/inventory", (req, res) => {
       CharacterId: characterId,
     },
     include: inventoryContainerInclude,
+    order: [["idx", "ASC"], inventoryContainerOrder],
   })
     .catch((error) => {
       console.error("Could not get inventory containers");
@@ -53,6 +55,11 @@ app.post(
     toUpdate.setDataValue("id", containerId);
     toUpdate.setDataValue("CharacterId", characterId);
 
+    const count = await InventoryContainer.count({
+      where: { CharacterId: characterId },
+    });
+    toUpdate.setDataValue("idx", count);
+
     InventoryContainer.create(toUpdate.dataValues, {
       include: inventoryContainerInclude,
     })
@@ -68,6 +75,7 @@ app.post(
               CharacterId: characterId,
             },
             include: inventoryContainerInclude,
+            order: [inventoryContainerOrder],
           });
           res.send(convertInventoryContainerDbModel(ret));
         }
@@ -94,27 +102,51 @@ app.put(
     }
     const dto: InventoryContainerDto = req.body;
     const toUpdate = convertInventoryContainerDto(dto);
+
     toUpdate.setDataValue("id", containerId);
     toUpdate.setDataValue("CharacterId", characterId);
-
-    existing
-      .update(toUpdate.dataValues)
-      .catch((err) => {
-        console.error("Failed to update container", err);
-        res.send(500);
-      })
-      .then(async (result) => {
-        if (result) {
-          const ret = await InventoryContainer.findOne({
+    sequelize.transaction().then((transaction) => {
+      existing
+        .update(toUpdate.dataValues)
+        .then(async (_) => {
+          Item.destroy({
             where: {
-              id: containerId,
-              CharacterId: characterId,
+              InventoryContainerId: containerId,
             },
-            include: inventoryContainerInclude,
           });
-          res.send(convertInventoryContainerDbModel(ret));
-        }
-      });
+        })
+        .then((_) =>
+          Promise.all(
+            toUpdate.getDataValue("contents").map((it: Item) => {
+              it.setDataValue("InventoryContainerId", containerId);
+              return it.save();
+            })
+          )
+        )
+        .then(
+          async (result: any[]) => {
+            console.log("Result", result);
+            if (result === undefined) {
+              return;
+            }
+            transaction.commit();
+            const ret = await InventoryContainer.findOne({
+              where: {
+                id: containerId,
+                CharacterId: characterId,
+              },
+              include: inventoryContainerInclude,
+              order: [inventoryContainerOrder],
+            });
+            res.send(convertInventoryContainerDbModel(ret));
+          },
+          (err) => {
+            console.error("Failed to update container", err);
+            transaction.rollback();
+            res.send(500);
+          }
+        );
+    });
   }
 );
 app.delete(

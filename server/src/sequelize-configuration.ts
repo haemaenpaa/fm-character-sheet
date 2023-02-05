@@ -1,3 +1,4 @@
+import { Order, OrderItem } from "sequelize";
 import { Attack } from "./model/attack";
 import { Character } from "./model/character";
 import { CharacterSpellbook, Spell } from "./model/character-spells";
@@ -17,7 +18,9 @@ export const attackInclude = [
   { association: Attack.Damage },
   { association: Attack.Effect },
 ];
-export const inventoryContainerInclude = [InventoryContainer.Contents];
+export const inventoryContainerInclude = [
+  { association: InventoryContainer.Contents },
+];
 export const characterInclude = [
   {
     association: Character.Race,
@@ -42,8 +45,21 @@ export const characterInclude = [
   },
   {
     association: Character.Inventory,
-    inventoryContainerInclude,
+    include: inventoryContainerInclude,
   },
   Character.Bio,
   Character.Resources,
+];
+
+export const inventoryContainerOrder: OrderItem = [
+  InventoryContainer.Contents,
+  "idx",
+  "ASC",
+];
+
+export const inventoryOrder: OrderItem = [Character.Inventory, "idx", "ASC"];
+
+export const characterOrder: Order = [
+  inventoryOrder,
+  [Character.Inventory, ...inventoryContainerOrder],
 ];

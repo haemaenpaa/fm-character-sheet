@@ -21,6 +21,7 @@ export const ItemDef: ModelAttributes<Item> = {
   quantity: { type: DataTypes.NUMBER },
   attunement: { type: DataTypes.STRING },
   equipped: { type: DataTypes.STRING },
+  idx: { type: DataTypes.SMALLINT },
 };
 
 export const InventoryContainerDef: ModelAttributes<InventoryContainer> = {
@@ -29,4 +30,5 @@ export const InventoryContainerDef: ModelAttributes<InventoryContainer> = {
   description: { type: DataTypes.TEXT },
   baseWeight: { type: DataTypes.NUMBER },
   weightMultiplierPercent: { type: DataTypes.NUMBER, defaultValue: 100 },
+  idx: { type: DataTypes.SMALLINT },
 };
