@@ -106,8 +106,10 @@ app.put(
     toUpdate.setDataValue("id", containerId);
     toUpdate.setDataValue("CharacterId", characterId);
     sequelize.transaction().then((transaction) => {
+      const keys = { ...toUpdate.dataValues };
+      keys.delete("idx");
       existing
-        .update(toUpdate.dataValues)
+        .update(keys)
         .then(async (_) => {
           Item.destroy({
             where: {
@@ -195,6 +197,10 @@ app.post(
       res.sendStatus(404);
       return;
     }
+    const count = await Item.count({
+      where: { InventoryContainerId: containerId },
+    });
+    toCreate.setDataValue("idx", count);
     Item.create(toCreate.dataValues).then(
       (created) => {
         res.send(convertItemDbModel(created));
@@ -243,8 +249,10 @@ app.put(
       res.send(404);
     }
 
+    const keys = { ...toUpdate.dataValues };
+    keys.delete("idx");
     existing
-      .update(toUpdate.dataValues)
+      .update(keys)
       .then((updated) => {
         res.send(convertItemDbModel(updated));
       })
