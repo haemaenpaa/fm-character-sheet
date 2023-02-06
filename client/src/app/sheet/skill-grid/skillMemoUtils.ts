@@ -1,7 +1,10 @@
 import Character from 'src/app/model/character';
 import { Skill } from 'src/app/model/skill';
 
-function stringHash(val: string) {
+function stringHash(val?: string): number {
+  if (!val) {
+    return 0;
+  }
   const prime = 31;
   const split: string[] = [...val];
   return split.reduce(
@@ -14,12 +17,30 @@ export function skillHash(character: Character): number {
   var ret = 0;
   const prime = 31;
   for (const key in character.defaultSkills) {
-    ret +=
+    ret =
       prime * ret +
       prime * stringHash(key) +
       (character.defaultSkills as any)[key];
   }
 
+  return ret;
+}
+
+export function customSkillHash(character: Character): number {
+  var ret = 0;
+  const prime = 31;
+  for (const skill of character.customSkills) {
+    const individualHash =
+      stringHash(skill.name) +
+      prime * skill.rank +
+      prime *
+        prime *
+        skill.defaultAbilities.reduce(
+          (h, abl) => h * prime + stringHash(abl),
+          0
+        );
+    ret = prime * ret + individualHash;
+  }
   return ret;
 }
 

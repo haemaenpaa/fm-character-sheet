@@ -17,7 +17,7 @@ export interface SkillCheckEvent {
 }
 export interface SkillSetEvent {
   skillRank: number;
-  skillName: string | null;
+  skillName?: string;
   skillIdentifier: string;
   defaultAbilities: string[];
 }

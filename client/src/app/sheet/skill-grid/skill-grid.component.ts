@@ -5,7 +5,7 @@ import { randomIdString } from 'src/app/model/id-generator';
 import { Skill } from 'src/app/model/skill';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { SkillCheckEvent, SkillSetEvent } from '../skill/skill.component';
-import { skillHash, skillsArrayEqual } from './skillMemoUtils';
+import { customSkillHash, skillHash, skillsArrayEqual } from './skillMemoUtils';
 
 interface SkillsMemo {
   memo: Skill[];
@@ -21,7 +21,9 @@ export class SkillGridComponent implements OnInit {
   @Input() character!: Character;
   @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
+  hilightId?: string;
   private defaultSkillsMemo: SkillsMemo = { memo: [], hash: 0 };
+  private customSkillsMemo: SkillsMemo = { memo: [], hash: 0 };
   constructor(private actionService: ActionDispatchService) {}
 
   ngOnInit(): void {}
@@ -46,6 +48,20 @@ export class SkillGridComponent implements OnInit {
     return this.defaultSkillsMemo.memo;
   }
 
+  get customSkills(): Skill[] {
+    const hash = customSkillHash(this.character);
+    if (
+      hash != this.customSkillsMemo.hash &&
+      !skillsArrayEqual(this.character.customSkills, this.customSkillsMemo.memo)
+    ) {
+      this.customSkillsMemo.memo = this.character.customSkills.sort((a, b) =>
+        a.name!.localeCompare(b.name!)
+      );
+      this.customSkillsMemo.hash = hash;
+    }
+    return this.customSkillsMemo.memo;
+  }
+
   onModifySkill(event: SkillSetEvent) {
     this.character.setSkillByIdentifier(event.skillIdentifier, event.skillRank);
     this.character.customSkills = this.character.customSkills.map((s) =>
@@ -53,6 +69,9 @@ export class SkillGridComponent implements OnInit {
         ? { ...s, name: event.skillName }
         : s
     );
+    if (event.skillIdentifier === this.hilightId) {
+      this.hilightId = undefined;
+    }
     this.characterChanged.emit();
   }
 
@@ -60,6 +79,9 @@ export class SkillGridComponent implements OnInit {
     this.character.customSkills = this.character.customSkills.filter(
       (s) => s.identifier !== skillIdentifier
     );
+    if (skillIdentifier === this.hilightId) {
+      this.hilightId = undefined;
+    }
     this.characterChanged.emit();
   }
 
@@ -74,6 +96,7 @@ export class SkillGridComponent implements OnInit {
         defaultAbilities: [],
       },
     ];
+    this.hilightId = id;
     this.characterChanged.emit();
   }
 

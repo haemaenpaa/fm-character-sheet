@@ -215,7 +215,6 @@ export default class Character {
     for (const key in this.defaultSkills) {
       const current: Skill = {
         identifier: key,
-        name: null,
         rank: (this.defaultSkills as any)[key],
         defaultAbilities: [...SKILL_DEFAULT_ABILITIES[key]],
       };
