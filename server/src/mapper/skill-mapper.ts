@@ -11,10 +11,16 @@ export function convertSkillDto(dto: SkillDto): CustomSkill {
 }
 
 export function convertSkillDbModel(model: CustomSkill): SkillDto {
+  const abilitiesString = model.getDataValue("defaultAbilities");
+
+  var defaultAbilities = [];
+  if (abilitiesString) {
+    defaultAbilities = abilitiesString?.split(",");
+  }
   return {
     identifier: model.getDataValue("id"),
     name: model.getDataValue("name"),
     rank: model.getDataValue("rank"),
-    defaultAbilities: model.getDataValue("defaultAbilities")?.split(","),
+    defaultAbilities: defaultAbilities,
   };
 }
