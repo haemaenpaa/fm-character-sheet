@@ -1,8 +1,7 @@
-import { CharacterAbilitiesDto, ResistanceDto } from "fm-transfer-model";
+import { CharacterAbilitiesDto } from "fm-transfer-model";
 import { CharacterDto } from "fm-transfer-model/src/model/character";
 import { characterInclude } from "../sequelize-configuration";
 import { Character } from "../model/character";
-import { Resistance } from "../model/resistance";
 import { convertAbilitiesDto } from "./abilities-mapper";
 import { convertAttackDbModel, convertAttackDto } from "./attack-mapper";
 import {
@@ -27,6 +26,10 @@ import {
 import { convertSkillDbModel, convertSkillDto } from "./skill-mapper";
 import { convertSpellbookDbModel, convertSpellbookDto } from "./spell-mapper";
 import { randomId } from "../model/id-generator";
+import {
+  convertResistanceDto,
+  convertResistanceDbModel,
+} from "./resistance-mapper";
 
 export function convertCharacterDto(dto: CharacterDto): Character {
   const characterId = dto.id || randomId();
@@ -165,21 +168,4 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
     armorValue: model.getDataValue("armorValue"),
   };
   return ret;
-}
-
-function convertResistanceDto(
-  dto: ResistanceDto,
-  category: string
-): Resistance {
-  return Resistance.build({
-    type: dto.type || "resistance",
-    value: dto.value || "UNKNOWN",
-    category,
-  });
-}
-function convertResistanceDbModel(model: Resistance): ResistanceDto {
-  return {
-    type: model.getDataValue("type"),
-    value: model.getDataValue("value"),
-  };
 }

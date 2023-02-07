@@ -11,6 +11,7 @@ import * as inventoryController from "./controller/inventory-controller";
 import * as raceController from "./controller/race-controller";
 import * as resourceController from "./controller/resource-controller";
 import * as skillController from "./controller/skill-controller";
+import * as resistanceController from "./controller/resistances-controller";
 
 //Access the exported constant from each controller to ensure that the calls to app route are invoked.
 characterController.exists;
@@ -23,6 +24,7 @@ inventoryController.exists;
 raceController.exists;
 resourceController.exists;
 skillController.exists;
+resistanceController.exists;
 
 const frontendPath =
   process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");

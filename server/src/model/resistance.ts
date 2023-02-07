@@ -1,5 +1,7 @@
 import { DataTypes, Model, ModelAttributes } from "sequelize";
 
+export type ResistanceCategory = "damage" | "status";
+
 export class Resistance extends Model {}
 export class RacialResistance extends Model {}
 
@@ -13,7 +15,7 @@ export const ResistanceDef: ModelAttributes<Resistance> = {
     allowNull: false,
   },
   category: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM("damage", "status"),
     allowNull: false,
   },
 };
