@@ -10,6 +10,22 @@ import { InventoryContainerDto as InventoryContainerDto } from "./item";
 import { CharacterBiographyDto as CharacterBiographyDto } from "./character-bio";
 import { CharacterResourceDto } from "./character-resource";
 
+export interface DefaultSkillsDto {
+  anh?: number;
+  ath?: number;
+  dec?: number;
+  emp?: number;
+  inv?: number;
+  lea?: number;
+  med?: number;
+  occ?: number;
+  perc?: number;
+  pers?: number;
+  sub?: number;
+  ste?: number;
+  sur?: number;
+}
+
 /**
  * A single character model, that encapsulates everything contained in a character sheet.
  *
@@ -23,21 +39,7 @@ export class CharacterDto {
   /**
    * The default skills, always displayed on the character sheet.
    */
-  defaultSkills?: {
-    anh: number;
-    ath: number;
-    dec: number;
-    emp: number;
-    inv: number;
-    lea: number;
-    med: number;
-    occ: number;
-    perc: number;
-    pers: number;
-    sub: number;
-    ste: number;
-    sur: number;
-  };
+  defaultSkills?: DefaultSkillsDto;
 
   /**
    * Current hit point total.

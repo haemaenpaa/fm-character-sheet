@@ -1,9 +1,26 @@
+import { CharacterDto, DefaultSkillsDto } from "fm-transfer-model";
 import { app, jsonParser } from "../app";
 import { convertSkillDbModel, convertSkillDto } from "../mapper/skill-mapper";
 import { Character } from "../model/character";
 import { CustomSkill } from "../model/custom-skill";
 
 export const exists = true;
+
+const defaultSkills = [
+  "anh",
+  "ath",
+  "dec",
+  "emp",
+  "inv",
+  "lea",
+  "med",
+  "occ",
+  "perc",
+  "pers",
+  "sub",
+  "ste",
+  "sur",
+];
 
 app.get("/api/character/:characterId/skills", (req, res) => {
   const characterId = Number.parseInt(req.params.characterId);
@@ -15,6 +32,41 @@ app.get("/api/character/:characterId/skills", (req, res) => {
     }
   );
 });
+
+app.put(
+  "/api/character/:characterId/defaultSkills",
+  jsonParser,
+  async (req, res) => {
+    const characterId = Number.parseInt(req.params.characterId);
+    const character = await Character.findOne({ where: { id: characterId } });
+
+    if (!character) {
+      console.error(`Character ${characterId} not found.`);
+      res.sendStatus(404);
+    }
+
+    const skillDto = req.body;
+    const values = {};
+    for (const skill of defaultSkills) {
+      if (skill in skillDto) {
+        values[skill] = skillDto[skill];
+      }
+    }
+    character.update(values).then(
+      (updated) => {
+        const ret = {};
+        for (const skill of defaultSkills) {
+          ret[skill] = updated.getDataValue(skill);
+        }
+        res.send(ret);
+      },
+      (error) => {
+        console.error("Failed to update default skills", error);
+        res.sendStatus(500);
+      }
+    );
+  }
+);
 
 app.post("/api/character/:characterId/skills", jsonParser, async (req, res) => {
   const characterId = Number.parseInt(req.params.characterId);
