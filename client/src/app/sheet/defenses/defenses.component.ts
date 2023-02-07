@@ -143,20 +143,22 @@ export class DefensesComponent {
     if (indexPresent && indexPresent > 0) {
       return;
     }
-    this.character?.statusResistances.push({
-      type: 'resistance',
-      value: resistance,
-    });
+    this.character.statusResistances = [
+      ...this.character.statusResistances,
+      {
+        type: 'resistance',
+        value: resistance,
+      },
+    ];
     this.characterChanged.emit();
   }
   removeStatusResistance(deletedResistance: Resistance) {
     if (!this.character) {
       return;
     }
-    this.character!.statusResistances =
-      this.character!.statusResistances.filter(
-        (res) => res.value != deletedResistance.value
-      );
+    this.character.statusResistances = this.character.statusResistances.filter(
+      (res) => res.value != deletedResistance.value
+    );
     this.characterChanged.emit();
   }
   modifyStatusResistance($event: ResistanceModifyEvent) {
@@ -176,10 +178,13 @@ export class DefensesComponent {
     if (indexPresent && indexPresent > 0) {
       return;
     }
-    this.character?.damageResistances.push({
-      type: 'resistance',
-      value: resistance,
-    });
+    this.character.damageResistances = [
+      ...this.character.damageResistances,
+      {
+        type: 'resistance',
+        value: resistance,
+      },
+    ];
     this.characterChanged.emit();
   }
   removeDamageResistance(deletedResistance: Resistance) {
