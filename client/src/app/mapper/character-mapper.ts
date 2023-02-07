@@ -3,7 +3,6 @@ import {
   CharacterSpellsDto,
   InventoryContainerDto,
   ItemDto,
-  SkillDto,
   SpellDto,
 } from 'fm-transfer-model';
 import { CharacterDto } from 'fm-transfer-model/src/model/character';
@@ -14,7 +13,6 @@ import { CharacterSpells, Spell } from '../model/character-spells';
 import { randomId } from '../model/id-generator';
 import { InventoryContainer, Item } from '../model/item';
 import { ResistanceType } from '../model/resistance';
-import { Skill } from '../model/skill';
 import { convertAttackDto, convertAttackModel } from './attack-mapper';
 import { convertBiographyModel } from './biography-mapper';
 import { convertInventoryContainerDto } from './inventory-mapper';
@@ -22,6 +20,7 @@ import { convertDamageRollDto } from './damage-roll-mapper';
 import { convertAoSelectionDto } from './selection-mapper';
 import { convertSpellBookModel } from './spell-mapper';
 import { convertResourceModel } from './resource-mapper';
+import { convertSkillModel } from './skill-mapper';
 
 export function convertCharacterDto(dto: CharacterDto): Character {
   const builder = new CharacterBuilder();
@@ -118,14 +117,6 @@ function convertItemModel(model: Item): ItemDto {
   };
 }
 
-function convertSkillModel(skill: Skill): SkillDto {
-  return {
-    identifier: skill.identifier,
-    name: skill.name,
-    rank: skill.rank,
-    defaultAbilities: [...skill.defaultAbilities],
-  };
-}
 function convertAoSelectionModel(selection: AoSelection): AoSelectionDto {
   return {
     id: selection.id,
