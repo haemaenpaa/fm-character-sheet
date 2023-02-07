@@ -64,6 +64,7 @@
   font-style: italic;
   padding-left: 0.1em;
   padding-right: 0.1em;
+  cursor: pointer;
 }
 
 .ability-button {
@@ -77,4 +78,9 @@
   border-style: solid none solid none;
   border-radius: 1em;
   width: 100%;
+  cursor: pointer;
+}
+
+.rank-button {
+  cursor: pointer;
 }

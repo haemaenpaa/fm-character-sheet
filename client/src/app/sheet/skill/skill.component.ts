@@ -53,9 +53,8 @@ export class SkillComponent {
 
   setRank(rank: number) {
     console.log('Edit ' + this.skill.identifier + ' = ' + rank);
-    this.skill.rank = rank;
     this.skillModified.emit({
-      skillRank: this.skill.rank,
+      skillRank: rank,
       skillName: this.skill.name,
       skillIdentifier: this.skill.identifier,
       defaultAbilities: this.skill.defaultAbilities,
@@ -124,7 +123,7 @@ export class SkillComponent {
       if (!a) {
         return;
       }
-      const abilities = this.skill.defaultAbilities;
+      const abilities = [...this.skill.defaultAbilities];
       if (abilities.length > index) {
         abilities[index] = a;
       } else {
