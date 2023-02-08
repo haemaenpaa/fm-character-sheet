@@ -54,3 +54,22 @@ app.post(
     }
   }
 );
+
+app.delete(
+  "/api/character/:characterId/resistances/:category/:value",
+  async (req, res) => {
+    const characterId = Number.parseInt(req.params.characterId);
+    const category = req.params.category as ResistanceCategory;
+    const value = req.params.value;
+
+    const existing = await Resistance.destroy({
+      where: { CharacterId: characterId, category, value },
+    }).then(
+      (_) => res.status(200).send(),
+      (error) => {
+        console.error("Failed to delete resistance", error);
+        res.sendStatus(500);
+      }
+    );
+  }
+);
