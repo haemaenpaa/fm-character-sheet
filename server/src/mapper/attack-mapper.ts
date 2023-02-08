@@ -54,7 +54,7 @@ function convertDamageDbModel(model: AttackDamage): DamageRollDto {
 function convertEffectDbModel(model: AttackEffect): AttackEffectDto {
   return {
     id: model.getDataValue("id"),
-    save: model.getDataValue("save"),
+    save: model.getDataValue("saveAbility"),
     dv: model.getDataValue("dv"),
     description: model.getDataValue("description"),
   };
@@ -72,7 +72,7 @@ function convertDamageDto(dto: DamageRollDto): AttackDamage {
 function convertEffectDto(dto: AttackEffectDto): AttackEffect {
   return AttackEffect.build({
     id: dto.id,
-    save: dto.save,
+    saveAbility: dto.save,
     dv: dto.dv,
     description: dto.description,
   });

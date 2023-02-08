@@ -21,7 +21,7 @@ export const AttackDef: ModelAttributes<Attack> = {
 };
 export const AttackEffectDef: ModelAttributes<AttackEffect> = {
   id: { type: DataTypes.NUMBER, primaryKey: true },
-  save: { type: DataTypes.STRING },
+  saveAbility: { type: DataTypes.STRING },
   dv: { type: DataTypes.NUMBER },
   description: { type: DataTypes.TEXT },
 };
