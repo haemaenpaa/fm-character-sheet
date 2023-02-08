@@ -13,6 +13,7 @@ import Resistance from 'src/app/model/resistance';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { HitDiceService } from 'src/app/services/hit-dice.service';
+import { ResistanceService } from 'src/app/services/resistance.service';
 import { ResistanceModifyEvent } from '../resistances/resistances.component';
 
 function clamp(num: number, min: number, max: number) {
@@ -43,6 +44,7 @@ export class DefensesComponent {
     private actionService: ActionDispatchService,
     private characterService: CharacterService,
     private hitDiceService: HitDiceService,
+    private resistanceService: ResistanceService,
     private changeDetector: ChangeDetectorRef
   ) {}
 
@@ -137,31 +139,52 @@ export class DefensesComponent {
   }
 
   addStatusResistance(resistance: string) {
+    const oldResistances = [...this.character.statusResistances];
     const indexPresent = this.character?.statusResistances.findIndex(
       (r) => r.value === resistance
     );
     if (indexPresent && indexPresent > 0) {
       return;
     }
+    const added: Resistance = {
+      type: 'resistance',
+      value: resistance,
+    };
     this.character.statusResistances = [
       ...this.character.statusResistances,
-      {
-        type: 'resistance',
-        value: resistance,
-      },
+      added,
     ];
-    this.characterChanged.emit();
+    this.resistanceService
+      .updateStatusResistance(added, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to create status resistance.', error);
+          this.character.statusResistances = oldResistances;
+        }
+      );
   }
   removeStatusResistance(deletedResistance: Resistance) {
+    const oldResistances = [...this.character.statusResistances];
     if (!this.character) {
       return;
     }
     this.character.statusResistances = this.character.statusResistances.filter(
       (res) => res.value != deletedResistance.value
     );
-    this.characterChanged.emit();
+
+    this.resistanceService
+      .deleteStatusResistance(deletedResistance.value, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to delete status resistance.', error);
+          this.character.statusResistances = oldResistances;
+        }
+      );
   }
   modifyStatusResistance($event: ResistanceModifyEvent) {
+    const oldResistances = [...this.character.statusResistances];
     if (!this.character) {
       return;
     }
@@ -169,43 +192,78 @@ export class DefensesComponent {
       this.character.statusResistances,
       $event
     );
-    this.characterChanged.emit();
+
+    this.resistanceService
+      .updateStatusResistance($event.new, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to create status resistance.', error);
+          this.character.statusResistances = oldResistances;
+        }
+      );
   }
   addDamageResistance(resistance: string) {
+    const oldResistances = [...this.character.damageResistances];
     const indexPresent = this.character?.damageResistances.findIndex(
       (r) => r.value === resistance
     );
     if (indexPresent && indexPresent > 0) {
       return;
     }
+    const added: Resistance = {
+      type: 'resistance',
+      value: resistance,
+    };
     this.character.damageResistances = [
       ...this.character.damageResistances,
-      {
-        type: 'resistance',
-        value: resistance,
-      },
+      added,
     ];
-    this.characterChanged.emit();
-  }
-  removeDamageResistance(deletedResistance: Resistance) {
-    if (!this.character) {
-      return;
-    }
-    this.character!.damageResistances =
-      this.character!.damageResistances.filter(
-        (res) => res.value != deletedResistance.value
+    this.resistanceService
+      .updateDamageResistance(added, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to create damage resistance', error);
+          this.character.damageResistances = oldResistances;
+        }
       );
-    this.characterChanged.emit();
   }
+
+  removeDamageResistance(deletedResistance: Resistance) {
+    const oldResistances = [...this.character.damageResistances];
+    this.character.damageResistances = this.character.damageResistances.filter(
+      (res) => res.value != deletedResistance.value
+    );
+    this.resistanceService
+      .deleteDamageResistance(deletedResistance.value, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to delete damage resistance', error);
+          this.character.damageResistances = oldResistances;
+        }
+      );
+  }
+
   modifyDamageResistance($event: ResistanceModifyEvent) {
     if (!this.character) {
       return;
     }
+    const oldResistances = [...this.character.damageResistances];
     this.character.damageResistances = this.applyModifyEvent(
       this.character.damageResistances,
       $event
     );
-    this.characterChanged.emit();
+    this.resistanceService
+      .updateDamageResistance($event.new, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to modify resistance', error);
+          this.character.damageResistances = oldResistances;
+        }
+      );
   }
 
   setArmorValue(newValue: string) {

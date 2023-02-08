@@ -33,6 +33,7 @@ app.use("/api/character/:characterId/**", async (req, res, next) => {
     where: { id: characterId },
   });
   if (existingCharacter) {
+    console.log(`Request to ${req.baseUrl} validated.`);
     next();
   } else {
     console.error(`Character ${characterId} not found.`);
