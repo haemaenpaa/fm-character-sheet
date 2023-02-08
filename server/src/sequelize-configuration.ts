@@ -6,7 +6,8 @@ import { InventoryContainer } from "./model/inventory";
 import { Race } from "./model/race";
 import { initializeSchema } from "./model/schema";
 
-export const sequelize = initializeSchema("sqlite:dev-db.db");
+const newLocal = process.env.CONNECTION_STRING || "sqlite:dev-db.db";
+export const sequelize = initializeSchema(newLocal);
 sequelize.sync();
 
 export const spellInclude = [Spell.Damage, Spell.UpcastDamage];

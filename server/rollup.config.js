@@ -10,6 +10,11 @@ export default {
     sourcemap: false,
     minifyInternalExports: true,
   },
-  plugins: [resolve(), commonjs(), json()],
-  external: ["sequelize", "express"],
+  plugins: [
+    resolve({ exportConditions: ["node"] }),
+    commonjs({
+      ignoreDynamicRequires: true,
+    }),
+    json(),
+  ],
 };
