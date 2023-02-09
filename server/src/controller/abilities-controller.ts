@@ -16,13 +16,13 @@ const knownAbilities = [
   "com",
 ];
 
-app.get("/api/:characterId/abilities", (req, res) => {
+app.get("/api/character/:characterId/abilities", (req, res) => {
   const character = res.locals.character as Character;
   const dto = convertCharacterDbModel(character);
   res.send(dto.abilities);
 });
 
-app.put("/api/:characterId/abilities", jsonParser, (req, res) => {
+app.put("/api/character/:characterId/abilities", jsonParser, (req, res) => {
   const character = res.locals.character as Character;
   const values = {};
   for (const ab of knownAbilities) {

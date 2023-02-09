@@ -1,6 +1,6 @@
 import { Ability } from './ability';
 
-class AbilityImpl implements Ability {
+export class AbilityImpl implements Ability {
   identifier: string;
   score: number;
 
@@ -25,32 +25,4 @@ export default class CharacterAbilities {
   pre: Ability = new AbilityImpl('pre', 10);
   man: Ability = new AbilityImpl('man', 10);
   com: Ability = new AbilityImpl('com', 10);
-
-  setBr(value: number) {
-    this.br = new AbilityImpl('br', value);
-  }
-  setDex(value: number) {
-    this.dex = new AbilityImpl('dex', value);
-  }
-  setVit(value: number) {
-    this.vit = new AbilityImpl('vit', value);
-  }
-  setInt(value: number) {
-    this.int = new AbilityImpl('int', value);
-  }
-  setCun(value: number) {
-    this.cun = new AbilityImpl('cun', value);
-  }
-  setRes(value: number) {
-    this.res = new AbilityImpl('res', value);
-  }
-  setPre(value: number) {
-    this.pre = new AbilityImpl('pre', value);
-  }
-  setMan(value: number) {
-    this.man = new AbilityImpl('man', value);
-  }
-  setCom(value: number) {
-    this.com = new AbilityImpl('com', value);
-  }
 }

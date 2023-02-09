@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import Character from 'src/app/model/character';
+import CharacterAbilities, {
+  AbilityImpl,
+} from 'src/app/model/character-abilities';
+import { AbilityService } from 'src/app/services/ability.service';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 
 /**
@@ -19,7 +23,10 @@ export class AbilityGridComponent implements OnInit {
   @Input() character!: Character;
   @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
-  constructor(private rollService: ActionDispatchService) {}
+  constructor(
+    private rollService: ActionDispatchService,
+    private abilityService: AbilityService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -37,5 +44,32 @@ export class AbilityGridComponent implements OnInit {
         proficiency: 0,
       },
     });
+  }
+
+  onModified(
+    identifier:
+      | 'br'
+      | 'dex'
+      | 'vit'
+      | 'int'
+      | 'cun'
+      | 'res'
+      | 'pre'
+      | 'man'
+      | 'com',
+    value: number
+  ) {
+    const oldAbilities: CharacterAbilities = { ...this.character.abilities };
+    const modified = new AbilityImpl(identifier, value);
+    this.character.abilities[identifier] = modified;
+    this.abilityService
+      .updateCharacterAbility(modified, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to update ability', error);
+          this.character.abilities = oldAbilities;
+        }
+      );
   }
 }
