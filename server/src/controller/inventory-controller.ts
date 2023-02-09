@@ -13,7 +13,6 @@ import {
   inventoryContainerOrder,
   sequelize,
 } from "../sequelize-configuration";
-import { fetchBasicCharacter } from "./controller-utils";
 
 export const exists = true;
 
@@ -41,12 +40,6 @@ app.post(
   jsonParser,
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
-    const character = fetchBasicCharacter(characterId);
-    if (!character) {
-      console.error(`Character ${characterId} does not exist`);
-      res.sendStatus(400);
-      return;
-    }
 
     const dto: InventoryContainerDto = req.body;
 

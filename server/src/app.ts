@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import bodyParser from "body-parser";
 import { Character } from "./model/character";
-import { characterInclude } from "./sequelize-configuration";
+import { characterInclude, characterOrder } from "./sequelize-configuration";
 
 export const app = express();
 export const jsonParser = bodyParser.json();
@@ -23,7 +23,7 @@ app.use("/api/**", async (req, res, next) => {
   next();
 });
 
-app.use("/api/character/:characterId/**", async (req, res, next) => {
+const characterIdRoute = async (req, res, next) => {
   const characterId = Number.parseInt(req.params.characterId);
   if (isNaN(characterId)) {
     console.error(`Bad character id ${req.params.characterId}`);
@@ -33,6 +33,7 @@ app.use("/api/character/:characterId/**", async (req, res, next) => {
   const existingCharacter = await Character.findOne({
     where: { id: characterId },
     include: characterInclude,
+    order: characterOrder,
   });
   if (existingCharacter) {
     console.log(`Request to ${req.baseUrl} validated.`);
@@ -42,4 +43,6 @@ app.use("/api/character/:characterId/**", async (req, res, next) => {
     console.error(`Character ${characterId} not found.`);
     res.send(404);
   }
-});
+};
+app.use("/api/character/:characterId/**", characterIdRoute);
+app.use("/api/character/:characterId", characterIdRoute);

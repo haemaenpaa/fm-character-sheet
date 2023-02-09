@@ -5,9 +5,7 @@ import {
   convertSelectionDto,
 } from "../mapper/selection-mapper";
 import { AoSelection } from "../model/ao-selection";
-import { Character } from "../model/character";
 import { randomId } from "../model/id-generator";
-import { fetchBasicCharacter } from "./controller-utils";
 
 export const exists = true;
 
@@ -26,12 +24,6 @@ app.post(
   jsonParser,
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
-    const character = await fetchBasicCharacter(characterId);
-    if (!character) {
-      console.error(`Character ${characterId} not found.`);
-      res.sendStatus(404);
-      return;
-    }
     const dto = req.body as AoSelectionDto;
     const toCreate = convertSelectionDto(dto);
     if (!dto.id) {
@@ -57,13 +49,7 @@ app.put(
   jsonParser,
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
-    const character = await fetchBasicCharacter(characterId);
     const selectionId = Number.parseInt(req.params.selectionId);
-    if (!character) {
-      console.error(`Character ${characterId} not found.`);
-      res.sendStatus(404);
-      return;
-    }
     const dto = req.body as AoSelectionDto;
     const toUpdate = convertSelectionDto(dto);
     toUpdate.setDataValue("id", selectionId);

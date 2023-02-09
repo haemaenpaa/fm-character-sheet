@@ -6,7 +6,6 @@ import {
 } from "../mapper/attack-mapper";
 import { Attack, AttackDamage, AttackEffect } from "../model/attack";
 import { attackInclude, sequelize } from "../sequelize-configuration";
-import { fetchBasicCharacter } from "./controller-utils";
 
 export const exists = true;
 
@@ -25,13 +24,6 @@ app.post(
   jsonParser,
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
-
-    const character = await fetchBasicCharacter(characterId);
-    if (!character) {
-      console.error(`Character ${characterId} not found`);
-      res.sendStatus(404);
-      return;
-    }
 
     const dto: CharacterAttackDto = req.body;
     const toCreate: Attack = convertAttackDto(dto);
@@ -61,12 +53,6 @@ app.put(
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
 
-    const character = await fetchBasicCharacter(characterId);
-    if (!character) {
-      console.error(`Character ${characterId} not found`);
-      res.sendStatus(404);
-      return;
-    }
     const attackId = Number.parseInt(req.params.attackId);
 
     const existing = await Attack.findOne({
@@ -152,12 +138,6 @@ app.delete(
   async (req, res) => {
     const characterId = Number.parseInt(req.params.characterId);
 
-    const character = await fetchBasicCharacter(characterId);
-    if (!character) {
-      console.error(`Character ${characterId} not found`);
-      res.sendStatus(404);
-      return;
-    }
     const attackId = Number.parseInt(req.params.attackId);
 
     const existing = await Attack.findOne({

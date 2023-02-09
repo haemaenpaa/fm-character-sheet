@@ -31,27 +31,9 @@ app.get("/api/characters", async (req, res) => {
     });
 });
 app.get("/api/character/:characterId", async (req, res) => {
-  setHeaders(res);
-  const characterId = Number.parseInt(req.params.characterId);
-  if (isNaN(characterId)) {
-    res.sendStatus(400);
-    return;
-  }
-  sequelize
-    .model("Character")
-    .findOne({
-      where: { id: characterId },
-      include: characterInclude,
-      order: characterOrder,
-    })
-    .then((character) => {
-      if (!character) {
-        res.sendStatus(404);
-        return;
-      }
-      res.send(convertCharacterDbModel(character));
-    });
+  res.send(convertCharacterDbModel(res.locals.character));
 });
+
 app.post("/api/character/", jsonParser, async (req, res) => {
   setHeaders(res);
   const character = req.body as CharacterDto;
@@ -132,10 +114,7 @@ app.put("/api/character/:characterId", jsonParser, async (req, res) => {
   console.log("Update request", character);
 
   const dbCharacter = convertCharacterDto(character);
-  const existing = await Character.findOne({
-    where: { id: characterId },
-    include: characterInclude,
-  });
+  const existing = res.locals.character;
   if (existing) {
     const result = await existing.update(dbCharacter.dataValues);
     console.log("Update result:", result.dataValues);
@@ -150,25 +129,13 @@ app.put("/api/character/:characterId", jsonParser, async (req, res) => {
   }
 });
 app.delete("/api/character/:characterId", async (req, res) => {
-  setHeaders(res);
-  const characterId = Number.parseInt(req.params.characterId);
-  const characterModel = sequelize.model("Character");
-  const existing = await characterModel.findOne({
-    where: { id: characterId },
-    include: characterInclude,
-    order: characterOrder,
-  });
-  if (!existing) {
-    res.sendStatus(200);
-  } else {
-    existing
-      .destroy()
-      .then((_) => {
-        res.sendStatus(200);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.sendStatus(500);
-      });
-  }
+  res.locals.character
+    .destroy()
+    .then((_) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 });
