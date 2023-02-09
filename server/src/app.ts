@@ -1,6 +1,7 @@
 import express, { Response } from "express";
 import bodyParser from "body-parser";
 import { Character } from "./model/character";
+import { characterInclude } from "./sequelize-configuration";
 
 export const app = express();
 export const jsonParser = bodyParser.json();
@@ -31,9 +32,11 @@ app.use("/api/character/:characterId/**", async (req, res, next) => {
   }
   const existingCharacter = await Character.findOne({
     where: { id: characterId },
+    include: characterInclude,
   });
   if (existingCharacter) {
     console.log(`Request to ${req.baseUrl} validated.`);
+    res.locals.character = existingCharacter;
     next();
   } else {
     console.error(`Character ${characterId} not found.`);
