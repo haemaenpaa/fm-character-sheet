@@ -91,6 +91,7 @@ export default class Character {
    * @param sub Subterfuge
    * @param ste Stealth
    * @param sur Survival
+   * @param speed Movement speed in meters per turn.
    * @param selections The Ability Origin selections. A list of class abilities gained with levels.
    * @param customSkills Custom skills, such as academics and crafts
    * @param savingThrows Saving throw proficiencies
@@ -128,6 +129,7 @@ export default class Character {
     sub: number,
     ste: number,
     sur: number,
+    public speed: number,
     public selections: AoSelection[],
     public customSkills: Skill[],
     public savingThrows: string[],

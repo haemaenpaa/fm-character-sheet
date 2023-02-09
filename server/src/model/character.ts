@@ -38,6 +38,10 @@ export const CharacterDef: ModelAttributes<Character> = {
     type: DataTypes.NUMBER,
     allowNull: false,
   },
+  speed: {
+    type: DataTypes.NUMBER,
+    allowNull: false,
+  },
   hitPointTotal: {
     type: DataTypes.NUMBER,
     allowNull: false,

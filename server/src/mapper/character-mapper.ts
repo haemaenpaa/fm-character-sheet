@@ -73,6 +73,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
     hitPointMaximum: dto.hitPointMaximum || 0,
     tempHitPoints: dto.tempHitPoints || 0,
     ...convertAbilitiesDto(dto.abilities),
+    speed: dto.speed,
     savingThrows: dto.savingThrows?.join(","),
     race,
     resistances,
@@ -166,6 +167,7 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
     resources: model.getDataValue("resources")?.map(convertResourceDbModel),
     savingThrows,
     armorValue: model.getDataValue("armorValue"),
+    speed: model.getDataValue("speed"),
   };
   return ret;
 }

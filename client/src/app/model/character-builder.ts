@@ -35,6 +35,7 @@ export class CharacterBuilder {
   pre: number = 10;
   man: number = 10;
   com: number = 10;
+  speed: number = 6;
 
   defaultSkills = {
     anh: 0,
@@ -252,6 +253,11 @@ export class CharacterBuilder {
   }
   setSurvival(rank: number): CharacterBuilder {
     this.defaultSkills.sur = rank;
+    return this;
+  }
+
+  setSpeed(speed: number): CharacterBuilder {
+    this.speed = speed;
     return this;
   }
 
@@ -756,6 +762,7 @@ export class CharacterBuilder {
       this.defaultSkills.sub,
       this.defaultSkills.ste,
       this.defaultSkills.sur,
+      this.speed,
       this.selections,
       this.skills,
       this.savingThrows,

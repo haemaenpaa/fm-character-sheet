@@ -30,6 +30,7 @@ export function convertCharacterDto(dto: CharacterDto): Character {
   convertRace(dto, builder);
 
   convertAbilities(dto, builder);
+  convertSpeed(dto, builder);
   convertSkills(dto, builder);
   convertSelections(dto, builder);
   builder.setArmorValue(dto.armorValue);
@@ -66,6 +67,7 @@ export function convertCharacterModel(character: Character): CharacterDto {
       com: character.abilities.com.score,
     },
     defaultSkills: { ...character.defaultSkills },
+    speed: character.speed,
     hitPointTotal: character.hitPointTotal,
     hitPointMaximum: character.hitPointMaximum,
     tempHitPoints: character.tempHitPoints,
@@ -89,7 +91,6 @@ export function convertCharacterModel(character: Character): CharacterDto {
     biography: convertBiographyModel(character.biography),
     resources: character.resources.map(convertResourceModel),
   };
-
   return ret;
 }
 
@@ -234,6 +235,10 @@ function convertAbilities(dto: CharacterDto, builder: CharacterBuilder) {
     builder.setManipulation(dto.abilities.man || 10);
     builder.setComposure(dto.abilities.com || 10);
   }
+}
+
+function convertSpeed(dto: CharacterDto, builder: CharacterBuilder) {
+  builder.setSpeed(dto.speed || 6);
 }
 
 function convertSelections(dto: CharacterDto, builder: CharacterBuilder) {

@@ -54,6 +54,8 @@ export class CharacterDto {
    */
   hitDiceRemaining?: CharacterHitDiceDto;
 
+  speed?: number;
+
   public selections?: AoSelectionDto[];
   public customSkills?: SkillDto[];
   public savingThrows?: string[];
