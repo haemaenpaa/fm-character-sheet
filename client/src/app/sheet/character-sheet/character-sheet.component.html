@@ -7,7 +7,7 @@
     <div class="character-name">
       <editable-text
         [value]="character.name"
-        (valueChanged)="character.name = $event; onCharacterChanged()"
+        (valueChanged)="onCharacterNameChanged($event)"
       ></editable-text>
     </div>
     <div class="character-race clickable" (click)="editRace()">

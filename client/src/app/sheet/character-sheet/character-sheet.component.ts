@@ -60,13 +60,21 @@ export class CharacterSheetComponent {
     return levelStructs(this.character);
   }
 
+  onCharacterNameChanged(name: string) {
+    const oldName = this.character!.name;
+    this.character!.name = name;
+    this.characterService.updateCharacter(this.character!).then(
+      (c) => this.onCharacterChanged(),
+      (error) => {
+        console.error('Could not set character name', error);
+        this.character!.name = oldName;
+      }
+    );
+  }
+
   onCharacterChanged() {
     console.log('Character changed. Persisting character.');
     this.characterService.persistCharacter(this.character!);
-    /*this.characterService.updateCharacter(this.character!).then((c) => {
-      this.character = c;
-      this.changeDetector.detectChanges();
-    });*/
   }
 
   onOutletLoaded(component: any) {
