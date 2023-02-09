@@ -266,11 +266,16 @@ export class DefensesComponent {
       );
   }
 
-  setArmorValue(newValue: string) {
+  setArmorValue(newValue: number) {
     const oldAv = this.character.armorValue;
-    const newAv = Number.parseInt(newValue);
-    this.character.armorValue = newAv;
+    this.character.armorValue = newValue;
     this.updateOnFieldChange('armorValue', oldAv);
+  }
+
+  setSpeed(newSpeed: number) {
+    const oldSpeed = this.character.speed;
+    this.character.speed = newSpeed;
+    this.updateOnFieldChange('speed', oldSpeed);
   }
 
   onRemainingHitDiceChanged(hitDice: CharacterHitDice) {

@@ -1,4 +1,4 @@
-import express, { Response } from "express";
+import express, { Response, Request } from "express";
 import bodyParser from "body-parser";
 import { Character } from "./model/character";
 import { characterInclude, characterOrder } from "./sequelize-configuration";
@@ -23,7 +23,11 @@ app.use("/api/**", async (req, res, next) => {
   next();
 });
 
-const characterIdRoute = async (req, res, next) => {
+const characterIdRoute = async (req: Request, res: Response, next) => {
+  if (req.method === "OPTIONS") {
+    next();
+    return;
+  }
   const characterId = Number.parseInt(req.params.characterId);
   if (isNaN(characterId)) {
     console.error(`Bad character id ${req.params.characterId}`);
@@ -41,7 +45,7 @@ const characterIdRoute = async (req, res, next) => {
     next();
   } else {
     console.error(`Character ${characterId} not found.`);
-    res.send(404);
+    res.sendStatus(404);
   }
 };
 app.use("/api/character/:characterId/**", characterIdRoute);

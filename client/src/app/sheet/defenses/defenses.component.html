@@ -3,33 +3,47 @@
   [ngClass]="{ 'accessibility-colorized': colorized }"
 >
   <div class="hp-and-av">
-    <div class="av-container container-border">
-      <div class="av-label">AV</div>
-      <div class="av-value">
-        <editable-text
-          id="av-display"
-          [value]="character.armorValue"
-          (valueChanged)="setArmorValue($event)"
-        ></editable-text>
+    <div class="column">
+      <div class="av-container container-border">
+        <div class="av-label">AV</div>
+        <div class="av-value">
+          <editable-text
+            id="av-display"
+            [value]="character.armorValue"
+            (numberChanged)="setArmorValue($event)"
+          ></editable-text>
+        </div>
+      </div>
+      <div class="speed-container container-border">
+        <div class="av-label">Speed</div>
+        <div class="av-value">
+          <editable-text
+            id="speed-display"
+            [value]="character.speed"
+            (numberChanged)="setSpeed($event)"
+          ></editable-text>
+        </div>
       </div>
     </div>
-    <hit-points
-      class="container-border hp-container"
-      [current]="character.hitPointTotal"
-      [max]="character.hitPointMaximum"
-      [temporary]="character.tempHitPoints"
-      (currentChanged)="onHpTotalChanged($event)"
-      (maxChanged)="onHpMaxChanged($event)"
-      (tempChanged)="onTempHpChanged($event)"
-    ></hit-points>
-    <div class="hit-dice-container">
-      <hit-dice-display
-        [hitDiceMax]="character.hitDice"
-        [hitDiceRemaining]="character.hitDiceRemaining"
-        [characterId]="character.id!"
-        [colorized]="colorized"
-        (remainingChanged)="onRemainingHitDiceChanged($event)"
-      ></hit-dice-display>
+    <div class="column">
+      <hit-points
+        class="container-border hp-container"
+        [current]="character.hitPointTotal"
+        [max]="character.hitPointMaximum"
+        [temporary]="character.tempHitPoints"
+        (currentChanged)="onHpTotalChanged($event)"
+        (maxChanged)="onHpMaxChanged($event)"
+        (tempChanged)="onTempHpChanged($event)"
+      ></hit-points>
+      <div class="hit-dice-container">
+        <hit-dice-display
+          [hitDiceMax]="character.hitDice"
+          [hitDiceRemaining]="character.hitDiceRemaining"
+          [characterId]="character.id!"
+          [colorized]="colorized"
+          (remainingChanged)="onRemainingHitDiceChanged($event)"
+        ></hit-dice-display>
+      </div>
     </div>
   </div>
   <div class="saves-container container-border">
