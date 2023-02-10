@@ -21,6 +21,7 @@ export function convertSpellbookDto(
     : Object.keys(dto.spells)
         .map((k) => convertSpellDto(dto.spells[k]))
         .reduce((out, cur) => out.concat(cur), []);
+
   return CharacterSpellbook.build(
     {
       id: dto.id,

@@ -100,7 +100,7 @@ app.put(
     toUpdate.setDataValue("CharacterId", characterId);
     sequelize.transaction().then((transaction) => {
       const keys = { ...toUpdate.dataValues };
-      keys.delete("idx");
+      delete keys.idx;
       existing
         .update(keys)
         .then(async (_) => {
@@ -243,7 +243,7 @@ app.put(
     }
 
     const keys = { ...toUpdate.dataValues };
-    keys.delete("idx");
+    delete keys.idx;
     existing
       .update(keys)
       .then((updated) => {

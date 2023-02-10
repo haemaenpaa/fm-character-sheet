@@ -160,7 +160,7 @@ function convertBio(dto: CharacterDto, builder: CharacterBuilder) {
       builder.setBiography(biographyDto.characterBiography);
     }
     if (biographyDto.characterConnections) {
-      builder.setBiography(biographyDto.characterConnections);
+      builder.setCharacterConnections(biographyDto.characterConnections);
     }
     if (biographyDto.height) {
       builder.setHeight(biographyDto.height);

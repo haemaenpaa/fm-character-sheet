@@ -70,6 +70,7 @@ app.put(
           res.send(convertSpellbookDbModel(ret));
         });
     } else {
+      toModify.setDataValue("id", found.getDataValue("id"));
       const transaction = await sequelize.transaction();
       found
         .update(toModify.dataValues)
@@ -90,7 +91,10 @@ app.put(
             where: { SpellbookId: toModify.getDataValue("id") },
           });
           await SpellResource.bulkCreate(
-            toModify.getDataValue("resources").map((r) => r.dataValues)
+            toModify.getDataValue("resources").map((r) => ({
+              ...r.dataValues,
+              SpellbookId: toModify.getDataValue("id"),
+            }))
           );
           await transaction.commit();
           const ret = await CharacterSpellbook.findOne({
@@ -220,7 +224,7 @@ app.put(
     found
       .update(toModify.dataValues, { include: spellInclude })
       .catch((err) => {
-        console.log(`Failed to update spell ${spellId}`, err);
+        console.error(`Failed to update spell ${spellId}`, err);
         transaction.rollback();
         res.sendStatus(500);
       })

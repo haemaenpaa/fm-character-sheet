@@ -34,12 +34,7 @@ export const characterInclude = [
   Character.HitDiceRemaining,
   {
     association: Character.Spellbook,
-    include: [
-      {
-        association: CharacterSpellbook.Spells,
-        include: [Spell.Damage, Spell.UpcastDamage],
-      },
-    ],
+    include: spellBookInclude,
   },
   {
     association: Character.Attacks,

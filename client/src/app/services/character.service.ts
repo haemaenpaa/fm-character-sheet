@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CharacterDto } from 'fm-transfer-model/src/model/character';
+import { catchError, retry, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   convertCharacterDto,
@@ -17,11 +18,14 @@ function characterCompare(a: Character, b: Character): number {
   if (a.name !== b.name) {
     return a.name < b.name ? -1 : 1;
   }
-  if (a.id === b.id) {
-    return 0;
+  if (a.totalLevel !== b.totalLevel) {
+    return a.totalLevel < b.totalLevel ? 1 : -1;
   }
-  if (a.id === null || b.id === null) {
-    return a.id === null ? -1 : 1;
+  if (a.id === undefined || b.id === undefined) {
+    if (a.id === b.id) {
+      return 0;
+    }
+    return a.id === undefined ? -1 : 1;
   }
   return a.id! < b.id! ? -1 : 1;
 }
@@ -86,7 +90,26 @@ export class CharacterService {
     return Object.assign(template, parsed);
   }
 
-  get allCharacters(): Character[] {
+  getAllCharacters(): Promise<Character[]> {
+    return new Promise<Character[]>((res, rej) => {
+      this.http
+        .get<CharacterDto[]>(environment.api.serverUrl + '/api/characters')
+        .pipe(
+          retry(3),
+          catchError((error) => {
+            rej(error);
+            return throwError(
+              () => new Error('Failed to fetch character list.')
+            );
+          })
+        )
+        .subscribe((characterDtos) =>
+          res(characterDtos.map(convertCharacterDto))
+        );
+    });
+  }
+
+  get allCachedCharacters(): Character[] {
     return this.characters;
   }
 
@@ -97,12 +120,30 @@ export class CharacterService {
    */
   getCharacterById(id: number): Promise<Character> {
     return new Promise((resolve, reject) => {
-      const character = this.characters.find((c) => c.id === id);
-      if (character) {
-        resolve(character);
-      } else {
-        reject(`No character by id ${id}`);
-      }
+      const cachedCharacter = this.characters.find((c) => c.id === id);
+      this.http
+        .get<CharacterDto>(`${environment.api.serverUrl}/api/character/${id}`)
+        .pipe(
+          retry(3),
+          catchError((error) => {
+            if (cachedCharacter) {
+              resolve(cachedCharacter);
+              console.error(
+                'Failed to get character from API, returning cached.',
+                error
+              );
+            } else {
+              reject(error);
+            }
+            return throwError(
+              () =>
+                new Error('Failed to get character from API, returning cached.')
+            );
+          })
+        )
+        .subscribe((characterDto) =>
+          resolve(convertCharacterDto(characterDto))
+        );
     });
   }
 
@@ -165,7 +206,12 @@ export class CharacterService {
     });
   }
 
-  importCharacterFromFile(file: File) {
+  importCharacterFromFile(file: File): Promise<Character> {
+    var resolve: (val: Character) => any, reject: (err: any) => any;
+    const ret = new Promise<Character>((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
     const reader = new FileReader();
     reader.onload = (e) => {
       const json = e.target?.result?.toString();
@@ -174,12 +220,14 @@ export class CharacterService {
           const character = this.parseJSONString(json);
           character.id = undefined;
           this.persistCharacter(character);
+          this.createCharacter(character).then(resolve, reject);
         } catch (e) {
           alert(`File ${file.name} does not look like a character file.`);
         }
       }
     };
     reader.readAsText(file);
+    return ret;
   }
 
   delete(id: number): Promise<void> {
