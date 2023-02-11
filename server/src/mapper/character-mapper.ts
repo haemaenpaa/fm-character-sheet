@@ -1,5 +1,8 @@
-import { CharacterAbilitiesDto } from "fm-transfer-model";
-import { CharacterDto } from "fm-transfer-model/src/model/character";
+import { CharacterAbilitiesDto, SkillDto } from "fm-transfer-model";
+import {
+  CharacterDto,
+  DefaultSkillsDto,
+} from "fm-transfer-model/src/model/character";
 import { characterInclude } from "../sequelize-configuration";
 import { Character } from "../model/character";
 import { convertAbilitiesDto } from "./abilities-mapper";
@@ -33,7 +36,7 @@ import {
 
 export function convertCharacterDto(dto: CharacterDto): Character {
   const characterId = dto.id || randomId();
-  var skills = {
+  var skills: DefaultSkillsDto = {
     anh: 0,
     ath: 0,
     dec: 0,

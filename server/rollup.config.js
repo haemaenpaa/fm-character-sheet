@@ -14,7 +14,9 @@ export default {
     resolve({ exportConditions: ["node"] }),
     commonjs({
       ignoreDynamicRequires: true,
+      dynamicRequireTargets: [],
     }),
     json(),
   ],
+  external: ["pg", "tedious", "pg-hstore", "sqlite3"],
 };

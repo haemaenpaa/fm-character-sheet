@@ -5,8 +5,7 @@
     "ng": "ng",
     "start": "npm run env&&ng serve",
     "env": "ts-node set-env.ts",
-    "prod-env": "ts-node set-env.ts -f .production-env",
-    "build": "npm run prod-env&& ng build",
+    "build": "npm run env;ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false --source-map=false --browsers=ChromiumHeadless"
   },
