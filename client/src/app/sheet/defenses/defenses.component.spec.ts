@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { range } from 'rxjs';
@@ -7,6 +8,8 @@ import { CharacterBuilder } from 'src/app/model/character-builder';
 import { GameAction, SaveParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { CharacterService } from 'src/app/services/character.service';
+import { HitDiceService } from 'src/app/services/hit-dice.service';
+import { ResistanceService } from 'src/app/services/resistance.service';
 import { EditableTextComponent } from '../editable-text/editable-text.component';
 import { HitDiceDisplayComponent } from '../hit-dice-display/hit-dice-display.component';
 import { HitPointsComponent } from '../hit-points/hit-points.component';
@@ -22,6 +25,15 @@ const mockCharacterService = {
     new Promise<Character>((res, rej) => res(character)),
 };
 
+const mockResistanceService = {
+  updateDamageResistance: (a: any) => new Promise((res) => res(a)),
+  updateStatusResistance: (a: any) => new Promise((res) => res(a)),
+  deleteDamageResistance: (a: any) => new Promise((res) => res(a)),
+  deleteStatusResistance: (a: any) => new Promise((res) => res(a)),
+};
+const mockHitDiceService = {};
+
+@Injectable()
 class MockActionDispatchService extends ActionDispatchService {
   dispatchedActions: GameAction[] = [];
   public override dispatch(action: GameAction) {
@@ -49,8 +61,9 @@ describe('DefensesComponent', () => {
       providers: [
         { provide: ActionDispatchService, useClass: MockActionDispatchService },
         { provide: MatDialog, useValue: {} },
-        { provide: HttpClient, useValue: {} },
         { provide: CharacterService, useValue: mockCharacterService },
+        { provide: ResistanceService, useValue: mockResistanceService },
+        { provide: HitDiceService, useValue: mockHitDiceService },
       ],
     }).compileComponents();
 
