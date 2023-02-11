@@ -4,6 +4,7 @@ import Character from 'src/app/model/character';
 import { Spell } from 'src/app/model/character-spells';
 import { SpellAttackParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { SpellService } from 'src/app/services/spell.service';
 import { AbilitySelectComponent } from '../ability-select/ability-select.component';
 import {
   SlotEditComponent,
@@ -35,7 +36,8 @@ export class SpellbookComponent {
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
   constructor(
     private dialog: MatDialog,
-    private actionService: ActionDispatchService
+    private actionService: ActionDispatchService,
+    private spellService: SpellService
   ) {}
 
   selectCastingAbility() {
@@ -51,7 +53,14 @@ export class SpellbookComponent {
 
     dialogRef.afterClosed().subscribe((abl) => {
       if (abl) {
+        const old = this.character.spells.spellcastingAbility;
         this.character.spells.spellcastingAbility = abl;
+        this.spellService
+          .updateSpellBook(this.character.spells, this.character.id!)
+          .catch((err) => {
+            console.log('Could not set spellcasting ability', err);
+            this.character.spells.spellcastingAbility = old;
+          });
       }
       this.characterChanged.emit();
     });
@@ -74,19 +83,45 @@ export class SpellbookComponent {
   }
 
   modifyResources(tier: number, event: ResourceChangeEvent) {
+    const oldSlotsAvailable = { ...this.character.spells.spellSlotsAvailable };
+    const oldSpecialAvailable = {
+      ...this.character.spells.specialSlotsAvailable,
+    };
+    const oldSouls = { ...this.character.spells.souls };
     this.character.spells.specialSlotsAvailable[tier] =
       event.specialSlotsAvailable;
     this.character.spells.spellSlotsAvailable[tier] = event.slotsAvailable;
     this.character.spells.souls[tier] = event.souls;
-    this.characterChanged.emit();
+    this.spellService
+      .updateSpellBook(this.character.spells, this.character.id!)
+      .catch((err) => {
+        console.log(
+          'Failed to update spellbook. Resetting to pre-update state.',
+          err
+        );
+        this.character.spells.specialSlotsAvailable = oldSpecialAvailable;
+        this.character.spells.spellSlotsAvailable = oldSlotsAvailable;
+        this.character.spells.souls = oldSouls;
+      })
+      .then((_) => {
+        this.characterChanged.emit();
+      });
   }
 
   addSpell(spell: Spell) {
     if (!this.character.spells.spells[spell.tier]) {
       this.character.spells.spells[spell.tier] = [];
     }
+    const old = [...this.character.spells.spells[spell.tier]];
     this.character.spells.spells[spell.tier].push(spell);
-    this.characterChanged.emit();
+    this.spellService
+      .addSpell(spell, this.character.id!, this.character.spells.id)
+      .catch((_) => {
+        this.character.spells.spells[spell.tier] = old;
+      })
+      .then((_) => {
+        this.characterChanged.emit();
+      });
   }
 
   editSlots() {
@@ -97,6 +132,15 @@ export class SpellbookComponent {
       },
     });
     dialog.afterClosed().subscribe((result: SlotEditResult) => {
+      const oldSlotsAvailable = {
+        ...this.character.spells.spellSlotsAvailable,
+      };
+      const oldSpecialAvailable = {
+        ...this.character.spells.specialSlotsAvailable,
+      };
+      const oldSlots = { ...this.character.spells.spellSlots };
+      const oldSpecial = { ...this.character.spells.specialSlotsAvailable };
+
       this.character.spells.spellSlots = result.regularSlots;
       this.character.spells.specialSlots = result.specialSlots;
       for (const key in this.character.spells.spellSlotsAvailable) {
@@ -117,7 +161,17 @@ export class SpellbookComponent {
             result.specialSlots[key];
         }
       }
-      this.characterChanged.emit();
+      this.spellService
+        .updateSpellBook(this.character.spells, this.character.id!)
+        .catch((error) => {
+          this.character.spells.specialSlots = oldSpecial;
+          this.character.spells.spellSlots = oldSlots;
+          this.character.spells.spellSlotsAvailable = oldSlotsAvailable;
+          this.character.spells.specialSlotsAvailable = oldSpecialAvailable;
+        })
+        .then(() => {
+          this.characterChanged.emit();
+        });
     });
   }
 
@@ -129,35 +183,65 @@ export class SpellbookComponent {
     const spellId = event.old.id;
     const oldTier = event.old.tier;
     const newTier = event.new.tier;
+    debugger;
     if (newTier !== oldTier) {
       this.changeSpellTier(event.old, event.new);
     } else {
       const spellList = this.character.spells.spells[oldTier];
+      const oldSpells = [...spellList];
       this.character.spells.spells[oldTier] = spellList.map((s) =>
         s.id !== spellId ? s : event.new!
       );
-      this.characterChanged.emit();
+      this.spellService
+        .updateSpell(event.new, this.character.id!)
+        .catch((_) => {
+          this.character.spells.spells[oldTier] = oldSpells;
+        })
+        .then((_) => this.characterChanged.emit());
     }
   }
 
   deleteSpell(spell: Spell) {
+    const oldValue = [...this.character.spells.spells[spell.tier]];
     this.character.spells.spells[spell.tier] = this.character.spells.spells[
       spell.tier
     ].filter((s) => s.id !== spell.id);
-    this.characterChanged.emit();
+    this.spellService
+      .deleteSpell(spell.id, this.character.id!)
+      .catch((err) => {
+        console.error(err);
+        this.character.spells.spells[spell.tier] = oldValue;
+      })
+      .then((_) => this.characterChanged.emit());
   }
 
   changeSpellTier(oldSpell: Spell, newSpell: Spell) {
+    debugger;
+    const oldOriginList = [...this.character.spells.spells[oldSpell.tier]];
+
     this.character.spells.spells[oldSpell.tier] = this.character.spells.spells[
       oldSpell.tier
     ].filter((s) => s.id !== oldSpell.id);
+
+    debugger;
     if (!this.character.spells.spells[newSpell.tier]) {
       this.character.spells.spells[newSpell.tier] = [];
     }
+
+    const oldTargetList = [...this.character.spells.spells[newSpell.tier]];
+
     this.character.spells.spells[newSpell.tier] = [
       ...this.character.spells.spells[newSpell.tier],
       newSpell,
     ];
-    this.characterChanged.emit();
+    this.spellService
+      .updateSpell(newSpell, this.character.id!)
+      .catch((_) => {
+        this.character.spells.spells[oldSpell.tier] = oldOriginList;
+        this.character.spells.spells[newSpell.tier] = oldTargetList;
+      })
+      .then((_) => {
+        this.characterChanged.emit();
+      });
   }
 }

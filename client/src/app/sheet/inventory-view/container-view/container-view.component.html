@@ -6,7 +6,7 @@
   <div class="name">
     <editable-text
       [value]="container.name"
-      (valueChanged)="container.name = $event"
+      (valueChanged)="onNameChange($event)"
     >
     </editable-text>
     <div class="delete-button" *ngIf="hovered && deletable" (click)="delete()">

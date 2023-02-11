@@ -4,7 +4,7 @@
   </div>
   <editable-text
     class="ability-score ability-score-edit"
-    (valueChanged)="valueChanged($event)"
+    (numberChanged)="valueChanged($event)"
     [value]="ability.score"
   ></editable-text>
   <div class="ability-modifier" (click)="emitRoll()">

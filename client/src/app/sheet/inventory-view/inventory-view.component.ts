@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import Character from 'src/app/model/character';
 import { randomId } from 'src/app/model/id-generator';
 import { containerWeight, InventoryContainer } from 'src/app/model/item';
+import { InventoryService } from 'src/app/services/inventory.service';
 import { ItemMoveEvent } from './container-view/container-view.component';
 
 @Component({
@@ -14,6 +15,7 @@ export class InventoryViewComponent {
   @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
 
+  constructor(private inventoryService: InventoryService) {}
   get totalWeight() {
     return this.character.inventory.reduce(
       (weight, container) => weight + containerWeight(container),
@@ -39,10 +41,19 @@ export class InventoryViewComponent {
   }
 
   onContainerChange(container: InventoryContainer) {
+    const oldInventory = [...this.character.inventory];
     this.character.inventory = this.character.inventory.map((old) =>
       old.id !== container.id ? old : container
     );
-    this.characterChanged.emit();
+    this.inventoryService.updateContainer(container, this.character.id!).then(
+      (_) => {
+        this.characterChanged.emit();
+      },
+      (err) => {
+        console.error('Failed to update container', err);
+        this.character.inventory = oldInventory;
+      }
+    );
   }
 
   onContainerDelete(container: InventoryContainer) {
@@ -56,20 +67,56 @@ export class InventoryViewComponent {
       console.error("Can't delete the last container.");
       return;
     }
+    const oldInventory = [...this.character.inventory];
     const contents = existing.contents;
     this.character.inventory = this.character.inventory.filter(
       (cnt) => cnt.id !== container.id
     );
 
-    if (contents.length && this.character.inventory.length > 0) {
+    if (contents.length) {
       this.character.inventory[0].contents = [
         ...this.character.inventory[0].contents,
         ...contents,
       ];
+      this.inventoryService
+        .bulkMoveItems(
+          container.id,
+          this.character.inventory[0].id,
+          this.character.id!
+        )
+        .then(
+          (_) => {
+            this.deleteContainerInBackend(container, oldInventory);
+          },
+          (error) => {
+            console.error('Failed to bulk move contents', error);
+            this.character.inventory = oldInventory;
+          }
+        );
+    } else {
+      this.deleteContainerInBackend(container, oldInventory);
     }
   }
 
+  private deleteContainerInBackend(
+    container: InventoryContainer,
+    oldInventory: InventoryContainer[]
+  ) {
+    this.inventoryService
+      .deleteContainer(container.id, this.character.id!)
+      .then(
+        (_) => {
+          this.characterChanged.emit();
+        },
+        (error) => {
+          console.error('Failed to delete container.', error);
+          this.character.inventory = oldInventory;
+        }
+      );
+  }
+
   addContainer() {
+    const oldInventory = [...this.character.inventory];
     const newContainer: InventoryContainer = {
       id: randomId(),
       name: 'New Container',
@@ -79,10 +126,21 @@ export class InventoryViewComponent {
       contents: [],
     };
     this.character.inventory.push(newContainer);
-    this.characterChanged.emit();
+    this.inventoryService
+      .createContainer(newContainer, this.character.id!)
+      .then(
+        (_) => {
+          this.characterChanged.emit();
+        },
+        (err) => {
+          console.error('Failed to create container.', err);
+          this.character.inventory = oldInventory;
+        }
+      );
   }
 
   onItemMove(event: ItemMoveEvent) {
+    const oldInventory = [...this.character.inventory];
     const source = this.character.inventory.find(
       (c) => c.id === event.sourceContainerId
     );
@@ -107,7 +165,7 @@ export class InventoryViewComponent {
       );
     }
     source.contents = source.contents.filter((it) => it.id !== event.itemId);
-    debugger;
+
     if (event.index !== undefined) {
       destination.contents = [...destination.contents]; //Change the array ref
       destination.contents.splice(event.index, 0, item);
@@ -115,6 +173,16 @@ export class InventoryViewComponent {
       destination.contents = [...destination.contents, item];
     }
 
-    this.characterChanged.emit();
+    this.inventoryService
+      .moveItem(event.itemId, event.destinationContainerId, this.character.id!)
+      .then(
+        (_) => {
+          this.characterChanged.emit();
+        },
+        (error) => {
+          console.error(error);
+          this.character.inventory = oldInventory;
+        }
+      );
   }
 }

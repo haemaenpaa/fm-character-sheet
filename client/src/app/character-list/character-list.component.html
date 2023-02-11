@@ -8,7 +8,13 @@
     </character-li>
   </div>
 
-  <div class="add-character-button" (click)="newCharacter()">Add character</div>
+  <div
+    class="add-character-button"
+    (click)="newCharacter()"
+    [ngClass]="{ disabled: addInProgress }"
+  >
+    Add character
+  </div>
   <div class="import-button">
     <label for="file-input">Import JSON</label>
     <input

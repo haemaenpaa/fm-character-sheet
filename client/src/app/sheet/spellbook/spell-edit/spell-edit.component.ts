@@ -62,7 +62,7 @@ export class SpellEditComponent {
   onSaveSelect(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
     if (value === 'null') {
-      this.spell.saveAbility = null;
+      this.spell.saveAbility = undefined;
     } else {
       this.spell.saveAbility = value;
     }

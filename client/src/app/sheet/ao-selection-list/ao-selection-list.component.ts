@@ -107,7 +107,7 @@ export class AoSelectionListComponent {
       },
       undefined
     );
-    debugger;
+
     const takenAtLevel =
       lowestMissing?.takenAtLevel ||
       this.levelsMissingSecondaries.reduce(

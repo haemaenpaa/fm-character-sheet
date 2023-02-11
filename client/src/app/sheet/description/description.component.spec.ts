@@ -1,8 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CharacterBiography } from 'src/app/model/character-bio';
 import { CharacterBuilder } from 'src/app/model/character-builder';
+import { BiographyService } from 'src/app/services/biography.service';
 import { EditableTextComponent } from '../editable-text/editable-text.component';
 
 import { DescriptionComponent } from './description.component';
+const dummyService = {
+  updateCharacerBio: (attack: CharacterBiography) =>
+    new Promise((res) => res(attack)),
+};
 
 describe('DescriptionComponent', () => {
   let component: DescriptionComponent;
@@ -11,6 +17,7 @@ describe('DescriptionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DescriptionComponent, EditableTextComponent],
+      providers: [{ provide: BiographyService, useValue: dummyService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DescriptionComponent);

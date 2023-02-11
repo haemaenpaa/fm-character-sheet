@@ -1,12 +1,12 @@
 <div class="resistances-container">
   <resistance-item
-    *ngFor="let r of racialResistances; let i = index"
+    *ngFor="let r of racialResistances | resistanceSort; let i = index"
     [id]="'racial-resistance-' + i"
     [racial]="true"
     [resistance]="r"
   ></resistance-item>
   <resistance-item
-    *ngFor="let r of resistances; let i = index"
+    *ngFor="let r of resistances | resistanceSort; let i = index"
     [id]="'resistance-' + i"
     [racial]="false"
     [resistance]="r"

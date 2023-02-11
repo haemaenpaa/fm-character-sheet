@@ -44,14 +44,10 @@ export class AbilityScoreComponent implements OnInit {
   }
   /**
    * Handles a value changed event from the ability score edit.
-   * @param event
+   * @param newValue
    */
-  valueChanged(event: string) {
-    var newValue = parseInt(event);
-    if (!isNaN(newValue)) {
-      this.ability.score = newValue;
-      this.modified.emit(newValue);
-    }
+  valueChanged(newValue: number) {
+    this.modified.emit(newValue);
   }
   /**
    * Changes back to display mode after editing.

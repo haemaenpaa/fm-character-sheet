@@ -68,20 +68,35 @@ const LAST_NAMES = [
 })
 export class CharacterListComponent {
   hilightId: number | null = null;
-  constructor(private characterService: CharacterService) {}
-  get characters(): Character[] {
-    return this.characterService.allCharacters;
+  characters: Character[] = [];
+  addInProgress: boolean = false;
+  constructor(private characterService: CharacterService) {
+    this.characters = characterService.allCachedCharacters;
+    characterService.getAllCharacters().then(
+      (characters) => (this.characters = characters),
+      (error) => console.error(error)
+    );
   }
+
   newCharacter() {
+    if (this.addInProgress) {
+      return;
+    }
+    this.addInProgress = true;
     const firstname =
       FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
     const lastname = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
     const character = new CharacterBuilder()
       .setName(`${firstname} ${lastname}`)
       .build();
+    this.characterService.persistCharacter(character);
     this.characterService
-      .persistCharacter(character)
-      .then((c) => (this.hilightId = c.id || 0));
+      .createCharacter(character)
+      .then((c) => {
+        this.hilightId = c.id!;
+        this.characters = [...this.characters, c];
+      })
+      .finally(() => (this.addInProgress = false));
   }
 
   onImport(event: Event) {
@@ -90,8 +105,17 @@ export class CharacterListComponent {
     if (!files) {
       return;
     }
+    const promises: Promise<Character>[] = [];
     for (var i = 0; i < files.length; i++) {
-      this.characterService.importCharacterFromFile(files[i]);
+      promises.push(this.characterService.importCharacterFromFile(files[i]));
     }
+    Promise.all(promises).then(
+      (added) => {
+        this.characters = [...this.characters, ...added];
+      },
+      (error) => {
+        console.error('Failed to import characters', error);
+      }
+    );
   }
 }

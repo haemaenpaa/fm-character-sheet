@@ -1,7 +1,12 @@
 import Character from 'src/app/model/character';
 import { Skill } from 'src/app/model/skill';
 
-function stringHash(val: string) {
+const skillOrder = (x: Skill, y: Skill): number =>
+  Number.parseInt(x.identifier) - Number.parseInt(y.identifier);
+function stringHash(val?: string): number {
+  if (!val) {
+    return 0;
+  }
   const prime = 31;
   const split: string[] = [...val];
   return split.reduce(
@@ -14,7 +19,7 @@ export function skillHash(character: Character): number {
   var ret = 0;
   const prime = 31;
   for (const key in character.defaultSkills) {
-    ret +=
+    ret =
       prime * ret +
       prime * stringHash(key) +
       (character.defaultSkills as any)[key];
@@ -23,11 +28,26 @@ export function skillHash(character: Character): number {
   return ret;
 }
 
+export function customSkillHash(character: Character): number {
+  var ret = 0;
+  const prime = 31;
+  const maximum = 2 ** 32;
+  for (const skill of character.customSkills.sort(skillOrder)) {
+    var individualHash =
+      Number.parseInt(skill.identifier) +
+      stringHash(skill.name) +
+      skill.rank +
+      skill.defaultAbilities.reduce((h, abl) => h * prime + stringHash(abl), 0);
+    ret = (prime * ret + individualHash) % maximum;
+  }
+  return ret;
+}
+
 function stringArrayEquals(a: string[], b: string[]): boolean {
   if (a.length != b.length) {
     return false;
   }
-  return !a.find((s: string, index: number) => s !== b[index]);
+  return a.reduce((eq, aVal, idx) => eq && aVal === b[idx], true);
 }
 
 function skillsEqual(current: Skill, other: Skill): boolean {
@@ -41,6 +61,7 @@ function skillsEqual(current: Skill, other: Skill): boolean {
     return false;
   }
   if (!stringArrayEquals(current.defaultAbilities, other.defaultAbilities)) {
+    console.log(current.defaultAbilities, other.defaultAbilities);
     return false;
   }
   return true;
@@ -50,11 +71,12 @@ export function skillsArrayEqual(a: Skill[], b: Skill[]): boolean {
   if (a.length !== b.length) {
     return false;
   }
-  return (
-    a.reduce(
-      (equal: boolean, current: Skill, index: number) =>
-        equal && skillsEqual(current, b[index]),
-      true
-    ) || false
-  );
+  const sortedA = a.sort(skillOrder);
+  const sortedB = b.sort(skillOrder);
+  for (const idx in sortedA) {
+    if (!skillsEqual(sortedA[idx], sortedB[idx])) {
+      return false;
+    }
+  }
+  return true;
 }

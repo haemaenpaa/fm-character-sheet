@@ -1,0 +1,21 @@
+{
+  "name": "fm-transfer-model",
+  "version": "0.1.0",
+  "description": "Transfer model for Frostmark character sheet.",
+  "main": "index.js",
+  "files": [
+    "index.ts",
+    "src/model"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "model"
+  ],
+  "author": "Heikki Mäenpää",
+  "license": "CC-BY-SA-4.0",
+  "dependencies": {
+    "typescript": "^4.9.4"
+  }
+}

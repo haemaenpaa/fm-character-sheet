@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 
 import { RollLogComponent } from './roll-log.component';
+const dummyActionDispatchService = {
+  rolls: () => ({
+    subscribe: () => {},
+  }),
+};
 
 describe('RollLogComponent', () => {
   let component: RollLogComponent;
@@ -8,9 +14,15 @@ describe('RollLogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RollLogComponent ]
-    })
-    .compileComponents();
+      declarations: [RollLogComponent],
+      providers: [
+        { provide: RollLogComponent, useValue: {} },
+        {
+          provide: ActionDispatchService,
+          useValue: dummyActionDispatchService,
+        },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RollLogComponent);
     component = fixture.componentInstance;

@@ -7,6 +7,13 @@
   border-style: double;
   margin: 0.5em;
   width: fit-content;
+  cursor: pointer;
+}
+.name {
+  font-weight: bold;
+}
+.concept {
+  font-style: italic;
 }
 .hilight {
   border-color: green;

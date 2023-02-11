@@ -1,24 +1,24 @@
 /**
  * A single Ability Origin selection. This indicates a level gained, and the ability gained from the level.
  */
-export class AoSelection {
-  id: number = 0;
+export interface AoSelection {
+  id: number;
   /**
    * Name of the ability origin.
    */
-  abilityOrigin: string = '';
+  abilityOrigin: string;
   /**
    * Level of the AO this selection is from.
    */
-  level: number = 0;
+  level: number;
   /**
    * Name of the selection
    */
-  name: string = '';
+  name: string;
   /**
    * Detailed description of the selection
    */
-  description: string = '';
+  description: string;
   /**
    * A hilight color for the selection, for accessibility.
    */
@@ -26,9 +26,9 @@ export class AoSelection {
   /**
    * Is this a primary selection. Secondary selections don't count towards total level.
    */
-  isPrimary: boolean = true;
+  isPrimary: boolean;
   /**
    * Character level this selection was taken on.
    */
-  takenAtLevel?: number;
+  takenAtLevel: number;
 }

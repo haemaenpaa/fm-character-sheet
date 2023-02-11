@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./color-picker.component.css'],
 })
 export class ColorPickerComponent {
-  constructor(private dialogRef: MatDialogRef<ColorPickerComponent>) {}
+  constructor(private dialogRef: MatDialogRef<ColorPickerComponent, string>) {}
   chooseColor(hue: number, saturation: number, lightness: number) {
     console.log('Color:' + HSLToRGB(hue, saturation / 100, lightness / 100));
     this.dialogRef.close(HSLToRGB(hue, saturation / 100, lightness / 100));

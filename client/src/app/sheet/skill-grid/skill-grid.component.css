@@ -17,11 +17,23 @@
 .accessibility-colorized > .default {
   color: darkblue;
 }
-.accessibility-colorized > .custom {
+.accessibility-colorized > .custom.color-0 {
   color: rgb(0, 105, 105);
+}
+.accessibility-colorized > .custom.color-1 {
+  color: rgb(105, 0, 105);
+}
+.accessibility-colorized > .custom.color-2 {
+  color: rgb(105, 105, 0);
 }
 .accessibility-colorized > .empty-card {
   color: navy;
+}
+
+.hilight {
+  background-color: rgb(155, 205, 155);
+  border-style: none;
+  border-radius: 1em;
 }
 
 .left-column {

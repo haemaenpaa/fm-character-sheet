@@ -1,7 +1,32 @@
 import express from "express";
 import * as path from "path";
-const app = express();
-const port = process.env.PORT || 3000;
+import { app, port } from "./app";
+import * as biographyController from "./controller/biography-controller";
+import * as characterController from "./controller/character-controller";
+import * as spellController from "./controller/spell-controller";
+import * as selectionController from "./controller/selection-controller";
+import * as attacksController from "./controller/attack-controller";
+import * as hitDiceController from "./controller/hit-dice-controller";
+import * as inventoryController from "./controller/inventory-controller";
+import * as raceController from "./controller/race-controller";
+import * as resourceController from "./controller/resource-controller";
+import * as skillController from "./controller/skill-controller";
+import * as resistanceController from "./controller/resistances-controller";
+import * as abilitiesController from "./controller/abilities-controller";
+
+//Access the exported constant from each controller to ensure that the calls to app route are invoked.
+characterController.exists;
+biographyController.exists;
+spellController.exists;
+selectionController.exists;
+attacksController.exists;
+hitDiceController.exists;
+inventoryController.exists;
+raceController.exists;
+resourceController.exists;
+skillController.exists;
+resistanceController.exists;
+abilitiesController.exists;
 
 const frontendPath =
   process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");

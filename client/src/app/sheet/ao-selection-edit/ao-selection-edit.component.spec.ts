@@ -11,7 +11,15 @@ import { EditableTextComponent } from '../editable-text/editable-text.component'
 import { AoSelectionEditComponent } from './ao-selection-edit.component';
 
 function placeholder() {
-  const selection: AoSelection = new AoSelection();
+  const selection: AoSelection = {
+    id: 0,
+    abilityOrigin: '',
+    level: 0,
+    name: '',
+    description: '',
+    isPrimary: false,
+    takenAtLevel: 0,
+  };
   const aoNames: string[] = Object.keys(AO_HIT_DICE);
   return {
     selection,

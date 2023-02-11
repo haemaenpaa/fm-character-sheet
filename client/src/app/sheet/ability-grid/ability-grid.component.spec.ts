@@ -1,11 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CharacterBuilder } from 'src/app/model/character-builder';
+import { AbilityService } from 'src/app/services/ability.service';
+import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { AbilityScoreComponent } from '../ability-score/ability-score.component';
 import { EditableTextComponent } from '../editable-text/editable-text.component';
 import { AbilityNamePipe } from '../pipe/ability-name.pipe';
 import { ModifierPipe } from '../pipe/modifier.pipe';
 
 import { AbilityGridComponent } from './ability-grid.component';
+
+const dummyService = {};
 
 describe('AbilityGridComponent', () => {
   let component: AbilityGridComponent;
@@ -19,6 +23,10 @@ describe('AbilityGridComponent', () => {
         AbilityNamePipe,
         EditableTextComponent,
         ModifierPipe,
+      ],
+      providers: [
+        { provide: ActionDispatchService, useValue: {} },
+        { provide: AbilityService, useValue: dummyService },
       ],
     }).compileComponents();
 

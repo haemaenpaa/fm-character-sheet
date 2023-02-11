@@ -4,7 +4,7 @@ import { Skill } from './skill';
 import Character from './character';
 import Resistance, { ResistanceType } from './resistance';
 import { CharacterSpells, Spell } from './character-spells';
-import { randomId } from './id-generator';
+import { randomId, randomIdString } from './id-generator';
 import { DamageRoll } from './damage-roll';
 import CharacterAttack, { AttackEffect } from './character-attack';
 import CharacterHitDice from './character-hit-dice';
@@ -35,6 +35,7 @@ export class CharacterBuilder {
   pre: number = 10;
   man: number = 10;
   com: number = 10;
+  speed: number = 6;
 
   defaultSkills = {
     anh: 0,
@@ -55,7 +56,7 @@ export class CharacterBuilder {
   selections: AoSelection[] = [];
   skills: Skill[] = [];
   savingThrows: string[] = [];
-  armorValueOverride: number | null = null;
+  armorValueOverride?: number;
   hitPointMaximum: number = 0;
   damageResistances: Resistance[] = [];
   statusResistances: Resistance[] = [];
@@ -75,6 +76,7 @@ export class CharacterBuilder {
   ];
 
   biography: CharacterBiography = {
+    id: randomId(),
     appearance: '',
     characterBiography: '',
     characterConnections: '',
@@ -89,7 +91,7 @@ export class CharacterBuilder {
     return this;
   }
 
-  setRace(name: string, subrace?: string): CharacterBuilder {
+  setRace(name: string, subrace?: string | null): CharacterBuilder {
     this.race.name = name;
     if (subrace) {
       this.race.subrace = subrace;
@@ -145,6 +147,11 @@ export class CharacterBuilder {
 
   addRacialAbility(name: string, description: string): CharacterBuilder {
     this.race.abilities[name] = description;
+    return this;
+  }
+
+  setRacePowerfulBuild(powerful: boolean): CharacterBuilder {
+    this.race.powerfulBuild = powerful;
     return this;
   }
 
@@ -249,6 +256,11 @@ export class CharacterBuilder {
     return this;
   }
 
+  setSpeed(speed: number): CharacterBuilder {
+    this.speed = speed;
+    return this;
+  }
+
   addSelection(
     ao: string,
     level: number,
@@ -276,12 +288,13 @@ export class CharacterBuilder {
   addCustomSkill(
     name: string,
     rank: number,
-    defaultAbilities: string[] = []
+    defaultAbilities: string[] = [],
+    id?: string
   ): CharacterBuilder {
-    const idx = this.skills.findIndex((s) => s.identifier == name);
+    const idx = id ? this.skills.findIndex((s) => s.identifier == id) : -1;
     if (idx < 0) {
       const skill: Skill = {
-        identifier: name,
+        identifier: id || randomIdString(),
         name: name,
         rank: rank,
         defaultAbilities: defaultAbilities,
@@ -312,7 +325,7 @@ export class CharacterBuilder {
     return this;
   }
 
-  setArmorValue(av: number | null): CharacterBuilder {
+  setArmorValue(av?: number): CharacterBuilder {
     this.armorValueOverride = av;
     return this;
   }
@@ -323,15 +336,16 @@ export class CharacterBuilder {
     level: number,
     color: string | undefined
   ) {
-    const sel = new AoSelection();
-    sel.abilityOrigin = ao;
-    sel.name = name;
-    sel.description = description;
-    sel.level = level;
-    sel.id = randomId();
-    if (color) {
-      sel.hilightColor = color;
-    }
+    const sel: AoSelection = {
+      id: randomId(),
+      abilityOrigin: ao,
+      level,
+      name,
+      description,
+      isPrimary: false,
+      takenAtLevel: 0,
+      hilightColor: color,
+    };
     return sel;
   }
 
@@ -418,7 +432,7 @@ export class CharacterBuilder {
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
-      saveAbility: null,
+      saveAbility: undefined,
       attack: false,
       tier,
       school,
@@ -533,7 +547,7 @@ export class CharacterBuilder {
       tier,
       school,
       name,
-      saveAbility: null,
+      saveAbility: undefined,
       description,
       damage,
       upcastDamage,
@@ -749,6 +763,7 @@ export class CharacterBuilder {
       this.defaultSkills.sub,
       this.defaultSkills.ste,
       this.defaultSkills.sur,
+      this.speed,
       this.selections,
       this.skills,
       this.savingThrows,

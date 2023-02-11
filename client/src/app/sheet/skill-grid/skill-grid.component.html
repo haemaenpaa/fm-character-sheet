@@ -13,12 +13,13 @@
     ></skill>
   </div>
   <div
-    *ngFor="let skill of character.customSkills; let i = index"
+    *ngFor="let skill of customSkills; let i = index"
     class="skill-card custom"
     [ngClass]="{
-      'first-color': i % 3 == 0,
-      'second-color': i % 3 == 1,
-      'third-color': i % 3 == 2
+      'color-0': i % 3 == 0,
+      'color-1': i % 3 == 1,
+      'color-2': i % 3 == 2,
+      hilight: skill.identifier === hilightId
     }"
   >
     <skill

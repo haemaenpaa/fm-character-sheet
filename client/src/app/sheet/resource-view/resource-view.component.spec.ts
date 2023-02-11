@@ -1,10 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { CharacterBuilder } from 'src/app/model/character-builder';
+import { CharacterResource } from 'src/app/model/character-resource';
+import { CharacterResourceService } from 'src/app/services/character-resource.service';
 import { ResourceSortPipe } from './resource-sort.pipe';
 
 import { ResourceViewComponent } from './resource-view.component';
 import { SingleResourceComponent } from './single-resource/single-resource.component';
+
+const dummyService = {
+  createResource: (a: CharacterResource) => new Promise((res) => res(a)),
+  updateResource: (a: CharacterResource) => new Promise((res) => res(a)),
+  deleteResource: () => new Promise((res) => res({})),
+};
 
 describe('ResourceViewComponent', () => {
   let component: ResourceViewComponent;
@@ -17,7 +25,10 @@ describe('ResourceViewComponent', () => {
         SingleResourceComponent,
         ResourceSortPipe,
       ],
-      providers: [{ provide: MatDialog, useValue: {} }],
+      providers: [
+        { provide: MatDialog, useValue: {} },
+        { provide: CharacterResourceService, useValue: dummyService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ResourceViewComponent);

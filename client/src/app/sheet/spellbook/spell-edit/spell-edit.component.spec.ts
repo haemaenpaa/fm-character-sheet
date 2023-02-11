@@ -12,7 +12,6 @@ function placeholder(): Spell {
     tier: 0,
     school: '',
     name: '',
-    saveAbility: null,
     description: '',
     damage: [],
     upcastDamage: [],
@@ -61,6 +60,6 @@ describe('SpellEditComponent', () => {
     component.onSaveSelect(event as Event);
     expect(component.spell.saveAbility)
       .withContext("Setting 'null' as save ability should set null value.")
-      .toBeNull();
+      .toBeUndefined();
   });
 });

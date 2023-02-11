@@ -4,6 +4,7 @@
 /dist
 /client/dist
 /server/dist
+/server/build/compiled
 /tmp
 /out-tsc
 /bazel-out
@@ -11,6 +12,7 @@
 # Node
 /server/node_modules
 /client/node_modules
+/transfer-model/node_modules
 /node_modules
 npm-debug.log
 yarn-error.log
@@ -45,3 +47,4 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+server/dev-db.db

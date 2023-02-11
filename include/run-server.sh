@@ -1,3 +1,4 @@
 #!/bin/bash
-npm install;
-node index.js;
+npm install --no-fund --no-audit;
+
+CONNECTION_STRING="sqlite:fm-charcter-sheet.db" node index.js;

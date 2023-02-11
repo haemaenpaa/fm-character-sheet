@@ -16,7 +16,7 @@ describe('AoSelectionItemComponent', () => {
 
     fixture = TestBed.createComponent(AoSelectionItemComponent);
     component = fixture.componentInstance;
-    component.selection = new AoSelection();
+    component.selection = placeholder();
     fixture.detectChanges();
   });
 
@@ -24,3 +24,16 @@ describe('AoSelectionItemComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+function placeholder(): AoSelection {
+  const selection: AoSelection = {
+    id: 0,
+    abilityOrigin: '',
+    level: 0,
+    name: '',
+    description: '',
+    isPrimary: false,
+    takenAtLevel: 0,
+  };
+  return selection;
+}

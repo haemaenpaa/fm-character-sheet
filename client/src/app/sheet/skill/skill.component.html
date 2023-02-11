@@ -15,12 +15,14 @@
     <div
       *ngFor="let item of [].constructor(skill.rank); let i = index"
       (click)="setRank(i)"
+      class="rank-button"
     >
       ◈
     </div>
     <div
       *ngFor="let item of [].constructor(5 - skill.rank); let i = index"
       (click)="setRank(i + skill.rank + 1)"
+      class="rank-button"
     >
       ◇
     </div>

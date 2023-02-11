@@ -1,4 +1,5 @@
 import { DamageRoll } from './damage-roll';
+import { randomId } from './id-generator';
 
 export interface Spell {
   /**
@@ -20,7 +21,7 @@ export interface Spell {
   /**
    * Ability used for the saving throw.
    */
-  saveAbility: string | null;
+  saveAbility?: string;
   /**
    * Description of the spell.
    */
@@ -72,10 +73,11 @@ export interface Spell {
 }
 
 export class CharacterSpells {
+  id: number = randomId();
   /**
    * Spellcasting ability
    */
-  spellcastingAbility: string | null = null;
+  spellcastingAbility?: string;
   /**
    * Soul fragments. Indexed by the denominator, e.g. index 4 maps to 1/4.
    */

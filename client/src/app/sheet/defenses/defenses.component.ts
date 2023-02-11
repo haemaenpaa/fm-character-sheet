@@ -11,6 +11,9 @@ import CharacterHitDice from 'src/app/model/character-hit-dice';
 import { SaveParams } from 'src/app/model/game-action';
 import Resistance from 'src/app/model/resistance';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { CharacterService } from 'src/app/services/character.service';
+import { HitDiceService } from 'src/app/services/hit-dice.service';
+import { ResistanceService } from 'src/app/services/resistance.service';
 import { ResistanceModifyEvent } from '../resistances/resistances.component';
 
 function clamp(num: number, min: number, max: number) {
@@ -23,7 +26,7 @@ function clamp(num: number, min: number, max: number) {
   styleUrls: ['./defenses.component.css'],
 })
 export class DefensesComponent {
-  @Input() character: Character | null = null;
+  @Input() character!: Character;
   @Input() colorized: boolean = false;
   @Output() characterChanged: EventEmitter<void> = new EventEmitter();
 
@@ -39,6 +42,9 @@ export class DefensesComponent {
 
   constructor(
     private actionService: ActionDispatchService,
+    private characterService: CharacterService,
+    private hitDiceService: HitDiceService,
+    private resistanceService: ResistanceService,
     private changeDetector: ChangeDetectorRef
   ) {}
 
@@ -80,69 +86,105 @@ export class DefensesComponent {
   }
 
   toggleAbility(save: string, newValue: boolean) {
+    const oldSaves = [...this.character.savingThrows];
     if (newValue) {
-      this.character?.addSavingThrow(save);
+      this.character.addSavingThrow(save);
     } else {
-      this.character?.removeSavingThrow(save);
+      this.character.removeSavingThrow(save);
     }
+    this.updateOnFieldChange('savingThrows', oldSaves);
     this.characterChanged.emit();
   }
 
   onHpTotalChanged($event: number) {
-    if (this.character) {
-      this.character.hitPointTotal = clamp(
-        $event,
-        0,
-        this.character.hitPointMaximum
-      );
-      this.changeDetector.detectChanges();
-    }
-    this.characterChanged.emit();
+    const oldValue = this.character.hitPointTotal;
+    this.character.hitPointTotal = clamp(
+      $event,
+      0,
+      this.character.hitPointMaximum
+    );
+    this.updateOnFieldChange('hitPointTotal', oldValue);
+    this.changeDetector.detectChanges();
   }
   onHpMaxChanged($event: number) {
-    if (this.character) {
-      this.character.hitPointMaximum = $event;
-      this.character.hitPointTotal = clamp(
-        this.character.hitPointTotal,
-        0,
-        $event
-      );
-      this.changeDetector.detectChanges();
-      this.characterChanged.emit();
-    }
+    const oldTotal = this.character.hitPointTotal;
+    const oldMax = this.character.hitPointMaximum;
+    this.character.hitPointMaximum = $event;
+    this.character.hitPointTotal = clamp(
+      this.character.hitPointTotal,
+      0,
+      $event
+    );
+
+    this.characterService
+      .updateCharacter(this.character)
+      .catch((err) => {
+        console.error('Failed to set hit point max', err);
+        this.character.hitPointMaximum = oldMax;
+        this.character.hitPointTotal = oldTotal;
+      })
+      .then((char) => {
+        if (char) {
+          this.characterChanged.emit();
+        }
+      });
   }
   onTempHpChanged($event: number) {
+    const oldValue = this.character.tempHitPoints;
     if (this.character) {
       this.character.tempHitPoints = Math.max($event, 0);
       this.changeDetector.detectChanges();
     }
-    this.characterChanged.emit();
+    this.updateOnFieldChange('tempHitPoints', oldValue);
   }
 
   addStatusResistance(resistance: string) {
+    const oldResistances = [...this.character.statusResistances];
     const indexPresent = this.character?.statusResistances.findIndex(
       (r) => r.value === resistance
     );
     if (indexPresent && indexPresent > 0) {
       return;
     }
-    this.character?.statusResistances.push({
+    const added: Resistance = {
       type: 'resistance',
       value: resistance,
-    });
-    this.characterChanged.emit();
+    };
+    this.character.statusResistances = [
+      ...this.character.statusResistances,
+      added,
+    ];
+    this.resistanceService
+      .updateStatusResistance(added, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to create status resistance.', error);
+          this.character.statusResistances = oldResistances;
+        }
+      );
   }
   removeStatusResistance(deletedResistance: Resistance) {
+    const oldResistances = [...this.character.statusResistances];
     if (!this.character) {
       return;
     }
-    this.character!.statusResistances =
-      this.character!.statusResistances.filter(
-        (res) => res.value != deletedResistance.value
+    this.character.statusResistances = this.character.statusResistances.filter(
+      (res) => res.value != deletedResistance.value
+    );
+
+    this.resistanceService
+      .deleteStatusResistance(deletedResistance.value, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to delete status resistance.', error);
+          this.character.statusResistances = oldResistances;
+        }
       );
-    this.characterChanged.emit();
   }
   modifyStatusResistance($event: ResistanceModifyEvent) {
+    const oldResistances = [...this.character.statusResistances];
     if (!this.character) {
       return;
     }
@@ -150,54 +192,120 @@ export class DefensesComponent {
       this.character.statusResistances,
       $event
     );
-    this.characterChanged.emit();
+
+    this.resistanceService
+      .updateStatusResistance($event.new, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to create status resistance.', error);
+          this.character.statusResistances = oldResistances;
+        }
+      );
   }
   addDamageResistance(resistance: string) {
+    const oldResistances = [...this.character.damageResistances];
     const indexPresent = this.character?.damageResistances.findIndex(
       (r) => r.value === resistance
     );
     if (indexPresent && indexPresent > 0) {
       return;
     }
-    this.character?.damageResistances.push({
+    const added: Resistance = {
       type: 'resistance',
       value: resistance,
-    });
-    this.characterChanged.emit();
-  }
-  removeDamageResistance(deletedResistance: Resistance) {
-    if (!this.character) {
-      return;
-    }
-    this.character!.damageResistances =
-      this.character!.damageResistances.filter(
-        (res) => res.value != deletedResistance.value
+    };
+    this.character.damageResistances = [
+      ...this.character.damageResistances,
+      added,
+    ];
+    this.resistanceService
+      .updateDamageResistance(added, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to create damage resistance', error);
+          this.character.damageResistances = oldResistances;
+        }
       );
-    this.characterChanged.emit();
   }
+
+  removeDamageResistance(deletedResistance: Resistance) {
+    const oldResistances = [...this.character.damageResistances];
+    this.character.damageResistances = this.character.damageResistances.filter(
+      (res) => res.value != deletedResistance.value
+    );
+    this.resistanceService
+      .deleteDamageResistance(deletedResistance.value, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to delete damage resistance', error);
+          this.character.damageResistances = oldResistances;
+        }
+      );
+  }
+
   modifyDamageResistance($event: ResistanceModifyEvent) {
     if (!this.character) {
       return;
     }
+    const oldResistances = [...this.character.damageResistances];
     this.character.damageResistances = this.applyModifyEvent(
       this.character.damageResistances,
       $event
     );
-    this.characterChanged.emit();
+    this.resistanceService
+      .updateDamageResistance($event.new, this.character.id!)
+      .then(
+        (_) => this.characterChanged.emit(),
+        (error) => {
+          console.error('Failed to modify resistance', error);
+          this.character.damageResistances = oldResistances;
+        }
+      );
   }
 
-  setArmorValue(newValue: string) {
-    if (!this.character) {
-      return;
-    }
-    const newAv = Number.parseInt(newValue);
-    this.character!.armorValue = newAv;
-    this.characterChanged.emit();
+  setArmorValue(newValue: number) {
+    const oldAv = this.character.armorValue;
+    this.character.armorValue = newValue;
+    this.updateOnFieldChange('armorValue', oldAv);
+  }
+
+  setSpeed(newSpeed: number) {
+    const oldSpeed = this.character.speed;
+    this.character.speed = newSpeed;
+    this.updateOnFieldChange('speed', oldSpeed);
   }
 
   onRemainingHitDiceChanged(hitDice: CharacterHitDice) {
+    const oldRemaining = { ...this.character.hitDiceRemaining };
     this.character!.hitDiceRemaining = hitDice;
-    this.characterChanged.emit();
+    this.hitDiceService
+      .updateHitDiceRemaining(hitDice, this.character.id!)
+      .catch((error) => {
+        this.character.hitDiceRemaining = oldRemaining;
+      })
+      .then((r) => {
+        if (r) {
+          this.characterChanged.emit();
+        }
+      });
+  }
+
+  private updateOnFieldChange(field: string, oldValue: any) {
+    this.characterService
+      .updateCharacter(this.character)
+      .catch((err) => {
+        console.error(`Failed to set ${field}`, err);
+        (this.character as any)[field] = oldValue;
+        this.changeDetector.detectChanges();
+      })
+      .then((char) => {
+        if (char) {
+          this.characterChanged.emit();
+        }
+      });
   }
 
   private applyModifyEvent(

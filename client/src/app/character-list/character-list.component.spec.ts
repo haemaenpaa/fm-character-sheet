@@ -1,6 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CharacterService } from '../services/character.service';
 
 import { CharacterListComponent } from './character-list.component';
+
+const dummyService = {
+  getAllCharacters: () => {
+    return new Promise((res) => res([]));
+  },
+};
 
 describe('CharacterListComponent', () => {
   let component: CharacterListComponent;
@@ -8,9 +15,9 @@ describe('CharacterListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CharacterListComponent ]
-    })
-    .compileComponents();
+      declarations: [CharacterListComponent],
+      providers: [{ provide: CharacterService, useValue: dummyService }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CharacterListComponent);
     component = fixture.componentInstance;

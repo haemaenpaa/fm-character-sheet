@@ -3,7 +3,7 @@
  */
 export interface Skill {
   identifier: string;
-  name: string | null;
+  name?: string;
   rank: number;
   defaultAbilities: string[];
 }
