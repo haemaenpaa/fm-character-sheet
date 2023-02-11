@@ -6,6 +6,7 @@ import { RollComponent } from 'src/app/model/diceroll';
 import { CharacterAttackService } from 'src/app/services/character-attack.service';
 
 import { AttackListComponent } from './attack-list.component';
+import { AttackSortPipe } from './attack-sort.pipe';
 
 const dummyAttackService = {
   createAttack: (attack: CharacterAttack) => new Promise((res) => res(attack)),
@@ -31,7 +32,7 @@ describe('AttackListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AttackListComponent],
+      declarations: [AttackListComponent, AttackSortPipe],
       providers: [
         { provide: CharacterAttackService, useValue: dummyAttackService },
         { provide: MatDialog, useValue: dummyDialog },

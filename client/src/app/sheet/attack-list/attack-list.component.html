@@ -5,7 +5,7 @@
   <div class="header">Attacks</div>
   <div class="attacks-list">
     <div
-      *ngFor="let attack of character.attacks; index as i"
+      *ngFor="let attack of character.attacks | attackSort; index as i"
       class="attack-item"
       [ngClass]="'color-' + (i % 3)"
     >
@@ -14,6 +14,7 @@
         [abilityModifiers]="abilityModifiers"
         [characterId]="character.id!"
         [colorized]="colorized"
+        [proficiency]="character.proficiency"
         (attackChanged)="onAttackChanged($event)"
         (copied)="onAttackCopied($event)"
         (deleted)="onAttackDeleted($event)"
