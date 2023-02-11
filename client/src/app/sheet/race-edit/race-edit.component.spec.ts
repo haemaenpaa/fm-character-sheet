@@ -7,6 +7,7 @@ import {
 import { Race } from 'src/app/model/race';
 import { EditableTextComponent } from '../editable-text/editable-text.component';
 import { RacialAbilitiesComponent } from '../racial-abilities/racial-abilities.component';
+import { ResistanceSortPipe } from '../resistances/resistance-sort.pipe';
 import { ResistancesComponent } from '../resistances/resistances.component';
 
 import { RaceEditComponent } from './race-edit.component';
@@ -32,6 +33,7 @@ describe('RaceEditComponent', () => {
         EditableTextComponent,
         ResistancesComponent,
         RacialAbilitiesComponent,
+        ResistanceSortPipe,
       ],
       providers: [
         { provide: MatDialogRef, useValue: {} },

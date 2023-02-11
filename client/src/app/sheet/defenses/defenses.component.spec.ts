@@ -11,6 +11,7 @@ import { EditableTextComponent } from '../editable-text/editable-text.component'
 import { HitDiceDisplayComponent } from '../hit-dice-display/hit-dice-display.component';
 import { HitPointsComponent } from '../hit-points/hit-points.component';
 import { AbilityNamePipe } from '../pipe/ability-name.pipe';
+import { ResistanceSortPipe } from '../resistances/resistance-sort.pipe';
 import { ResistancesComponent } from '../resistances/resistances.component';
 import { SavingThrowComponent } from '../saving-throw/saving-throw.component';
 
@@ -43,6 +44,7 @@ describe('DefensesComponent', () => {
         AbilityNamePipe,
         EditableTextComponent,
         HitDiceDisplayComponent,
+        ResistanceSortPipe,
       ],
       providers: [
         { provide: ActionDispatchService, useClass: MockActionDispatchService },

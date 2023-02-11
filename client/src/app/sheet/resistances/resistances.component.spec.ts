@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ResistanceItemComponent } from './resistance-item/resistance-item.component';
+import { ResistanceSortPipe } from './resistance-sort.pipe';
 
 import { ResistancesComponent } from './resistances.component';
 
@@ -9,7 +10,11 @@ describe('ResistancesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResistancesComponent, ResistanceItemComponent],
+      declarations: [
+        ResistancesComponent,
+        ResistanceItemComponent,
+        ResistanceSortPipe,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ResistancesComponent);

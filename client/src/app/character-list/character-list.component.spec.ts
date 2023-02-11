@@ -3,6 +3,12 @@ import { CharacterService } from '../services/character.service';
 
 import { CharacterListComponent } from './character-list.component';
 
+const dummyService = {
+  getAllCharacters: () => {
+    return new Promise((res) => res([]));
+  },
+};
+
 describe('CharacterListComponent', () => {
   let component: CharacterListComponent;
   let fixture: ComponentFixture<CharacterListComponent>;
@@ -10,7 +16,7 @@ describe('CharacterListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CharacterListComponent],
-      providers: [{ provide: CharacterService, useValue: {} }],
+      providers: [{ provide: CharacterService, useValue: dummyService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CharacterListComponent);
