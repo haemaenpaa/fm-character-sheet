@@ -4,6 +4,7 @@
   grid-template-rows: [title] 3fr [rank] 1fr [ability] 3fr;
   width: 100%;
   aspect-ratio: 4;
+  max-width: 10em;
   border: solid;
   border-radius: 0.5em;
 }
@@ -32,6 +33,9 @@
   border-style: double none double none;
   width: 100%;
   padding: 0.25em;
+}
+.name {
+  width: 100%;
 }
 
 .first-ability {

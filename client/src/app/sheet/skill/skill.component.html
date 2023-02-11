@@ -1,6 +1,7 @@
 <div class="skill-box" (mouseenter)="onHover()" (mouseleave)="onHoverEnd()">
   <div class="skill-title">
     <editable-text
+      class="name"
       [value]="skill.name"
       *ngIf="custom"
       (valueChanged)="onNameChanged($event)"

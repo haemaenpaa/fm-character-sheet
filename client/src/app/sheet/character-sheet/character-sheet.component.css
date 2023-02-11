@@ -26,16 +26,19 @@
     "level level";
   border-style: double;
   width: 100%;
+  justify-self: center;
 }
 
 .character-name {
   grid-area: name;
+  width: fit-content;
 }
 
 .character-race {
   grid-area: race;
   display: flex;
   justify-items: left;
+  width: fit-content;
 }
 
 .character-concept {

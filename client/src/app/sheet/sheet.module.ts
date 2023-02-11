@@ -66,6 +66,7 @@ import { SingleResourceComponent } from './resource-view/single-resource/single-
 import { ResourceEditComponent } from './resource-view/resource-edit/resource-edit.component';
 import { ResourceSortPipe } from './resource-view/resource-sort.pipe';
 import { ResistanceSortPipe } from './resistances/resistance-sort.pipe';
+import { AttackSortPipe } from './attack-list/attack-sort.pipe';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -135,6 +136,7 @@ import { ResistanceSortPipe } from './resistances/resistance-sort.pipe';
     ResourceEditComponent,
     ResourceSortPipe,
     ResistanceSortPipe,
+    AttackSortPipe,
   ],
   imports: [
     CommonModule,
