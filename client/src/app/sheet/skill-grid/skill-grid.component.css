@@ -8,7 +8,14 @@
   grid-auto-flow: column;
   justify-content: space-around;
   align-content: space-around;
+  align-items: center;
   width: 100%;
+}
+
+@media (max-width: 800px) {
+  [class*="skill-grid"] {
+    grid-auto-flow: row;
+  }
 }
 
 .accessibility-colorized > .skill-card {
