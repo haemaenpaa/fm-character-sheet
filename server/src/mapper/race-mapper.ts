@@ -41,7 +41,7 @@ export function convertRaceDbModel(race?: Race): RaceDto | undefined {
       value: r.getDataValue("value"),
     }));
   const statusResistances: ResistanceDto[] = resistances
-    .filter((r) => r.getDataValue("category") === "damage")
+    .filter((r) => r.getDataValue("category") === "status")
     .map((r) => ({
       type: r.getDataValue("type"),
       value: r.getDataValue("value"),
@@ -49,6 +49,7 @@ export function convertRaceDbModel(race?: Race): RaceDto | undefined {
   const ret: RaceDto = {
     name: race.getDataValue("name"),
     subrace: race.getDataValue("subRace"),
+    powerfulBuild: race.getDataValue("powerfulBuild"),
     abilities,
     damageResistances,
     statusResistances,

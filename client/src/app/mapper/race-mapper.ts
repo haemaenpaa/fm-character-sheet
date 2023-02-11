@@ -13,7 +13,7 @@ export function convertRaceDto(dto: RaceDto): Race {
     subrace: dto.subrace,
     abilities: { ...dto.abilities },
     damageResistances: dto.damageResistances.map(convertResistanceDto),
-    statusResistances: dto.damageResistances.map(convertResistanceDto),
+    statusResistances: dto.statusResistances.map(convertResistanceDto),
     powerfulBuild: !!dto.powerfulBuild,
   };
 }
@@ -24,7 +24,7 @@ export function convertRaceModel(model: Race): RaceDto {
     subrace: model.subrace,
     abilities: { ...model.abilities },
     damageResistances: model.damageResistances.map(convertResistanceModel),
-    statusResistances: model.damageResistances.map(convertResistanceModel),
+    statusResistances: model.statusResistances.map(convertResistanceModel),
     powerfulBuild: !!model.powerfulBuild,
   };
 }
