@@ -69,6 +69,7 @@ const LAST_NAMES = [
 export class CharacterListComponent {
   hilightId: number | null = null;
   characters: Character[] = [];
+  addInProgress: boolean = false;
   constructor(private characterService: CharacterService) {
     this.characters = characterService.allCachedCharacters;
     characterService.getAllCharacters().then(
@@ -78,6 +79,10 @@ export class CharacterListComponent {
   }
 
   newCharacter() {
+    if (this.addInProgress) {
+      return;
+    }
+    this.addInProgress = true;
     const firstname =
       FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
     const lastname = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
@@ -87,7 +92,11 @@ export class CharacterListComponent {
     this.characterService.persistCharacter(character);
     this.characterService
       .createCharacter(character)
-      .then((c) => (this.hilightId = c.id!));
+      .then((c) => {
+        this.hilightId = c.id!;
+        this.characters = [...this.characters, c];
+      })
+      .finally(() => (this.addInProgress = false));
   }
 
   onImport(event: Event) {

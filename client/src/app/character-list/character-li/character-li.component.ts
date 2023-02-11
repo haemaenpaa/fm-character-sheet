@@ -18,7 +18,7 @@ function abbreviate(value: string): string {
   styleUrls: ['./character-li.component.css'],
 })
 export class CharacterLiComponent {
-  @Input() character: Character | null = null;
+  @Input() character!: Character;
   @Input() hilight: boolean = false;
   hovered: boolean = false;
   get levelList() {
