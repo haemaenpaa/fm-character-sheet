@@ -256,7 +256,12 @@ function convertSkills(dto: CharacterDto, builder: CharacterBuilder) {
   }
   if (dto.customSkills) {
     dto.customSkills.forEach((skill) => {
-      builder.addCustomSkill(skill.name!, skill.rank!, skill.defaultAbilities);
+      builder.addCustomSkill(
+        skill.name!,
+        skill.rank!,
+        skill.defaultAbilities,
+        skill.identifier
+      );
     });
   }
 

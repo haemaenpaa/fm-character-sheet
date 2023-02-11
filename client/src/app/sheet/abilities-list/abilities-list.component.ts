@@ -101,6 +101,7 @@ export class AbilitiesListComponent {
     );
     this.selectionService
       .deleteSelection(deleted.id, this.character.id!)
+      .then(() => this.updateHitDiceToBackend(oldHitDice, oldHitDiceRemianing))
       .catch((err) => {
         console.error('Could not delete selection', err);
         this.character.selections = oldSelections;
@@ -151,7 +152,7 @@ export class AbilitiesListComponent {
     const oldHitDice = { ...this.character.hitDice };
     const oldHitDiceRemaining = { ...this.character.hitDiceRemaining };
     if (event.oldSelection.isPrimary) {
-      this.decrementRemovedHitDice(oldAo, hitDiceAdded);
+      this.decrementRemovedHitDice(oldAo);
     }
     if (hitDiceAdded) {
       (this.character.hitDice as any)[AO_HIT_DICE[newAo]] += 1;
@@ -163,18 +164,15 @@ export class AbilitiesListComponent {
         max,
         remaining + 1
       );
-      this.updateHitDiceToBackend(oldHitDice, oldHitDiceRemaining);
     }
+    this.updateHitDiceToBackend(oldHitDice, oldHitDiceRemaining);
   }
 
-  private decrementRemovedHitDice(oldAo: string, skipBackend?: boolean) {
+  private decrementRemovedHitDice(oldAo: string) {
     if (!this.character) {
       return;
     }
     if (oldAo in AO_HIT_DICE) {
-      const oldHitDice = { ...this.character.hitDice };
-      const oldHitDiceRemaining = { ...this.character.hitDiceRemaining };
-
       const value = (this.character!.hitDice as any)[AO_HIT_DICE[oldAo]];
       (this.character.hitDice as any)[AO_HIT_DICE[oldAo]] = Math.max(
         0,
@@ -187,9 +185,6 @@ export class AbilitiesListComponent {
         0,
         Math.min(value - 1, remaining)
       );
-      if (!skipBackend) {
-        this.updateHitDiceToBackend(oldHitDice, oldHitDiceRemaining);
-      }
     }
   }
 

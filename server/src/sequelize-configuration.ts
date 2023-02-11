@@ -46,6 +46,7 @@ export const characterInclude = [
   },
   Character.Bio,
   Character.Resources,
+  Character.Skills,
 ];
 
 export const inventoryContainerOrder: OrderItem = [

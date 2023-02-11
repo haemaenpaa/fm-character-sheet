@@ -4,7 +4,7 @@ import { Skill } from './skill';
 import Character from './character';
 import Resistance, { ResistanceType } from './resistance';
 import { CharacterSpells, Spell } from './character-spells';
-import { randomId } from './id-generator';
+import { randomId, randomIdString } from './id-generator';
 import { DamageRoll } from './damage-roll';
 import CharacterAttack, { AttackEffect } from './character-attack';
 import CharacterHitDice from './character-hit-dice';
@@ -288,12 +288,13 @@ export class CharacterBuilder {
   addCustomSkill(
     name: string,
     rank: number,
-    defaultAbilities: string[] = []
+    defaultAbilities: string[] = [],
+    id?: string
   ): CharacterBuilder {
-    const idx = this.skills.findIndex((s) => s.identifier == name);
+    const idx = id ? this.skills.findIndex((s) => s.identifier == id) : -1;
     if (idx < 0) {
       const skill: Skill = {
-        identifier: name,
+        identifier: id || randomIdString(),
         name: name,
         rank: rank,
         defaultAbilities: defaultAbilities,

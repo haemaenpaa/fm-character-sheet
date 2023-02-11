@@ -44,6 +44,7 @@ app.post(
       );
     } else {
       const toCreate = convertResistanceDto(dto, category);
+      toCreate.setDataValue("CharacterId", req.params.characterId);
       toCreate.save().then(
         (created) => res.send(convertResistanceDbModel(created)),
         (error) => {
