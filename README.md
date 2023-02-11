@@ -2,8 +2,6 @@
 
 FmCharacterSheet is an interactive character sheet for the Frostmark RPG. It is intended as a tool to smoothen the flow of play by automating the dice algebra.
 
-The project is a work in progress. A number of character attributes are not editable. Only a limited subset of the required rolls can currently be performed.
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.4.
 
 ## Development server
@@ -31,6 +29,10 @@ AUTH0_DOMAIN=<Your auth0 production domain>
 AUTH0_CLIENT_ID=<your auth0 production client id>
 AUTH0_CALLBACK_URL=<the callback url in production>
 ```
+
+Currently, variables from dev environment will be used if not set in production env.
+
+Finally, run `npm run build` in the root folder to build the packages.
 
 ## Attribution
 
