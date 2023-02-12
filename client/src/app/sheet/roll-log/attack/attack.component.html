@@ -1,15 +1,35 @@
-<div class="single-roll">
-  <div
-    *ngIf="roll.rolls[0].character && roll.rolls[0].character.length > 0"
-    class="roll-character"
-  >
-    {{ roll.rolls[0].character }} :
-  </div>
-  <div class="roll-title" *ngIf="!roll.rolls[0].name">To hit :</div>
-  <div class="roll-title" *ngIf="roll.rolls[0].name">
-    {{ roll.rolls[0].name }} to hit:
-  </div>
-  <div *ngFor="let d of roll.rolls[0].dice" class="die-roll">
-    {{ d | roll }}
-  </div>
+<div class="multi-roll log-row">
+  <div *ngIf="character" class="roll-character">{{ character }} :</div>
+  <div *ngIf="toHit?.name" class="attack-name">{{ toHit?.name }}</div>
+
+  <span *ngIf="toHit" class="single-roll">
+    <div class="roll-title">To hit:</div>
+    <div *ngFor="let d of toHit.dice" class="die-roll">
+      {{ d | roll }}
+    </div>
+    <div *ngIf="toHit.totalModifier">{{ toHit.totalModifier | modifier }}</div>
+  </span>
+  <span *ngIf="damage" class="single-roll">
+    <div class="roll-title">Damage:</div>
+    <div *ngFor="let d of damage.dice; last as isLast" class="damage-element">
+      <span class="die-roll">{{ d | roll }}</span> {{ d.name
+      }}<span *ngIf="!isLast">,</span>
+    </div>
+    <div class="crit-label">On Crit:</div>
+    <div *ngFor="let d of damage.dice; last as isLast" class="damage-element">
+      <span class="die-roll">{{ d.sides | modifier }}</span>
+      {{ d.name }}<span *ngIf="!isLast">,</span>
+    </div>
+  </span>
+  <span *ngFor="let effect of effects" class="single-roll">
+    <div *ngFor="let modifier of effect.modifiers" class="die-roll">
+      <span *ngFor="let ab of saveAbilities(modifier.name); last as isLast">
+        {{ ab | abilityName : "long" }}{{ isLast ? "" : "/" }}
+      </span>
+      save, DV {{ modifier.value }} or:
+    </div>
+    <div class="roll-description">
+      {{ effect.description }}
+    </div>
+  </span>
 </div>

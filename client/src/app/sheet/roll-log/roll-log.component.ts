@@ -16,8 +16,6 @@ const SPELL_SAVE_PATTERN = /^spellsave$/;
 const SOUL_CHECK_PATTERN = /^soulcheck$/;
 const SPELL_DAMAGE_PATTERN = /^spelldmg$/;
 const ATTACK_PATTERN = /^attack$/;
-const ATTACK_DAMAGE_PATTERN = /^attackdmg$/;
-const ATTACK_EFFECT_PATTERN = /^attackeffect$/;
 const HIT_DICE_PATTERN = /^hit-dice$/;
 const HIT_POINTS_PATTERN = /^hit-points$/;
 
@@ -46,7 +44,7 @@ type RowType =
   styleUrls: ['./roll-log.component.css'],
 })
 export class RollLogComponent implements AfterViewChecked {
-  @ViewChild('logScroll') private logScrollContainer!: ElementRef;
+  @ViewChild('logScroll') private logScrollContainer?: ElementRef;
   @Input() colorized: boolean = false;
   constructor(private rollService: RollLogService) {}
 
@@ -55,8 +53,10 @@ export class RollLogComponent implements AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.logScrollContainer.nativeElement.scrollTop =
-      this.logScrollContainer.nativeElement.scrollHeight;
+    if (this.logScrollContainer) {
+      this.logScrollContainer.nativeElement.scrollTop =
+        this.logScrollContainer.nativeElement.scrollHeight;
+    }
   }
 
   asSimple(r: Roll): SimpleRoll {
@@ -95,12 +95,6 @@ export class RollLogComponent implements AfterViewChecked {
     }
     if (roll.title?.match(ATTACK_PATTERN)) {
       return 'attack';
-    }
-    if (roll.title?.match(ATTACK_DAMAGE_PATTERN)) {
-      return 'attack-damage';
-    }
-    if (roll.title?.match(ATTACK_EFFECT_PATTERN)) {
-      return 'attack-effect';
     }
     if (roll.title?.match(HIT_DICE_PATTERN)) {
       return 'hit-dice';

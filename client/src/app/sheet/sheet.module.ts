@@ -45,8 +45,6 @@ import { AttackListComponent } from './attack-list/attack-list.component';
 import { AttackItemComponent } from './attack-list/attack-item/attack-item.component';
 import { AttackEditComponent } from './attack-edit/attack-edit.component';
 import { AttackComponent } from './roll-log/attack/attack.component';
-import { AttackDamageComponent } from './roll-log/attack-damage/attack-damage.component';
-import { AttackEffectComponent } from './roll-log/attack-effect/attack-effect.component';
 import { HitDiceDisplayComponent } from './hit-dice-display/hit-dice-display.component';
 import { HitDiceRollerComponent } from './hit-dice-roller/hit-dice-roller.component';
 import { HitDieRowComponent } from './roll-log/hit-die-row/hit-die-row.component';
@@ -116,8 +114,6 @@ import { AttackSortPipe } from './attack-list/attack-sort.pipe';
     AttackItemComponent,
     AttackEditComponent,
     AttackComponent,
-    AttackDamageComponent,
-    AttackEffectComponent,
     HitDiceDisplayComponent,
     HitDiceRollerComponent,
     HitDieRowComponent,

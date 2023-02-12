@@ -1,6 +1,12 @@
 import { Injectable, ɵAPP_ID_RANDOM_PROVIDER } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { KeepMode, Roll, RollComponent, SimpleRoll } from '../model/diceroll';
+import {
+  KeepMode,
+  MultiRoll,
+  Roll,
+  RollComponent,
+  SimpleRoll,
+} from '../model/diceroll';
 import {
   Advantage,
   AttackParams,
@@ -293,15 +299,21 @@ export class ActionDispatchService {
           );
           return;
         }
-
+        const attackRoll: MultiRoll = {
+          title: 'attack',
+          rolls: [],
+        };
         var toHit = this.composeToHit(attack, character, params.advantage);
-        this.sendRoll(toHit);
+        attackRoll.rolls.push(toHit);
+
         var damage = this.composeDamage(attack, character);
-        this.sendRoll(damage);
+        attackRoll.rolls.push(damage);
+
         attack.effects.forEach((ef) => {
           const effectRoll = this.composeEffect(ef, attack, character);
-          this.sendRoll(effectRoll);
+          attackRoll.rolls.push(effectRoll);
         });
+        this.sendRoll(attackRoll);
       });
   }
 
@@ -309,7 +321,7 @@ export class ActionDispatchService {
     effect: AttackEffect,
     attack: CharacterAttack,
     character: Character
-  ): Roll {
+  ): SimpleRoll {
     const effectRoll = new SimpleRoll();
     effectRoll.title = 'attackeffect';
     effectRoll.name = attack.name;
@@ -325,7 +337,7 @@ export class ActionDispatchService {
     attack: CharacterAttack,
     character: Character,
     advantage: Advantage
-  ): Roll {
+  ): SimpleRoll {
     const attackRoll = new SimpleRoll();
     attackRoll.title = 'attack';
     attackRoll.character = character.name;
@@ -347,7 +359,10 @@ export class ActionDispatchService {
     return attackRoll;
   }
 
-  private composeDamage(attack: CharacterAttack, character: Character): Roll {
+  private composeDamage(
+    attack: CharacterAttack,
+    character: Character
+  ): SimpleRoll {
     const damageRoll = new SimpleRoll();
     damageRoll.title = 'attackdmg';
     damageRoll.character = character.name;
