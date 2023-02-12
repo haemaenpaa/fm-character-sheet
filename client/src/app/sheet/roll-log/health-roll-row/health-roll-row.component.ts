@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Roll } from 'src/app/model/diceroll';
+import { Roll, SimpleRoll } from 'src/app/model/diceroll';
 
 @Component({
   selector: 'health-roll-row',
@@ -7,5 +7,5 @@ import { Roll } from 'src/app/model/diceroll';
   styleUrls: ['./health-roll-row.component.css', '../log-row-shared.css'],
 })
 export class HealthRollRowComponent {
-  @Input() roll!: Roll;
+  @Input() roll!: SimpleRoll;
 }

@@ -40,88 +40,46 @@ export class RollComponent {
   }
 }
 
+export type Roll = MultiRoll | SimpleRoll;
+
 /**
  * A complete dice roll
  */
-export class Roll {
-  private _character: string | null = null; //The character that made the roll
-  private _title: string | null = null; //The title of the roll, e.g. Dexterity check
-  private _dice: RollComponent[] = []; //The dice being rolled
-  private _modifiers: RollModifier[] = []; //The modifiers applied
-  private _target: number | null = null; //Target to beat, if any.
-  private _id?: number;
-  private _name?: string;
-  private _description?: string;
-
-  get character(): string | null {
-    return this._character;
-  }
-  set character(value: string | null) {
-    this._character = value;
-  }
-
-  get title(): string | null {
-    return this._title;
-  }
-  set title(value: string | null) {
-    this._title = value;
-  }
-
-  get target(): number | null {
-    return this._target;
-  }
-  set target(value: number | null) {
-    this._target = value;
-  }
+export class SimpleRoll {
+  character: string | null = null; //The character that made the roll
+  title: string | null = null; //The title of the roll, e.g. Dexterity check
+  dice: RollComponent[] = []; //The dice being rolled
+  modifiers: RollModifier[] = []; //The modifiers applied
+  target: number | null = null; //Target to beat, if any.
+  id?: number;
+  name?: string;
+  description?: string;
 
   get totalModifier() {
     var ret = 0;
-    for (let m of this._modifiers) {
+    for (let m of this.modifiers) {
       ret += m.value;
     }
     return ret;
   }
-  get id(): number | undefined {
-    return this._id;
-  }
-  set id(value: number | undefined) {
-    this._id = value;
-  }
 
   get filteredModifiers(): RollModifier[] {
-    return this._modifiers.filter((m) => m.value != 0);
+    return this.modifiers.filter((m) => m.value != 0);
   }
 
   addModifier(value: RollModifier) {
-    this._modifiers.push(value);
+    this.modifiers.push(value);
   }
 
   addDie(value: RollComponent) {
-    this._dice.push(value);
+    this.dice.push(value);
   }
+}
 
-  get dice(): RollComponent[] {
-    return Array.from(this._dice);
-  }
-
-  get modifiers(): RollModifier[] {
-    return Array.from(this._modifiers);
-  }
-
-  /**
-   * Name of the specific thing being rolled for
-   */
-  get name(): string | undefined {
-    return this._name;
-  }
-  set name(value: string | undefined) {
-    this._name = value;
-  }
-
-  get description(): string | undefined {
-    return this._description;
-  }
-  set description(value: string | undefined) {
-    this._description = value;
-  }
+/**
+ * A collection of multiple rolls, such as a cast spell.
+ */
+export interface MultiRoll {
+  title: string;
+  rolls: SimpleRoll[];
 }

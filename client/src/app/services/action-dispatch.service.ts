@@ -1,6 +1,6 @@
 import { Injectable, ɵAPP_ID_RANDOM_PROVIDER } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { KeepMode, Roll, RollComponent } from '../model/diceroll';
+import { KeepMode, Roll, RollComponent, SimpleRoll } from '../model/diceroll';
 import {
   Advantage,
   AttackParams,
@@ -97,7 +97,7 @@ export class ActionDispatchService {
     ability: Ability,
     advantage: Advantage
   ) {
-    const roll: Roll = new Roll();
+    const roll: Roll = new SimpleRoll();
     roll.title = ability.identifier;
     roll.character = name;
 
@@ -114,7 +114,7 @@ export class ActionDispatchService {
     proficiency: number | null,
     advantage: Advantage
   ) {
-    const roll: Roll = new Roll();
+    const roll: Roll = new SimpleRoll();
     roll.title = abilities.join('/') + '_save';
     roll.character = name;
 
@@ -150,7 +150,7 @@ export class ActionDispatchService {
     skillModifier: number,
     advantage: Advantage
   ) {
-    const roll: Roll = new Roll();
+    const roll: Roll = new SimpleRoll();
     roll.title = `skill_${skill}_${ability}`;
     roll.character = name;
     const dieCheckRoll = this.getD20Check(advantage);
@@ -167,7 +167,7 @@ export class ActionDispatchService {
     advantage: Advantage,
     spellName: string | null = null
   ) {
-    const roll: Roll = new Roll();
+    const roll: Roll = new SimpleRoll();
     roll.title = 'spellatk';
     roll.character = name;
     if (spellName) {
@@ -196,7 +196,7 @@ export class ActionDispatchService {
           return;
         }
         if (params.castingTier > 0 && params.soulCheck) {
-          const soulCheck = new Roll();
+          const soulCheck = new SimpleRoll();
           soulCheck.character = character.name;
           soulCheck.title = 'soulcheck';
           soulCheck.target = 12 + params.castingTier;
@@ -217,7 +217,7 @@ export class ActionDispatchService {
           );
         }
         if (spell.saveAbility) {
-          const spellSave = new Roll();
+          const spellSave = new SimpleRoll();
           spellSave.title = 'spellsave';
           spellSave.character = character.name;
           spellSave.name = spell.name;
@@ -242,7 +242,7 @@ export class ActionDispatchService {
     castTier: number,
     character: string
   ) {
-    const damageRoll: Roll = new Roll();
+    const damageRoll: Roll = new SimpleRoll();
 
     damageRoll.character = character;
     damageRoll.title = `spelldmg`;
@@ -310,7 +310,7 @@ export class ActionDispatchService {
     attack: CharacterAttack,
     character: Character
   ): Roll {
-    const effectRoll = new Roll();
+    const effectRoll = new SimpleRoll();
     effectRoll.title = 'attackeffect';
     effectRoll.name = attack.name;
     effectRoll.character = character.name;
@@ -326,7 +326,7 @@ export class ActionDispatchService {
     character: Character,
     advantage: Advantage
   ): Roll {
-    const attackRoll = new Roll();
+    const attackRoll = new SimpleRoll();
     attackRoll.title = 'attack';
     attackRoll.character = character.name;
     attackRoll.name = attack.name;
@@ -348,7 +348,7 @@ export class ActionDispatchService {
   }
 
   private composeDamage(attack: CharacterAttack, character: Character): Roll {
-    const damageRoll = new Roll();
+    const damageRoll = new SimpleRoll();
     damageRoll.title = 'attackdmg';
     damageRoll.character = character.name;
     damageRoll.name = attack.name;
@@ -392,7 +392,7 @@ export class ActionDispatchService {
     this.characterService
       .getCharacterById(params.characterId)
       .then((character) => {
-        const roll: Roll = new Roll();
+        const roll: Roll = new SimpleRoll();
         roll.character = character.name;
         roll.name = 'Hit dice';
         roll.title = 'hit-dice';
@@ -410,7 +410,7 @@ export class ActionDispatchService {
     this.characterService
       .getCharacterById(params.characterId)
       .then((character) => {
-        const roll: Roll = new Roll();
+        const roll: Roll = new SimpleRoll();
         roll.character = character.name;
         roll.name = 'Hit points';
         roll.title = 'hit-points';
@@ -442,7 +442,7 @@ export class ActionDispatchService {
   }
 
   private sendRoll(roll: Roll) {
-    if (!roll.id) {
+    if (roll instanceof SimpleRoll && !roll.id) {
       roll.id = randomId();
     }
     this._rolls.next(roll);

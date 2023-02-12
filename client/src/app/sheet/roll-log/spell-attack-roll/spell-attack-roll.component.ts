@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Roll } from 'src/app/model/diceroll';
+import { Roll, SimpleRoll } from 'src/app/model/diceroll';
 
 @Component({
   selector: 'spell-attack-roll',
@@ -7,5 +7,5 @@ import { Roll } from 'src/app/model/diceroll';
   styleUrls: ['./spell-attack-roll.component.css', '../log-row-shared.css'],
 })
 export class SpellAttackRollComponent {
-  @Input() roll!: Roll;
+  @Input() roll!: SimpleRoll;
 }

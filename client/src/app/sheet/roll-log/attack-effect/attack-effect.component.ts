@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Roll } from 'src/app/model/diceroll';
+import { SimpleRoll } from 'src/app/model/diceroll';
 
 @Component({
   selector: 'attack-effect',
@@ -7,7 +7,7 @@ import { Roll } from 'src/app/model/diceroll';
   styleUrls: ['./attack-effect.component.css', '../log-row-shared.css'],
 })
 export class AttackEffectComponent {
-  @Input() roll!: Roll;
+  @Input() roll!: SimpleRoll;
   saveAbilities(saveVal: string): string[] {
     return saveVal.split('/');
   }

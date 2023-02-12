@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Roll } from 'src/app/model/diceroll';
+import { Roll, SimpleRoll } from 'src/app/model/diceroll';
 
 /**
  * A simple check component. Displays the name of the check, followed by the roll.
@@ -10,7 +10,7 @@ import { Roll } from 'src/app/model/diceroll';
   styleUrls: ['./simple-check.component.css', '../log-row-shared.css'],
 })
 export class SimpleCheckComponent implements OnInit {
-  @Input('roll') roll!: Roll;
+  @Input('roll') roll!: SimpleRoll;
   constructor() {}
 
   ngOnInit(): void {}

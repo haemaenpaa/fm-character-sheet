@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Roll } from 'src/app/model/diceroll';
+import { Roll, SimpleRoll } from 'src/app/model/diceroll';
 
 @Component({
   selector: 'spell-damage-roll',
@@ -7,7 +7,7 @@ import { Roll } from 'src/app/model/diceroll';
   styleUrls: ['./spell-damage-roll.component.css', '../log-row-shared.css'],
 })
 export class SpellDamageRollComponent {
-  @Input() roll!: Roll;
+  @Input() roll!: SimpleRoll;
 
   get spellName(): string {
     return this.roll.title?.split('_')[2]!;

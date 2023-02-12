@@ -5,7 +5,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { Roll } from 'src/app/model/diceroll';
+import { Roll, SimpleRoll, MultiRoll } from 'src/app/model/diceroll';
 import { RollLogService } from 'src/app/services/roll-log-service.service';
 
 const ABILITY_CHECK_PATTERN = /^(br|dex|vit|int|cun|res|pre|man|com)$/;
@@ -57,6 +57,13 @@ export class RollLogComponent implements AfterViewChecked {
   ngAfterViewChecked(): void {
     this.logScrollContainer.nativeElement.scrollTop =
       this.logScrollContainer.nativeElement.scrollHeight;
+  }
+
+  asSimple(r: Roll): SimpleRoll {
+    return r as SimpleRoll;
+  }
+  asMulti(r: Roll): MultiRoll {
+    return r as MultiRoll;
   }
 
   /**

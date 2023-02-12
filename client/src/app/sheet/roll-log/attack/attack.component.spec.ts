@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Roll } from 'src/app/model/diceroll';
-
+import { SimpleRoll } from 'src/app/model/diceroll';
 import { AttackComponent } from './attack.component';
 
 describe('AttackComponent', () => {
@@ -14,7 +13,10 @@ describe('AttackComponent', () => {
 
     fixture = TestBed.createComponent(AttackComponent);
     component = fixture.componentInstance;
-    component.roll = new Roll();
+    component.roll = {
+      title: '',
+      rolls: [],
+    };
     fixture.detectChanges();
   });
 

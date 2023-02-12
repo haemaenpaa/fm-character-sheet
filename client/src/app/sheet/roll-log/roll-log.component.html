@@ -5,32 +5,56 @@
     [ngClass]="{ 'accessibility-colorized': colorized }"
   >
     <div [ngSwitch]="rollToType(r)" [ngClass]="rollToType(r)">
-      <simple-check [roll]="r" *ngSwitchCase="'simple-check'"></simple-check>
-      <skill-check [roll]="r" *ngSwitchCase="'skill-check'"></skill-check>
+      <simple-check
+        [roll]="asSimple(r)"
+        *ngSwitchCase="'simple-check'"
+      ></simple-check>
+      <skill-check
+        [roll]="asSimple(r)"
+        *ngSwitchCase="'skill-check'"
+      ></skill-check>
       <saving-throw-log
-        [roll]="r"
+        [roll]="asSimple(r)"
         *ngSwitchCase="'saving-throw'"
       ></saving-throw-log>
       <spell-attack-roll
-        [roll]="r"
+        [roll]="asSimple(r)"
         *ngSwitchCase="'spell-attack'"
       ></spell-attack-roll>
-      <spell-save-log [roll="r" *ngSwitchCase="'spell-save'"></spell-save-log>
-      <soul-check-log [roll]="r" *ngSwitchCase="'soul-check'"></soul-check-log>
+      <spell-save-log
+        [roll="asSimple(r)"
+        *ngSwitchCase="'spell-save'"
+      ></spell-save-log>
+      <soul-check-log
+        [roll]="asSimple(r)"
+        *ngSwitchCase="'soul-check'"
+      ></soul-check-log>
       <spell-damage-roll
-        [roll]="r"
+        [roll]="asSimple(r)"
         *ngSwitchCase="'spell-damage'"
       ></spell-damage-roll>
-      <attack [roll]="r" *ngSwitchCase="'attack'"></attack>
-      <attack-damage [roll]="r" *ngSwitchCase="'attack-damage'"></attack-damage>
-      <attack-effect [roll]="r" *ngSwitchCase="'attack-effect'"></attack-effect>
-      <hit-die-row [roll]="r" *ngSwitchCase="'hit-dice'"></hit-die-row>
+      <attack [roll]="asMulti(r)" *ngSwitchCase="'attack'"></attack>
+      <attack-damage
+        [roll]="asSimple(r)"
+        *ngSwitchCase="'attack-damage'"
+      ></attack-damage>
+      <attack-effect
+        [roll]="asSimple(r)"
+        *ngSwitchCase="'attack-effect'"
+      ></attack-effect>
+      <hit-die-row
+        [roll]="asSimple(r)"
+        *ngSwitchCase="'hit-dice'"
+      ></hit-die-row>
       <health-roll-row
-        [roll]="r"
+        [roll]="asSimple(r)"
         *ngSwitchCase="'hit-points'"
       ></health-roll-row>
 
-      <unknown-roll *ngSwitchCase="'unknown'" [roll]="r"></unknown-roll>
+      <unknown-roll
+        *ngSwitchCase="'unknown'"
+        [roll]="asSimple(r)"
+      ></unknown-roll>
     </div>
   </div>
 </div>

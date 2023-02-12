@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SKILL_DEFAULT_NAME } from 'src/app/model/constants';
-import { Roll } from 'src/app/model/diceroll';
+import { Roll, SimpleRoll } from 'src/app/model/diceroll';
 
 @Component({
   selector: 'skill-check',
@@ -8,7 +8,7 @@ import { Roll } from 'src/app/model/diceroll';
   styleUrls: ['./skill-check.component.css', '../log-row-shared.css'],
 })
 export class SkillCheckComponent implements OnInit {
-  @Input('roll') roll!: Roll;
+  @Input('roll') roll!: SimpleRoll;
 
   constructor() {}
 

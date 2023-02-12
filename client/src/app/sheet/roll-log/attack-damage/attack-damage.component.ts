@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Roll, RollComponent } from 'src/app/model/diceroll';
+import { SimpleRoll } from 'src/app/model/diceroll';
 
 @Component({
   selector: 'attack-damage',
@@ -7,5 +7,5 @@ import { Roll, RollComponent } from 'src/app/model/diceroll';
   styleUrls: ['./attack-damage.component.css', '../log-row-shared.css'],
 })
 export class AttackDamageComponent {
-  @Input() roll!: Roll;
+  @Input() roll!: SimpleRoll;
 }

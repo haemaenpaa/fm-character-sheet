@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Roll } from 'src/app/model/diceroll';
+import { Roll, SimpleRoll } from 'src/app/model/diceroll';
 
 import { SpellDamageRollComponent } from './spell-damage-roll.component';
 
@@ -14,7 +14,7 @@ describe('SpellDamageRollComponent', () => {
 
     fixture = TestBed.createComponent(SpellDamageRollComponent);
     component = fixture.componentInstance;
-    component.roll = new Roll();
+    component.roll = new SimpleRoll();
     fixture.detectChanges();
   });
 
