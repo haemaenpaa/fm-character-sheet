@@ -23,18 +23,7 @@
           [roll]="asSimple(r)"
           *ngSwitchCase="'spell-attack'"
         ></spell-attack-roll>
-        <spell-save-log
-          [roll="asSimple(r)"
-          *ngSwitchCase="'spell-save'"
-        ></spell-save-log>
-        <soul-check-log
-          [roll]="asSimple(r)"
-          *ngSwitchCase="'soul-check'"
-        ></soul-check-log>
-        <spell-damage-roll
-          [roll]="asSimple(r)"
-          *ngSwitchCase="'spell-damage'"
-        ></spell-damage-roll>
+        <spell-roll [roll]="asMulti(r)" *ngSwitchCase="'spell'"></spell-roll>
         <attack [roll]="asMulti(r)" *ngSwitchCase="'attack'"></attack>
         <hit-die-row
           [roll]="asSimple(r)"

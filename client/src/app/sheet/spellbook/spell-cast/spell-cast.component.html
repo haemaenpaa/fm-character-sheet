@@ -8,8 +8,8 @@
     <span *ngIf="!this.ritual">
       Cast at tier:
       <select [value]="tier" (change)="onTierChange($event)">
-        <option *ngFor="let tier of availableTiers" [value]="tier">
-          {{ tier }}
+        <option *ngFor="let t of availableTiers" [value]="t">
+          {{ t }}
         </option>
       </select>
     </span>

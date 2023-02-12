@@ -63,3 +63,9 @@ export const AO_HIT_DICE: any = {
   'Unique Ancestry': 8,
   'World Magic': 8,
 };
+
+export const SPELL_ROLL_TITLE = 'spell';
+export const SOUL_CHECK_ROLL_TITLE = 'soulcheck';
+export const SPELL_ATTACK_ROLL_TITLE = 'spellatk';
+export const SPELL_SAVE_ROLL_TITLE = 'spellsave';
+export const SPELL_DAMAGE_ROLL_TITLE = 'spelldmg';

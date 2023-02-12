@@ -1,0 +1,41 @@
+<div class="log-row multi-roll">
+  <div class="roll-character">{{ characterName }}</div>
+  <div class="roll-name">{{ spellName }}:</div>
+  <div class="single-roll" *ngIf="soulCheck">
+    <div class="roll-title">Soul check DV {{ soulCheck.target }}:</div>
+    <div *ngFor="let d of soulCheck.dice" class="die-roll">
+      {{ d | roll }}
+    </div>
+    <div *ngFor="let mod of soulCheck.modifiers" class="roll-modifier">
+      {{ mod.value | modifier }}
+    </div>
+  </div>
+  <div class="single-roll" *ngIf="spellAttack">
+    <div class="roll-title">Spell attack:</div>
+    <div *ngFor="let d of spellAttack.dice" class="die-roll">
+      {{ d | roll }}
+    </div>
+    <div *ngFor="let m of spellAttack.filteredModifiers" class="die-modifier">
+      {{ m.value | modifier }}
+    </div>
+  </div>
+  <div class="single-roll" *ngIf="spellSave">
+    <div class="roll-title">Save:</div>
+    <div *ngFor="let mod of spellSave.modifiers" class="roll-modifier">
+      DV {{ mod.value }}
+      <span *ngFor="let abl of saveAbilities(mod.name); last as isLast">
+        {{ abl | abilityName : "long" }}{{ isLast ? "" : "/" }}
+      </span>
+    </div>
+  </div>
+  <div class="single-roll" *ngIf="spellDamage">
+    <div class="roll-title">Damage:</div>
+    <div *ngFor="let d of spellDamage.dice" class="die-roll">
+      {{ d | roll }} {{ d.name }}
+    </div>
+    <div class="crit-label">on crit:</div>
+    <div *ngFor="let d of spellDamage.dice" class="die-roll">
+      {{ d.dice * d.sides | modifier }} {{ d.name }}
+    </div>
+  </div>
+</div>

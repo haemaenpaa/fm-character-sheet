@@ -34,8 +34,12 @@ export class SpellCastComponent {
       characterId: number;
     }
   ) {
-    characterService.getCharacterById(data.characterId).then((c) => {
+    characterService.getCachedCharacterById(data.characterId).then((c) => {
       this.character = c;
+      const available = this.availableTiers;
+      if (this.availableTiers.length > 0) {
+        this.tier = this.availableTiers[0];
+      }
       if (this.spell.tier === 0 && !this.spell.attack) {
         this.cast();
       }

@@ -38,9 +38,6 @@ import { DamageDiceComponent } from './damage-dice/damage-dice.component';
 import { DieItemComponent } from './damage-dice/die-item/die-item.component';
 import { SpellDetailsComponent } from './spellbook/spell-details/spell-details.component';
 import { SpellCastComponent } from './spellbook/spell-cast/spell-cast.component';
-import { SpellSaveLogComponent } from './roll-log/spell-save-log/spell-save-log.component';
-import { SoulCheckLogComponent } from './roll-log/soul-check-log/soul-check-log.component';
-import { SpellDamageRollComponent } from './roll-log/spell-damage-roll/spell-damage-roll.component';
 import { AttackListComponent } from './attack-list/attack-list.component';
 import { AttackItemComponent } from './attack-list/attack-item/attack-item.component';
 import { AttackEditComponent } from './attack-edit/attack-edit.component';
@@ -65,6 +62,7 @@ import { ResourceEditComponent } from './resource-view/resource-edit/resource-ed
 import { ResourceSortPipe } from './resource-view/resource-sort.pipe';
 import { ResistanceSortPipe } from './resistances/resistance-sort.pipe';
 import { AttackSortPipe } from './attack-list/attack-sort.pipe';
+import { SpellRollComponent } from './roll-log/spell-roll/spell-roll.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -107,9 +105,6 @@ import { AttackSortPipe } from './attack-list/attack-sort.pipe';
     DieItemComponent,
     SpellDetailsComponent,
     SpellCastComponent,
-    SpellSaveLogComponent,
-    SoulCheckLogComponent,
-    SpellDamageRollComponent,
     AttackListComponent,
     AttackItemComponent,
     AttackEditComponent,
@@ -133,6 +128,7 @@ import { AttackSortPipe } from './attack-list/attack-sort.pipe';
     ResourceSortPipe,
     ResistanceSortPipe,
     AttackSortPipe,
+    SpellRollComponent,
   ],
   imports: [
     CommonModule,

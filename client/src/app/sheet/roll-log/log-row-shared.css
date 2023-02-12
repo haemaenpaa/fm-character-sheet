@@ -9,7 +9,7 @@
 }
 
 .log-row {
-  border-style: solid none solid none;
+  width: 100%;
 }
 
 .roll-character {
@@ -27,4 +27,8 @@
 .die-modifier {
   font-weight: lighter;
   font-family: monospace;
+}
+.roll-name {
+  font-style: italic;
+  font-weight: bold;
 }

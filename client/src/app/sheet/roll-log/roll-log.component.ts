@@ -12,9 +12,6 @@ const ABILITY_CHECK_PATTERN = /^(br|dex|vit|int|cun|res|pre|man|com)$/;
 const SKILL_CHECK_PATTERN = /^skill_(.+)_(\w{2,3})$/;
 const ABILITY_SAVE_PATTERN = /^([\w/]+)_save$/;
 const SPELL_ATTACK_PATTERN = /^spellatk$/;
-const SPELL_SAVE_PATTERN = /^spellsave$/;
-const SOUL_CHECK_PATTERN = /^soulcheck$/;
-const SPELL_DAMAGE_PATTERN = /^spelldmg$/;
 const ATTACK_PATTERN = /^attack$/;
 const HIT_DICE_PATTERN = /^hit-dice$/;
 const HIT_POINTS_PATTERN = /^hit-points$/;
@@ -25,9 +22,7 @@ type RowType =
   | 'skill-check'
   | 'saving-throw'
   | 'spell-attack'
-  | 'soul-check'
-  | 'spell-save'
-  | 'spell-damage'
+  | 'spell'
   | 'attack'
   | 'attack-damage'
   | 'attack-effect'
@@ -84,14 +79,8 @@ export class RollLogComponent implements AfterViewChecked {
     if (roll.title?.match(SPELL_ATTACK_PATTERN)) {
       return 'spell-attack';
     }
-    if (roll.title?.match(SPELL_SAVE_PATTERN)) {
-      return 'spell-save';
-    }
-    if (roll.title?.match(SPELL_DAMAGE_PATTERN)) {
-      return 'spell-damage';
-    }
-    if (roll.title?.match(SOUL_CHECK_PATTERN)) {
-      return 'soul-check';
+    if (roll.title === 'spell') {
+      return 'spell';
     }
     if (roll.title?.match(ATTACK_PATTERN)) {
       return 'attack';
