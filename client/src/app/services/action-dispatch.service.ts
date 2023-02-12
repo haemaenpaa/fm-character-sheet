@@ -183,7 +183,7 @@ export class ActionDispatchService {
 
   private dispatchSpell(params: SpellParams) {
     this.characterService
-      .getCharacterById(params.characterId)
+      .getCachedCharacterById(params.characterId)
       .then((character) => {
         const characterName = character.name;
         const spell = character.spells.spells[params.spellTier].find(
@@ -284,7 +284,7 @@ export class ActionDispatchService {
 
   private dispatchAttack(params: AttackParams) {
     this.characterService
-      .getCharacterById(params.characterId)
+      .getCachedCharacterById(params.characterId)
       .then((character) => {
         const attack = character.attacks.find((a) => a.id === params.attackId);
         if (!attack) {
@@ -390,7 +390,7 @@ export class ActionDispatchService {
 
   private dispatchHitDice(params: HitDieParams) {
     this.characterService
-      .getCharacterById(params.characterId)
+      .getCachedCharacterById(params.characterId)
       .then((character) => {
         const roll: Roll = new SimpleRoll();
         roll.character = character.name;
@@ -408,7 +408,7 @@ export class ActionDispatchService {
   }
   private dispatchHealthRoll(params: HitDieParams) {
     this.characterService
-      .getCharacterById(params.characterId)
+      .getCachedCharacterById(params.characterId)
       .then((character) => {
         const roll: Roll = new SimpleRoll();
         roll.character = character.name;
