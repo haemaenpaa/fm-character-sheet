@@ -1,4 +1,8 @@
-<div class="single-roll">
+<div
+  class="single-roll log-row"
+  (mouseenter)="startHover()"
+  (mouseleave)="endHover()"
+>
   <div
     *ngIf="roll.character && roll.character.length > 0"
     class="roll-character"
@@ -12,4 +16,9 @@
   <div class="die-modifier" *ngFor="let mod of roll.modifiers">
     {{ mod.value | modifier }}
   </div>
+  <button
+    class="clipboard-button"
+    *ngIf="hovered"
+    (click)="copyMacro()"
+  ></button>
 </div>

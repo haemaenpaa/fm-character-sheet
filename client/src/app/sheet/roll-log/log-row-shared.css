@@ -1,4 +1,5 @@
 .single-roll {
+  position: relative;
   display: flex;
   flex-direction: row;
 }
@@ -36,7 +37,7 @@
 
 .clipboard-button {
   position: absolute;
-  top: 1em;
+  top: 5%;
   right: 1em;
   width: 1.5em;
   height: 1.5em;

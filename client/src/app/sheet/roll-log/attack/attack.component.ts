@@ -74,6 +74,5 @@ export class AttackComponent extends Hoverable {
       })
       .join();
     this.clipboard.copy(roll20Macro);
-    console.log(roll20Macro);
   }
 }
