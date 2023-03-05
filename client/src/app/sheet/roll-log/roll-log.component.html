@@ -6,7 +6,11 @@
       class="single-roll"
       [ngClass]="{ 'accessibility-colorized': colorized }"
     >
-      <div [ngSwitch]="rollToType(r)" [ngClass]="rollToType(r)">
+      <div
+        [ngSwitch]="rollToType(r)"
+        [ngClass]="rollToType(r)"
+        style="width: 100%"
+      >
         <simple-check
           [roll]="asSimple(r)"
           *ngSwitchCase="'simple-check'"

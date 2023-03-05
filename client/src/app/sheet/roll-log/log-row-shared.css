@@ -4,6 +4,7 @@
 }
 
 .multi-roll {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -31,4 +32,17 @@
 .roll-name {
   font-style: italic;
   font-weight: bold;
+}
+
+.clipboard-button {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 1.5em;
+  height: 1.5em;
+  background-image: url("/assets/copy-icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-style: none;
 }

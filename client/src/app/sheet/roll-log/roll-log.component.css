@@ -14,6 +14,7 @@
   border-radius: 1em;
   border-style: double;
   justify-content: stretch;
+  align-content: stretch;
 }
 
 .header {

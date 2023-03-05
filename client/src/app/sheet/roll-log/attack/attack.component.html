@@ -1,4 +1,8 @@
-<div class="multi-roll log-row">
+<div
+  class="multi-roll log-row"
+  (mouseenter)="startHover()"
+  (mouseleave)="endHover()"
+>
   <div *ngIf="character" class="roll-character">{{ character }} :</div>
   <div *ngIf="toHit?.name" class="attack-name">{{ toHit?.name }}</div>
 
@@ -12,8 +16,10 @@
   <span *ngIf="damage" class="single-roll">
     <div class="roll-title">Damage:</div>
     <div *ngFor="let d of damage.dice; last as isLast" class="damage-element">
-      <span class="die-roll">{{ d | roll }}</span> {{ d.name
-      }}<span *ngIf="!isLast">,</span>
+      <span class="die-roll"
+        >{{ d | roll }} {{ d.bonus | modifier : "nonzero" }}</span
+      >
+      {{ d.name }}<span *ngIf="!isLast">,</span>
     </div>
     <div class="crit-label">On Crit:</div>
     <div *ngFor="let d of damage.dice; last as isLast" class="damage-element">
@@ -32,4 +38,9 @@
       {{ effect.description }}
     </div>
   </span>
+  <button
+    class="clipboard-button"
+    *ngIf="hovered"
+    (click)="copyMacro()"
+  ></button>
 </div>

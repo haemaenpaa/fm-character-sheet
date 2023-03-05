@@ -415,16 +415,16 @@ export class ActionDispatchService {
     console.log('damage roll', damageRoll);
     return damageRoll;
   }
-  private damageBonus(attack: CharacterAttack, character: Character) {
+  private damageBonus(attack: CharacterAttack, character: Character): number {
     if (attack.offhand) {
       return attack.abilities
         .map((ab) => (character.abilities as any)[ab])
         .filter((ab: Ability) => ab.modifier < 0)
-        .reduce((sum: number, ab: Ability) => sum + ab.modifier);
+        .reduce((sum: number, ab: Ability) => sum + ab.modifier, 0);
     } else {
       return attack.abilities
         .map((ab) => (character.abilities as any)[ab])
-        .reduce((sum: number, ab: Ability) => sum + ab.modifier);
+        .reduce((sum: number, ab: Ability) => sum + ab.modifier, 0);
     }
   }
 
