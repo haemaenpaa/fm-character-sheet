@@ -437,12 +437,19 @@ export class ActionDispatchService {
         roll.name = 'Hit dice';
         roll.title = 'hit-dice';
 
+        var total = 0;
         for (const size of [6, 8, 10, 12]) {
           const number = (params as any)[size];
           if (number > 0) {
             roll.addDie(new RollComponent(size, number));
+            total += number;
           }
         }
+        roll.addModifier({
+          value: total * character.abilities.vit.modifier,
+          name: 'vitality',
+        });
+
         this.sendRoll(roll);
       });
   }
