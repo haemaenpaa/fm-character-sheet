@@ -25,19 +25,23 @@
   <div class="advantage">
     <span *ngIf="spell.attack">
       Spell attack advantage:
-      <select id="attackAdvantage" [value]="attackAdvantage">
-        <option
-          *ngFor="let advantage of advantageOptions"
-          [value]="attackAdvantage"
-          (change)="onAdvantageChange($event)"
-        >
+      <select
+        id="attackAdvantage"
+        [value]="attackAdvantage"
+        (change)="onAdvantageChange($event)"
+      >
+        <option *ngFor="let advantage of advantageOptions" [value]="advantage">
           {{ advantage }}
         </option>
       </select>
     </span>
     <span *ngIf="spell.tier > 0 && !ritual">
       Soul check advantage:
-      <select id="soulCheckAdvantage" [value]="soulCheckAdvantage">
+      <select
+        id="soulCheckAdvantage"
+        [value]="soulCheckAdvantage"
+        (change)="onAdvantageChange($event)"
+      >
         <option *ngFor="let advantage of advantageOptions" [value]="advantage">
           {{ advantage }}
         </option>

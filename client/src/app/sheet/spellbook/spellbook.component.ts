@@ -183,7 +183,6 @@ export class SpellbookComponent {
     const spellId = event.old.id;
     const oldTier = event.old.tier;
     const newTier = event.new.tier;
-    debugger;
     if (newTier !== oldTier) {
       this.changeSpellTier(event.old, event.new);
     } else {

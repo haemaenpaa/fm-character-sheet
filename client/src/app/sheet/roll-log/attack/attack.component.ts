@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Hoverable } from 'src/app/common/hoverable';
-import { MultiRoll, SimpleRoll } from 'src/app/model/diceroll';
+import {
+  MultiRoll,
+  SimpleRoll,
+  toCheckArithmetic,
+} from 'src/app/model/diceroll';
 import { toModifier } from 'src/app/utils/modifier-utils';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ABILITY_TO_NAME } from 'src/app/model/constants';
@@ -40,16 +44,16 @@ export class AttackComponent extends Hoverable {
     var roll20Macro = '&{template:default}';
     if (this.toHit) {
       roll20Macro += `{{name=${this.toHit.name}}}`;
+
       const dice = this.toHit.dice[0];
-      var roll = `${dice.dice}d${dice.sides}`;
-      if (dice.keep < dice.dice) {
-        roll += `k${dice.keepMode == 'HIGHEST' ? 'h' : 'l'}${dice.keep}`;
-      }
-      if (dice.bonus) {
-        roll += dice.bonus > 0 ? '+' : '';
-        roll += dice.bonus;
-      }
-      roll20Macro += `{{To Hit=[[${roll}]]}}`;
+      var roll = toCheckArithmetic(dice);
+      roll += toModifier(dice.bonus);
+
+      const mods = this.toHit.modifiers
+        .map((mod) => toModifier(mod.value))
+        .join('');
+
+      roll20Macro += `{{To Hit=[[${roll}${mods}]]}}`;
     }
     if (this.damage) {
       roll20Macro += this.damage.dice

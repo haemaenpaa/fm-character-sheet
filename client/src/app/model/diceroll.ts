@@ -1,3 +1,5 @@
+import { toModifier } from '../utils/modifier-utils';
+
 /**
  * A constant modifier to a dice roll.
  */
@@ -82,4 +84,13 @@ export class SimpleRoll {
 export interface MultiRoll {
   title: string;
   rolls: SimpleRoll[];
+}
+
+export function toCheckArithmetic(dice: RollComponent): string {
+  var roll = `${dice.dice}d${dice.sides}`;
+  if (dice.keep < dice.dice) {
+    roll += `k${dice.keepMode == 'HIGHEST' ? 'h' : 'l'}${dice.keep}`;
+  }
+  roll += toModifier(dice.bonus);
+  return roll;
 }

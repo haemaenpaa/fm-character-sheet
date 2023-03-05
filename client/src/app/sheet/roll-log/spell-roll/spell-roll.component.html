@@ -1,4 +1,8 @@
-<div class="log-row multi-roll">
+<div
+  class="log-row multi-roll"
+  (mouseenter)="startHover()"
+  (mouseleave)="endHover()"
+>
   <div class="roll-character">{{ characterName }}</div>
   <div class="roll-name">{{ spellName }}:</div>
   <div class="single-roll" *ngIf="soulCheck">
@@ -30,12 +34,21 @@
   </div>
   <div class="single-roll" *ngIf="spellDamage">
     <div class="roll-title">Damage:</div>
-    <div *ngFor="let d of spellDamage.dice" class="die-roll">
-      {{ d | roll }} {{ d.name }}
-    </div>
-    <div class="crit-label">on crit:</div>
-    <div *ngFor="let d of spellDamage.dice" class="die-roll">
-      {{ d.dice * d.sides | modifier }} {{ d.name }}
+    <div *ngFor="let d of spellDamage.dice; last as isLast" class="die-roll">
+      {{ d | roll }} {{ d.name }}{{ isLast ? "" : ",&nbsp;" }}
     </div>
   </div>
+  <div class="single-roll" *ngIf="spellAttack && spellDamage">
+    <div class="crit-label">on crit:</div>
+    <div *ngFor="let d of spellDamage.dice; last as isLast" class="die-roll">
+      {{ d.dice * d.sides | modifier }} {{ d.name
+      }}{{ isLast ? "" : ",&nbsp;" }}
+    </div>
+  </div>
+
+  <button
+    class="clipboard-button"
+    *ngIf="hovered"
+    (click)="copyMacro()"
+  ></button>
 </div>
