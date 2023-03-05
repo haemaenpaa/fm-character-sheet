@@ -1,6 +1,12 @@
 import { Injectable, ɵAPP_ID_RANDOM_PROVIDER } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { KeepMode, Roll, RollComponent } from '../model/diceroll';
+import {
+  KeepMode,
+  MultiRoll,
+  Roll,
+  RollComponent,
+  SimpleRoll,
+} from '../model/diceroll';
 import {
   Advantage,
   AttackParams,
@@ -19,7 +25,14 @@ import { randomId } from '../model/id-generator';
 import CharacterAttack, { AttackEffect } from '../model/character-attack';
 import Character from '../model/character';
 import { __values } from 'tslib';
-import { AO_HIT_DICE } from '../model/constants';
+import {
+  AO_HIT_DICE,
+  SOUL_CHECK_ROLL_TITLE,
+  SPELL_ATTACK_ROLL_TITLE,
+  SPELL_DAMAGE_ROLL_TITLE,
+  SPELL_ROLL_TITLE,
+  SPELL_SAVE_ROLL_TITLE,
+} from '../model/constants';
 
 /**
  * A service to dispatch game actions that call for a roll.
@@ -97,7 +110,7 @@ export class ActionDispatchService {
     ability: Ability,
     advantage: Advantage
   ) {
-    const roll: Roll = new Roll();
+    const roll: Roll = new SimpleRoll();
     roll.title = ability.identifier;
     roll.character = name;
 
@@ -114,7 +127,7 @@ export class ActionDispatchService {
     proficiency: number | null,
     advantage: Advantage
   ) {
-    const roll: Roll = new Roll();
+    const roll: Roll = new SimpleRoll();
     roll.title = abilities.join('/') + '_save';
     roll.character = name;
 
@@ -150,7 +163,7 @@ export class ActionDispatchService {
     skillModifier: number,
     advantage: Advantage
   ) {
-    const roll: Roll = new Roll();
+    const roll: Roll = new SimpleRoll();
     roll.title = `skill_${skill}_${ability}`;
     roll.character = name;
     const dieCheckRoll = this.getD20Check(advantage);
@@ -167,8 +180,24 @@ export class ActionDispatchService {
     advantage: Advantage,
     spellName: string | null = null
   ) {
-    const roll: Roll = new Roll();
-    roll.title = 'spellatk';
+    const roll: Roll = this.constructSpellAttack(
+      name,
+      spellName,
+      advantage,
+      modifier
+    );
+
+    this.sendRoll(roll);
+  }
+
+  private constructSpellAttack(
+    name: string,
+    spellName: string | null,
+    advantage: string,
+    modifier: number
+  ) {
+    const roll: Roll = new SimpleRoll();
+    roll.title = SPELL_ATTACK_ROLL_TITLE;
     roll.character = name;
     if (spellName) {
       roll.name = spellName;
@@ -177,13 +206,12 @@ export class ActionDispatchService {
     const dieCheckRoll = this.getD20Check(advantage);
     roll.addDie(dieCheckRoll);
     roll.addModifier({ name: 'Spell attack', value: modifier });
-
-    this.sendRoll(roll);
+    return roll;
   }
 
   private dispatchSpell(params: SpellParams) {
     this.characterService
-      .getCharacterById(params.characterId)
+      .getCachedCharacterById(params.characterId)
       .then((character) => {
         const characterName = character.name;
         const spell = character.spells.spells[params.spellTier].find(
@@ -195,37 +223,40 @@ export class ActionDispatchService {
           );
           return;
         }
+        const spellRoll: MultiRoll = { title: SPELL_ROLL_TITLE, rolls: [] };
+
         if (params.castingTier > 0 && params.soulCheck) {
-          const soulCheck = new Roll();
+          const soulCheck = new SimpleRoll();
           soulCheck.character = character.name;
-          soulCheck.title = 'soulcheck';
+          soulCheck.title = SOUL_CHECK_ROLL_TITLE;
           soulCheck.target = 12 + params.castingTier;
           soulCheck.name = spell.name;
           soulCheck.addDie(this.getD20Check(params.advantage.soulCheck));
           soulCheck.addModifier({
-            name: 'Spell attack',
+            name: 'Spell attack modifier',
             value: character.spellAttack,
           });
-          this.sendRoll(soulCheck);
+          spellRoll.rolls.push(soulCheck);
         }
         if (spell.attack) {
-          this.dispatchSpellAttack(
+          const attack = this.constructSpellAttack(
             character.name,
-            character.spellAttack,
+            spell.name,
             params.advantage.attack,
-            spell.name
+            character.spellAttack
           );
+          spellRoll.rolls.push(attack);
         }
         if (spell.saveAbility) {
-          const spellSave = new Roll();
-          spellSave.title = 'spellsave';
+          const spellSave = new SimpleRoll();
+          spellSave.title = SPELL_SAVE_ROLL_TITLE;
           spellSave.character = character.name;
           spellSave.name = spell.name;
           spellSave.addModifier({
             name: spell.saveAbility,
             value: character.spellSave,
           });
-          this.sendRoll(spellSave);
+          spellRoll.rolls.push(spellSave);
         }
         if (spell.damage.length + spell.upcastDamage.length > 0) {
           const spellDamage = this.constructSpellDamage(
@@ -233,8 +264,10 @@ export class ActionDispatchService {
             params.castingTier,
             character.name
           );
-          this.sendRoll(spellDamage);
+          spellRoll.rolls.push(spellDamage);
         }
+
+        this.sendRoll(spellRoll);
       });
   }
   private constructSpellDamage(
@@ -242,11 +275,10 @@ export class ActionDispatchService {
     castTier: number,
     character: string
   ) {
-    const damageRoll: Roll = new Roll();
+    const damageRoll: Roll = new SimpleRoll();
 
     damageRoll.character = character;
-    damageRoll.title = `spelldmg`;
-
+    damageRoll.title = SPELL_DAMAGE_ROLL_TITLE;
     const upcast = castTier - spell.tier;
     damageRoll.name = spell.name + (upcast > 0 ? ` (tier ${spell.tier})` : '');
 
@@ -255,7 +287,6 @@ export class ActionDispatchService {
       damageTotals[damage.type] = { ...damage.roll };
       damageTotals[damage.type].name = damage.type;
     }
-
     if (upcast > 0) {
       for (const damage of spell.upcastDamage) {
         if (!(damage.type in damageTotals)) {
@@ -284,7 +315,7 @@ export class ActionDispatchService {
 
   private dispatchAttack(params: AttackParams) {
     this.characterService
-      .getCharacterById(params.characterId)
+      .getCachedCharacterById(params.characterId)
       .then((character) => {
         const attack = character.attacks.find((a) => a.id === params.attackId);
         if (!attack) {
@@ -293,15 +324,21 @@ export class ActionDispatchService {
           );
           return;
         }
-
+        const attackRoll: MultiRoll = {
+          title: 'attack',
+          rolls: [],
+        };
         var toHit = this.composeToHit(attack, character, params.advantage);
-        this.sendRoll(toHit);
+        attackRoll.rolls.push(toHit);
+
         var damage = this.composeDamage(attack, character);
-        this.sendRoll(damage);
+        attackRoll.rolls.push(damage);
+
         attack.effects.forEach((ef) => {
           const effectRoll = this.composeEffect(ef, attack, character);
-          this.sendRoll(effectRoll);
+          attackRoll.rolls.push(effectRoll);
         });
+        this.sendRoll(attackRoll);
       });
   }
 
@@ -309,8 +346,8 @@ export class ActionDispatchService {
     effect: AttackEffect,
     attack: CharacterAttack,
     character: Character
-  ): Roll {
-    const effectRoll = new Roll();
+  ): SimpleRoll {
+    const effectRoll = new SimpleRoll();
     effectRoll.title = 'attackeffect';
     effectRoll.name = attack.name;
     effectRoll.character = character.name;
@@ -325,8 +362,8 @@ export class ActionDispatchService {
     attack: CharacterAttack,
     character: Character,
     advantage: Advantage
-  ): Roll {
-    const attackRoll = new Roll();
+  ): SimpleRoll {
+    const attackRoll = new SimpleRoll();
     attackRoll.title = 'attack';
     attackRoll.character = character.name;
     attackRoll.name = attack.name;
@@ -347,8 +384,11 @@ export class ActionDispatchService {
     return attackRoll;
   }
 
-  private composeDamage(attack: CharacterAttack, character: Character): Roll {
-    const damageRoll = new Roll();
+  private composeDamage(
+    attack: CharacterAttack,
+    character: Character
+  ): SimpleRoll {
+    const damageRoll = new SimpleRoll();
     damageRoll.title = 'attackdmg';
     damageRoll.character = character.name;
     damageRoll.name = attack.name;
@@ -375,50 +415,57 @@ export class ActionDispatchService {
     console.log('damage roll', damageRoll);
     return damageRoll;
   }
-  private damageBonus(attack: CharacterAttack, character: Character) {
+  private damageBonus(attack: CharacterAttack, character: Character): number {
     if (attack.offhand) {
       return attack.abilities
         .map((ab) => (character.abilities as any)[ab])
         .filter((ab: Ability) => ab.modifier < 0)
-        .reduce((sum: number, ab: Ability) => sum + ab.modifier);
+        .reduce((sum: number, ab: Ability) => sum + ab.modifier, 0);
     } else {
       return attack.abilities
         .map((ab) => (character.abilities as any)[ab])
-        .reduce((sum: number, ab: Ability) => sum + ab.modifier);
+        .reduce((sum: number, ab: Ability) => sum + ab.modifier, 0);
     }
   }
 
   private dispatchHitDice(params: HitDieParams) {
     this.characterService
-      .getCharacterById(params.characterId)
+      .getCachedCharacterById(params.characterId)
       .then((character) => {
-        const roll: Roll = new Roll();
+        const roll: Roll = new SimpleRoll();
         roll.character = character.name;
         roll.name = 'Hit dice';
         roll.title = 'hit-dice';
 
+        var total = 0;
         for (const size of [6, 8, 10, 12]) {
           const number = (params as any)[size];
           if (number > 0) {
             roll.addDie(new RollComponent(size, number));
+            total += number;
           }
         }
+        roll.addModifier({
+          value: total * character.abilities.vit.modifier,
+          name: 'vitality',
+        });
+
         this.sendRoll(roll);
       });
   }
   private dispatchHealthRoll(params: HitDieParams) {
     this.characterService
-      .getCharacterById(params.characterId)
+      .getCachedCharacterById(params.characterId)
       .then((character) => {
-        const roll: Roll = new Roll();
+        const roll: Roll = new SimpleRoll();
         roll.character = character.name;
         roll.name = 'Hit points';
         roll.title = 'hit-points';
         var constantHealth = 0;
 
-        const firstAo = character.selections
-          .filter((sel) => sel.isPrimary && sel.takenAtLevel)
-          .reduce((a, b) => (a.takenAtLevel! < b.takenAtLevel! ? a : b));
+        const firstAo = character.selections.find(
+          (sel) => sel.isPrimary && sel.takenAtLevel === 1
+        );
         if (firstAo && firstAo.abilityOrigin in AO_HIT_DICE) {
           (params as any)[AO_HIT_DICE[firstAo.abilityOrigin]] -= 1;
           constantHealth = AO_HIT_DICE[firstAo.abilityOrigin];
@@ -442,7 +489,7 @@ export class ActionDispatchService {
   }
 
   private sendRoll(roll: Roll) {
-    if (!roll.id) {
+    if (roll instanceof SimpleRoll && !roll.id) {
       roll.id = randomId();
     }
     this._rolls.next(roll);

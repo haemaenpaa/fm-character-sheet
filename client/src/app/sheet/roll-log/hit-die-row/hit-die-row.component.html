@@ -1,4 +1,4 @@
-<div class="single-roll">
+<div class="single-roll" (mouseenter)="startHover()" (mouseleave)="endHover()">
   <div
     *ngIf="roll.character && roll.character.length > 0"
     class="roll-character"
@@ -9,4 +9,12 @@
   <div *ngFor="let d of roll.dice; last as isLast" class="die-roll">
     {{ d | roll }}<span *ngIf="!isLast">+</span>
   </div>
+  <div *ngFor="let m of roll.modifiers; last as isLast" class="die-roll">
+    {{ m.value | modifier : "nonzero" }}
+  </div>
+  <button
+    class="clipboard-button"
+    *ngIf="hovered"
+    (click)="copyMacro()"
+  ></button>
 </div>

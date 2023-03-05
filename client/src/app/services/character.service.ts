@@ -114,6 +114,18 @@ export class CharacterService {
   }
 
   /**
+   * Gets a character from local cache, falls back to API if not present.
+   * @param id Characted ID
+   * @returns
+   */
+  getCachedCharacterById(id: number): Promise<Character> {
+    const local = this.characters.find((c) => c.id === id);
+    if (local) {
+      return new Promise((res) => res(local));
+    }
+    return this.getCharacterById(id);
+  }
+  /**
    * Gets a character by the given identifier
    * @param id Character ID
    * @returns A character by the given ID.
@@ -161,7 +173,9 @@ export class CharacterService {
         )
         .subscribe((resp) => {
           console.log('Character created', resp);
-          res(convertCharacterDto(resp));
+          const created = convertCharacterDto(resp);
+          this.persistCharacter(created);
+          res(created);
         });
     });
     return ret;
@@ -175,7 +189,9 @@ export class CharacterService {
         )
         .subscribe((resp) => {
           console.log('Character updated', resp);
-          res(convertCharacterDto(resp));
+          const updated = convertCharacterDto(resp);
+          this.persistCharacter(updated);
+          res(updated);
         });
     });
   }
@@ -194,14 +210,7 @@ export class CharacterService {
         LS_CHAR_PREFIX + character.id,
         JSON.stringify(character)
       );
-      const index = this.characters.findIndex((c) => c.id === character.id);
-      if (index < 0) {
-        this.characters.push(character);
-        this.sortCharacters();
-      } else {
-        this.characters[index] = character;
-        this.sortCharacters();
-      }
+      this.updateCachedCharacter(character);
       resolve(character);
     });
   }
@@ -242,5 +251,14 @@ export class CharacterService {
         });
       resolve();
     });
+  }
+
+  private updateCachedCharacter(newer: Character) {
+    const localIdx = this.characters.findIndex((c) => c.id === newer.id);
+    if (localIdx < 0) {
+      this.characters.push(newer);
+    } else {
+      this.characters[localIdx] = newer;
+    }
   }
 }

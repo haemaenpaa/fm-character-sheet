@@ -1,13 +1,33 @@
+.roll-log {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  width: 100%;
+}
 .rolls-display {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   scrollbar-width: auto;
   height: 100%;
+  max-height: 17em;
+  border-radius: 1em;
+  border-style: double;
+  justify-content: stretch;
+  align-content: stretch;
 }
+
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
 .single-roll {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  justify-content: stretch;
+  border-style: solid none solid none;
 }
 
 .accessibility-colorized > .skill-check {

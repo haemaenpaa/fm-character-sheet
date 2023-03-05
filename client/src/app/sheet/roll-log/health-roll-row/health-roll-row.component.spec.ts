@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Roll } from 'src/app/model/diceroll';
+import { SimpleRoll } from 'src/app/model/diceroll';
 
 import { HealthRollRowComponent } from './health-roll-row.component';
 
@@ -14,7 +14,7 @@ describe('HealthRollRowComponent', () => {
 
     fixture = TestBed.createComponent(HealthRollRowComponent);
     component = fixture.componentInstance;
-    component.roll = new Roll();
+    component.roll = new SimpleRoll();
     fixture.detectChanges();
   });
 

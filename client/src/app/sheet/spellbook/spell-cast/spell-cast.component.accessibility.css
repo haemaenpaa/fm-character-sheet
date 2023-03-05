@@ -16,8 +16,6 @@
   width: 100%;
   text-align: center;
 }
-.advantage {
-  display: flex;
-  flex-direction: column;
+.accessibility-colorized > .advantage {
   color: orange;
 }

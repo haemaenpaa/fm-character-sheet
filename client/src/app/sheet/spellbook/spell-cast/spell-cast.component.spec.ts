@@ -38,7 +38,7 @@ class DummyData {
 
 class DummyCharacterService {
   resolve!: (value: Character) => void;
-  getCharacterById(id: number): Promise<Character> {
+  getCachedCharacterById(id: number): Promise<Character> {
     return new Promise((res, rej) => {
       this.resolve = res;
     });

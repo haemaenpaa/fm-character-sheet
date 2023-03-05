@@ -30,6 +30,9 @@ export class HitDiceRollerComponent {
     this.characterId = data.characterId;
     this.hitDiceMax = data.hitDiceMax;
     this.hitDiceRemaining = data.hitDiceRemaining;
+    if (this.totalRemaining === 0) {
+      this.spend = 0;
+    }
   }
 
   get totalRemaining(): number {

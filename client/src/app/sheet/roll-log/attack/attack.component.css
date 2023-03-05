@@ -1,0 +1,13 @@
+.damage-element {
+  margin-inline-end: 0.5em;
+}
+
+.crit-label {
+  font-style: italic;
+  margin-inline-end: 0.5em;
+}
+
+.attack-name {
+  font-style: italic;
+  font-weight: bolder;
+}
