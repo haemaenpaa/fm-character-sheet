@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Hoverable } from 'src/app/common/hoverable';
 import { ABILITY_TO_NAME, SKILL_DEFAULT_NAME } from 'src/app/model/constants';
 import { SimpleRoll } from 'src/app/model/diceroll';
+import { article } from 'src/app/utils/grammar-utils';
 import { toModifier } from 'src/app/utils/modifier-utils';
 
 @Component({
@@ -33,8 +34,10 @@ export class SkillCheckComponent extends Hoverable {
     const mods = this.roll.modifiers
       .map((m) => `${toModifier(m.value)}`)
       .join('');
+    const skillName = this.skillName;
+    const englishArticle = article(skillName);
     this.clipboard.copy(
-      `/me makes a ${this.skillName} (${ABILITY_TO_NAME[abl]}) check : [[${rolls}${mods}]]`
+      `/me makes ${englishArticle} ${skillName} (${ABILITY_TO_NAME[abl]}) check : [[${rolls}${mods}]]`
     );
   }
 }
