@@ -2,6 +2,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input } from '@angular/core';
 import { Hoverable } from 'src/app/common/hoverable';
 import { Roll, SimpleRoll } from 'src/app/model/diceroll';
+import { toModifier } from 'src/app/utils/modifier-utils';
 
 @Component({
   selector: 'health-roll-row',
@@ -17,7 +18,9 @@ export class HealthRollRowComponent extends Hoverable {
 
   copyMacro() {
     const rolls = this.roll.dice.map((d) => `${d.dice}d${d.sides}`).join('+');
-    const mods = this.roll.modifiers.map((m) => `${m.value}`).join('+');
-    this.clipboard.copy(`Health: [[${rolls}+${mods}]]`);
+    const mods = this.roll.modifiers
+      .map((m) => `${toModifier(m.value)}`)
+      .join('');
+    this.clipboard.copy(`Health: [[${rolls}${mods}]]`);
   }
 }

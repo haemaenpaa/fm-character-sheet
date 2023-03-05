@@ -19,7 +19,7 @@ export class HitDieRowComponent extends Hoverable {
     const rolls = this.roll.dice.map((d) => `${d.dice}d${d.sides}`).join('+');
     const mods = this.roll.modifiers
       .map((m) => `${toModifier(m.value)}`)
-      .join();
+      .join('');
     this.clipboard.copy(`/me rolls ${dieCount} hit dice: [[${rolls}${mods}]]`);
   }
 }

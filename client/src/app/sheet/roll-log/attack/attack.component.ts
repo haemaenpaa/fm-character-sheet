@@ -3,6 +3,7 @@ import { Hoverable } from 'src/app/common/hoverable';
 import { MultiRoll, SimpleRoll } from 'src/app/model/diceroll';
 import { toModifier } from 'src/app/utils/modifier-utils';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ABILITY_TO_NAME } from 'src/app/model/constants';
 
 @Component({
   selector: 'attack',
@@ -57,7 +58,7 @@ export class AttackComponent extends Hoverable {
             r.bonus
           )}, crit damage ${r.dice * r.sides}}}`;
         })
-        .join();
+        .join('');
     }
     roll20Macro += this.effects
       .map((effect) => {
@@ -66,13 +67,16 @@ export class AttackComponent extends Hoverable {
           dv =
             effect.modifiers
               .map((mod) => {
-                return `DV ${mod.value} ${this.saveAbilities(mod.name)}`;
+                const saveAbilities = this.saveAbilities(mod.name)
+                  .map((n) => ABILITY_TO_NAME[n])
+                  .join('/');
+                return `DV ${mod.value} ${saveAbilities}`;
               })
               .join() + ' or ';
         }
         return `{{Effect = ${dv}${effect.description}}}`;
       })
-      .join();
+      .join('');
     this.clipboard.copy(roll20Macro);
   }
 }

@@ -44,6 +44,18 @@ export const SKILL_DEFAULT_NAME: { [key: string]: string } = {
   sur: 'Survival',
 };
 
+export const ABILITY_TO_NAME: { [key: string]: string } = {
+  br: 'Brawn',
+  dex: 'Dexterity',
+  vit: 'Vitality',
+  int: 'Intelligence',
+  cun: 'Cunning',
+  res: 'Resolve',
+  pre: 'Presence',
+  man: 'Manipulation',
+  com: 'Composure',
+};
+
 /**
  * Mapping from AO name to Hit Dice
  */
