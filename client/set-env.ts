@@ -24,7 +24,7 @@ const dotenv = require('dotenv');
   `;
     await writeFilePromisified(envPath, envConfigFile);
 
-    dotenv.config({ path: '.production-env' });
+    dotenv.config({ path: '.production-env', override: true });
     envConfigFile = `export const environment = {
     production: false,
     auth0: {
