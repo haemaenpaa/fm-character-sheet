@@ -65,10 +65,7 @@
       Save:
       <select [value]="spell.saveAbility" (change)="onSaveSelect($event)">
         <option [value]="null">None</option>
-        <option
-          *ngFor="let save of availableSaves | keyvalue"
-          [value]="save.key"
-        >
+        <option *ngFor="let save of availableSaves" [value]="save.key">
           {{ save.value }}
         </option>
       </select>

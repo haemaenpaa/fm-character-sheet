@@ -32,13 +32,14 @@ export class SpellEditComponent {
   /**
    * Saving throw values and their names.
    */
-  availableSaves: { [key: string]: string } = {
-    br: 'Brawn',
-    dex: 'Dexterity',
-    'int/cun': 'Int/Cun',
-    res: 'Resolve',
-    'pre/man': 'Pre/Man',
-  };
+  availableSaves: { key: string; value: string }[] = [
+    { key: 'br', value: 'Brawn' },
+    { key: 'dex', value: 'Dexterity' },
+    { key: 'vit', value: 'Vitality' },
+    { key: 'int/cun', value: 'Int/Cun' },
+    { key: 'res', value: 'Resolve' },
+    { key: 'pre/man', value: 'Pre/Man' },
+  ];
   spell: Spell;
   colorized: boolean = false;
   constructor(
