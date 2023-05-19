@@ -117,4 +117,8 @@ export const SpellResourceDef: ModelAttributes<SpellResource> = {
     type: DataTypes.NUMBER,
     allowNull: true,
   },
+  souls: {
+    type: DataTypes.NUMBER,
+    allowNull: true,
+  },
 };
