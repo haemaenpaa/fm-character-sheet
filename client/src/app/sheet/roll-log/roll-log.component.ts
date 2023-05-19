@@ -7,14 +7,15 @@ import {
 } from '@angular/core';
 import { Roll, SimpleRoll, MultiRoll } from 'src/app/model/diceroll';
 import { RollLogService } from 'src/app/services/roll-log-service.service';
-
-const ABILITY_CHECK_PATTERN = /^(br|dex|vit|int|cun|res|pre|man|com)$/;
-const SKILL_CHECK_PATTERN = /^skill_(.+)_(\w{2,3})$/;
-const ABILITY_SAVE_PATTERN = /^([\w/]+)_save$/;
-const SPELL_ATTACK_PATTERN = /^spellatk$/;
-const ATTACK_PATTERN = /^attack$/;
-const HIT_DICE_PATTERN = /^hit-dice$/;
-const HIT_POINTS_PATTERN = /^hit-points$/;
+import {
+  ABILITY_CHECK_PATTERN,
+  ABILITY_SAVE_PATTERN,
+  SKILL_CHECK_PATTERN,
+  SPELL_ATTACK_PATTERN,
+  ATTACK_PATTERN,
+  HIT_DICE_PATTERN,
+  HIT_POINTS_PATTERN,
+} from '../../model/roll-pattern-constants';
 
 // Row type, to be used in an ngSwitch to select the component to display.
 type RowType =

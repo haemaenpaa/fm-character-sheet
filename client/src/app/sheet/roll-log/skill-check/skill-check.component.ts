@@ -1,10 +1,9 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input } from '@angular/core';
 import { Hoverable } from 'src/app/common/hoverable';
-import { ABILITY_TO_NAME, SKILL_DEFAULT_NAME } from 'src/app/model/constants';
+import { SKILL_DEFAULT_NAME } from 'src/app/model/constants';
 import { SimpleRoll } from 'src/app/model/diceroll';
-import { article } from 'src/app/utils/grammar-utils';
-import { toModifier } from 'src/app/utils/modifier-utils';
+import { Roll20MacroService } from 'src/app/services/roll20-macro.service';
 
 @Component({
   selector: 'skill-check',
@@ -14,7 +13,10 @@ import { toModifier } from 'src/app/utils/modifier-utils';
 export class SkillCheckComponent extends Hoverable {
   @Input('roll') roll!: SimpleRoll;
 
-  constructor(private clipboard: Clipboard) {
+  constructor(
+    private clipboard: Clipboard,
+    private macroService: Roll20MacroService
+  ) {
     super();
   }
   get skillName(): string {
@@ -29,15 +31,6 @@ export class SkillCheckComponent extends Hoverable {
   }
 
   copyMacro() {
-    const abl = this.roll.title!.split('_')[2];
-    const rolls = this.roll.dice.map((d) => `${d.dice}d${d.sides}`).join('+');
-    const mods = this.roll.modifiers
-      .map((m) => `${toModifier(m.value)}`)
-      .join('');
-    const skillName = this.skillName;
-    const englishArticle = article(skillName);
-    this.clipboard.copy(
-      `/me makes ${englishArticle} ${skillName} (${ABILITY_TO_NAME[abl]}) check : [[${rolls}${mods}]]`
-    );
+    this.clipboard.copy(this.macroService.getDiceAlgebra(this.roll));
   }
 }

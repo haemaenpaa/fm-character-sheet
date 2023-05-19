@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Hoverable } from 'src/app/common/hoverable';
 import { ABILITY_TO_NAME } from 'src/app/model/constants';
 import { Roll, SimpleRoll } from 'src/app/model/diceroll';
+import { Roll20MacroService } from 'src/app/services/roll20-macro.service';
 import { article } from 'src/app/utils/grammar-utils';
 import { toModifier } from 'src/app/utils/modifier-utils';
 
@@ -16,19 +17,14 @@ import { toModifier } from 'src/app/utils/modifier-utils';
 })
 export class SimpleCheckComponent extends Hoverable {
   @Input('roll') roll!: SimpleRoll;
-  constructor(private clipboard: Clipboard) {
+  constructor(
+    private clipboard: Clipboard,
+    private macroService: Roll20MacroService
+  ) {
     super();
   }
   copyMacro() {
-    const abilityName = ABILITY_TO_NAME[this.roll.title!];
-    const rolls = this.roll.dice.map((d) => `${d.dice}d${d.sides}`).join('+');
-    const mods = this.roll.modifiers
-      .map((m) => `${toModifier(m.value)}`)
-      .join('');
-
-    const englishArticle = article(abilityName);
-    this.clipboard.copy(
-      `/me makes ${englishArticle} ${abilityName} check : [[${rolls}${mods}]]`
-    );
+    const macro = this.macroService.getDiceAlgebra(this.roll);
+    this.clipboard.copy(macro);
   }
 }

@@ -8,6 +8,7 @@ import {
 import { toModifier } from 'src/app/utils/modifier-utils';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ABILITY_TO_NAME } from 'src/app/model/constants';
+import { Roll20MacroService } from 'src/app/services/roll20-macro.service';
 
 @Component({
   selector: 'attack',
@@ -20,7 +21,10 @@ export class AttackComponent extends Hoverable {
   damage?: SimpleRoll;
   effects: SimpleRoll[] = [];
 
-  constructor(private clipboard: Clipboard) {
+  constructor(
+    private clipboard: Clipboard,
+    private macroService: Roll20MacroService
+  ) {
     super();
   }
 
@@ -41,46 +45,6 @@ export class AttackComponent extends Hoverable {
   }
 
   copyMacro() {
-    var roll20Macro = '&{template:default}';
-    if (this.toHit) {
-      roll20Macro += `{{name=${this.toHit.name}}}`;
-
-      const dice = this.toHit.dice[0];
-      var roll = toCheckArithmetic(dice);
-      roll += toModifier(dice.bonus);
-
-      const mods = this.toHit.modifiers
-        .map((mod) => toModifier(mod.value))
-        .join('');
-
-      roll20Macro += `{{To Hit=[[${roll}${mods}]]}}`;
-    }
-    if (this.damage) {
-      roll20Macro += this.damage.dice
-        .map((r) => {
-          return `{{${r.name} = [[${r.dice}d${r.sides}]]${toModifier(
-            r.bonus
-          )}, crit damage ${r.dice * r.sides}}}`;
-        })
-        .join('');
-    }
-    roll20Macro += this.effects
-      .map((effect) => {
-        var dv = '';
-        if (effect.modifiers.length > 0) {
-          dv =
-            effect.modifiers
-              .map((mod) => {
-                const saveAbilities = this.saveAbilities(mod.name)
-                  .map((n) => ABILITY_TO_NAME[n])
-                  .join('/');
-                return `DV ${mod.value} ${saveAbilities}`;
-              })
-              .join() + ' or ';
-        }
-        return `{{Effect = ${dv}${effect.description}}}`;
-      })
-      .join('');
-    this.clipboard.copy(roll20Macro);
+    this.clipboard.copy(this.macroService.getDiceAlgebra(this._roll));
   }
 }
