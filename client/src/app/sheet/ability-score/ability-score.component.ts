@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
 import { Advantage } from 'src/app/model/game-action';
+import { AdvantageResolverService } from 'src/app/services/advantage-resolver.service';
 
 /**
  * Event emitted when the ability score is edited by this component.
@@ -39,7 +40,7 @@ export class AbilityScoreComponent implements OnInit {
    */
   @Output() roll: EventEmitter<AbillityRollEvent> = new EventEmitter();
   editing: boolean = false;
-  constructor() {}
+  constructor(private advantageResolver: AdvantageResolverService) {}
 
   ngOnInit(): void {}
 
@@ -70,16 +71,9 @@ export class AbilityScoreComponent implements OnInit {
    * Emits an ability check.
    */
   emitRoll(event: MouseEvent) {
-    console.log('roll ' + this.ability.identifier);
-    var advantage: Advantage = 'none';
-    if (event.shiftKey) {
-      advantage = 'advantage';
-    } else if (event.ctrlKey) {
-      advantage = 'disadvantage';
-    }
     this.roll.emit({
       abilityIdentifier: this.ability.identifier,
-      advantage: advantage,
+      advantage: this.advantageResolver.resolveForEvent(event),
     });
   }
 }

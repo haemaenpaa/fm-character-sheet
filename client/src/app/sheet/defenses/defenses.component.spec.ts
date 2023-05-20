@@ -16,7 +16,10 @@ import { HitPointsComponent } from '../hit-points/hit-points.component';
 import { AbilityNamePipe } from '../pipe/ability-name.pipe';
 import { ResistanceSortPipe } from '../resistances/resistance-sort.pipe';
 import { ResistancesComponent } from '../resistances/resistances.component';
-import { SavingThrowComponent } from '../saving-throw/saving-throw.component';
+import {
+  SavingThrowComponent,
+  SavingThrowEvent,
+} from '../saving-throw/saving-throw.component';
 
 import { DefensesComponent } from './defenses.component';
 
@@ -103,12 +106,13 @@ describe('DefensesComponent', () => {
 
   it('should roll saves', () => {
     const ability = 'br';
+    const save: SavingThrowEvent = { abilities: [ability], advantage: 'none' };
     const character = new CharacterBuilder()
       .addSelection('Mock AO', 1, 'Mock selection', '')
       .build();
     component.character = character;
     fixture.detectChanges();
-    component.callRoll(ability);
+    component.callRoll(save);
     expect(actionDispatchService.dispatchedActions.length)
       .withContext('Roll should have been called')
       .toBeGreaterThan(0);
@@ -123,14 +127,14 @@ describe('DefensesComponent', () => {
   });
 
   it('should apply proficiency on proficient saves', () => {
-    const ability = 'br';
+    const save: SavingThrowEvent = { abilities: ['br'], advantage: 'none' };
     const character = new CharacterBuilder()
       .addSelection('Mock AO', 1, 'Mock selection', '')
-      .addSavingThrow(ability)
+      .addSavingThrow('br')
       .build();
     component.character = character;
     fixture.detectChanges();
-    component.callRoll(ability);
+    component.callRoll(save);
     expect(actionDispatchService.dispatchedActions.length);
     const action = actionDispatchService.dispatchedActions[0];
     expect(action.type);
@@ -141,13 +145,13 @@ describe('DefensesComponent', () => {
   });
 
   it('should not apply proficiency on non-proficient saves', () => {
-    const ability = 'br';
+    const save: SavingThrowEvent = { abilities: ['br'], advantage: 'none' };
     const character = new CharacterBuilder()
       .addSelection('Mock AO', 1, 'Mock selection', '')
       .build();
     component.character = character;
     fixture.detectChanges();
-    component.callRoll(ability);
+    component.callRoll(save);
     expect(actionDispatchService.dispatchedActions.length);
     const action = actionDispatchService.dispatchedActions[0];
     expect(action.type);
@@ -165,7 +169,7 @@ describe('DefensesComponent', () => {
       .build();
     component.character = character;
     fixture.detectChanges();
-    component.callRoll('int/cun');
+    component.callRoll({ abilities: ['int', 'cun'], advantage: 'none' });
     const action = actionDispatchService.dispatchedActions[0];
     const params = action.params as SaveParams;
     expect(params.ability.identifier)

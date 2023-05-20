@@ -3,9 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Hoverable } from 'src/app/common/hoverable';
 import { AbilityNumberStruct } from 'src/app/model/character';
 import CharacterAttack, { copyAttack } from 'src/app/model/character-attack';
-import { AttackParams } from 'src/app/model/game-action';
+import { Advantage, AttackParams } from 'src/app/model/game-action';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
 import { AttackEditComponent } from '../../attack-edit/attack-edit.component';
+import { AdvantageResolverService } from 'src/app/services/advantage-resolver.service';
 
 @Component({
   selector: 'attack-item',
@@ -24,7 +25,8 @@ export class AttackItemComponent extends Hoverable {
 
   constructor(
     private dialog: MatDialog,
-    private actionService: ActionDispatchService
+    private actionService: ActionDispatchService,
+    private advantageResolver: AdvantageResolverService
   ) {
     super();
   }
@@ -83,11 +85,11 @@ export class AttackItemComponent extends Hoverable {
     this.copied.emit(this.attack);
   }
 
-  roll() {
+  roll(event: MouseEvent) {
     const params: AttackParams = {
       characterId: this.characterId,
       attackId: this.attack.id,
-      advantage: 'none',
+      advantage: this.advantageResolver.resolveForEvent(event),
     };
     this.actionService.dispatch({
       type: 'attack',

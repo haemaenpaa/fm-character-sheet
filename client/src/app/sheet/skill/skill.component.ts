@@ -9,11 +9,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { AbilityNumberStruct } from 'src/app/model/character';
 import { Skill } from 'src/app/model/skill';
 import { AbilitySelectComponent } from '../ability-select/ability-select.component';
+import { AdvantageResolverService } from 'src/app/services/advantage-resolver.service';
+import { Advantage } from 'src/app/model/game-action';
 
 export interface SkillCheckEvent {
   skillIdentifier: string;
   skillRank: number;
   abilityIdentifier: string;
+  advantage: Advantage;
 }
 export interface SkillSetEvent {
   skillRank: number;
@@ -41,7 +44,8 @@ export class SkillComponent {
   @Output() roll: EventEmitter<SkillCheckEvent> = new EventEmitter(true);
   constructor(
     public dialog: MatDialog,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private advantageResolver: AdvantageResolverService
   ) {}
 
   get skillModifier(): number {
@@ -61,18 +65,19 @@ export class SkillComponent {
     });
   }
 
-  callRoll(ability: string | null) {
+  callRoll(ability: string | null, event: Event) {
     console.log('Roll ', ability);
     if (ability) {
       this.roll.emit({
         skillIdentifier: this.custom ? this.skill.name! : this.skill.identifier,
         abilityIdentifier: ability!,
         skillRank: this.skill.rank,
+        advantage: this.advantageResolver.resolveForEvent(event),
       });
     }
   }
 
-  callCustomRoll() {
+  callCustomRoll(event: Event) {
     this.changeDetector.detach();
     const dialogRef = this.dialog.open(AbilitySelectComponent, {
       data: {
@@ -82,7 +87,7 @@ export class SkillComponent {
       },
     });
     dialogRef.afterClosed().subscribe((a) => {
-      this.callRoll(a);
+      this.callRoll(a, event);
       this.changeDetector.reattach();
     });
   }
