@@ -7,7 +7,7 @@
     (numberChanged)="valueChanged($event)"
     [value]="ability.score"
   ></editable-text>
-  <div class="ability-modifier" (click)="emitRoll()">
+  <div class="ability-modifier" (click)="emitRoll($event)">
     {{ ability.modifier | modifier }}
   </div>
 </div>

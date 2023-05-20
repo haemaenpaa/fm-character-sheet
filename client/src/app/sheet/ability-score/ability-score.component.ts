@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ability } from 'src/app/model/ability';
+import { Advantage } from 'src/app/model/game-action';
 
 /**
  * Event emitted when the ability score is edited by this component.
@@ -7,6 +8,11 @@ import { Ability } from 'src/app/model/ability';
 export interface AbilityScoreEditedEvent {
   abilityIdentifier: string;
   abilityValue: number;
+}
+
+export interface AbillityRollEvent {
+  advantage: Advantage;
+  abilityIdentifier: string;
 }
 
 /**
@@ -25,12 +31,13 @@ export class AbilityScoreComponent implements OnInit {
    * Modified event.
    * The event will be a AbilityScoreEditedEvent.
    */
-  @Output() modified = new EventEmitter();
+  @Output() modified: EventEmitter<AbilityScoreEditedEvent> =
+    new EventEmitter();
   /**
    * Roll event.
    * The emitted event will be a string corresponding to the ability's identifier.
    */
-  @Output() roll = new EventEmitter();
+  @Output() roll: EventEmitter<AbillityRollEvent> = new EventEmitter();
   editing: boolean = false;
   constructor() {}
 
@@ -47,7 +54,10 @@ export class AbilityScoreComponent implements OnInit {
    * @param newValue
    */
   valueChanged(newValue: number) {
-    this.modified.emit(newValue);
+    this.modified.emit({
+      abilityValue: newValue,
+      abilityIdentifier: this.ability.identifier,
+    });
   }
   /**
    * Changes back to display mode after editing.
@@ -59,8 +69,17 @@ export class AbilityScoreComponent implements OnInit {
   /**
    * Emits an ability check.
    */
-  emitRoll() {
+  emitRoll(event: MouseEvent) {
     console.log('roll ' + this.ability.identifier);
-    this.roll.emit(this.ability);
+    var advantage: Advantage = 'none';
+    if (event.shiftKey) {
+      advantage = 'advantage';
+    } else if (event.ctrlKey) {
+      advantage = 'disadvantage';
+    }
+    this.roll.emit({
+      abilityIdentifier: this.ability.identifier,
+      advantage: advantage,
+    });
   }
 }
