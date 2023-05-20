@@ -186,14 +186,14 @@ function attackMacro(roll: MultiRoll) {
 
     const mods = toHit.modifiers.map((mod) => toModifier(mod.value)).join('');
 
-    roll20Macro += `{{To Hit=[[${roll}${mods}]]}}`;
+    roll20Macro += `{{To Hit=[[${rollArithmetic}${mods}]]}}`;
   }
   if (damage) {
     roll20Macro += damage.dice
       .map((r) => {
-        return `{{${r.name} = [[${r.dice}d${r.sides}]]${toModifier(
+        return `{{${r.name} = [[${r.dice}d${r.sides}${toModifier(
           r.bonus
-        )}, crit damage ${r.dice * r.sides}}}`;
+        )}]], crit damage ${r.dice * r.sides}}}`;
       })
       .join('');
   }
