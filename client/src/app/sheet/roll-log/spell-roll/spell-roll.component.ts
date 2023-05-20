@@ -2,7 +2,6 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input } from '@angular/core';
 import { Hoverable } from 'src/app/common/hoverable';
 import {
-  ABILITY_TO_NAME,
   SOUL_CHECK_ROLL_TITLE,
   SPELL_ATTACK_ROLL_TITLE,
   SPELL_DAMAGE_ROLL_TITLE,
@@ -13,6 +12,7 @@ import {
   SimpleRoll,
   toCheckArithmetic,
 } from 'src/app/model/diceroll';
+import { Roll20MacroService } from 'src/app/services/roll20-macro.service';
 import { toModifier } from 'src/app/utils/modifier-utils';
 
 @Component({
@@ -28,7 +28,10 @@ export class SpellRollComponent extends Hoverable {
   spellDamage?: SimpleRoll;
   spellSave?: SimpleRoll;
 
-  constructor(private clipboard: Clipboard) {
+  constructor(
+    private clipboard: Clipboard,
+    private macroService: Roll20MacroService
+  ) {
     super();
   }
 
@@ -52,45 +55,6 @@ export class SpellRollComponent extends Hoverable {
   }
 
   copyMacro() {
-    var macro = `&{template:default}{{name=${this.spellName}}}`;
-    if (this.soulCheck) {
-      const soulDice = this.soulCheck.dice[0];
-      const soulMod = this.soulCheck.modifiers
-        .map((mod) => toModifier(mod.value))
-        .join('');
-      macro += `{{Soul check = [[{${toCheckArithmetic(soulDice)}${soulMod}}>${
-        this.soulCheck!.target
-      }]] success}}`;
-    }
-    const hasAttack = !!this.spellAttack;
-    if (this.spellAttack) {
-      const attackDice = this.spellAttack.dice[0];
-      const mods = this.spellAttack.modifiers
-        .map((m) => `${toModifier(m.value)}`)
-        .join('');
-      macro += `{{ To hit = [[${toCheckArithmetic(attackDice)}${mods}]] }}`;
-    }
-    if (this.spellSave) {
-      macro += this.spellSave.modifiers
-        .map((mod) => {
-          const saveNames = this.saveAbilities(mod.name)
-            .map((n) => ABILITY_TO_NAME[n])
-            .join('/');
-          return `{{ ${saveNames} DV = ${mod.value} }}`;
-        })
-        .join('');
-    }
-    if (this.spellDamage) {
-      macro += this.spellDamage.dice
-        .map((damageDice) => {
-          const critDamage = hasAttack
-            ? `on crit: ${damageDice.dice * damageDice.sides}`
-            : '';
-          return `{{${damageDice.name} = [[${damageDice.dice}d${damageDice.sides}]] ${critDamage}}}`;
-        })
-        .join('');
-    }
-
-    this.clipboard.copy(macro);
+    this.clipboard.copy(this.macroService.getDiceAlgebra(this.roll));
   }
 }

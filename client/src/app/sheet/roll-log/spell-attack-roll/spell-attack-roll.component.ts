@@ -2,7 +2,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input } from '@angular/core';
 import { Hoverable } from 'src/app/common/hoverable';
 import { SimpleRoll } from 'src/app/model/diceroll';
-import { toModifier } from 'src/app/utils/modifier-utils';
+import { Roll20MacroService } from 'src/app/services/roll20-macro.service';
 
 @Component({
   selector: 'spell-attack-roll',
@@ -11,15 +11,13 @@ import { toModifier } from 'src/app/utils/modifier-utils';
 })
 export class SpellAttackRollComponent extends Hoverable {
   @Input() roll!: SimpleRoll;
-  constructor(private clipboard: Clipboard) {
+  constructor(
+    private clipboard: Clipboard,
+    private macroService: Roll20MacroService
+  ) {
     super();
   }
   copyMacro() {
-    const abl = this.roll.title!.split('_')[2];
-    const rolls = this.roll.dice.map((d) => `${d.dice}d${d.sides}`).join('+');
-    const mods = this.roll.modifiers
-      .map((m) => `${toModifier(m.value)}`)
-      .join('');
-    this.clipboard.copy(`/me makes a spell attack: [[${rolls}${mods}]]`);
+    this.clipboard.copy(this.macroService.getDiceAlgebra(this.roll));
   }
 }

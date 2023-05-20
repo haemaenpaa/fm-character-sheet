@@ -15,6 +15,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { HitDiceService } from 'src/app/services/hit-dice.service';
 import { ResistanceService } from 'src/app/services/resistance.service';
 import { ResistanceModifyEvent } from '../resistances/resistances.component';
+import { SavingThrowEvent } from '../saving-throw/saving-throw.component';
 
 function clamp(num: number, min: number, max: number) {
   return Math.min(max, Math.max(min, num));
@@ -54,29 +55,29 @@ export class DefensesComponent {
     }
     return this.character.savingThrows.findIndex((s) => s === save) >= 0;
   }
-  callRoll(save: string) {
+  callRoll(saveEvent: SavingThrowEvent) {
     console.log('callRoll');
     if (!this.character) {
       return;
     }
-    const abilities = save.split('/');
+    const save = saveEvent.abilities.join('/');
     var maxAbility: Ability = {
       identifier: 'PLACEHOLDER',
       score: -Infinity,
       modifier: -Infinity,
     };
-    for (var abl of abilities) {
+    for (var abl of saveEvent.abilities) {
       const current: Ability = (this.character.abilities as any)[abl];
       if (current.score > maxAbility.score) {
         maxAbility = current;
       }
     }
     const parameters: SaveParams = {
-      abilities: abilities,
+      abilities: saveEvent.abilities,
       characterName: this.character.name,
       ability: maxAbility,
       proficiency: this.hasSave(save) ? this.character.proficiency : null,
-      advantage: 'none',
+      advantage: saveEvent.advantage,
     };
     console.log('callRoll dispatching', parameters);
     this.actionService.dispatch({

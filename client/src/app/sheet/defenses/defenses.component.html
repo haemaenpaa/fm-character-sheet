@@ -53,7 +53,7 @@
       [hasSave]="hasSave(save)"
       [ability]="save.split('/')"
       (toggle)="toggleAbility(save, $event)"
-      (roll)="callRoll(save)"
+      (roll)="callRoll($event)"
     ></saving-throw>
   </div>
   <div class="resistance-container container-border">

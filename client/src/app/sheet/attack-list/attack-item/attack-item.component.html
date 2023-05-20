@@ -3,7 +3,7 @@
   (mouseenter)="startHover()"
   (mouseleave)="endHover()"
 >
-  <div class="name" (click)="roll()">{{ attack.name }}</div>
+  <div class="name" (click)="roll($event)">{{ attack.name }}</div>
   <div class="bonus">
     {{ totalBonus | modifier }}
   </div>

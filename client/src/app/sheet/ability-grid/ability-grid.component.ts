@@ -6,6 +6,7 @@ import CharacterAbilities, {
 } from 'src/app/model/character-abilities';
 import { AbilityService } from 'src/app/services/ability.service';
 import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { AbillityRollEvent } from '../ability-score/ability-score.component';
 
 /**
  * Component to display an ability grid.
@@ -34,34 +35,27 @@ export class AbilityGridComponent implements OnInit {
    * Dispatches an ability check action according to the ability.
    * @param ability Ability the check will use.
    */
-  performRoll(ability: Ability) {
+  performRoll(event: AbillityRollEvent) {
+    const ability = (
+      this.character.abilities as unknown as { [key: string]: Ability }
+    )[event.abilityIdentifier];
     this.rollService.dispatch({
       type: 'ability-check',
       params: {
         characterName: this.character.name,
-        advantage: 'none',
+        advantage: event.advantage,
         ability,
         proficiency: 0,
       },
     });
   }
 
-  onModified(
-    identifier:
-      | 'br'
-      | 'dex'
-      | 'vit'
-      | 'int'
-      | 'cun'
-      | 'res'
-      | 'pre'
-      | 'man'
-      | 'com',
-    value: number
-  ) {
+  onModified(identifier: string, value: number) {
     const oldAbilities: CharacterAbilities = { ...this.character.abilities };
     const modified = new AbilityImpl(identifier, value);
-    this.character.abilities[identifier] = modified;
+    (this.character.abilities as unknown as { [key: string]: Ability })[
+      identifier
+    ] = modified;
     this.abilityService
       .updateCharacterAbility(modified, this.character.id!)
       .then(

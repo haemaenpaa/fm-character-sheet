@@ -176,7 +176,7 @@ export class SkillGridComponent implements OnInit {
       skillModifier: Math.ceil(
         (this.character.proficiency * event.skillRank) / 2
       ),
-      advantage: 'none',
+      advantage: event.advantage,
     };
     this.actionService.dispatch({
       type: 'skill-check',

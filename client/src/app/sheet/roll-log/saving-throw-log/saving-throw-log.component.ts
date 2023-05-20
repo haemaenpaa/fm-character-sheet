@@ -6,6 +6,7 @@ import {
   ABILITY_TO_NAME,
 } from 'src/app/model/constants';
 import { Roll, SimpleRoll } from 'src/app/model/diceroll';
+import { Roll20MacroService } from 'src/app/services/roll20-macro.service';
 import { toModifier } from 'src/app/utils/modifier-utils';
 
 @Component({
@@ -16,7 +17,10 @@ import { toModifier } from 'src/app/utils/modifier-utils';
 export class SavingThrowLogComponent extends Hoverable {
   @Input('roll') roll!: SimpleRoll;
 
-  constructor(private clipboard: Clipboard) {
+  constructor(
+    private clipboard: Clipboard,
+    private macroService: Roll20MacroService
+  ) {
     super();
   }
 
@@ -28,15 +32,6 @@ export class SavingThrowLogComponent extends Hoverable {
   }
 
   copyMacro() {
-    const abilityName = this.abilities
-      .map((ab) => ABILITY_TO_NAME[ab])
-      .join('/');
-    const rolls = this.roll.dice.map((d) => `${d.dice}d${d.sides}`).join('+');
-    const mods = this.roll.modifiers
-      .map((m) => `${toModifier(m.value)}`)
-      .join('');
-    this.clipboard.copy(
-      `/me makes a ${abilityName} save : [[${rolls}${mods}]]`
-    );
+    this.clipboard.copy(this.macroService.getDiceAlgebra(this.roll));
   }
 }

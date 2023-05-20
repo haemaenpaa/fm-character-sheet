@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -9,8 +9,13 @@ import { RaceService } from 'src/app/services/race.service';
 import { RollLogService } from 'src/app/services/roll-log-service.service';
 import { LevelStruct, levelStructs } from '../../common/LevelStruct';
 import { RaceEditComponent } from '../race-edit/race-edit.component';
+import { ActionDispatchService } from 'src/app/services/action-dispatch.service';
+import { Roll } from 'src/app/model/diceroll';
+import { Roll20MacroService } from 'src/app/services/roll20-macro.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 const LS_COLORIZED_KEY = 'character-sheet-colorized';
+const LS_PUSH_ROLLS_KEY = 'character-sheet-push-rolls';
 
 @Component({
   selector: 'character-sheet',
@@ -24,6 +29,7 @@ const LS_COLORIZED_KEY = 'character-sheet-colorized';
 export class CharacterSheetComponent {
   character: Character | null = null;
   colorized: boolean = false;
+  autoPushRolls: boolean = false;
   private _colorizedSubject: Subject<boolean> = new Subject();
   /**
    * Constructor.
@@ -37,6 +43,9 @@ export class CharacterSheetComponent {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private raceService: RaceService,
+    private actionService: ActionDispatchService,
+    private macroService: Roll20MacroService,
+    private clipboard: Clipboard,
     private _: RollLogService
   ) {
     this.route.paramMap.subscribe((params) => {
@@ -49,8 +58,12 @@ export class CharacterSheetComponent {
         this.character = c;
       });
     });
+
     const savedColorized = localStorage.getItem(LS_COLORIZED_KEY);
     this.colorized = savedColorized === 'true';
+    const savedAutoPush = localStorage.getItem(LS_PUSH_ROLLS_KEY);
+    this.autoPushRolls = savedAutoPush === 'true';
+    this.actionService.rolls().subscribe((r) => this.copyRoll(r));
   }
 
   /**
@@ -142,6 +155,13 @@ export class CharacterSheetComponent {
     localStorage.setItem(LS_COLORIZED_KEY, `${this.colorized}`);
   }
 
+  setPushRolls(event: Event) {
+    const element = event.target as HTMLInputElement;
+    this.autoPushRolls = element.checked;
+
+    localStorage.setItem(LS_PUSH_ROLLS_KEY, `${this.autoPushRolls}`);
+  }
+
   exportJson() {
     if (!this.character) {
       return;
@@ -167,5 +187,18 @@ export class CharacterSheetComponent {
     this.characterService.delete(this.character.id!).then(() => {
       this.router.navigate(['character-list']);
     });
+  }
+
+  copyRoll(roll: Roll): void {
+    if (!this.autoPushRolls) {
+      return;
+    }
+    const macro = this.macroService.getDiceAlgebra(roll);
+    const success = this.clipboard.copy(macro);
+    if (success) {
+      console.log(`Macro copied ${macro}`);
+    } else {
+      console.error(`Macro NOT copied ${macro}`);
+    }
   }
 }

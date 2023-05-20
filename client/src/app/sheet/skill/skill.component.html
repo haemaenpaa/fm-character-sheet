@@ -37,14 +37,16 @@
     <div>
       <span
         (click)="
-          custom ? changeDefaultAbility(0) : callRoll(skill.defaultAbilities[0])
+          custom
+            ? changeDefaultAbility(0)
+            : callRoll(skill.defaultAbilities[0], $event)
         "
         class="clickable"
         >{{ skill.defaultAbilities[0] | abilityName : "short" }}</span
       >
       <span
         class="ability-modifier clickable"
-        (click)="callRoll(skill.defaultAbilities[0])"
+        (click)="callRoll(skill.defaultAbilities[0], $event)"
       >
         {{
           abilityModifier(skill.defaultAbilities[0]) + skillModifier | modifier
@@ -61,7 +63,7 @@
     <div>
       <span
         class="ability-modifier"
-        (click)="callRoll(skill.defaultAbilities[1])"
+        (click)="callRoll(skill.defaultAbilities[1], $event)"
       >
         {{
           abilityModifier(skill.defaultAbilities[1]) + skillModifier | modifier
@@ -69,14 +71,16 @@
       </span>
       <span
         (click)="
-          custom ? changeDefaultAbility(1) : callRoll(skill.defaultAbilities[1])
+          custom
+            ? changeDefaultAbility(1)
+            : callRoll(skill.defaultAbilities[1], $event)
         "
         class="clickable"
         >{{ skill.defaultAbilities[1] | abilityName : "short" }}</span
       >
     </div>
   </div>
-  <div class="ability-button clickable" (click)="callCustomRoll()">
+  <div class="ability-button clickable" (click)="callCustomRoll($event)">
     {{ skillModifier | modifier }}
   </div>
 </div>

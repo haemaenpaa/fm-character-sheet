@@ -138,6 +138,14 @@
       />
       <span>Colorized</span>
     </div>
+    <div class="footer-item roll-control">
+      <input
+        type="checkbox"
+        (change)="setPushRolls($event)"
+        [checked]="autoPushRolls"
+      />
+      <span>Auto-copy rolls</span>
+    </div>
     <div class="footer-item io-button" (click)="exportJson()">Export JSON</div>
     <div
       class="footer-item io-button delete-button"

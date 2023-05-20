@@ -1,7 +1,7 @@
 <span class="toggle" (click)="toggle.emit(!hasSave)">{{
   hasSave ? "◈" : "◇"
 }}</span>
-<span class="label" (click)="roll.emit(ability)">
+<span class="label" (click)="emitRoll($event)">
   <span *ngFor="let abl of ability; let first = first">
     <span class="slash" *ngIf="!first">/</span>
     <span>{{ abl | abilityName : "long" }}</span>
