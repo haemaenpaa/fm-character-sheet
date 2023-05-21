@@ -8,19 +8,25 @@
 }
 .hp-total {
   font-weight: large;
+  width: 4em;
+  text-align: center;
 }
 .hp-max {
   font-weight: normal;
   font-size: larger;
+  text-align: center;
+  width: 4em;
 }
 .hp-edit {
   grid-column: value;
-  width: 2em;
+  width: 4em;
 }
 
 .temp-hp {
   margin: 1em;
   font-size: normal;
+  width: 4em;
+  text-align: center;
 }
 
 .slash {

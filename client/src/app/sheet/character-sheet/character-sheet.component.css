@@ -1,12 +1,13 @@
 .sheet-container {
   display: grid;
   grid-template-columns: [left] max-content [right] 1fr;
-  grid-template-rows: 6em 24em 4fr 3em;
+  grid-template-rows: 6em 6em 24em 4fr 3em;
   column-gap: 1em;
   row-gap: 1em;
   grid-auto-rows: 1em;
   grid-template-areas:
     "header header"
+    "quick-access quick-access"
     "abilities details"
     "skills info"
     "footer footer";
@@ -27,6 +28,58 @@
   border-style: double;
   width: 100%;
   justify-self: center;
+}
+
+.character-quick-access {
+  grid-area: quick-access;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 0.5em;
+  justify-content: space-around;
+}
+
+.hp-container {
+  order: 1;
+}
+.av-container {
+  order: 2;
+
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  padding: 0.5em;
+  justify-self: center;
+  align-self: center;
+  align-content: center;
+}
+
+.av-label {
+  font-variant: small-caps;
+  text-align: center;
+}
+.av-value {
+  font-variant: small-caps;
+  text-align: center;
+  font-weight: bold;
+  width: 2em;
+}
+
+.speed-container {
+  order: 3;
+
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  padding: 0.5em;
+  justify-self: center;
+  align-self: center;
+  align-content: center;
+}
+
+.container-border {
+  border: double;
+  border-radius: 1em;
 }
 
 .character-name {

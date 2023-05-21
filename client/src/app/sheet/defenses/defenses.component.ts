@@ -16,10 +16,7 @@ import { HitDiceService } from 'src/app/services/hit-dice.service';
 import { ResistanceService } from 'src/app/services/resistance.service';
 import { ResistanceModifyEvent } from '../resistances/resistances.component';
 import { SavingThrowEvent } from '../saving-throw/saving-throw.component';
-
-function clamp(num: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, num));
-}
+import { clamp } from '../../utils/math-utils';
 
 @Component({
   selector: 'defenses',
@@ -45,8 +42,7 @@ export class DefensesComponent {
     private actionService: ActionDispatchService,
     private characterService: CharacterService,
     private hitDiceService: HitDiceService,
-    private resistanceService: ResistanceService,
-    private changeDetector: ChangeDetectorRef
+    private resistanceService: ResistanceService
   ) {}
 
   hasSave(save: string): boolean {
@@ -105,7 +101,6 @@ export class DefensesComponent {
       this.character.hitPointMaximum
     );
     this.updateOnFieldChange('hitPointTotal', oldValue);
-    this.changeDetector.detectChanges();
   }
   onHpMaxChanged($event: number) {
     const oldTotal = this.character.hitPointTotal;
@@ -134,7 +129,6 @@ export class DefensesComponent {
     const oldValue = this.character.tempHitPoints;
     if (this.character) {
       this.character.tempHitPoints = Math.max($event, 0);
-      this.changeDetector.detectChanges();
     }
     this.updateOnFieldChange('tempHitPoints', oldValue);
   }
@@ -300,7 +294,6 @@ export class DefensesComponent {
       .catch((err) => {
         console.error(`Failed to set ${field}`, err);
         (this.character as any)[field] = oldValue;
-        this.changeDetector.detectChanges();
       })
       .then((char) => {
         if (char) {

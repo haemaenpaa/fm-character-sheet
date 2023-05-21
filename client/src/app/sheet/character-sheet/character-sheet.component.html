@@ -28,6 +28,38 @@
     </div>
     <div class="character-concept">{{ character.biography.concept }}</div>
   </div>
+  <div class="character-quick-access">
+    <div class="hp-container container-border">
+      <hit-points
+        [current]="character.hitPointTotal"
+        [max]="character.hitPointMaximum"
+        [temporary]="character.tempHitPoints"
+        (currentChanged)="onHpTotalChanged($event)"
+        (maxChanged)="onHpMaxChanged($event)"
+        (tempChanged)="onTempHpChanged($event)"
+      ></hit-points>
+    </div>
+    <div class="av-container container-border">
+      <div class="av-label">AV</div>
+      <div class="av-value">
+        <editable-text
+          id="av-display"
+          [enabled]="false"
+          [value]="character.armorValue"
+        ></editable-text>
+      </div>
+    </div>
+    <div class="speed-container container-border">
+      <div class="av-label">Speed</div>
+      <div class="av-value">
+        <editable-text
+          id="speed-display"
+          [value]="character.speed"
+          [enabled]="false"
+        ></editable-text>
+      </div>
+    </div>
+  </div>
   <div class="character-abilities section-container">
     <span class="section-header">Abilities</span>
     <ability-grid
