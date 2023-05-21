@@ -163,7 +163,9 @@ function spellMacro(roll: MultiRoll) {
         const critDamage = hasAttack
           ? `on crit: ${damageDice.dice * damageDice.sides}`
           : '';
-        return `{{${damageDice.name} = [[${damageDice.dice}d${damageDice.sides}]] ${critDamage}}}`;
+        return `{{${damageDice.name} = [[${damageDice.dice}d${
+          damageDice.sides
+        }${toModifier(damageDice.bonus)}]] ${critDamage}}}`;
       })
       .join('');
   }

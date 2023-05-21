@@ -9,6 +9,7 @@ import DummyClass from 'src/app/utils/dummy-class';
 import { DamageDiceComponent } from '../../damage-dice/damage-dice.component';
 
 import { SpellDetailsComponent } from './spell-details.component';
+import { CharacterService } from 'src/app/services/character.service';
 
 function placeholder(): Spell {
   return {
@@ -28,6 +29,7 @@ function placeholder(): Spell {
     range: '',
     components: '',
     effect: '',
+    addCastingModifierToDamage: false,
   };
 }
 
@@ -47,6 +49,13 @@ describe('SpellDetailsComponent', () => {
         { provide: MatDialogRef, useClass: DummyClass },
         { provide: MatDialog, useClass: DummyClass },
         { provide: MAT_DIALOG_DATA, useClass: DummyData },
+        {
+          provide: CharacterService,
+          useValue: {
+            getCachedCharacterById: (n: number) =>
+              new Promise((res, rej) => {}),
+          },
+        },
       ],
     }).compileComponents();
 

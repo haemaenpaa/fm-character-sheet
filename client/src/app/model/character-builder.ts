@@ -448,6 +448,7 @@ export class CharacterBuilder {
       range,
       components,
       effect,
+      addCastingModifierToDamage: false,
     };
     return this.addSpell(spell);
   }
@@ -484,7 +485,8 @@ export class CharacterBuilder {
     duration: string = 'Instant',
     range: string = 'Touch',
     components: 'S, V',
-    effect: 'Damage'
+    effect: 'Damage',
+    addCastingModifierToDamage: false
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
@@ -504,6 +506,7 @@ export class CharacterBuilder {
       range,
       components,
       effect,
+      addCastingModifierToDamage,
     };
     return this.addSpell(spell);
   }
@@ -523,6 +526,7 @@ export class CharacterBuilder {
    * @param range Range and AoE of the spell
    * @param components Components of the spell
    * @param effect Effect of the spell
+   * @param addCastingModifierToDamage should damage include casting modifier
    * @returns
    */
   addAttackSpell(
@@ -539,7 +543,8 @@ export class CharacterBuilder {
     duration: string = 'Instant',
     range: string = 'Touch',
     components: 'S, V',
-    effect: 'Damage'
+    effect: 'Damage',
+    addCastingModifierToDamage: false
   ): CharacterBuilder {
     const spell: Spell = {
       id: randomId(),
@@ -559,6 +564,7 @@ export class CharacterBuilder {
       range,
       components,
       effect,
+      addCastingModifierToDamage,
     };
     return this.addSpell(spell);
   }

@@ -63,6 +63,7 @@ export function convertSpellModel(model: Spell): SpellDto {
     range: model.range,
     components: model.components,
     effect: model.effect,
+    addCastingModifierToDamage: model.addCastingModifierToDamage,
   };
 }
 
@@ -85,5 +86,6 @@ export function convertSpellDto(model: SpellDto): Spell {
     range: model.range || '',
     components: model.components || '',
     effect: model.effect || '',
+    addCastingModifierToDamage: !!model.addCastingModifierToDamage,
   };
 }

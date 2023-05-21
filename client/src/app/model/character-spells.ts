@@ -70,6 +70,10 @@ export interface Spell {
    * Effect of the spell
    */
   effect: string;
+  /**
+   * Use spellcasting modifier for damage?
+   */
+  addCastingModifierToDamage: boolean;
 }
 
 export class CharacterSpells {

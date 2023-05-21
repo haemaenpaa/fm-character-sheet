@@ -65,6 +65,7 @@ export class SpellListComponent {
       range: '',
       components: '',
       effect: '',
+      addCastingModifierToDamage: false,
     };
     this.spellAdded.emit(newSpell);
   }

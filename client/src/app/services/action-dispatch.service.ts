@@ -258,11 +258,14 @@ export class ActionDispatchService {
           });
           spellRoll.rolls.push(spellSave);
         }
-        if (spell.damage.length + spell.upcastDamage.length > 0) {
+        if (
+          spell.damage.length + spell.upcastDamage.length > 0 ||
+          spell.addCastingModifierToDamage
+        ) {
           const spellDamage = this.constructSpellDamage(
             spell,
             params.castingTier,
-            character.name
+            character
           );
           spellRoll.rolls.push(spellDamage);
         }
@@ -273,11 +276,11 @@ export class ActionDispatchService {
   private constructSpellDamage(
     spell: Spell,
     castTier: number,
-    character: string
+    character: Character
   ) {
     const damageRoll: Roll = new SimpleRoll();
 
-    damageRoll.character = character;
+    damageRoll.character = character.name;
     damageRoll.title = SPELL_DAMAGE_ROLL_TITLE;
     const upcast = castTier - spell.tier;
     damageRoll.name = spell.name + (upcast > 0 ? ` (tier ${spell.tier})` : '');
@@ -286,6 +289,12 @@ export class ActionDispatchService {
     for (const damage of spell.damage) {
       damageTotals[damage.type] = { ...damage.roll };
       damageTotals[damage.type].name = damage.type;
+    }
+
+    if (spell.addCastingModifierToDamage && character.castingAbility) {
+      const bonus = damageTotals[Object.keys(damageTotals)[0]].bonus || 0;
+      damageTotals[Object.keys(damageTotals)[0]].bonus =
+        bonus + character.castingAbility.modifier;
     }
     if (upcast > 0) {
       for (const damage of spell.upcastDamage) {

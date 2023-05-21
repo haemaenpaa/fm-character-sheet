@@ -69,6 +69,7 @@ export interface SpellDto {
    * Effect of the spell
    */
   effect?: string;
+  addCastingModifierToDamage?: boolean;
 }
 
 export interface CharacterSpellsDto {

@@ -22,7 +22,8 @@
     "npm-run-all": "^4.1.5",
     "rimraf": "^4.1.2",
     "rollup": "^3.12.0",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "tsx": "^3.12.8"
   },
   "dependencies": {
     "@rollup/plugin-json": "^6.0.0",
@@ -30,9 +31,9 @@
     "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "fm-transfer-model": "file:../transfer-model/fm-transfer-model-0.1.0.tgz",
-    "sequelize": "^6.28.0",
-    "sqlite3": "^5.1.4",
+    "fm-transfer-model": "../transfer-model/fm-transfer-model-0.1.1.tgz",
+    "sequelize": "^6.31.1",
+    "sqlite3": "^5.1.6",
     "typescript-bundle": "^1.0.18"
   }
 }

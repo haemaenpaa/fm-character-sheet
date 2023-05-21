@@ -24,6 +24,7 @@ function placeholder(): Spell {
     range: '',
     components: '',
     effect: '',
+    addCastingModifierToDamage: false,
   };
 }
 
