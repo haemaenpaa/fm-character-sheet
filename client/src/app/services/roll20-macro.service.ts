@@ -238,5 +238,5 @@ function healthRollMacro(roll: SimpleRoll) {
 
 function initiativeMacro(roll: SimpleRoll) {
   const rolls = roll.dice.map(toCheckArithmetic).join('+');
-  return `&{template:default}{{name=Initiative}}{{Initiative=[[[${rolls}]]{&{tracker:+}}]]}`;
+  return `&{template:default}{{name=Initiative}}{{Initiative=[[[${rolls}{&{tracker:+}}]]}`;
 }
