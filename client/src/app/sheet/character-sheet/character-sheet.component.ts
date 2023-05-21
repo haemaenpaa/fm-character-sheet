@@ -13,6 +13,7 @@ import { ActionDispatchService } from 'src/app/services/action-dispatch.service'
 import { Roll } from 'src/app/model/diceroll';
 import { Roll20MacroService } from 'src/app/services/roll20-macro.service';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { clamp } from '../../utils/math-utils';
 
 const LS_COLORIZED_KEY = 'character-sheet-colorized';
 const LS_PUSH_ROLLS_KEY = 'character-sheet-push-rolls';
@@ -200,5 +201,66 @@ export class CharacterSheetComponent {
     } else {
       console.error(`Macro NOT copied ${macro}`);
     }
+  }
+  onHpTotalChanged($event: number) {
+    if (!this.character) {
+      return;
+    }
+    const oldValue = this.character.hitPointTotal;
+    this.character.hitPointTotal = clamp(
+      $event,
+      0,
+      this.character.hitPointMaximum
+    );
+    this.updateOnFieldChange('hitPointTotal', oldValue);
+  }
+  onHpMaxChanged($event: number) {
+    if (!this.character) {
+      return;
+    }
+    const oldTotal = this.character.hitPointTotal;
+    const oldMax = this.character.hitPointMaximum;
+    this.character.hitPointMaximum = $event;
+    this.character.hitPointTotal = clamp(
+      this.character.hitPointTotal,
+      0,
+      $event
+    );
+
+    this.characterService
+      .updateCharacter(this.character)
+      .catch((err) => {
+        console.error('Failed to set hit point max', err);
+        this.character!.hitPointMaximum = oldMax;
+        this.character!.hitPointTotal = oldTotal;
+      })
+      .then((char) => {
+        if (char) {
+          this.onCharacterChanged();
+        }
+      });
+  }
+  onTempHpChanged($event: number) {
+    if (!this.character) {
+      return;
+    }
+    const oldValue = this.character.tempHitPoints;
+    if (this.character) {
+      this.character.tempHitPoints = Math.max($event, 0);
+    }
+    this.updateOnFieldChange('tempHitPoints', oldValue);
+  }
+  private updateOnFieldChange(field: string, oldValue: any) {
+    this.characterService
+      .updateCharacter(this.character!)
+      .catch((err) => {
+        console.error(`Failed to set ${field}`, err);
+        (this.character as any)[field] = oldValue;
+      })
+      .then((char) => {
+        if (char) {
+          this.onCharacterChanged();
+        }
+      });
   }
 }

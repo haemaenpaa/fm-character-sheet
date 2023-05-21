@@ -13,6 +13,7 @@ import {
   CheckParams,
   GameAction,
   HitDieParams,
+  InitiativeParams,
   SaveParams,
   SkillParams,
   SpellAttackParams,
@@ -102,6 +103,9 @@ export class ActionDispatchService {
       case 'health-roll':
         this.dispatchHealthRoll(params as HitDieParams);
         break;
+      case 'initiative':
+        this.dispatchInitiative(params as InitiativeParams);
+        break;
     }
   }
 
@@ -147,12 +151,13 @@ export class ActionDispatchService {
     this.sendRoll(roll);
   }
 
-  private getD20Check(advantage: string) {
+  private getD20Check(advantage: string, modifier: number = 0) {
     const diceCount = advantage === 'none' ? 1 : 2;
     const keep = 1;
     const keepMode: KeepMode = advantage === 'advantage' ? 'HIGHEST' : 'LOWEST';
-    const newLocal = new RollComponent(20, diceCount, keepMode, keep);
-    return newLocal;
+    const d20Check = new RollComponent(20, diceCount, keepMode, keep);
+    d20Check.bonus = modifier;
+    return d20Check;
   }
 
   private dispatchSkillCheck(
@@ -493,6 +498,19 @@ export class ActionDispatchService {
           }
         }
         roll.addModifier({ name: 'baseline', value: constantHealth });
+        this.sendRoll(roll);
+      });
+  }
+
+  private dispatchInitiative(params: InitiativeParams) {
+    this.characterService
+      .getCachedCharacterById(params.characterId)
+      .then((character) => {
+        const modifier = character.abilities.dex.modifier;
+        const roll = new SimpleRoll();
+        roll.title = 'initiative';
+        roll.addDie(this.getD20Check(params.advantage, modifier));
+        roll.character = character.name;
         this.sendRoll(roll);
       });
   }

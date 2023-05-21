@@ -63,6 +63,8 @@ import { ResourceSortPipe } from './resource-view/resource-sort.pipe';
 import { ResistanceSortPipe } from './resistances/resistance-sort.pipe';
 import { AttackSortPipe } from './attack-list/attack-sort.pipe';
 import { SpellRollComponent } from './roll-log/spell-roll/spell-roll.component';
+import { InitiativeButtonComponent } from './initiative-button/initiative-button.component';
+import { InitiativeLogComponent } from './roll-log/initiative-log/initiative-log.component';
 
 /**
  * The character sheet module. Provides the character sheet component.
@@ -129,6 +131,8 @@ import { SpellRollComponent } from './roll-log/spell-roll/spell-roll.component';
     ResistanceSortPipe,
     AttackSortPipe,
     SpellRollComponent,
+    InitiativeButtonComponent,
+    InitiativeLogComponent,
   ],
   imports: [
     CommonModule,

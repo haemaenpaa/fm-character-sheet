@@ -1,0 +1,20 @@
+.initiative-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  border-style: double;
+  border-radius: 1em;
+  padding: 1em;
+}
+.header {
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.modifier {
+  width: fit-content;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+}

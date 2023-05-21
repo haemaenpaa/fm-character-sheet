@@ -1,0 +1,20 @@
+<div class="single-roll" (mouseenter)="startHover()" (mouseleave)="endHover()">
+  <div
+    *ngIf="roll.character && roll.character.length > 0"
+    class="roll-character"
+  >
+    {{ roll.character }} :
+  </div>
+  <div *ngIf="roll.title" class="roll-title">Initiative:</div>
+  <div *ngFor="let d of roll.dice" class="die-roll">
+    {{ d | roll }}
+  </div>
+  <div *ngFor="let m of roll.filteredModifiers" class="die-modifier">
+    {{ m.value | modifier }}
+  </div>
+  <button
+    class="clipboard-button"
+    *ngIf="hovered"
+    (click)="copyMacro()"
+  ></button>
+</div>

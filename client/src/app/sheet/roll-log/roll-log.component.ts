@@ -29,6 +29,7 @@ type RowType =
   | 'attack-effect'
   | 'hit-dice'
   | 'hit-points'
+  | 'initiative'
   | 'unknown';
 
 /**
@@ -91,6 +92,9 @@ export class RollLogComponent implements AfterViewChecked {
     }
     if (roll.title?.match(HIT_POINTS_PATTERN)) {
       return 'hit-points';
+    }
+    if (roll.title === 'initiative') {
+      return 'initiative';
     }
     return 'unknown';
   }
