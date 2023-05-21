@@ -128,6 +128,7 @@ export function convertSpellDto(dto: SpellDto): Spell {
       effect: dto.effect,
       damage,
       upcastDamage,
+      addCastingModifierToDamage: !!dto.addCastingModifierToDamage,
     },
     {
       include: spellInclude,
@@ -171,6 +172,9 @@ export function convertSpellDbModel(model: Spell): SpellDto {
     components: model.getDataValue("components"),
     damage,
     upcastDamage,
+    addCastingModifierToDamage: model.getDataValue(
+      "addCastingModifierToDamage"
+    ),
   };
 }
 function convertSpellSlotResources(

@@ -1,6 +1,6 @@
 {
   "name": "fm-transfer-model",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Transfer model for Frostmark character sheet.",
   "main": "index.js",
   "files": [

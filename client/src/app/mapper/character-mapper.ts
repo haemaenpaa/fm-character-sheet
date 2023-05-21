@@ -21,6 +21,7 @@ import { convertAoSelectionDto } from './selection-mapper';
 import { convertSpellBookModel } from './spell-mapper';
 import { convertResourceModel } from './resource-mapper';
 import { convertSkillModel } from './skill-mapper';
+import { convertSpellbookDto } from './spell-mapper';
 
 export function convertCharacterDto(dto: CharacterDto): Character {
   const builder = new CharacterBuilder();
@@ -182,7 +183,7 @@ function convertInventory(dto: CharacterDto, builder: CharacterBuilder) {
 
 function convertSpells(dto: CharacterDto, builder: CharacterBuilder) {
   if (dto.spells) {
-    builder.spells = convertSpellsDto(dto.spells);
+    builder.spells = convertSpellbookDto(dto.spells);
   }
 }
 
@@ -287,57 +288,4 @@ function convertAttacks(dto: CharacterDto, builder: CharacterBuilder) {
   if (dto.attacks) {
     builder.attacks = dto.attacks.map(convertAttackDto);
   }
-}
-
-function convertSpellsDto(dto: CharacterSpellsDto): CharacterSpells {
-  const spells = new CharacterSpells();
-  if (dto.spellcastingAbility) {
-    spells.spellcastingAbility = dto.spellcastingAbility;
-  }
-  if (dto.soulFragments) {
-    spells.soulFragments = dto.soulFragments;
-  }
-  if (dto.souls) {
-    spells.souls = dto.souls;
-  }
-  if (dto.spellSlots) {
-    spells.spellSlots = dto.spellSlots;
-  }
-  if (dto.spellSlotsAvailable) {
-    spells.spellSlotsAvailable = dto.spellSlotsAvailable;
-  }
-  if (dto.specialSlots) {
-    spells.specialSlots = dto.specialSlots;
-  }
-  if (dto.specialSlotsAvailable) {
-    spells.specialSlotsAvailable = dto.specialSlotsAvailable;
-  }
-  if (dto.spells) {
-    for (const tier in dto.spells) {
-      spells.spells[tier] = dto.spells[tier].map(convertSpellDto);
-    }
-  }
-  return spells;
-}
-
-function convertSpellDto(dto: SpellDto): Spell {
-  return {
-    id: dto.id!,
-    tier: dto.tier || 0,
-    school: dto.school || '',
-    name: dto.name || '',
-    saveAbility: dto.saveAbility,
-    description: dto.description || '',
-    damage: dto.damage?.map(convertDamageRollDto) || [],
-    upcastDamage: dto.upcastDamage?.map(convertDamageRollDto) || [],
-    ritual: !!dto.ritual,
-    soulMastery: !!dto.soulMastery,
-    concentration: !!dto.concentration,
-    attack: !!dto.attack,
-    castingTime: dto.castingTime || '',
-    duration: dto.duration || '',
-    range: dto.range || '',
-    components: dto.components || '',
-    effect: dto.effect || '',
-  };
 }

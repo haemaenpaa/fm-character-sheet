@@ -48,4 +48,4 @@ testem.log
 .DS_Store
 Thumbs.db
 server/dev-db.db
-transfer-model/fm-transfer-model-0.1.0.tgz
+transfer-model/fm-transfer-model-*.tgz

@@ -81,6 +81,9 @@ export const SpellDef: ModelAttributes<Spell> = {
   effect: {
     type: DataTypes.STRING,
   },
+  addCastingModifierToDamage: {
+    type: DataTypes.BOOLEAN,
+  },
 };
 
 export const CharacterSpellbookDef: ModelAttributes<CharacterSpellbook> = {
