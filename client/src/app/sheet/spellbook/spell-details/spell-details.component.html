@@ -35,11 +35,14 @@
     <span>
       Damage:
       <span
-        *ngFor="let roll of spell.damage; last as isLast"
+        *ngFor="let roll of spell.damage; last as isLast; first as isFirst"
         class="damage-item"
       >
-        {{ roll.roll.dice }}d{{ roll.roll.sides }} {{ roll.type
-        }}{{ isLast ? "" : "," }}
+        {{ roll.roll.dice }}d{{ roll.roll.sides }}
+        <span *ngIf="spell.addCastingModifierToDamage && isFirst">{{
+          castingModifier
+        }}</span>
+        {{ roll.type }}{{ isLast ? "" : "," }}
       </span>
     </span>
     <span *ngIf="spell.upcastDamage.length > 0">

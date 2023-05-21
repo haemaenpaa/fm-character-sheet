@@ -128,6 +128,13 @@
       (dieChanged)="onDieChanged('damage', $event)"
       (dieDeleted)="onDieDeleted('damage', $event)"
     ></damage-dice>
+    <div class="add-mod-to-damage labeled-edit">
+      <input
+        type="checkbox"
+        [checked]="spell.addCastingModifierToDamage"
+        (change)="setBool($event, 'addCastingModifierToDamage')"
+      />Add casting ability modifier
+    </div>
     Upcast Damage/tier:
     <damage-dice
       [dice]="spell.upcastDamage"
