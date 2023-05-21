@@ -37,4 +37,16 @@ describe('Roll20MacroService', () => {
     expect(result).toMatch(/Cunning/);
     expect(result).toMatch(/2d20kh1/);
   });
+
+  it('should generate initiative roll', () => {
+    const roll: SimpleRoll = new SimpleRoll();
+    roll.title = 'initiative';
+    roll.addDie(new RollComponent(20, 2, 'HIGHEST', 1));
+
+    const result = service.getDiceAlgebra(roll);
+
+    expect(result).toMatch(/Initiative/);
+    expect(result).toMatch(/\&\{tracker:\+\}/);
+    expect(result).toMatch(/2d20kh1/);
+  });
 });
