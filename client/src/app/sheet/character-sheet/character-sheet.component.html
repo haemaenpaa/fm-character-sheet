@@ -42,22 +42,18 @@
     <div class="av-container container-border">
       <div class="av-label">AV</div>
       <div class="av-value">
-        <editable-text
-          id="av-display"
-          [enabled]="false"
-          [value]="character.armorValue"
-        ></editable-text>
+        {{ character.armorValue }}
       </div>
     </div>
     <div class="speed-container container-border">
       <div class="av-label">Speed</div>
       <div class="av-value">
-        <editable-text
-          id="speed-display"
-          [value]="character.speed"
-          [enabled]="false"
-        ></editable-text>
+        {{ character.speed }}
       </div>
+    </div>
+
+    <div class="initiative-button">
+      <initiative-button [character]="character"></initiative-button>
     </div>
   </div>
   <div class="character-abilities section-container">

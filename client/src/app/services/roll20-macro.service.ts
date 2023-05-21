@@ -57,6 +57,9 @@ export class Roll20MacroService {
     if (roll.title?.match(HIT_POINTS_PATTERN)) {
       return healthRollMacro(roll as SimpleRoll);
     }
+    if (roll.title === 'initiative') {
+      return initiativeMacro(roll as SimpleRoll);
+    }
     return 'Unknown roll type ' + roll.title;
   }
 }
@@ -231,4 +234,9 @@ function healthRollMacro(roll: SimpleRoll) {
   const rolls = roll.dice.map((d) => `${d.dice}d${d.sides}`).join('+');
   const mods = roll.modifiers.map((m) => `${toModifier(m.value)}`).join('');
   return `Health: [[${rolls}${mods}]]`;
+}
+
+function initiativeMacro(roll: SimpleRoll) {
+  const rolls = roll.dice.map(toCheckArithmetic).join('+');
+  return `&{template:default}{{name=Initiative}}{{Initiative=[[[${rolls}]]{&{tracker:+}}]]}`;
 }

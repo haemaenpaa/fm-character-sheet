@@ -37,6 +37,10 @@
           [roll]="asSimple(r)"
           *ngSwitchCase="'hit-points'"
         ></health-roll-row>
+        <initiative-log
+          [roll]="asSimple(r)"
+          *ngSwitchCase="'initiative'"
+        ></initiative-log>
 
         <unknown-roll
           *ngSwitchCase="'unknown'"
