@@ -51,6 +51,12 @@
         {{ character.speed }}
       </div>
     </div>
+    <div class="proficiency-container container-border">
+      <div class="av-label">Proficiency</div>
+      <div class="av-value">
+        {{ character.proficiency | modifier }}
+      </div>
+    </div>
 
     <div class="initiative-button">
       <initiative-button [character]="character"></initiative-button>
