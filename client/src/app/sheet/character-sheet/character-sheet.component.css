@@ -63,6 +63,7 @@
   text-align: center;
   font-weight: bold;
   width: 2em;
+  align-self: center;
 }
 
 .speed-container {
@@ -76,7 +77,17 @@
   align-self: center;
   align-content: center;
 }
+.proficiency-container {
+  order: 4;
 
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  padding: 0.5em;
+  justify-self: center;
+  align-self: center;
+  align-content: center;
+}
 .container-border {
   border: double;
   border-radius: 1em;
