@@ -16,3 +16,5 @@ export * from "./src/model/item";
 export * from "./src/model/race";
 export * from "./src/model/resistance";
 export * from "./src/model/skill";
+
+export * from "./src/model/user";

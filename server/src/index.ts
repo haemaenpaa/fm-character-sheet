@@ -1,3 +1,5 @@
+import "dotenv-flow/config";
+
 import express from "express";
 import * as path from "path";
 import { app, port } from "./app";
@@ -13,6 +15,7 @@ import * as resourceController from "./controller/resource-controller";
 import * as skillController from "./controller/skill-controller";
 import * as resistanceController from "./controller/resistances-controller";
 import * as abilitiesController from "./controller/abilities-controller";
+import checkJwt from "./auth";
 
 //Access the exported constant from each controller to ensure that the calls to app route are invoked.
 characterController.exists;
@@ -28,6 +31,11 @@ skillController.exists;
 resistanceController.exists;
 abilitiesController.exists;
 
+if (checkJwt) {
+  const UserRouter = require("./controller/user-controller").default;
+  app.use("/api/user/", UserRouter);
+}
+
 const frontendPath =
   process.env.FRONTEND_PATH || path.join(__dirname, "fm-character-sheet");
 
@@ -42,5 +50,5 @@ app.get("*", async (req, res) => {
 });
 
 app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
+  return console.log(`Express is listening at port ${port}`);
 });

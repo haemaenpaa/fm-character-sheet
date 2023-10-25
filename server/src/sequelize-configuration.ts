@@ -5,6 +5,7 @@ import { CharacterSpellbook, Spell } from "./model/character-spells";
 import { InventoryContainer } from "./model/inventory";
 import { Race } from "./model/race";
 import { initializeSchema } from "./model/schema";
+import { UserCharacter } from "./model/user";
 
 const newLocal = process.env.CONNECTION_STRING || "sqlite:dev-db.db";
 export const sequelize = initializeSchema(newLocal);

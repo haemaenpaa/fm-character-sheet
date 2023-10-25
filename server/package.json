@@ -12,26 +12,30 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npx tsc --watch",
     "watch-dist": "npx nodemon -q dist/index.js",
-    "dev": "npm run watch&npm run watch-dist;"
+    "dev": "npx tsx --watch src/index.ts"
   },
   "author": "",
   "license": "CC-BY-SA-4.0",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.1",
     "@types/express": "^4.17.15",
+    "fm-transfer-model": "file:../transfer-model/fm-transfer-model-0.1.1.tgz",
     "npm-run-all": "^4.1.5",
     "rimraf": "^4.1.2",
     "rollup": "^3.12.0",
-    "typescript": "^4.9.4",
-    "tsx": "^3.12.8"
+    "tsx": "^3.12.8",
+    "typescript": "^4.9.4"
   },
   "dependencies": {
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "auth0": "^4.0.1",
     "body-parser": "^1.20.1",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.3.1",
+    "dotenv-flow": "^4.0.0",
     "express": "^4.18.2",
-    "fm-transfer-model": "../transfer-model/fm-transfer-model-0.1.1.tgz",
+    "express-oauth2-jwt-bearer": "^1.6.0",
+    "node-auth0": "^1.0.0",
     "sequelize": "^6.31.1",
     "sqlite3": "^5.1.6",
     "typescript-bundle": "^1.0.18"

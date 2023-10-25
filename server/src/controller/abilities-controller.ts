@@ -30,6 +30,7 @@ app.put("/api/character/:characterId/abilities", jsonParser, (req, res) => {
       values[ab] = req.body[ab];
     }
   }
+  console.log("Abilities", values, "Body", req.body);
   character.update(values).then(
     (updated) => {
       const dto = convertCharacterDbModel(updated);

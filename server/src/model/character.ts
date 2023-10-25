@@ -9,6 +9,7 @@ import { InventoryContainer } from "./inventory";
 import { Race } from "./race";
 import { Resistance } from "./resistance";
 import { CharacterResource } from "./resources";
+import { UserCharacter } from "./user";
 
 export class Character extends Model {
   static Race: HasOne<Character, Race>;
@@ -22,6 +23,7 @@ export class Character extends Model {
   static Inventory: HasMany<Character, InventoryContainer>;
   static Bio: HasOne<Character, CharacterBio>;
   static Resources: HasMany<Character, CharacterResource>;
+  static Users: HasMany<Character, UserCharacter>;
 }
 
 export const CharacterDef: ModelAttributes<Character> = {

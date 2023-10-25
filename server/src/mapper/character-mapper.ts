@@ -95,7 +95,6 @@ export function convertCharacterDto(dto: CharacterDto): Character {
     resources: dto.resources?.map(convertResourceDto),
     armorValue: dto.armorValue,
   };
-  console.log("BUILD OPTIONS:", dataValues);
   const character = Character.build(dataValues, { include: characterInclude });
   return character;
 }
@@ -156,9 +155,10 @@ export function convertCharacterDbModel(model: Character): CharacterDto {
       .getDataValue("resistances")
       ?.filter((r) => r.category == "status")
       .map(convertResistanceDbModel),
-    selections: model.getDataValue("selections")?.map(convertSelectionDbModel),
+    selections:
+      model.getDataValue("selections")?.map(convertSelectionDbModel) || [],
     spells: convertSpellbookDbModel(model.getDataValue("spells")),
-    attacks: model.getDataValue("attacks")?.map(convertAttackDbModel),
+    attacks: model.getDataValue("attacks")?.map(convertAttackDbModel) || [],
     hitDice: convertHitDiceDbModel(model.getDataValue("hitDice")),
     hitDiceRemaining: convertHitDiceDbModel(
       model.getDataValue("hitDiceRemaining")

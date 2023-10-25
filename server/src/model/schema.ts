@@ -34,6 +34,7 @@ import {
   CharacterResource,
   CharacterResourceRef as CharacterResourceDef,
 } from "./resources";
+import { User, UserCharacter, UserCharacterDef, UserDef } from "./user";
 
 export function initializeSchema(connectionString: string): Sequelize {
   const sequelize = new Sequelize(connectionString);
@@ -65,6 +66,13 @@ function associateModels() {
   associateBio();
 
   associateResources();
+
+  associateUser();
+}
+
+function associateUser() {
+  Character.belongsToMany(User, { through: UserCharacter });
+  User.hasMany(Character, { as: "characters" });
 }
 
 function associateResources() {
@@ -158,12 +166,23 @@ function initModels(sequelize: Sequelize) {
 
   initResource(sequelize);
 
+  initUser(sequelize);
+
   Character.init(CharacterDef, {
     sequelize,
     modelName: "Character",
   });
 }
-
+function initUser(sequelize: Sequelize) {
+  User.init(UserDef, {
+    sequelize,
+    modelName: "User",
+  });
+  UserCharacter.init(UserCharacterDef, {
+    sequelize,
+    modelName: "UserCharacter",
+  });
+}
 function initResource(sequelize: Sequelize) {
   CharacterResource.init(CharacterResourceDef, {
     sequelize,

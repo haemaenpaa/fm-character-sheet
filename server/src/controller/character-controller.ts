@@ -18,6 +18,8 @@ import {
   convertHitDiceRemainingDto,
 } from "../mapper/hit-die-mapper";
 import { convertBiographyDto } from "../mapper/biography-mapper";
+import { User, UserCharacter } from "../model/user";
+import checkJwt from "../auth";
 
 export const exists = true;
 
@@ -30,18 +32,18 @@ app.get("/api/characters", async (req, res) => {
       res.send(characters.map(convertCharacterDbModel));
     });
 });
+
 app.get("/api/character/:characterId", async (req, res) => {
   res.send(convertCharacterDbModel(res.locals.character));
 });
 
-app.post("/api/character/", jsonParser, async (req, res) => {
+app.post("/api/character/", checkJwt, jsonParser, async (req, res) => {
   setHeaders(res);
   const character = req.body as CharacterDto;
   if (!character.id) {
     character.id = randomId();
   }
   const dbCharacter = convertCharacterDto(character);
-  console.log("creating character:", dbCharacter.dataValues);
   sequelize.transaction().then((transaction) => {
     Character.create(dbCharacter.dataValues, { include: characterInclude })
       .then(async (created) => {
@@ -80,6 +82,21 @@ app.post("/api/character/", jsonParser, async (req, res) => {
           bio.setDataValue("biographyId", characterId);
           creates.push(bio.save());
         }
+
+        console.log(req.auth?.payload);
+        if (req.auth?.payload?.sub) {
+          const userConnection = User.findOne({
+            where: { openId: req.auth.payload.sub },
+          }).then((usr) =>
+            UserCharacter.create({
+              id: randomId(),
+              CharacterId: characterId,
+              UserId: usr.get("id"),
+              role: "OWNER",
+            })
+          );
+          creates.push(userConnection);
+        }
         await Promise.all(creates)
           .catch((error) => {
             transaction.rollback();
@@ -92,7 +109,6 @@ app.post("/api/character/", jsonParser, async (req, res) => {
           include: characterInclude,
           order: characterOrder,
         }).then((found) => {
-          console.log("Created final:", found.dataValues);
           res.send(convertCharacterDbModel(found));
         });
       })

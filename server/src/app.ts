@@ -2,6 +2,9 @@ import express, { Response, Request } from "express";
 import bodyParser from "body-parser";
 import { Character } from "./model/character";
 import { characterInclude, characterOrder } from "./sequelize-configuration";
+import checkJwt from "./auth";
+import { User, UserCharacter } from "./model/user";
+import { HasOne } from "sequelize";
 
 export const app = express();
 export const jsonParser = bodyParser.json();
@@ -23,7 +26,11 @@ app.use("/api/**", async (req, res, next) => {
   next();
 });
 
-const characterIdRoute = async (req: Request, res: Response, next) => {
+const characterIdRoute = async (
+  req: Request,
+  res: Response,
+  next: () => void
+) => {
   if (req.method === "OPTIONS") {
     next();
     return;
@@ -34,13 +41,49 @@ const characterIdRoute = async (req: Request, res: Response, next) => {
     res.send(400);
     return;
   }
+  if (checkJwt) {
+    const userCharacter = await UserCharacter.findOne({
+      where: {
+        CharacterId: characterId,
+      },
+      include: [
+        {
+          model: User,
+          association: new HasOne(UserCharacter, User, {
+            foreignKey: "id",
+            sourceKey: "UserId",
+          }),
+          required: true,
+          where: { openId: req.auth.payload.sub },
+        },
+      ],
+    });
+    if (
+      !userCharacter ||
+      (userCharacter.getDataValue("role") !== "OWNER" && req.method !== "GET")
+    ) {
+      res
+        .status(403)
+        .send(
+          userCharacter
+            ? `Role ${userCharacter.getDataValue(
+                "role"
+              )} does not have edit permit`
+            : `User has no access to character`
+        );
+      res.sendStatus(403).end();
+      return;
+    }
+  }
   const existingCharacter = await Character.findOne({
     where: { id: characterId },
     include: characterInclude,
     order: characterOrder,
   });
+
   if (existingCharacter) {
     console.log(`Request to ${req.baseUrl} validated.`);
+    console.log(req.auth);
     res.locals.character = existingCharacter;
     next();
   } else {
@@ -48,5 +91,10 @@ const characterIdRoute = async (req: Request, res: Response, next) => {
     res.sendStatus(404);
   }
 };
+
+if (checkJwt) {
+  app.use("/api/characters", checkJwt);
+  app.use("/api/character/**", checkJwt);
+}
 app.use("/api/character/:characterId/**", characterIdRoute);
 app.use("/api/character/:characterId", characterIdRoute);
