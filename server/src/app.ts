@@ -70,8 +70,8 @@ const characterIdRoute = async (
                 "role"
               )} does not have edit permit`
             : `User has no access to character`
-        );
-      res.sendStatus(403).end();
+        )
+        .end();
       return;
     }
   }
